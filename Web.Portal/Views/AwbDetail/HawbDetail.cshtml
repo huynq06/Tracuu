@@ -1,0 +1,357 @@
+﻿
+@{
+    
+}
+@model Web.Portal.Model.Models.Lagi 
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet">
+            <div class="portlet-title">
+                <div class="caption caption-md">
+                    <i class="fa fa-truck" style="font-size:22px;color:cornflowerblue"></i>   <span class="caption-subject font-blue-madison bold uppercase">TRA CỨU THÔNG TIN HÀNG HÓA (HÀNG NHẬP)</span>
+                    <div>
+                        <span class="caption-subject font-blue-madison bold uppercase">@ViewBag.SoTien</span>
+                    </div>
+                </div>
+                <div class="actions">
+                    <a href="javascript:;" data-id="02" class="btn btn-circle btn-danger btn-export-log">
+                        <i class="fa fa-download"></i> Xuất danh sách
+                    </a>
+                    <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <row>
+                    <div class="col-md-12" style="text-align:center;font-size:18px">
+                        <i class="fa fa-info-circle font-blue-madison" style="margin-right:5px" ></i><span class="caption-subject font-blue-madison bold">Chi tiết thông tin lô hàng: <span class="font-red-flamingo"> @Html.Raw(Model.LAGI_MAWB_PREFIX + Model.LAGI_MAWB_NO + " / " + Model.LAGI_HAWB) </span></span>
+                    </div>
+                </row>
+                <row class="">
+                    <div class="col-md-12 padding-tb-20">
+                        <div class="col-md-4" style="text-align:center;font-size:14px">
+                            <span class="caption-subject FontTimes font-blue-madison bold">Tổng kiện: @Model.LAGI_QUANTITY_EXPECTED</span>
+                        </div>
+                        <div class="col-md-4" style="text-align:center;font-size:14px">
+                            <span class="caption-subject font-blue-madison bold">Tổng cân (kg): @Model.LAGI_WEIGHT_EXPECTED</span>
+                        </div>
+                        <div class="col-md-4" style="text-align:center;font-size:14px">
+                            <span class="caption-subject font-blue-madison bold">Trạng thái</span> @Html.Raw(Web.Portal.Utils.Constants.GetStatus(int.Parse(ViewBag.Status)))
+                        </div>
+                    </div>
+                 
+                </row>
+                <row class="">
+                    
+                    <div class="row">
+                        <div class="col-md-2" style="font-size:14px">
+                            <span class="caption-subject">Người gửi:</span>
+                        </div>
+                        <div class="col-md-10" style="font-size:14px">
+                            <span>@ViewBag.Shipper </span>
+                        </div>
+                        </div>
+                    <div class="row">
+                        <div class="col-md-2" style="font-size:14px">
+                            <span class="caption-subject">Địa chỉ người gửi:</span>
+                        </div>
+                        <div class="col-md-10" style="font-size:14px">
+                            <span class="caption-subject">@ViewBag.ShipperAdd</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2" style="font-size:14px">
+                            <span class="caption-subject">Người nhận:</span>
+                        </div>
+                        <div class="col-md-10" style="font-size:14px">
+                            <span class="caption-subject">@Model.LAGI_CONSIGNEE_NAME</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2" style="font-size:14px">
+                            <span class="caption-subject">Địa chỉ người nhận:</span>
+                        </div>
+                        <div class="col-md-10" style="font-size:14px">
+                            <span class="caption-subject">@Model.LAGI_CONSIGNEE_ADDRESS</span>
+                        </div>
+                    </div>
+                    <div class="row" style="@Html.Raw(ViewBag.CheckTransfer=="true"? "padding-left:14px" : "display:none")">
+                        <div class="row">
+                            <div class="col-md-2" style="font-size:14px">
+                                <span class="caption-subject">Chuyển kho:</span>
+                            </div>
+                            <div class="col-md-10" style="font-size:14px">
+                                <span class="caption-subject">@ViewBag.WareHouse</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2" style="font-size:14px">
+                                <span class="caption-subject">Thời điểm:</span>
+                            </div>
+                            <div class="col-md-10" style="font-size:14px">
+                                <span class="caption-subject">@ViewBag.Create</span>
+                            </div>
+                        </div>
+                    </div>
+               
+                    <div class="row">
+                        <div class="col-md-2" style="font-size:14px">
+                            <span class="caption-subject font-red-soft bold">Remark:</span>
+                        </div>
+                        <div class="col-md-10" style="font-size:14px">
+                            <span class="caption-subject font-red-soft bold">@Model.LAGI_SHIPMENT_REMARKS</span>
+                        </div>
+                    </div>
+                </row>
+                <div class="row">
+                    <div class="form-group form-md-line-input" title="Click để xem chi tiết">
+                        <div class="col-md-2 col-xs-12" style="padding-top:14px;font-size:16px;">
+                            <a id="advance-search">
+                                <div id="arrow-advance" style="display:block">
+                                    <i class="fa fa-plane "></i>
+                                    <span>Thông tin chuyến bay</span>
+                                </div>
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="margin-top:10px">
+                    <div class="col-md-12">
+                        <div id="content-list-result">
+
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="row" style="@Html.Raw(@ViewBag.Alsx=="1"? "display:none" : "")">
+                    <div class="form-group form-md-line-input">
+                        <div class="col-md-2 col-xs-12" style="padding-top:14px;font-size:16px;">
+                            <a id="advance-search">
+                                <div id="location-search" style="display:block">
+                                    <i class="fa fa-map-marker "></i>
+                                    <span>Vị trí lưu kho</span>
+                                </div>
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="margin-top:10px">
+                    <div class="col-md-12">
+                        <div id="content-location-result">
+
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="row" style="@Html.Raw(@ViewBag.Alsx=="1"? "display:none" : "")">
+                    <div class="form-group form-md-line-input">
+                        <div class="col-md-2 col-xs-12" style="padding-top:14px;font-size:16px;">
+                            <a id="advance-search">
+                                <div id="pxk-search" style="display:block">
+                                    <i class="fa fa-file-text "></i>
+                                    <span>Thông tin PXK</span>
+                                </div>
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="margin-top:10px">
+                    <div class="col-md-12">
+                        <div id="content-pxk-result">
+
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="row" style="@Html.Raw(@ViewBag.Alsx=="1"? "display:none" : "")">
+                    <div class="form-group form-md-line-input">
+                        <div class="col-md-2 col-xs-12" style="padding-top:14px;font-size:16px;">
+                            <a id="advance-search">
+                                <div id="invoice-detail" style="display:block">
+                                    <i class="fa fa-money"></i>
+                                    <span>Thông tin Hóa đơn</span>
+                                </div>
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="margin-top:10px">
+                    <div class="col-md-12">
+                        <div id="content-invoice-result">
+
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="row" style="@Html.Raw(@ViewBag.Alsx=="1"? "display:none" : "")">
+                    <div class="form-group form-md-line-input">
+                        <div class="col-md-3 col-xs-12" style="padding-top:14px;font-size:16px;">
+                            <a id="advance-search">
+                                <div id="vct-detail" style="display:block">
+                                    <i class="fa fa-truck "></i>
+                                    <span>Thông tin xe vận chuyển</span>
+                                </div>
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="margin-top:10px">
+                    <div class="col-md-12">
+                        <div id="content-vct-result">
+
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="row" style="@Html.Raw(@ViewBag.Alsx=="1"? "display:none" : "")">
+                    <div class="form-group form-md-line-input">
+                        <div class="col-md-3 col-xs-12" style="padding-top:14px;font-size:16px;">
+                            <a id="advance-search">
+                                <div id="dlv-detail" style="display:block">
+                                    <i class="fa fa-book "></i>
+                                    <span>Thông tin Delivery</span>
+                                </div>
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="margin-top:10px">
+                    <div class="col-md-12">
+                        <div id="content-dlv-result">
+
+                        </div>
+                    </div>
+
+
+                </div>
+                @*<div class="row">
+                    <div class="form-group form-md-line-input">
+                        <div class="col-md-2 col-xs-12" style="padding-top:14px;font-size:16px;">
+                            <a id="advance-search">
+                                <div id="message-detail" style="display:block">
+                                    <i class="fa fa-envelope "></i>
+                                    <span>Thông tin điện SITA</span>
+                                </div>
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="margin-top:10px">
+                    <div class="col-md-12">
+                        <div id="content-message-result">
+
+                        </div>
+                    </div>
+
+
+                </div>*@
+              
+                @*<div class="row">
+                    <div class="form-group form-md-line-input">
+                        <div class="col-md-2 col-xs-12" style="padding-top:14px;font-size:16px;">
+                            <a id="advance-search">
+                                <div id="arrow-advance" style="display:block">
+                                    <i class="fa fa-dollar"></i>
+                                    <span>Thông tin Debit</span>
+                                </div>
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="margin-top:10px">
+                    <div class="col-md-12">
+                        <div id="content-invoice-result">
+
+                        </div>
+                    </div>
+
+
+                </div>*@
+                <div class="row">
+                    <div class="form-group form-md-line-input" title="Click để xem chi tiết">
+                        <div class="col-md-2 col-xs-12" style="padding-top:14px;font-size:16px;">
+                            <a id="advance-search">
+                                <div id="custom-detail" style="display:block">
+                                    <i class="fa fa-user"></i>
+                                    <span>Thông tin Hải quan</span>
+                                </div>
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="margin-top:10px">
+                    <div class="col-md-12">
+                        <div id="content-custom-result">
+
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    var hermesAction = {
+        search: function () {
+            egovutil.getContent("#content-list-result", "/AwbDetail/FlightDetail?lagi_ident=" + @ViewBag.LagiID
+                         + "&mawb=" + $("#hawb").val()
+                          + "&alsx=" + @ViewBag.Alsx
+                         + "&mawb=" + $("#hawb").val());
+        },
+        searchlocation: function () {
+            egovutil.getContent("#content-location-result", "/AwbDetail/LocationDetail?lagi_ident=" + @ViewBag.LagiID
+                         + "&mawb=" + $("#hawb").val() + "&mawb=" + $("#hawb").val());
+        },
+        searchpxk: function () {
+            egovutil.getContent("#content-pxk-result", "/AwbDetail/CustomFormDetail?lagi_ident=" + @ViewBag.LagiID);
+
+        },
+        searchcustom: function () {
+            egovutil.getContent("#content-custom-result", "/AwbDetail/CustomDetail?lagi_ident=" + @ViewBag.LagiID
+                         + "&mawb=" + $("#hawb").val() + "&mawb=" + $("#hawb").val());
+
+        },
+        searchmessage: function () {
+            egovutil.getContent("#content-message-result", "/AwbDetail/MessageDetail?lagi_ident=" + @ViewBag.LagiID);
+
+        },
+        searchinvoice: function () {
+            egovutil.getContent("#content-invoice-result", "/AwbDetail/Invoice?lagi_ident=" + @ViewBag.LagiID);
+
+        },
+        searchvct: function () {
+            egovutil.getContent("#content-vct-result", "/AwbDetail/VCTDetail?lagi_ident=" + @ViewBag.LagiID);
+
+        },
+        searchdlv : function () {
+            egovutil.getContent("#content-dlv-result", "/AwbDetail/DlvDetail?lagi_ident=" + @ViewBag.LagiID);
+        }
+    }
+    $("#arrow-advance").click(function () { hermesAction.search(); })
+
+    $("#pxk-search").click(function () { hermesAction.searchpxk(); })
+    $("#location-search").click(function () { hermesAction.searchlocation(); })
+    $("#custom-detail").click(function () { hermesAction.searchcustom(); })
+    $("#message-detail").click(function () { hermesAction.searchmessage(); })
+    $("#invoice-detail").click(function () { hermesAction.searchinvoice(); })
+    $("#vct-detail").click(function () { hermesAction.searchvct(); })
+    $("#dlv-detail").click(function () { hermesAction.searchdlv(); })
+</script>

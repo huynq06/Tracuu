@@ -1,0 +1,158 @@
+﻿@{
+    Layout = null;
+    int rowIndex = 0;
+}
+<table id="tbl-hawb" class="table table-striped table-bordered table-advance table-hover dt-responsive">
+    <thead>
+        <tr>
+            <th style="width:3%">
+                STT
+            </th>
+
+            <th style="width:10%">
+                KHO KÉO DÀI
+            </th>
+
+            <th style="width:10%">
+                MAWB
+            </th>
+            <th style="width:10%">
+                HAWB
+            </th>
+            <th style="width:10%">
+                KIỆN
+            </th>
+            <th style="width:10%">
+                CÂN
+            </th>
+            <th tyle="width:10%">
+                NGÀY TẠO
+            </th>
+            @*<th style="width:10%">
+                RANDOM CODE
+            </th>*@
+            <th tyle="width:10%">
+                TÌNH TRẠNG
+            </th>
+           
+            <th style="width:10%">
+                CHI TIẾT
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var row in (IList<Web.Portal.Model.Models.IMP_AWB>)ViewData["listAwb"])
+        {
+            rowIndex += 1;
+
+            <tr>
+                <td>@Html.Raw(rowIndex)</td>
+                <td>@Html.Raw(row.ALS_CODE)</td>
+
+
+                <td>
+                    <a href="#" target="_blank" class="btn  btn-xs sqs-member-edit">@Html.Raw(row.MAWB)</a>
+                </td>
+                <td>
+                    <a href="#" class="btn  btn-xs sqs-member-edit">@Html.Raw(row.HAWB)</a>
+                </td>
+                <td>
+                    <a href="#" class="btn  btn-xs sqs-member-edit">@Html.Raw(row.EXPECTED_PIECES)</a>
+                </td>
+                <td>
+                    <a href="#" class="btn  btn-xs sqs-member-edit">@Html.Raw(row.EXPECTED_WEIGHT)</a>
+                </td>
+                <td>
+                    <a href="#" class="btn  btn-xs sqs-member-edit">@Html.Raw(row.CREATED_AT.Value.ToString("dd/MM/yyyy HH:mm"))</a>
+                </td>
+                @{
+                    if (row.DELIVERED_STATUS == 1)
+                    {
+                        {
+                            if (row.RECEIVED_STATUS == 0)
+                            {
+                                <td>@Html.Raw(Web.Portal.Utils.Constants.GetStatus(0))</td>
+                            }
+
+                            else
+                            {
+                                <td>@Html.Raw(Web.Portal.Utils.Constants.GetStatus(3))</td>
+                            }
+
+                        }
+
+                    }
+                    else if (row.RECEIVED_STATUS == 1)
+                    {
+                        <td>@Html.Raw(Web.Portal.Utils.Constants.GetStatus(2))</td>
+                    }
+                    else
+                    {
+                        <td>@Html.Raw(Web.Portal.Utils.Constants.GetStatus(1))</td>
+                    }
+                }
+                @*<td>
+                    <a href="#" class="btn  btn-xs sqs-member-edit">@Html.Raw((rowIndex == 1 && string.IsNullOrEmpty(row.Hawb.Trim())) ? row.Lagi_Identity.Substring(row.Lagi_Identity.Length - 6) : "")</a>
+                </td>*@
+                @*@if (ViewBag.CheckMaster && rowIndex == 1)
+                {
+                    <td></td>
+                }
+                else
+                {
+                    <td>@Html.Raw(Web.Portal.Utils.Constants.GetStatus(row.Status))</td>
+                }*@
+                @{
+                    if (row.DELIVERED_STATUS == 1)
+                    {
+                        {
+                            if (row.RECEIVED_STATUS == 0)
+                            {
+                                <td align="center">
+                                    <a href="/AwbDetail/HawbDetail?lagi_ident=@row.AWBID&mawb=@row.MAWB&hawb=@row.HAWB&lagi_master_ident=@row.AWBID&status=0&alsx=1" target="_blank" class="btn  btn-xs sqs-member-edit"><div class="btn-group green"><i style="font-size:30px;" class="fa fa-eye"></i></div> </a>
+                                </td>
+                            }
+
+                            else
+                            {
+                            <td align = "center" >
+                                 <a href = "/AwbDetail/HawbDetail?lagi_ident=@row.AWBID&mawb=@row.MAWB&hawb=@row.HAWB&lagi_master_ident=@row.AWBID&status=3&alsx=1" target = "_blank" class="btn  btn-xs sqs-member-edit"><div class="btn-group green"><i style = "font-size:30px;" class="fa fa-eye"></i></div> </a>
+                            </td>
+                        }
+                    }
+
+                    }
+                    else if (row.RECEIVED_STATUS == 1)
+                    {
+                        <td align="center">
+                            <a href="/AwbDetail/HawbDetail?lagi_ident=@row.AWBID&mawb=@row.MAWB&hawb=@row.HAWB&lagi_master_ident=@row.AWBID&status=2&alsx=1" target="_blank" class="btn  btn-xs sqs-member-edit"><div class="btn-group green"><i style="font-size:30px;" class="fa fa-eye"></i></div> </a>
+                        </td>
+                    }
+                    else
+                    {
+                        <td align="center">
+                            <a href="/AwbDetail/HawbDetail?lagi_ident=@row.AWBID&mawb=@row.MAWB&hawb=@row.HAWB&lagi_master_ident=@row.AWBID&status=1&alsx=1" target="_blank" class="btn  btn-xs sqs-member-edit"><div class="btn-group green"><i style="font-size:30px;" class="fa fa-eye"></i></div> </a>
+                        </td>
+                    }
+                }
+               
+
+            </tr>
+        }
+    </tbody>
+</table>
+<script>
+    //$(".flight-detail").click(function () {
+    //    egovutil.dialog("THÔNG TIN CHUYẾN BAY", "large", "/AwbDetail/FlightDetail?lagi_ident=" + $(this).attr("data-id"), "hermesAction.search();");
+    //});s
+    $(".flight-detail").click(function () {
+        egovutil.dialog("THÔNG TIN ĐIỆN VĂN", "large", "/AwbDetail/MessageDetail?lagi_ident=" + $(this).attr("data-id"), "hermesAction.search();");
+    });
+   // egovutil.CreateTableSort("#tbl-hawb", [[0, "asc"]], [
+
+   //{
+
+   //    "orderable": false, "targets": [0, 0]
+   //}
+   // ], false);
+</script>

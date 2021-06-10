@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{FDE5E7F1-AF5E-440D-8E20-E43042284543}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Web.Portal.Service</RootNamespace>
+    <AssemblyName>Web.Portal.Service</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ALSC_H5_ERP_ZINT_CHECKService.cs" />
+    <Compile Include="ALSC_VCT_TO_DLV_BY_XMLService.cs" />
+    <Compile Include="AWBByULDService.cs" />
+    <Compile Include="CallTruckService.cs" />
+    <Compile Include="CARGO_INOUTService.cs" />
+    <Compile Include="Cargo_KVGSService.cs" />
+    <Compile Include="CARGO_OUTService.cs" />
+    <Compile Include="ConditionService.cs" />
+    <Compile Include="DangKyGoiXeService.cs" />
+    <Compile Include="DangKyVaoRaService.cs" />
+    <Compile Include="EInvoice\ActionLogService.cs" />
+    <Compile Include="EInvoice\HermesInvoiceDetailService.cs" />
+    <Compile Include="EInvoice\HermesInvoiceService.cs" />
+    <Compile Include="EInvoice\HolidayConfigService.cs" />
+    <Compile Include="EInvoice\PrintService.cs" />
+    <Compile Include="EInvoice\ResponseMessageService.cs" />
+    <Compile Include="ErrorService.cs" />
+    <Compile Include="EXP_AWBService.cs" />
+    <Compile Include="FlightConfigService.cs" />
+    <Compile Include="FLightFlupService.cs" />
+    <Compile Include="FlightService.cs" />
+    <Compile Include="FlightServiceConfigService.cs" />
+    <Compile Include="FLUPService.cs" />
+    <Compile Include="FormService.cs" />
+    <Compile Include="HawbInAwbService.cs" />
+    <Compile Include="HawbManagementService.cs" />
+    <Compile Include="IADR_INVOICE_ADDRESSESService.cs" />
+    <Compile Include="IADR_INVOICE_EMAILService.cs" />
+    <Compile Include="IMP_AWBService.cs" />
+    <Compile Include="IssueService.cs" />
+    <Compile Include="Issue_detailService.cs" />
+    <Compile Include="LabService.cs" />
+    <Compile Include="LagiService.cs" />
+    <Compile Include="LocationConfigService.cs" />
+    <Compile Include="LocationService.cs" />
+    <Compile Include="NotifyAWBService.cs" />
+    <Compile Include="EInvoice\PrintConfigService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PXKService.cs" />
+    <Compile Include="StatisticService.cs" />
+    <Compile Include="tblCompanyService.cs" />
+    <Compile Include="tblMissionService.cs" />
+    <Compile Include="tblTicketService.cs" />
+    <Compile Include="tblTicketStatusService.cs" />
+    <Compile Include="ULDByFlightService.cs" />
+    <Compile Include="ULD_TYPEService.cs" />
+    <Compile Include="VCTService.cs" />
+    <Compile Include="Vhld_vehicledetailService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Web.Portal.Common\Web.Portal.Common.csproj">
+      <Project>{5c197c4a-b16b-401c-848b-ac5106844a37}</Project>
+      <Name>Web.Portal.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Web.Portal.Data\Web.Portal.Data.csproj">
+      <Project>{207a0662-ccb5-4a7b-b967-14a8d8fc2c1f}</Project>
+      <Name>Web.Portal.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Web.Portal.Model\Web.Portal.Model.csproj">
+      <Project>{fec95e4d-70ec-4e85-8da7-ec39059629d6}</Project>
+      <Name>Web.Portal.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

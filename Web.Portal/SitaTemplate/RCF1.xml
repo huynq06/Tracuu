@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<RCF>
+      <CX>
+        FSU/6
+        {MAWB}{ORI}{AWB_DEST}/{PW_BILL}
+        RCF/{FLIGHTNUMBER}/{FLIGHTDATE}/{FLT_DEST}/{PW_GOODS}
+      </CX>
+      <KA>
+        FSU/6
+        {MAWB}{ORI}{AWB_DEST}/{PW_BILL}
+        RCF/{FLIGHTNUMBER}/{FLIGHTDATE}/{FLT_DEST}/{PW_GOODS}//{ACTUALTIME}
+      </KA>
+      <TK>
+        FSU/8
+        {MAWB}{ORI}{AWB_DEST}/{PW_BILL}
+        RCF/{FLIGHTNUMBER}/{FLIGHTDATE}/{FLT_DEST}/{PW_GOODS}
+      </TK>
+      <EK>
+        FSU/12
+        {MAWB}{ORI}{AWB_DEST}/{PW_BILL}
+        RCF/{FLIGHTNUMBER}/{FLIGHTDATE}/{FLT_DEST}/{PW_GOODS}
+      </EK>
+      <KE>
+        FSU/6
+        {MAWB}{ORI}{AWB_DEST}/{PW_BILL}
+        RCF/{FLIGHTNUMBER}/{FLIGHTDATE}/{FLT_DEST}/{PW_GOODS}
+      </KE>
+      <LJ>
+        FSU/6
+        {MAWB}{ORI}{AWB_DEST}/{PW_BILL}
+        RCF/{FLIGHTNUMBER}/{FLIGHTDATE}-N/{FLT_DEST}/{PW_GOODS}
+      </LJ>
+      <JL>
+        FSU/7
+        {MAWB}{ORI}{AWB_DEST}/T{P_BILL}K{W_BILL}
+        RCF/{FLIGHTNUMBER}/{FLIGHTDATE}/{FLT_DEST}/{PW_GOODS}
+      </JL>
+      <CI>
+        FSU/6
+        {MAWB}{ORI}{AWB_DEST}/{PW_BILL}
+        RCF/{FLIGHTNUMBER}/{FLIGHTDATE}/HAN/{PW_GOODS}
+      </CI>      
+</RCF>

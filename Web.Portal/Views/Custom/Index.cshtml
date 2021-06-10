@@ -1,0 +1,365 @@
+﻿@{
+    
+
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet">
+            <div class="portlet-title">
+                <div class="caption caption-md">
+                    <span class="caption-subject font-blue-madison bold uppercase">Báo cáo trả hàng</span>
+                </div>
+                <div class="actions">
+                     <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="tabbable-line">
+                            <ul class="nav nav-tabs">
+                                <li class="active">
+                                    <a href="#tab_1_1" data-toggle="tab">Trả hàng tại nội bài</a>
+                                </li>
+                                <li>
+                                    <a href="#tab_1_2" data-toggle="tab">Chuyển kho</a>
+                                </li>
+                                <li>
+                                    <a href="#tab_1_3" data-toggle="tab">Trả hàng theo chuyến bay</a>
+                                </li>
+                                <li>
+                                    <a href="#tab_1_4" data-toggle="tab">Chưa trả hàng</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane fade active in" id="tab_1_1">
+                                    <div class="row">
+                                        <div class="form-group form-md-line-input">                                          
+
+
+                                            <div class="col-md-2 col-xs-12">
+
+                                                <input class="form-control form-control-inline form_datetime" value="@Html.Raw(DateTime.Now.ToString("dd/MM/yyyy 00:00:00"))" id="fcda" placeholder="Từ ngày" maxlength="20" data-date-format="dd/mm/yyyy hh:ii:ss" />
+                                                <div class="form-control-focus"> </div>
+                                                <span class="help-block">Tìm theo từ ngày xuất kho</span>
+
+                                            </div>
+                                            <div class="col-md-3 col-xs-12">
+
+                                                <div class="input-group">
+
+                                                    <input class="form-control form-control-inline  form_datetime" id="tcda" value="@Html.Raw(DateTime.Now.ToString("dd/MM/yyyy 23:59:59"))" placeholder="Đến ngày" maxlength="20" data-date-format="dd/mm/yyyy hh:ii:ss" />
+                                                    <div class="form-control-focus"> </div>
+                                                    <span class="help-block">Tìm theo đến ngày xuất kho</span>
+                                                    <span class="input-group-btn">
+                                                        <button id="btn-search" class="btn btn-success" type="button"><i class="fa fa-search"></i></button>
+                                                    </span>
+
+                                                    <span class="input-group-btn">
+                                                        <button id="btn-export-log" class="btn btn-success" type="button"><i class="fa fa-download"></i></button>
+                                                    </span>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+
+
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group form-md-line-input">
+
+                                            <div id="content-list-result">
+
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="tab_1_2">
+                                    <div class="row">
+                                        <div class="form-group form-md-line-input">                                            
+                                            <div class="col-md-2 col-xs-6">
+                                                <select class="form-control  bs-select" id="fno" data-live-search="true" data-size="8">
+                                                    <option value="ALL"></option>
+                                                    @foreach (var item in (IList<string>)ViewData["WARHOUSES"])
+                                                    {
+                                                        <option value="@Html.DisplayTextFor(model=>item)">@Html.DisplayTextFor(model => item)</option>
+                                                    }
+                                                </select>
+                                                <div class="form-control-focus"> </div>
+                                                <span class="help-block">Tìm theo kho hàng không kéo dài</span>
+                                            </div>
+
+
+                                            <div class="col-md-2 col-xs-12">
+
+                                                <input class="form-control form-control-inline form_datetime" value="@Html.Raw(DateTime.Now.ToString("dd/MM/yyyy 00:00:00"))" id="fhkda" placeholder="Từ ngày" maxlength="20" data-date-format="dd/mm/yyyy hh:ii:ss" />
+                                                <div class="form-control-focus"> </div>
+                                                <span class="help-block">Tìm theo từ ngày xuất kho</span>
+
+                                            </div>
+                                            <div class="col-md-3 col-xs-12">
+
+                                                <div class="input-group">
+
+                                                    <input class="form-control form-control-inline  form_datetime" id="thkda" value="@Html.Raw(DateTime.Now.ToString("dd/MM/yyyy 23:59:59"))" placeholder="Đến ngày" maxlength="20" data-date-format="dd/mm/yyyy hh:ii:ss" />
+                                                    <div class="form-control-focus"> </div>
+                                                    <span class="help-block">Tìm theo đến ngày xuất kho</span>
+                                                    <span class="input-group-btn">
+                                                        <button id="btn-search-hk" class="btn btn-success" type="button"><i class="fa fa-search"></i></button>
+                                                    </span>
+                                                    <span class="input-group-btn">
+                                                        <button id="btn-export-log-hk" class="btn btn-success" type="button"><i class="fa fa-download"></i></button>
+                                                    </span>
+
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+
+
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group form-md-line-input">
+
+                                            <div id="content-list-result-hk">
+
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="tab_1_3">
+                                    <div class="row">
+                                        <div class="form-group form-md-line-input">
+                                            <div class="col-md-2 col-xs-3">
+                                                <select class="form-control  bs-select" id="code_fl" data-live-search="true" data-size="8">
+                                                    <option value="ALL"></option>
+                                                    @foreach(var item in (IList<string>)ViewData["CODE"])
+                                                             {
+                                                        <option value="@Html.DisplayTextFor(model=>item)">@Html.DisplayTextFor(model => item)</option>
+                                                            }
+                                                </select>
+                                            </div>
+                                            <div class="col-md-2 col-xs-12">
+
+                                                <input class="form-control form-control-inline date-picker" value="@Html.Raw(DateTime.Now.ToString("dd/MM/yyyy"))" id="fda_fl" placeholder="Từ ngày" maxlength="20" data-date-format="dd/mm/yyyy" />
+                                                <div class="form-control-focus"> </div>
+                                                <span class="help-block">Tìm theo từ ngày</span>
+
+                                            </div>
+
+                                            <div class="col-md-2 col-xs-12">
+
+                                                <div class="input-group">
+
+                                                    <input class="form-control form-control-inline  date-picker" id="tda_fl" value="@Html.Raw(DateTime.Now.ToString("dd/MM/yyyy"))" placeholder="Đến ngày" maxlength="20" data-date-format="dd/mm/yyyy" />
+                                                    <div class="form-control-focus"> </div>
+                                                    <span class="help-block">Tìm theo đến ngày</span>
+                                                    <span class="input-group-btn">
+                                                        <button id="btn-search-by-fl" class="btn btn-success" type="button"><i class="fa fa-search"></i></button>
+                                                    </span>
+                                                    <span class="input-group-btn">
+                                                        <button id="btn-export-log-fl" class="btn btn-success" type="button"><i class="fa fa-download"></i></button>
+                                                    </span>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div id="content-list-result-fl">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="tab_1_4">
+                                    <div class="row">
+                                        <div class="form-group form-md-line-input">
+                                            <div class="md-radio-inline col-md-3">
+                                                <div class="md-radio has-warning">
+                                                    <input id="ty_wh" name="wh_ndl" value="true" class="md-radiobtn" type="radio" checked>
+                                                    <label for="ty_wh">
+                                                        <span></span>
+                                                        <span class="check"></span>
+                                                        <span class="box"></span> Kho kéo dài
+                                                    </label>
+                                                </div>
+                                                <div class="md-radio">
+                                                    <input id="ty_nwh" name="wh_ndl" value="false" class="md-radiobtn" type="radio">
+                                                    <label for="ty_nwh">
+                                                        <span class="inc"></span>
+                                                        <span class="check"></span>
+                                                        <span class="box"></span> Khách hàng
+                                                    </label>
+                                                </div>
+
+                                            </div>
+                                            <div class="col-md-2 col-xs-3">
+                                                <select class="form-control  bs-select" id="no_ndl" data-live-search="true" data-size="8">
+                                                    <option value="ALL"></option>
+                                                    @foreach (var item in (IList<string>)ViewData["CODE"])
+                                                    {
+                                                        <option value="@Html.DisplayTextFor(model=>item)">@Html.DisplayTextFor(model => item)</option>
+                                                    }
+                                                </select>
+                                                <div class="form-control-focus"> </div>
+                                                <span class="help-block">Ký hiệu</span>
+                                            </div>
+                                            <div class="col-md-2 col-xs-9">
+                                                <select class="form-control  bs-select" id="fno_ndl" data-live-search="true" data-size="8">
+                                                    <option value="ALL"></option>
+                                                  
+                                                </select>
+                                                <div class="form-control-focus"> </div>
+                                                <span class="help-block">Tìm theo số hiệu</span>
+                                            </div>
+                                           
+                                            <div class="col-md-2 col-xs-12">
+
+                                                <div class="input-group">
+
+                                                    <input class="form-control form-control-inline  date-picker" id="tda_ndl" value="@Html.Raw(DateTime.Now.ToString("dd/MM/yyyy"))" placeholder="Ngày kiểm tra" maxlength="20" data-date-format="dd/mm/yyyy" />
+                                                    <div class="form-control-focus"> </div>
+                                                    <span class="help-block">Tìm theo ngày kiểm tra</span>
+                                                    <span class="input-group-btn">
+                                                        <button id="btn-search-by-ndl" class="btn btn-success" type="button"><i class="fa fa-search"></i></button>
+                                                    </span>
+                                                    <span class="input-group-btn">
+                                                        <button id="btn-export-log-ndl" class="btn btn-success" type="button"><i class="fa fa-download"></i></button>
+                                                    </span>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div id="content-list-result-ndl">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+              
+                
+
+
+            </div>
+
+
+
+
+
+        </div>
+    </div>
+
+</div>
+<script>
+    var customAction = {
+        searchHK: function () {
+            egovutil.getContent("#content-list-result-hk", "/custom/listhk?fno=" + $("#fno").val()
+                                                                    + "&fda=" + $("#fhkda").val()
+                                                                    + "&tda=" + $("#thkda").val()
+
+
+
+                                                                    );
+        },
+        search: function () {
+            egovutil.getContent("#content-list-result", "/custom/list?"
+                                                                   
+                                                                    + "&fda=" + $("#fcda").val()
+                                                                    + "&tda=" + $("#tcda").val()
+
+
+
+                                                                    );
+        },
+        searchFL:function()
+        {
+            egovutil.getContent("#content-list-result-fl", "/custom/listfl?fno="+$("#code_fl").val()
+
+                                                                   + "&fda=" + $("#fda_fl").val()
+                                                                   + "&tda=" + $("#tda_fl").val()
+
+
+
+                                                                   );
+        },
+             searchNDL:function()
+            {
+                 egovutil.getContent("#content-list-result-ndl", "/custom/listndl?tda=" + $("#tda_ndl").val() + "&fno=" + $("#fno_ndl").val() + "&no=" + $("#no_ndl").val() + "&wh=" + $("input[type=radio][name=wh_ndl]:checked").val()
+
+
+
+                                                                       );
+             },
+                 changeCode: function () {
+                     egovutil.getContentCallBack("#fno_ndl", "/home/getno/" + $("#no_ndl").val(), "$('#fno_ndl').selectpicker('refresh');");
+                 }
+    }
+
+    $("#btn-export-log-hk").click(function () {
+        window.location.href = "/custom/exporthk?fno=" + $("#fno").val()
+                                                      + "&fda=" + $("#fhkda").val()
+                                                      + "&tda=" + $("#thkda").val()
+ 
+
+    });
+
+    $("#btn-export-log").click(function () {
+        window.location.href = "/custom/export?fda=" + $("#fcda").val()
+                                                                    + "&tda=" + $("#tcda").val()
+
+
+    });
+
+    $("#btn-export-log-fl").click(function () {
+        window.location.href = "/custom/exportfl?fno=" + $("#code_fl").val()
+
+                                                                   + "&fda=" + $("#fda_fl").val()
+                                                                   + "&tda=" + $("#tda_fl").val()
+
+
+    });
+    $("#btn-export-log-ndl").click(function () {
+        window.location.href = "/custom/exportndl?tda=" + $("#tda_ndl").val()+"&fno="+$("#fno_ndl").val()+"&no="+$("#no_ndl").val() +"&wh=" + $("input[type=radio][name=wh_ndl]:checked").val();
+
+
+    });
+    $(".form_datetime").datetimepicker({
+        autoclose: true,
+        isRTL: App.isRTL(),
+        format: "dd/mm/yyyy  hh:ii:ss",
+        pickerPosition: (App.isRTL() ? "bottom-right" : "bottom-left")
+    });
+   
+    $('.bs-select').selectpicker({
+        iconBase: 'fa',
+        tickIcon: 'fa-check'
+    });
+    $("#no_ndl").change(function () {
+        customAction.changeCode();
+    });
+    // sitaAction.search();
+    $("#btn-search-hk").click(function () { customAction.searchHK(); })
+
+    $("#btn-search").click(function () { customAction.search(); })
+    $("#btn-search-by-fl").click(function () { customAction.searchFL(); })
+    $("#btn-search-by-ndl").click(function () { customAction.searchNDL(); })
+</script>

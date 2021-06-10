@@ -1,0 +1,296 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<REPORT>
+  <EXP_KD01>
+    <SQL>
+      select 
+*
+from
+(
+  SELECT 
+    to_char(to_date('02-01-0001' ,'DD-MM-YYYY') + flup.flup_actual_date, 'DD/MM/YYYY')  AS DEPARTURE_DATE,
+    flup.FLUP_FLIGHT_NO_LVG AS FLIGHT_NO ,
+       awbu.AWBU_WEIGHT  as DEPARTED_WEIGHT
+  FROM FLUP flup
+      JOIN CONT cont 
+           ON cont.CONT_FLIGHT_NO_  = flup.flup_flight_no
+           and to_date('02-01-0001' ,'DD-MM-YYYY') + cont.CONT_DATE = to_date('02-01-0001' ,'DD-MM-YYYY') + flup.flup_scheduled_date
+      JOIN AWBU_AWBPERULD_LIST awbu
+          on awbu.awbu_uld_isn = cont.cont_uld_isn
+      JOIN LABS labs 
+           on awbu.awbu_mawb_ident_no = labs.LABS_IDENT_NO
+  WHERE 
+  to_date('02-01-0001' ,'DD-MM-YYYY') + flup.FLUP_ACTUAL_DATE between to_date('{0}','DD/MM/YYYY') and to_date('{1}','DD/MM/YYYY')
+  AND labs.labs_deleted = 0
+  ORDER BY DEPARTURE_DATE, FLIGHT_NO ASC
+ ) t pivot (
+ sum(DEPARTED_WEIGHT)
+ for FLIGHT_NO in (
+   'KE' AS KE,
+     'CX' as CX,
+   'EK' as EK,
+  /* 'ET' as ET,*/
+   'JL' as JL,
+   /*  'TH' as TH,
+   'VJ' as VJ,
+   'VZ' as VZ,*/
+   '5X' as UPS,
+    'CI' as CI,
+   'KA' as KA,
+   'TK' as TK,
+   'LJ' AS LJ,
+   'LD' as LD
+   )
+   )
+ORDER BY 1 
+    </SQL>
+    <FIND>FromDate,ToDate</FIND>
+    <COLUMN>KE,CX,EK,JL,UPS,CI</COLUMN> 
+    <DES>BÁO CÁO SẢN LƯỢNG THEO HÃNG HÀNG XUẤT</DES>    
+  </EXP_KD01>
+   <IMP_KD01>
+    <SQL>
+select
+*
+from
+(select
+
+m.FLIGHT_NO as FLIGHT_NO,
+
+m.ATA_DATE as RECEIVED_DATE,
+
+m.weight_received as RECEIVED_WEIGHT
+from
+(
+select distinct
+flui.flui_al_2_3_letter_code FLIGHT_NO,
+to_char(to_date('02-01-0001' ,'DD-MM-YYYY') + flui.flui_schedule_date, 'DD-MM-YYYY') as SCHEDULED_DATE,
+to_char(to_date(flui.flui_schedule_time,'HH24MISS'),'HH24:MI:SS') as SCHEDULED_TIME,
+to_char(to_date('02-01-0001' ,'DD-MM-YYYY') + flui.flui_landed_date, 'DD-MM-YYYY') AS ATA_DATE,
+to_char(to_date(flui.flui_landed_time,'HH24MISS'),'HH24:MI:SS') as ATA_TIME,
+lagi.lagi_mawb_prefix||lagi.lagi_mawb_no as MAWB,
+lagi.LAGI_HAWB as HAWB,
+lagi.lagi_quantity_received as pieces,
+lagi.lagi_weight_received as weight,
+j.*,
+--grli.grli_shc as shc
+max(grli.grli_shc) over (partition by grai.grai_object_group_isn order by grli.grli_shc desc) as shc,
+row_number() over (partition by grai.grai_object_group_isn order by grai.grai_object_group_isn) as rn
+from
+(
+  select
+  k.*,
+  grai.grai_numeric_value as weight_received
+  from
+  (
+  select 
+    grai.grai_object_isn as ID,
+      grai.grai_object_group_isn as group_no,
+     grai.grai_numeric_value as pieces_received
+          from han_w1_hl.grai_group_additional_info grai
+      where
+	      grai.grai_group_type='PIECES'
+      and grai.grai_group_code='RECEIVED'
+  )k
+    join han_w1_hl.grai_group_additional_info grai on k.ID= grai.grai_object_isn and k.group_no=grai.grai_object_group_isn
+  and grai.grai_group_type='WEIGHT'
+  and grai.grai_group_code='RECEIVED'  
+)j
+  join han_w1_hl.grai_group_additional_info grai on j.ID= grai.grai_object_isn and j.group_no=grai.grai_object_group_isn
+  and grai.grai_group_type='FLIGHT'
+  and grai.grai_group_code='ISN'   
+  join han_w1_hl.flui flui on grai.grai_value = flui.flui_internal_number
+  join han_w1_hl.lagi lagi on j.ID = lagi.lagi_ident_no
+  JOIN han_w1_hl.grli_group_location_info grli on j.ID = grli.grli_object_isn
+  where  to_date('02-01-0001' ,'DD-MM-YYYY') + flui.flui_landed_date between to_date('{0}','dd/mm/yyyy') and to_date('{1}','dd/mm/yyyy')
+) m
+where rn=1 
+)a  
+pivot (
+ sum(RECEIVED_WEIGHT) 
+ for FLIGHT_NO in (
+    'KE' as KE,
+   'CX' as CX,
+   'EK' as EK,
+   'JL' as JL,
+ --   'VJ' as VJ,
+ --  'VZ' as VZ,
+   '5X' as UPS
+   )
+   ) 
+ORDER BY 1 
+    </SQL>
+    <FIND>FromDate,ToDate</FIND>
+    <COLUMN>KE,CX,EK,JL,UPS</COLUMN> 
+    <DES>BÁO CÁO SẢN LƯỢNG THEO HÃNG HÀNG NHẬP</DES>    
+  </IMP_KD01>
+  <HERMES04>
+    <SQL>     
+SELECT 
+  sum(labs.labs_quantity_del) as RECEIVED_PIECES,
+  sum(labs.labs_weight_del) as RECEIVED_WEIGHT,
+  sum(LABS_CHARGABLE_WEIGHT) as CHARGED_WEIGHT,
+  sum(labs.LABS_VOLUME_DELIVERED) as RECEIVED_VOLUME
+FROM labs labs
+WHERE  
+ 1 = 1 
+ AND labs.LABS_DATE_STATUS_2_SET between to_date('{0}','DD/MM/YYYY') and to_date('{1}','DD/MM/YYYY')
+ AND labs.labs_deleted = 0
+    </SQL>
+    <FIND>FromDate,ToDate</FIND>
+    <COLUMN>RECEIVED_PIECES,RECEIVED_WEIGHT,CHARGED_WEIGHT,RECEIVED_VOLUME</COLUMN>     
+  </HERMES04>
+   <HERMES28>
+   <SQL>
+      select  P_RESULT.* from ( 
+	  select rownum rankid,(count(*) OVER ()) TOTAL,
+        t.*,
+k.time_message_sent,
+round((to_date(k.time_message_sent,'dd/mm/yyyy HH24:MI:SS')-to_date(t.time_confirmed,'dd/mm/yyyy HH24:MI:SS'))*24*60,2) as time_used
+from
+(
+  SELECT distinct
+    labs.labs_ident_no as LAS_INDENT,
+    flup.FLUP_FLIGHT_NO_LVG||flup.flup_flight_no AS FLIGHT_NO ,
+    to_char(to_date('02-01-0001' ,'DD-MM-YYYY') + flup.flup_actual_date, 'DD/MM/YYYY')  AS DEPARTURE_DATE,
+    flup.FLUP_ACTUAL_TIME  AS DEPARTURE_TIME ,  
+    labs.LABS_MAWB_PREFIX||labs.LABS_MAWB_SERIAL_NO AS AWB_NO,
+    to_char(a.agen_creation_datetime,'DD-MM-YYYY HH24:MI:SS') as time_confirmed
+  FROM FLUP flup
+      JOIN CONT cont 
+           ON cont.CONT_FLIGHT_NO_  = flup.flup_flight_no
+           and to_date('02-01-0001' ,'DD-MM-YYYY') + cont.CONT_DATE = to_date('02-01-0001' ,'DD-MM-YYYY') + flup.flup_scheduled_date
+      JOIN AWBU_AWBPERULD_LIST awbu
+          on awbu.awbu_uld_isn = cont.cont_uld_isn
+      JOIN LABS labs 
+           on awbu.awbu_mawb_ident_no = labs.LABS_IDENT_NO
+      join agen a
+           on labs.labs_ident_no = a.agen_ident_no
+           and a.agen_status_external = 'AWB CONFIRMED' 
+           --and a.agen_type='EXPORT'
+           and a.agen_remarks = 'AWB was confirmed at ...'     
+  WHERE 
+  1 = 1 
+  AND to_date('02-01-0001' ,'DD-MM-YYYY') + flup.FLUP_ACTUAL_DATE between to_date('{0}','DD/MM/YYYY') and to_date('{1}','DD/MM/YYYY')
+  AND labs.labs_deleted = 0
+) t
+left join
+(
+  SELECT distinct
+      labs.labs_ident_no as LAS_INDENT,
+      flup.FLUP_FLIGHT_NO_LVG||flup.flup_flight_no AS FLIGHT_NO ,
+      to_char(to_date('02-01-0001' ,'DD-MM-YYYY') + flup.flup_actual_date, 'DD/MM/YYYY')  AS DEPARTURE_DATE,
+      flup.FLUP_ACTUAL_TIME  AS DEPARTURE_TIME ,  
+      labs.LABS_MAWB_PREFIX||labs.LABS_MAWB_SERIAL_NO AS AWB_NO,
+      to_char(a.agen_creation_datetime,'DD-MM-YYYY HH24:MI:SS') as time_message_sent
+  FROM FLUP flup
+    JOIN CONT cont 
+         ON cont.CONT_FLIGHT_NO_  = flup.flup_flight_no
+         and to_date('02-01-0001' ,'DD-MM-YYYY') + cont.CONT_DATE = to_date('02-01-0001' ,'DD-MM-YYYY') + flup.flup_scheduled_date
+    JOIN AWBU_AWBPERULD_LIST awbu
+        on awbu.awbu_uld_isn = cont.cont_uld_isn
+    JOIN LABS labs 
+         on awbu.awbu_mawb_ident_no = labs.LABS_IDENT_NO
+    left join agen a
+         on labs.labs_ident_no = a.agen_ident_no
+         and a.agen_status_external = 'MESSAGE SENT' 
+         --and a.agen_type='EXPORT'
+         and a.agen_remarks = 'C2K:RCS Message has been sent Succesfully'     
+  WHERE 
+  1 = 1 
+  AND to_date('02-01-0001' ,'DD-MM-YYYY') + flup.FLUP_ACTUAL_DATE between to_date('{0}','DD/MM/YYYY') and to_date('{1}','DD/MM/YYYY')
+  AND labs.labs_deleted = 0
+) k
+on t.LAS_INDENT=k.LAS_INDENT
+ORDER BY t.DEPARTURE_DATE, t.DEPARTURE_TIME, t.FLIGHT_NO, t.AWB_NO ASC)P_RESULT 
+	  where rankid> ({2}-1) * {3} and rankid&lt;=((({2}-1) * {3} ) + {3}) 
+    </SQL>
+    <FIND>FromDate,ToDate,Page,PageSize</FIND>
+    <COLUMN>LAS_INDENT,FLIGHT_NO</COLUMN>   
+  </HERMES28>
+   <HERMES01_1>
+    <SQL>     
+SELECT
+  row_number() OVER (ORDER BY AGEN_CREATION_DATETIME) as STT
+, AIRLINE
+, PREFIX
+, to_char(MAWB_SERIAL_NO, '00000000') as MAWB_SERIAL_NO
+, ORIGIN
+, DESTINATION
+, BOOKED_QUANTITY
+, RECEIVED_QUANTITY
+, BOOKED_WEIGHT
+, RECEIVED_WEIGHT
+, DELIVERED_VOLUME
+, AGENT_NAME
+, to_char(to_date('02-01-0001' ,'DD-MM-YYYY') + CONFIRMED_DATE, 'DD/MM/YYYY') as CONFIRMED_DATE
+, CONFIRMED_TIME
+, AGEN_CREATION_DATETIME
+, RCS_STATUS
+, to_char(RCS_SENT_DATETIME, 'DD/MM/YYYY HH24:MI:SS') as RCS_SENT_DATETIME
+FROM REPORT.EXP_DAILY_AWB
+WHERE 
+    AGEN_CREATION_DATETIME between to_date('{0}','DD/MM/YYYY') and to_date('{0}','DD/MM/YYYY') + 1
+AND 
+    AIRLINE not like 'JL'
+AND AIRLINE like '{1}'
+AND (PREFIX || trim(to_char(MAWB_SERIAL_NO, '00000000'))) = {2}
+ORDER BY AGEN_CREATION_DATETIME ASC
+    </SQL>
+    <FIND>FromDate,FlightNumber,Mawb</FIND>
+    <COLUMN>STT,AIRLINE,ORIGIN,DESTINATION</COLUMN>     
+  </HERMES01_1>
+<HERMES03>
+    <SQL>     
+ select  P_RESULT.* from ( 
+	  select rownum rankid,(count(*) OVER ()) TOTAL,
+      labs.labs_ident_no as LAS_INDENT,
+      labs.LABS_DATE_STATUS_4_SET as RECEIVED_DATE,
+      labs.LABS_TIME_STATUS_4_SET as RECEIVED_TIME,
+      labs.LABS_MAWB_PREFIX as AWP,
+      labs.LABS_MAWB_SERIAL_NO AS SERIAL_NO, 
+      labs.LABS_DESTINATION as DEST,
+      labs.LABS_SHIPPER_NAME  as SHIPPER_NAME,
+      labs.LABS_SHIPPER  as CUS_CODE,
+      labs.LABS_CONSIGNEE_NAME  as CONSIGNEE_NAME, 
+      labs.LABS_AGENT_NAME as CNEE,  
+      labs.labs_quantity_del as RECEIVED_PIECES,
+      labs.labs_weight_del as RECEIVED_WEIGHT,
+      sum(awbu.awbu_pieces) as DEPARTED_PIECES,
+      sum(awbu.awbu_weight)  as DEPARTED_WEIGHT,
+      labs.labs_quantity_del - sum(nvl(awbu.awbu_pieces,0)) as INVENTORY_PIECES,
+      labs.labs_weight_del - sum(nvl(awbu.awbu_weight,0)) as INVENTORY_WEIGHT,
+      labs.LABS_CONTENT  as NATURE,
+      labs.LABS_SPECIAL_GOODS as SHC  
+    FROM labs labs
+    left join awbu_awbperuld_list awbu 
+         on awbu.awbu_mawb_ident_no = labs.labs_ident_no
+         and awbu.awbu_object_type = 'EXPORT AWB'
+    WHERE  
+         labs.labs_deleted = 0
+         and labs.labs_returntoagent=0
+      AND labs.LABS_LIVE_UNTIL >= sysdate
+    GROUP BY 
+      labs.labs_ident_no,
+      labs.LABS_DATE_STATUS_4_SET,
+      labs.LABS_TIME_STATUS_4_SET,
+      labs.LABS_MAWB_PREFIX,
+      labs.LABS_MAWB_SERIAL_NO, 
+      labs.LABS_DESTINATION,
+      labs.LABS_SHIPPER_NAME,
+      labs.LABS_SHIPPER,
+      labs.LABS_CONSIGNEE_NAME, 
+      labs.LABS_AGENT_NAME,  
+      labs.labs_quantity_del,
+      labs.labs_weight_del,
+      labs.labs_quantity_manif,
+      labs.labs_weight_manif,
+      labs.LABS_CONTENT,
+      labs.LABS_SPECIAL_GOODS,
+      rownum     	  
+    ORDER BY RECEIVED_DATE, RECEIVED_TIME ASC)P_RESULT 
+	  where rankid> ({0}-1) * {1} and rankid&lt;=((({0}-1) * {1} ) + {1}) 
+    </SQL>
+    <FIND>Page,PageSize</FIND>
+    <COLUMN>LAS_INDENT,RECEIVED_DATE,RECEIVED_TIME,DEST</COLUMN>     
+</HERMES03>
+</REPORT>

@@ -1,0 +1,72 @@
+﻿@{
+    Layout = null;
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet">            
+            <div class="portlet-body">
+                <div class="row">
+                    <div class="form-group form-md-line-input">
+                        <div class="col-md-4 col-xs-3">
+                            <select class="form-control  bs-select" id="ty">
+                                <option value="RCF">RCF</option>
+                                <option value="NFD">NFD</option>
+                                <option value="DLV">DLV</option>
+                                <option value="AWD">AWD</option>
+                                <option value="DIS">DIS</option>
+                            </select>
+                            <div class="form-control-focus"> </div>
+                            <span class="help-block">Loại điện văn</span>
+                        </div>                                          
+
+                        <div class="col-md-4 col-xs-12">
+                            <div class="input-group">                                
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-success" id="btn-action"><i class="icon-plane"></i> Xuất định dạng</button>
+                                    <button type="button" class="btn btn-success" id="btn-export"><i class="fa fa-download"></i> Tải file</button>                                    
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="row">
+                    <div class="form-group form-md-line-input">
+
+                        <div id="sita-result">
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+
+
+
+        </div>
+    </div>
+
+</div>
+<script>
+    $('.bs-select').selectpicker({
+        iconBase: 'fa',
+        tickIcon: 'fa-check'
+    });
+    $("#btn-action").click(function()
+    {
+        egovutil.getContent("#sita-result", "/gensita/result?ty=" + $("#ty").val()                                                                   
+                                                                   + "&id=@ViewBag.Id"
+
+                                                                   );
+    });
+    $("#btn-export").click(function () {
+        window.location.href = "/gensita/export?ty=" + $("#ty").val() + "&id=@ViewBag.Id";
+
+                                                                       });
+</script>

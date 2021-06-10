@@ -1,0 +1,91 @@
+﻿@{
+    Layout = null;
+    int rowIndex = 0;
+}
+<p style="text-align:center;font-family:'Times New Roman';font-size:15pt;font-weight:bold;text-transform:uppercase">
+    @ViewBag.TitleReport
+</p>
+<p style="text-align:left;font-family:'Times New Roman';font-size:15pt;font-weight:bold">
+    <span>TỔNG SỐ XE:</span> <span style="color:red">@ViewBag.Total</span><br>
+    <span>SỐ XE KHÔNG CÓ CHECK IN:</span> <span style="color:red">@ViewBag.NotCheckIn</span>- <span>Tỉ lệ :</span> <span style="color:red">@ViewBag.PercentChecIn</span><br>
+    <span>SỐ XE KHÔNG CÓ CHECK OUT:</span> <span style="color:red">@ViewBag.NotCheckOut</span>- <span>Tỉ lệ :</span> <span style="color:red">@ViewBag.PercentChecOut</span><br>
+    <span>SỐ XE ĐẠT SLA:</span> <span style="color:red">@ViewBag.OK</span>- <span>Tỉ lệ :</span> <span style="color:red">@ViewBag.PercentOK</span><br>
+</p>
+<table id="tbl-hawb" class="table table-striped table-bordered table-advance table-hover" border="1">
+    <thead>
+        <tr>
+            <th style="width:3%;text-align:center">
+                STT
+            </th>
+            <th style="width:10%;text-align:center">
+                TicketID
+            </th>
+            <th style="width:10%;text-align:center">
+                BSX
+            </th>
+            <th style="width:10%;text-align:center">
+                LOẠI XE
+            </th>
+            <th style="width:10%;text-align:center">
+                VỊ TRÍ
+            </th>
+            <th style="width:10%;text-align:center">
+                MUA VÉ
+            </th>
+
+            <th style="width:10%;text-align:center">
+                CHECK IN
+            </th>
+           
+            <th style="width:10%;text-align:center">
+                CHECK OUT
+            </th>
+           
+
+            <th style="width:10%;text-align:center">
+                Waiting(P)
+            </th>
+            <th style="width:10%;text-align:center">
+                SLA
+            </th>
+
+
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var row in (IList<Web.Portal.Common.ViewModel.TicketStatusViewModel>)ViewData["listTruck"])
+        {
+            rowIndex += 1;
+
+            <tr>
+                <td align="center">@rowIndex</td>
+                <td align="center">@Html.Raw(row.TicketID)</td>
+
+                <td align="center">@Html.Raw(row.BSX)</td>
+                <td align="center">@Html.Raw(row.LoaiXe)</td>
+                <td align="center">@Html.Raw(row.Location == "GATEIN_T2" ? "Tầng 2" : "Tầng 1")</td>
+
+                <td align="center">
+                    @Html.Raw(row.Created.ToString("HH:mm"))
+                </td>
+                <td align="center">
+                    @Html.Raw(row.CheckIn)
+                </td>
+              
+                <td align="center">
+                    @Html.Raw(row.CheckOut)
+                </td>
+               
+
+                <td align="center">@Html.Raw(row.WaitingTime == 1000 ? "N/A" : row.WaitingTime.ToString())</td>
+                <td align="center">@Html.Raw(Web.Portal.Utils.Constants.GetStatusTruck(row.SLA))</td>
+
+
+
+
+            </tr>
+        }
+    </tbody>
+</table>
+

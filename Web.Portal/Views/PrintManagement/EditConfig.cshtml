@@ -1,0 +1,61 @@
+﻿
+@{
+    Layout = null;
+}
+@model Web.Portal.Model.Models.PrintConfig
+<form class="form-horizontal" id="frmAction">
+    <input type="hidden" name="keyValue" value="@Html.DisplayFor(model=>model.ID)" />
+    <div class="form-body">
+        <div class="form-group form-md-line-input">
+            <label class="col-md-3 control-label" for="frmAction">
+                <b>Print Hermes :</b>
+                <span class="required">*</span>
+            </label>
+            <div class="col-md-9">
+                <input class="form-control form-control-inline input txtName" placeholder="Mô tả" maxlength="256" value="@Html.DisplayTextFor(model=>model.PrintUser)" name="des" />
+                <div class="form-control-focus"> </div>
+                <span class="help-block">NHẬP MÔ TẢ</span>
+            </div>
+            <label class="col-md-3 control-label" for="frmAction">
+                <b>HDDD:</b>
+                <span class="required">*</span>
+            </label>
+            <div class="col-md-3">
+                <input class="form-control form-control-inline input number" value="@Html.DisplayTextFor(model=>model.PrintName)" id="total" placeholder="Total" maxlength="20" name="print" />
+                <div class="form-control-focus"> </div>
+                <span class="help-block">Nhập Print Name</span>
+            </div>
+            @*<label class="col-md-3 control-label" for="frmAction">
+                <b>Điểm cảnh báo:</b>
+                <span class="required">*</span>
+            </label>
+            <div class="col-md-3">
+                <input class="form-control form-control-inline input number" value="@Html.DisplayTextFor(model=>model.ThresholdPoint)" id="threshold" placeholder="Threshold" maxlength="20" name="threshold" />
+                <div class="form-control-focus"> </div>
+                <span class="help-block">Nhập giới hạn số chỗ trống</span>
+            </div>*@
+        </div>
+
+
+
+
+    </div>
+
+    <div class="text-center">
+        <button type="submit" class="btn btn-success" id="btnSave"><i class="fa fa-floppy-o"></i> Lưu thông tin</button>
+        <button type="reset" class="btn btn-success"><i class="fa fa-refresh"></i> Làm mới</button>
+    </div>
+    <!-- /.box-footer -->
+</form>
+<script>
+    //$('.input').mask('00/00/0000');
+    $('.date-picker').datepicker({
+        rtl: App.isRTL(),
+        orientation: "left",
+        autoclose: true
+    });
+    var message = {};
+    var rule = {};
+    egovutil.submitCallBack("#frmAction", rule, message, "/printmanagement/actionConfig");
+
+</script>

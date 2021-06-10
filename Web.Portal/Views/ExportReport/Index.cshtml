@@ -1,0 +1,75 @@
+﻿
+@{
+    Layout = null;
+}
+
+<div class="col-md-12 col-sm-12">
+    <div class="portlet light bordered">
+        <div class="portlet-title">
+            <div class="caption caption-md">
+                <i class="icon-bar-chart font-dark hide"></i>
+                <span class="caption-subject font-dark bold uppercase">DANH MỤC BÁO CÁO HÀNG XUẤT</span>
+                @*<span class="caption-helper">45 pending</span>*@
+            </div>
+            <div class="inputs">
+                <div class="portlet-input input-inline input-small ">
+                    <div class="input-icon right">
+                        <i class="icon-magnifier"></i>
+                        <input type="text" class="form-control form-control-solid input-circle" placeholder="search...">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="scroller" data-always-visible="1" data-rail-visible1="0" data-handle-color="#D7DCE2">
+                <div class="general-item-list">
+                    <div class="item">
+                        <div class="item-head">
+                            <div class="item-details">
+                                <a href="/ExportReport/Report?id=HERMES01&paging=false&fromDate=true&toDate=false&flightNumber=true&mawb=false&shc=false&des=Báo cáo hàng xuất trên chuyến bay" target="_blank" class="item-name primary-link">Báo cáo 01</a>
+                            </div>
+                        </div>
+                        <div class="item-body"> Báo cáo hàng xuất trên chuyến bay </div>
+                    </div>
+                    <div class="item">
+                        <div class="item-head">
+                            <div class="item-details">
+                                <a href="/ExportReport/Report?id=HERMES02&paging=false&fromDate=false&toDate=false&flightNumber=false&mawb=true&shc=false&des=Tra cứu thông tin CW" target="_blank" class="item-name primary-link">Báo cáo 02</a>
+                            </div>
+                        </div>
+                        <div class="item-body">Tra cứu thông tin Chargeable Weigt Vận đơn </div>
+                    </div>
+                    <div class="item">
+                        <div class="item-head">
+                            <div class="item-details">
+                                <a class="log-page" href="/invoice/exp">Báo cáo 03</a>
+                            </div>
+                        </div>
+                        <div class="item-body">BÁO CÁO THANH TOÁN</div>
+                    </div>
+                    <div class="item">
+                        <div class="item-head">
+                            <div class="item-details">
+                                <a class="log-page" href="/AlsxExpReport">Báo cáo 04</a>
+                            </div>
+                        </div>
+                        <div class="item-body">BẢNG KÊ ALSX</div>
+                    </div>
+                    <div class="item">
+                        <div class="item-head">
+                            <div class="item-details">
+                                <a href="/ExportReport/Report?id=HERMES05&paging=false&fromDate=true&toDate=true&flightNumber=false&mawb=false&shc=false&des=Báo cáo sản lượng hàng xuất" target="_blank" class="item-name primary-link">Báo cáo 05</a>
+                            </div>
+                        </div>
+                        <div class="item-body">BÁO CÁO SẢN LƯỢNG THEO NGÀY</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+<script>
+    $(".egov-page-content").css({ 'min-height': '1300px'});
+</script>

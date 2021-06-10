@@ -1,0 +1,57 @@
+﻿
+@{
+    Layout = null;
+    IList<Web.Portal.Layer.Inventory> InventoryList = (IList<Web.Portal.Layer.Inventory>)ViewData["InventoryList"];
+    int sl_col = InventoryList.Count * 2;
+}
+
+<p style="text-align:center;font-family:'Times New Roman';font-size:15pt;font-weight:bold;text-transform:uppercase">
+    HÀNG HÓA NHẬP KHẨU TỒN ĐỌNG
+</p>
+
+<table class="table table-striped table-bordered table-advance table-hover dt-responsive" border="1" style="width:100%;font-family:'Times New Roman';font-size:14pt">
+    <thead>
+        <tr style="background-color:yellow;color:black;font-weight:bold">
+
+            <th style="width:20%;background-color:yellow !important;text-align:center" rowspan="3">ĐƠN VỊ BÁO CÁO</th>
+            <th style="background-color:yellow !important;text-align:center" colspan="@sl_col">SỐ LƯỢNG HÀNG TỒN TẠI BÃI, CẢNG, CỬA KHẨU</th>
+
+        </tr>
+        <tr style="background-color:yellow;color:black;font-weight:bold">
+            @foreach (var item in InventoryList)
+            {
+                <th style="background-color:yellow !important;text-align:center" colspan="2">@Html.DisplayTextFor(model=>item.Title)</th>
+            }
+           
+           
+        </tr>
+        <tr style="background-color:yellow;color:black;">
+            @foreach (var item in InventoryList)
+            {
+            <th style="background-color:yellow !important;text-align:center">Số lượng container</th>
+            <th style="background-color:yellow !important;text-align:center">Số lượng hàng rời(KG)</th>
+            }
+           
+        </tr>
+        <tr style="color:black">
+            <th style="width:10%;text-align:center">(1)</th>
+            @for (int i = 1; i <= InventoryList.Count*2; i++)
+            {
+            <th style="width:10%;text-align:center">(@Html.Raw(i+1))</th>
+            }
+           
+        </tr>
+        <tr style="color:black">
+            <th style="width:10%;text-align:center">ALSC</th>
+            @foreach (var item in InventoryList)
+            {
+            <th style="width:10%;text-align:center">@Html.DisplayTextFor(model => item.Pieces)</th>
+            <th style="width:10%;text-align:center">@Html.DisplayTextFor(model => item.Weight)</th>
+            }
+          
+            
+        </tr>
+    </thead>
+    <tbody></tbody>
+
+</table>

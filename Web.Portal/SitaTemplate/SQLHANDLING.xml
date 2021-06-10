@@ -1,0 +1,479 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<REPORT>
+  <IMP_HANDLING01>
+    <SQL>
+      select  P_RESULT.* from ( 
+	  select rownum rankid,(count(*) OVER ()) TOTAL,
+      x.datetime_deli,
+	  lagi.lagi_mawb_prefix,
+	  lagi.lagi_mawb_no,
+	  x.group_no,
+	  lagi.lagi_hawb,
+	  lagi.lagi_quantity_received,
+	  x.pieces_deli,
+	  lagi.lagi_weight_received,
+	  x.weight_deli,
+	  lagi.lagi_chargable_weight
+ from (
+select
+  k.*,
+  round(grai.grai_numeric_value) as weight_deli
+  from
+  (
+     select t.*,
+     round(grai.grai_numeric_value) as pieces_deli
+     from
+     (
+     select
+      grai.grai_object_isn as ID,
+      grai.grai_object_group_isn as group_no,
+      to_date(grai.grai_value,'yyyy-mm-dd hh24:mi:ss') as datetime_deli
+      --to_char(to_date(grai.grai_value,'yyyy-mm-dd hh24:mi:ss'),'dd/mm/yyyy') as datetime_received02
+      from han_w1_hl.grai_group_additional_info grai
+      where
+        grai.grai_group_type='DATE'
+       AND grai.grai_group_code='DELIVERED'
+           and to_date(grai.grai_value,'yyyy-mm-dd hh24:mi:ss') between to_date('{0}','DD/MM/YYYY') and to_date('{1}','DD/MM/YYYY') +1
+    )t
+    join han_w1_hl.grai_group_additional_info grai on t.ID= grai.grai_object_isn and t.group_no=grai.grai_object_group_isn
+      and grai.grai_group_type='PIECES'
+      and grai.grai_group_code='DELIVERED'
+  )k
+    join han_w1_hl.grai_group_additional_info grai on k.ID= grai.grai_object_isn and k.group_no=grai.grai_object_group_isn
+  and grai.grai_group_type='WEIGHT'
+  and grai.grai_group_code='DELIVERED') x
+  join lagi on x.ID = lagi.lagi_ident_no 
+  where  lagi.lagi_ident_no NOT IN 
+     (
+         SELECT 
+         l.lagi_ident_no
+         FROM han_w1_hl.lagi l 
+         WHERE EXISTS (
+         SELECT 1 
+         FROM han_w1_hl.lagi t2 
+        WHERE t2.lagi_mawb_no = l.lagi_mawb_no
+         and t2.lagi_mawb_prefix = l.lagi_mawb_prefix
+         AND t2.lagi_ident_no &lt;&gt; l.lagi_ident_no
+         and t2.lagi_deleted = 0
+         )
+        AND l.lagi_hawb = ' '
+    )
+  AND lagi.lagi_deleted = 0 
+  AND x.pieces_deli = 1
+order by 2 ASC)P_RESULT 
+	  where rankid> ({2}-1) * {3} and rankid&lt;=((({2}-1) * {3} ) + {3}) 
+    </SQL>
+    <FIND>FromDate,ToDate,Page,PageSize</FIND>
+    <COLUMN>datetime_deli,lagi_mawb_prefix,lagi_mawb_no,lagi_hawb,group_no,pieces_deli,weight_deli,lagi_chargable_weight</COLUMN> 
+    <DES>BÁO CÁO TRẢ HÀNG SKID</DES>    
+  </IMP_HANDLING01>
+  <IMP_HANDLING02>
+    <SQL>
+      select  P_RESULT.* from ( 
+	  select rownum rankid,(count(*) OVER ()) TOTAL,
+      x.datetime_deli,lagi.lagi_mawb_prefix,lagi.lagi_mawb_no,x.group_no,lagi.lagi_hawb,lagi.lagi_quantity_received,x.pieces_deli,lagi.lagi_weight_received,x.weight_deli,lagi.lagi_chargable_weight
+ from (
+select
+  k.*,
+  round(grai.grai_numeric_value) as weight_deli
+  from
+  (
+     select t.*,
+     round(grai.grai_numeric_value) as pieces_deli
+     from
+     (
+     select
+      grai.grai_object_isn as ID,
+      grai.grai_object_group_isn as group_no,
+      to_date(grai.grai_value,'yyyy-mm-dd hh24:mi:ss') as datetime_deli
+      --to_char(to_date(grai.grai_value,'yyyy-mm-dd hh24:mi:ss'),'dd/mm/yyyy') as datetime_received02
+      from han_w1_hl.grai_group_additional_info grai
+      where
+        grai.grai_group_type='DATE'
+       AND grai.grai_group_code='DELIVERED'
+           and to_date(grai.grai_value,'yyyy-mm-dd hh24:mi:ss') between to_date('{0}','DD/MM/YYYY') and to_date('{1}','DD/MM/YYYY') + 1
+    )t
+    join han_w1_hl.grai_group_additional_info grai on t.ID= grai.grai_object_isn and t.group_no=grai.grai_object_group_isn
+      and grai.grai_group_type='PIECES'
+      and grai.grai_group_code='DELIVERED'
+  )k
+    join han_w1_hl.grai_group_additional_info grai on k.ID= grai.grai_object_isn and k.group_no=grai.grai_object_group_isn
+  and grai.grai_group_type='WEIGHT'
+  and grai.grai_group_code='DELIVERED') x
+  join lagi on x.ID = lagi.lagi_ident_no 
+  where  lagi.lagi_ident_no NOT IN 
+     (
+         SELECT 
+         l.lagi_ident_no
+         FROM han_w1_hl.lagi l 
+         WHERE EXISTS (
+         SELECT 1 
+         FROM han_w1_hl.lagi t2 
+        WHERE t2.lagi_mawb_no = l.lagi_mawb_no
+         and t2.lagi_mawb_prefix = l.lagi_mawb_prefix
+         AND t2.lagi_ident_no &lt;&gt; l.lagi_ident_no
+         and t2.lagi_deleted = 0
+         )
+        AND l.lagi_hawb = ' '
+    )
+  AND lagi.lagi_deleted = 0 
+  AND x.pieces_deli > 1
+order by 2 ASC)P_RESULT 
+	  where rankid> ({2}-1) * {3} and rankid&lt;=((({2}-1) * {3} ) + {3}) 
+    </SQL>
+    <FIND>FromDate,ToDate,Page,PageSize</FIND>
+    <COLUMN>datetime_deli,lagi_mawb_prefix,lagi_mawb_no,lagi_hawb,group_no,pieces_deli,weight_deli,lagi_chargable_weight</COLUMN> 
+    <DES>BÁO CÁO TRẢ HÀNG CARTON</DES>    
+  </IMP_HANDLING02>
+  <IMP_HANDLING03>
+
+  
+    <SQL>
+      select  P_RESULT.* from ( 
+	  select rownum rankid,(count(*) OVER ()) TOTAL,
+      x.datetime_deli,lagi.lagi_mawb_prefix,lagi.lagi_mawb_no,x.group_no,lagi.lagi_hawb,lagi.lagi_quantity_received,x.pieces_deli,lagi.lagi_weight_received,x.weight_deli,lagi.lagi_chargable_weight
+ from (
+select
+  k.*,
+  round(grai.grai_numeric_value) as weight_deli
+  from
+  (
+     select t.*,
+     round(grai.grai_numeric_value) as pieces_deli
+     from
+     (
+     select
+      grai.grai_object_isn as ID,
+      grai.grai_object_group_isn as group_no,
+      to_date(grai.grai_value,'yyyy-mm-dd hh24:mi:ss') as datetime_deli
+      --to_char(to_date(grai.grai_value,'yyyy-mm-dd hh24:mi:ss'),'dd/mm/yyyy') as datetime_received02
+      from han_w1_hl.grai_group_additional_info grai
+      where
+        grai.grai_group_type='DATE'
+       AND grai.grai_group_code='DELIVERED'
+           and to_date(grai.grai_value,'yyyy-mm-dd hh24:mi:ss') between to_date('{0}','DD/MM/YYYY') and to_date('{1}','DD/MM/YYYY') + 1
+    )t
+    join han_w1_hl.grai_group_additional_info grai on t.ID= grai.grai_object_isn and t.group_no=grai.grai_object_group_isn
+      and grai.grai_group_type='PIECES'
+      and grai.grai_group_code='DELIVERED'
+  )k
+    join han_w1_hl.grai_group_additional_info grai on k.ID= grai.grai_object_isn and k.group_no=grai.grai_object_group_isn
+  and grai.grai_group_type='WEIGHT'
+  and grai.grai_group_code='DELIVERED') x
+  join lagi on x.ID = lagi.lagi_ident_no 
+  where  lagi.lagi_ident_no NOT IN 
+     (
+         SELECT 
+         l.lagi_ident_no
+         FROM han_w1_hl.lagi l 
+         WHERE EXISTS (
+         SELECT 1 
+         FROM han_w1_hl.lagi t2 
+        WHERE t2.lagi_mawb_no = l.lagi_mawb_no
+         and t2.lagi_mawb_prefix = l.lagi_mawb_prefix
+         AND t2.lagi_ident_no &lt;&gt; l.lagi_ident_no
+         and t2.lagi_deleted = 0
+         )
+        AND l.lagi_hawb = ' '
+    )
+  AND lagi.lagi_deleted = 0 
+  AND  lagi.lagi_tso in ('ALSW','ALST','ALSB','ALSE','CLC','ASGL')
+order by 2 ASC)P_RESULT 
+	  where rankid> ({2}-1) * {3} and rankid&lt;=((({2}-1) * {3} ) + {3}) 
+    </SQL>
+    <FIND>FromDate,ToDate,Page,PageSize</FIND>
+   <COLUMN>datetime_deli,lagi_mawb_prefix,lagi_mawb_no,lagi_hawb,group_no,pieces_deli,weight_deli,lagi_chargable_weight</COLUMN> 
+    <DES>BÁO CÁO TRẢ HÀNG ALSX</DES>    
+  </IMP_HANDLING03>
+  <IMP_HANDLING04>
+    <SQL>
+ select 
+     to_char(x.datetime_deli,'dd/mm/yyyy') as DateCreate,
+    lagi.lagi_mawb_prefix,
+    lagi.lagi_mawb_no,  
+    lagi.lagi_hawb,
+    lagi.lagi_quantity_received,
+    lagi.lagi_weight_received,
+    sum(x.weight_deli) as weight,
+    sum(x.pieces_deli) as pieces,
+    lagi.lagi_chargable_weight as ChargeAble,
+     case when  lagi.lagi_chargable_weight >   sum(x.weight_deli) then   lagi.lagi_chargable_weight
+  else  sum(x.weight_deli)
+    end as ChargeableReal
+ from (
+select
+  k.*,
+  round(grai.grai_numeric_value) as weight_deli
+  from
+  (
+     select t.*,
+     round(grai.grai_numeric_value) as pieces_deli
+     from
+     (
+     select
+      grai.grai_object_isn as ID,
+      grai.grai_object_group_isn as group_no,
+      to_date(grai.grai_value,'yyyy-mm-dd hh24:mi:ss') as datetime_deli
+      --to_char(to_date(grai.grai_value,'yyyy-mm-dd hh24:mi:ss'),'dd/mm/yyyy') as datetime_received02
+      from han_w1_hl.grai_group_additional_info grai
+      where
+        grai.grai_group_type='DATE'
+       AND grai.grai_group_code='DELIVERED'
+           and to_date(grai.grai_value,'yyyy-mm-dd hh24:mi:ss') between to_date('{0}','DD/MM/YYYY') and to_date('{1}','DD/MM/YYYY') + 1
+    )t
+    join han_w1_hl.grai_group_additional_info grai on t.ID= grai.grai_object_isn and t.group_no=grai.grai_object_group_isn
+      and grai.grai_group_type='PIECES'
+      and grai.grai_group_code='DELIVERED'
+  )k
+    join han_w1_hl.grai_group_additional_info grai on k.ID= grai.grai_object_isn and k.group_no=grai.grai_object_group_isn
+  and grai.grai_group_type='WEIGHT'
+  and grai.grai_group_code='DELIVERED') x
+ join lagi on x.ID = lagi.lagi_ident_no 
+  where  lagi.lagi_ident_no NOT IN 
+     (
+         SELECT 
+         l.lagi_ident_no
+         FROM han_w1_hl.lagi l 
+         WHERE EXISTS (
+         SELECT 1 
+         FROM han_w1_hl.lagi t2 
+        WHERE t2.lagi_mawb_no = l.lagi_mawb_no
+         and t2.lagi_mawb_prefix = l.lagi_mawb_prefix
+        AND t2.lagi_ident_no &lt;&gt; l.lagi_ident_no
+         and t2.lagi_deleted = 0
+         )
+        AND l.lagi_hawb = ' '
+    )
+  AND lagi.lagi_deleted = 0 
+  group by to_char(x.datetime_deli,'dd/mm/yyyy'),
+  lagi.lagi_mawb_prefix,
+    lagi.lagi_mawb_no,  
+    lagi.lagi_hawb,
+    lagi.lagi_quantity_received,
+    lagi.lagi_weight_received,
+    lagi.lagi_chargable_weight
+order by 2 ASC
+    </SQL>
+    <FIND>FromDate,ToDate,Page,PageSize</FIND>
+    <COLUMN>datetime_deli,lagi_mawb_prefix,lagi_mawb_no,lagi_hawb,group_no,pieces_deli,weight_deli,lagi_chargable_weight</COLUMN> 
+    <DES>BÁO CÁO TRẢ HÀNG</DES>    
+  </IMP_HANDLING04>
+  <EXP_HANDLING01>
+    <SQL>
+     select  P_RESULT.* from ( 
+	  select rownum rankid,(count(*) OVER ()) TOTAL,
+      a.*, round(((gra.grai_numeric_value)*1000000)/6000,3) as ChargeableWeight from 
+(select t.*,gra.grai_numeric_value as weight from
+(
+  SELECT 
+    to_char(labs.labs_ident_no) as ID,
+    to_char(labs.LABS_DATE_STATUS_4_SET, 'DD/MM/YYYY') as RECEIVED_DATE,
+    labs.LABS_TIME_STATUS_4_SET as RECEIVED_TIME,
+    to_char(labs.LABS_MAWB_PREFIX) as PREFIX,
+    to_char(labs.LABS_MAWB_SERIAL_NO, '00000000') AS SERIAL,
+	
+--	round(((labs.labs_volume_delivered)*1000000)/6000,3) as ChargeableWeight,
+     --labs.LABS_AGENT_NAME as AGENT_NAME , 
+    grai.grai_object_group_isn as group_objects,
+    grai.grai_numeric_value as pieces
+  FROM labs labs
+  join GRAI_GROUP_ADDITIONAL_INFO grai on labs.labs_ident_no = grai.grai_object_isn
+  and grai.grai_group_type='PIECES'
+  and grai.grai_group_code='RECEIVED'
+  and grai.grai_numeric_value > 1
+WHERE  
+   labs.LABS_DATE_STATUS_4_SET between to_date('{0}','DD/MM/YYYY') and to_date('{1}','DD/MM/YYYY') 
+   AND labs.labs_deleted = 0
+   AND labs.labs_quantity_del > 0
+  ORDER BY RECEIVED_DATE, RECEIVED_TIME ASC
+) 
+t join han_w1_hl.grai_group_additional_info gra on t.ID=gra.grai_object_isn 
+and t.group_objects = gra.grai_object_group_isn
+and gra.grai_group_type='WEIGHT'
+and gra.grai_group_code='RECEIVED'
+and gra.grai_numeric_value > 0  
+)a
+join han_w1_hl.grai_group_additional_info gra on a.ID=gra.grai_object_isn 
+and gra.grai_group_type='VOLUME'
+and gra.grai_group_code='DELIVERED'
+and a.group_objects = gra.grai_object_group_isn
+order by 2,3,4,5,7)P_RESULT 
+	  where rankid> ({2}-1) * {3} and rankid&lt;=((({2}-1) * {3} ) + {3}) 
+    </SQL>
+    <FIND>FromDate,ToDate,Page,PageSize</FIND>
+    <COLUMN>ID,RECEIVED_DATE,RECEIVED_TIME,PREFIX,SERIAL,ChargeableWeight,pieces,weight</COLUMN> 
+    <DES>Báo cáo sản lượng CNH Carton</DES>    
+  </EXP_HANDLING01>
+  <EXP_HANDLING02>
+    <SQL>
+      select  P_RESULT.* from ( 
+	  select rownum rankid,(count(*) OVER ()) TOTAL,
+     t.*,
+gra.grai_numeric_value as weight
+from
+(
+  SELECT 
+    to_char(labs.labs_ident_no) as ID,
+    to_char(labs.LABS_DATE_STATUS_4_SET, 'DD/MM/YYYY') as RECEIVED_DATE,
+    labs.LABS_TIME_STATUS_4_SET as RECEIVED_TIME,
+    to_char(labs.LABS_MAWB_PREFIX) as PREFIX,
+    to_char(labs.LABS_MAWB_SERIAL_NO, '00000000') AS SERIAL,
+	round(((labs.labs_volume_delivered)*1000000)/6000,3) as ChargeableWeight,
+     --labs.LABS_AGENT_NAME as AGENT_NAME , 
+    grai.grai_object_group_isn as group_objects,
+    grai.grai_numeric_value as pieces
+  FROM labs labs
+  join GRAI_GROUP_ADDITIONAL_INFO grai on labs.labs_ident_no = grai.grai_object_isn
+  and grai.grai_group_type='PIECES'
+  and grai.grai_group_code='RECEIVED'
+  --and grai.grai_numeric_value > 1
+WHERE  
+   labs.LABS_DATE_STATUS_4_SET between to_date('{0}','DD/MM/YYYY') and to_date('{1}','DD/MM/YYYY') 
+   AND labs.labs_deleted = 0
+   AND labs.labs_quantity_del > 0
+   AND (labs.Labs_Agent_Name like '%ALSW%' 
+ or labs.Labs_Agent_Name like '%ALSE%' 
+ or labs.Labs_Agent_Name like '%ALST%' 
+ or labs.Labs_Agent_Name like '%ALSB%' 
+ or labs.Labs_Agent_Name like '%CLC%')
+  ORDER BY RECEIVED_DATE, RECEIVED_TIME ASC
+) 
+t join han_w1_hl.grai_group_additional_info gra on t.ID=gra.grai_object_isn 
+and t.group_objects = gra.grai_object_group_isn
+and gra.grai_group_type='WEIGHT'
+and gra.grai_group_code='RECEIVED'
+and gra.grai_numeric_value > 0  
+order by 2,3,4,5,7)P_RESULT 
+	  where rankid> ({2}-1) * {3} and rankid&lt;=((({2}-1) * {3} ) + {3}) 
+    </SQL>
+    <FIND>FromDate,ToDate,Page,PageSize</FIND>
+    <COLUMN>ID,RECEIVED_DATE,RECEIVED_TIME,PREFIX,SERIAL,pieces,weight,ChargeableWeight</COLUMN> 
+    <DES>Báo cáo CNH ALSX</DES>    
+  </EXP_HANDLING02>
+  <EXP_HANDLING03>
+    <SQL>
+      select  P_RESULT.* from ( 
+	  select rownum rankid,(count(*) OVER ()) TOTAL,
+      a.*, round(((gra.grai_numeric_value)*1000000)/6000,3) as ChargeableWeight from 
+(select t.*,gra.grai_numeric_value as weight from
+(
+  SELECT 
+    to_char(labs.labs_ident_no) as ID,
+    to_char(labs.LABS_DATE_STATUS_4_SET, 'DD/MM/YYYY') as RECEIVED_DATE,
+    labs.LABS_TIME_STATUS_4_SET as RECEIVED_TIME,
+    to_char(labs.LABS_MAWB_PREFIX) as PREFIX,
+    to_char(labs.LABS_MAWB_SERIAL_NO, '00000000') AS SERIAL,
+	--	round(((labs.labs_volume_delivered)*1000000)/6000,3) as ChargeableWeight,
+     --labs.LABS_AGENT_NAME as AGENT_NAME , 
+    grai.grai_object_group_isn as group_objects,
+    grai.grai_numeric_value as pieces
+  FROM labs labs
+  join GRAI_GROUP_ADDITIONAL_INFO grai on labs.labs_ident_no = grai.grai_object_isn
+  and grai.grai_group_type='PIECES'
+  and grai.grai_group_code='RECEIVED'
+  and grai.grai_numeric_value = 1
+WHERE  
+   labs.LABS_DATE_STATUS_4_SET between to_date('{0}','DD/MM/YYYY') and to_date('{1}','DD/MM/YYYY') 
+   AND labs.labs_deleted = 0
+   AND labs.labs_quantity_del > 0
+  ORDER BY RECEIVED_DATE, RECEIVED_TIME ASC
+) 
+t join han_w1_hl.grai_group_additional_info gra on t.ID=gra.grai_object_isn 
+and t.group_objects = gra.grai_object_group_isn
+and gra.grai_group_type='WEIGHT'
+and gra.grai_group_code='RECEIVED'
+and gra.grai_numeric_value > 0  
+)a
+join han_w1_hl.grai_group_additional_info gra on a.ID=gra.grai_object_isn 
+and gra.grai_group_type='VOLUME'
+and gra.grai_group_code='DELIVERED'
+and a.group_objects = gra.grai_object_group_isn
+order by 2,3,4,5,7)P_RESULT 
+	  where rankid> ({2}-1) * {3} and rankid&lt;=((({2}-1) * {3} ) + {3}) 
+    </SQL>
+    <FIND>FromDate,ToDate,Page,PageSize</FIND>
+    <COLUMN>ID,RECEIVED_DATE,RECEIVED_TIME,PREFIX,SERIAL,ChargeableWeight,pieces,weight</COLUMN> 
+    <DES>Báo cáo CNH SKID</DES>    
+  </EXP_HANDLING03>
+  <EXP_HANDLING04>
+    <SQL>
+      select t.ID,t.RECEIVED_DATE,t.PREFIX,t.SERIAL,
+round(((t.volumed)*1000000)/6000,3) as ChargeableWeight,
+sum(gra.grai_numeric_value) as weight,
+sum(t.pieces) as pieces,
+    case when round(((t.volumed)*1000000)/6000,3) >  sum(gra.grai_numeric_value)
+      then round(((t.volumed)*1000000)/6000,3)
+  else  sum(gra.grai_numeric_value)
+    end as ChargeableReal 
+from
+(
+  SELECT 
+    to_char(labs.labs_ident_no) as ID,
+    to_char(labs.LABS_DATE_STATUS_4_SET, 'DD/MM/YYYY') as RECEIVED_DATE,
+    to_char(labs.LABS_MAWB_PREFIX) as PREFIX,
+    to_char(labs.LABS_MAWB_SERIAL_NO, '00000000') AS SERIAL,
+    grai.grai_object_group_isn as group_objects,
+    grai.grai_numeric_value as pieces,
+   labs.labs_volume_delivered as volumed
+  FROM labs labs
+  join GRAI_GROUP_ADDITIONAL_INFO grai on labs.labs_ident_no = grai.grai_object_isn
+  and grai.grai_group_type='PIECES'
+  and grai.grai_group_code='RECEIVED'
+  and grai.grai_numeric_value = 1
+WHERE  
+    labs.LABS_DATE_STATUS_4_SET between to_date('{0}','DD/MM/YYYY') and to_date('{1}','DD/MM/YYYY') 
+   AND labs.labs_deleted = 0
+   AND labs.labs_quantity_del > 0
+  ORDER BY RECEIVED_DATE ASC
+) 
+t join han_w1_hl.grai_group_additional_info gra on t.ID=gra.grai_object_isn 
+and t.group_objects = gra.grai_object_group_isn
+and gra.grai_group_type='WEIGHT'
+and gra.grai_group_code='RECEIVED'
+and gra.grai_numeric_value > 0  
+group by t.ID,t.RECEIVED_DATE,t.PREFIX,t.SERIAL,t.volumed
+order by 2,3,4,5,7
+	 
+    </SQL>
+    <FIND>FromDate,ToDate,Page,PageSize</FIND>
+    <COLUMN>ID,RECEIVED_DATE,PREFIX,SERIAL,ChargeableWeight,weight</COLUMN> 
+    <DES>Báo cáo CNH</DES>    
+  </EXP_HANDLING04>
+  <EXP_HANDLING05>
+    <SQL>
+      SELECT t.CARGO_TYPE,sum(t.DEPARTED_PIECES) as Total_PIECES,sum(t.DEPARTED_WEIGHT) as TOTAL_WEIGHT FROM (SELECT 
+    to_char(to_date('02-01-0001' ,'DD-MM-YYYY') + flup.flup_actual_date, 'DD/MM/YYYY')  AS DEPARTURE_DATE,
+     case
+     when flup.FLUP_FLIGHT_NO_LVG in ('CI','CX','EK','ET','JL','KE','5X','VN','VZ','KA','TK','LJ','LD') then flup.FLUP_FLIGHT_NO_LVG 
+       else 'Other' 
+         end as FLIGHT_NO ,
+            labs.labs_mawb_prefix||labs.labs_mawb_serial_no as MAWB,
+            sum(awbu.awbu_pieces) as DEPARTED_PIECES,
+      sum( awbu.AWBU_WEIGHT)  as DEPARTED_WEIGHT,
+      case 
+        when sum( awbu.AWBU_WEIGHT) /  sum(awbu.awbu_pieces) > {3} then 'SKID'
+          else 'Carton'
+            end as Cargo_Type
+    
+  FROM FLUP flup
+      JOIN CONT cont 
+           ON cont.CONT_FLIGHT_NO_  = flup.flup_flight_no
+           and to_date('02-01-0001' ,'DD-MM-YYYY') + cont.CONT_DATE = to_date('02-01-0001' ,'DD-MM-YYYY') + flup.flup_scheduled_date
+      JOIN AWBU_AWBPERULD_LIST awbu
+          on awbu.awbu_uld_isn = cont.cont_uld_isn
+      JOIN LABS labs 
+           on awbu.awbu_mawb_ident_no = labs.LABS_IDENT_NO
+  WHERE 1= 1 and
+  to_date('02-01-0001' ,'DD-MM-YYYY') + flup.FLUP_ACTUAL_DATE  between to_date('{0}', 'dd/mm/yyyy') and to_date('{1}', 'dd/mm/yyyy')
+  AND labs.labs_deleted = 0
+  and (flup.flup_flight_no_lvg || flup.flup_flight_no = '{2}' or '{2}' = 'ALL' )
+  group by flup.flup_actual_date, flup.FLUP_FLIGHT_NO_LVG,flup.flup_flight_no ,
+  labs.labs_mawb_prefix,labs.labs_mawb_serial_no)t
+  group by t.Cargo_Type
+	 
+    </SQL>
+    <FIND>FromDate,ToDate,FlightNumber,shc</FIND>
+    <COLUMN>CARGO_TYPE,Total_PIECES,TOTAL_WEIGHT</COLUMN> 
+    <DES>Báo cáo TỔNG HỢP SKID,CARTON</DES>    
+  </EXP_HANDLING05>
+</REPORT>

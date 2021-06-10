@@ -1,0 +1,627 @@
+﻿@{
+    Layout = null;
+    int rowIndex = 0;
+}
+<html xmlns:v="urn:schemas-microsoft-com:vml"
+      xmlns:o="urn:schemas-microsoft-com:office:office"
+      xmlns:x="urn:schemas-microsoft-com:office:excel"
+      xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+    <meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+    <meta name=ProgId content=Excel.Sheet>
+    <meta name=Generator content="Microsoft Excel 15">
+    <link id=Main-File rel=Main-File href="../Book1.htm">
+    <link rel=File-List href=filelist.xml>
+    <link href="@Url.Content("~/images/stylesheetFee.css")" rel="stylesheet" type="text/css" />
+    <link rel=Stylesheet href=stylesheet.css>
+    <style>
+    </style>
+
+    <script language="JavaScript">
+<!--
+function fnUpdateTabs()
+ {
+  if (parent.window.g_iIEVer>=4) {
+   if (parent.document.readyState=="complete"
+    && parent.frames['frTabs'].document.readyState=="complete")
+   parent.fnSetActiveSheet(0);
+  else
+   window.setTimeout("fnUpdateTabs();",150);
+ }
+}
+
+
+    </script>
+
+</head>
+
+<body link="#0563C1" vlink="#954F72">
+
+    <table border=0 cellpadding=0 cellspacing=0 width=1088 style='border-collapse:
+ collapse;table-layout:fixed;width:816pt'>
+        @foreach (var row in (IList<Web.Portal.Common.ViewModel.PrintTicket>)ViewData["listPrint"])
+        {
+            rowIndex += 1;
+            {
+                if (rowIndex == 1)
+                {
+                    @*page1*@
+                    <div>
+
+                        <tr height=19 style='height:43.5pt'>
+                            <td height=19 colspan=6 style='height:14.5pt'></td>
+                        </tr>
+                        <![if !vml]>
+                        @*content*@
+                        <div>
+                            <tr height=19 style='height:14.5pt'>
+                                <td height=19 style='height:14.5pt' align=left valign=top>
+
+                                    <span style='mso-ignore:vglayout;
+  position:absolute;z-index:6;margin-left:0px;margin-top:5px;width:763px;
+  height:132px'>
+                                        <table cellpadding=0 cellspacing=0>
+                                            <tr>
+                                                <td width=0 height=0></td>
+                                                <td width=377></td>
+                                                <td width=4></td>
+                                                <td width=382></td>
+                                            </tr>
+                                            <tr>
+                                                <td height=1></td>
+                                                <td rowspan=2 align=left valign=top>
+                                                    <img width=377 height=130
+                                                         src="http://tracuu.alsc.com.vn/images/image003.png" v:shapes="Picture_x0020_6">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td height=129></td>
+                                                <td></td>
+                                                <td rowspan=2 align=left valign=top>
+                                                    <img width=382 height=131
+                                                         src="http://tracuu.alsc.com.vn/images/image004.png" v:shapes="Picture_x0020_3">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td height=2></td>
+                                            </tr>
+                                        </table>
+                                    </span><![endif]><span>
+                                        <table cellpadding=0 cellspacing=0>
+                                            <tr>
+                                                <td height=19 width=64 style='height:14.5pt;width:48pt'></td>
+                                            </tr>
+                                        </table>
+                                    </span>
+                                </td>
+                                <td colspan=16></td>
+                            </tr>
+                            <tr height=133 style='height:101.5pt;mso-xlrowspan:7'>
+                                <td height=133 colspan=17 style='height:101.5pt;mso-ignore:colspan'></td>
+                            </tr>
+                            <tr height=19 style='height:14.5pt'>
+                                <td colspan=6 rowspan=4 height=76 class=xl65 width=384 style='height:58.0pt;
+  width:288pt'>
+                                    GI&#7844;Y PHÉP RA VÀO <br> @Html.Raw(row.listTicket[0].CompanyName)
+                                </td>
+                                <td colspan=6 rowspan=4 class=xl65 width=384 style='width:288pt'>
+                                    GI&#7844;Y
+                                    PHÉP RA VÀO <br> @Html.Raw(row.listTicket[1].CompanyName)
+                                </td>
+                                <td colspan=5 style='mso-ignore:colspan'></td>
+                            </tr>
+                            <tr height=19 style='height:14.5pt'>
+                                <td height=19 colspan=4 style='height:14.5pt;mso-ignore:colspan'></td>
+                                <td><span style='mso-run:yes'> </span></td>
+                            </tr>
+                            <tr height=19 style='height:14.5pt'>
+                                <td height=19 colspan=5 style='height:14.5pt;mso-ignore:colspan'></td>
+                            </tr>
+                            <tr height=19 style='height:14.5pt'>
+                                <td height=19 colspan=5 style='height:14.5pt;mso-ignore:colspan'></td>
+                            </tr>
+                            <tr height=19 style='height:14.5pt'>
+                                <td colspan=6 rowspan=8 height=152 class=xl67 style='height:116.0pt'>THÁNG @row.listTicket[0].ExpiredDate.Value.ToString("MM/yyyy")</td>
+                                <td colspan=6 rowspan=8 class=xl67>THÁNG @row.listTicket[0].ExpiredDate.Value.ToString("MM/yyyy")</td>
+                                <td colspan=5 style='mso-ignore:colspan'></td>
+                            </tr>
+                            <tr height=19 style='height:14.5pt'>
+                                <td height=19 colspan=5 style='height:14.5pt;mso-ignore:colspan'></td>
+                            </tr>
+                            <tr height=19 style='height:14.5pt'>
+                                <td height=19 colspan=5 style='height:14.5pt;mso-ignore:colspan'></td>
+                            </tr>
+                            <tr height=19 style='height:14.5pt'>
+                                <td height=19 colspan=5 style='height:14.5pt;mso-ignore:colspan'></td>
+                            </tr>
+                            <tr height=19 style='height:14.5pt'>
+                                <td height=19 colspan=5 style='height:14.5pt;mso-ignore:colspan'></td>
+                            </tr>
+                            <tr height=19 style='height:14.5pt'>
+                                <td height=19 colspan=5 style='height:14.5pt;mso-ignore:colspan'></td>
+                            </tr>
+                            <tr height=19 style='height:14.5pt'>
+                                <td height=19 colspan=5 style='height:14.5pt;mso-ignore:colspan'></td>
+                            </tr>
+                            <tr height=19 style='height:14.5pt'>
+                                <td height=19 colspan=5 style='height:14.5pt;mso-ignore:colspan'></td>
+                            </tr>
+                            <tr height=19 style='height:14.5pt'>
+                                <td colspan=6 rowspan=6 height=114 width=384 style='height:87.0pt;width:288pt'
+                                    align=left valign=top>
+
+                                    <span style='mso-ignore:vglayout;
+  position:absolute;z-index:7;margin-left:256px;margin-top:1px;width:120px;
+  height:118px'><img width=120 height=118 src="@row.listTicket[0].PrintQrCode" v:shapes="Picture_x0020_7"></span><![endif]><span style='mso-ignore:vglayout2'>
+                                        <table cellpadding=0 cellspacing=0>
+                                            <tr>
+                                                <td colspan=6 rowspan=6 height=114 class=xl68 width=384 style='height:87.0pt;
+    width:288pt'>
+                                                    <span style='mso-run:yes'>    </span><font class="font5">
+                                                        @*<span style='mso-run:yes'></span>Ngày h&#7871;t h&#7841;n<br>*@
+                                                        <span style='mso-run:yes'>         </span>@row.listTicket[0].BSX<span style='mso-run:yes'></span>
+                                                    </font>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </span>
+                                </td>
+                                <td colspan=6 rowspan=6 height=114 width=384 style='height:87.0pt;width:288pt'
+                                    align=left valign=top>
+
+                                    <![if !vml]><span style='mso-ignore:vglayout;
+  position:absolute;z-index:4;margin-left:256px;margin-top:1px;width:120px;
+  height:120px'><img width=120 height=120 src="@row.listTicket[1].PrintQrCode" v:shapes="Picture_x0020_4"></span><![endif]><span style='mso-ignore:vglayout2'>
+                                        <table cellpadding=0 cellspacing=0>
+                                            <tr>
+                                                <td colspan=6 rowspan=6 height=114 class=xl68 width=384 style='height:87.0pt;
+    width:288pt'>
+                                                    <span style='mso-run:yes'>    </span><font class="font5">
+                                                        @*<span style='mso-run:yes'></span>Ngày h&#7871;t h&#7841;n<br>*@
+                                                        <span style='mso-run:yes'>         </span>@row.listTicket[1].BSX<span style='mso-run:yes'></span>
+                                                    </font>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </span>
+                                </td>
+                                <td colspan=5 style='mso-ignore:colspan'></td>
+                            </tr>
+                            <tr height=19 style='height:14.5pt'>
+                                <td height=19 colspan=5 style='height:14.5pt;mso-ignore:colspan'></td>
+                            </tr>
+                            <tr height=19 style='height:14.5pt'>
+                                <td height=19 colspan=5 style='height:14.5pt;mso-ignore:colspan'></td>
+                            </tr>
+                            <tr height=19 style='height:14.5pt'>
+                                <td height=19 colspan=5 style='height:14.5pt;mso-ignore:colspan'></td>
+                            </tr>
+                            <tr height=19 style='height:14.5pt'>
+                                <td height=19 colspan=5 style='height:14.5pt;mso-ignore:colspan'></td>
+                            </tr>
+                            <tr height=19 style='height:14.5pt'>
+                                <td height=19 colspan=5 style='height:14.5pt;mso-ignore:colspan'></td>
+                            </tr>
+                            <tr height=19 style='height:14.5pt'>
+                                <td height=19 colspan=6 style='height:14.5pt;mso-ignore:colspan'></td>
+                                <td colspan=7 rowspan=6 height=114 width=448 style='mso-ignore:colspan-rowspan;
+  height:87.0pt;width:336pt'>
+
+                                    <![if !vml]><span style='mso-ignore:vglayout'>
+                                        <table cellpadding=0 cellspacing=0>
+                                            <tr>
+                                                <td width=0 height=17></td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td><img width=388 height=86 src="http://tracuu.alsc.com.vn/images/image010Fee.png" v:shapes="Picture_x0020_5"></td>
+                                                <td width=60></td>
+                                            </tr>
+                                            <tr>
+                                                <td height=11></td>
+                                            </tr>
+                                        </table>
+                                    </span><![endif]><!--[if !mso & vml]><span style='width:336.0pt;height:87.0pt'></span><![endif]-->
+                                </td>
+                                <td colspan=4 style='mso-ignore:colspan'></td>
+                            </tr>
+                            <tr height=19 style='height:14.5pt'>
+                                <td height=19 style='height:14.5pt' align=left valign=top>
+
+                                    <![if !vml]><span style='mso-ignore:vglayout;
+  position:absolute;z-index:8;margin-left:0px;margin-top:2px;width:376px;
+  height:85px'><img width=376 height=85 src="http://tracuu.alsc.com.vn/images/image012Fee.png" v:shapes="Picture_x0020_8"></span><![endif]><span style='mso-ignore:vglayout2'>
+                                        <table cellpadding=0 cellspacing=0>
+                                            <tr>
+                                                <td height=19 width=64 style='height:14.5pt;width:48pt'></td>
+                                            </tr>
+                                        </table>
+                                    </span>
+                                </td>
+                                <td colspan=5 style='mso-ignore:colspan'></td>
+                                <td colspan=4 style='mso-ignore:colspan'></td>
+                            </tr>
+                        </div>
+                        <tr height=19 style='height:14.5pt'>
+                            <td height=19 colspan=6 style='height:14.5pt'></td>
+                        </tr>
+                        <tr height=19 style='height:14.5pt'>
+                            <td height=19 colspan=6 style='height:14.5pt'></td>
+                        </tr>
+                        <tr height=19 style='height:14.5pt'>
+                            <td height=19 colspan=6 style='height:14.5pt'></td>
+                        </tr>
+                        <tr height=19 style='height:14.5pt'>
+                            <td height=19 colspan=6 style='height:14.5pt'></td>
+                        </tr>
+                        <tr height=19 style='height:14.5pt'>
+                            <td height=19 colspan=6 style='height:14.5pt'></td>
+                        </tr>
+                        <tr height=19 style='height:14.5pt'>
+                            <td height=19 colspan=6 style='height:14.5pt'></td>
+                        </tr>
+                        <tr height=19 style='height:14.5pt'>
+                            <td height=19 colspan=6 style='height:14.5pt'></td>
+                        </tr>
+                        <tr height=19 style='height:14.5pt'>
+                            <td height=19 colspan=6 style='height:14.5pt;'></td>
+                        </tr>
+                        <tr height=19 style='height:25.8pt'>
+                            <td height=19 colspan=6 style='height:14.5pt;'></td>
+                        </tr>
+
+
+
+                    </div>
+                    @*page2*@
+                    <div>
+
+                        <tr height=19 style='height:77.5pt'>
+                            <td height=19 colspan=6 style='height:14.5pt'></td>
+                        </tr>
+                        @*content*@
+                        <div>
+                            <tr height=19 style='height:14.5pt'>
+                                <td height=19 style='height:14.5pt' align=left valign=top>
+
+                                    <![if !vml]><span style='mso-ignore:vglayout;
+  position:absolute;z-index:1;margin-left:6px;margin-top:13px;width:726px;
+  height:536px'>
+                                        <table cellpadding=0 cellspacing=0>
+                                            <tr>
+                                                <td width=0 height=0></td>
+                                                <td width=351></td>
+                                                <td width=24></td>
+                                                <td width=351></td>
+                                            </tr>
+                                            <tr>
+                                                <td height=2></td>
+                                                <td rowspan=2 align=left valign=top>
+                                                    <img width=351 height=536
+                                                         src="http://tracuu.alsc.com.vn/images/image015.png" v:shapes="TextBox_x0020_1">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td height=534></td>
+                                                <td style="padding:20px"></td>
+                                                <td align=left valign=top>
+                                                    <img width=351 height=534 src="http://tracuu.alsc.com.vn/images/image016.png"
+                                                         v:shapes="TextBox_x0020_2">
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </span><![endif]><span style='mso-ignore:vglayout2'>
+                                        <table cellpadding=0 cellspacing=0>
+                                            <tr>
+                                                <td height=19 width=64 style='height:14.5pt;width:48pt'></td>
+                                            </tr>
+                                        </table>
+                                    </span>
+                                </td>
+                                <td colspan=16 style='mso-ignore:colspan'></td>
+                            </tr>
+                        </div>
+                        <tr height=19 style='height:500.5pt'>
+                            <td height=19 colspan=6 style='height:528px'></td>
+                        </tr>
+
+
+
+                    </div>
+                }
+                else
+                {
+                    <div>
+                        <tr height=19 style='height:50pt'>
+                            <td height=19 colspan=6 style='height:14.5pt'></td>
+                        </tr>
+                        @*content*@
+                        <div>
+                            <tr height=19 style='height:14.5pt'>
+                                <td height=19 style='height:14.5pt' align=left valign=top>
+
+                                    <span style='mso-ignore:vglayout;
+  position:absolute;z-index:6;margin-left:0px;margin-top:5px;width:763px;
+  height:132px'>
+                                        <table cellpadding=0 cellspacing=0>
+                                            <tr>
+                                                <td width=0 height=0></td>
+                                                <td width=377></td>
+                                                <td width=4></td>
+                                                <td width=382></td>
+                                            </tr>
+                                            <tr>
+                                                <td height=1></td>
+                                                <td rowspan=2 align=left valign=top>
+                                                    <img width=377 height=130
+                                                         src="http://tracuu.alsc.com.vn/images/image003.png" v:shapes="Picture_x0020_6">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td height=129></td>
+                                                <td></td>
+                                                <td rowspan=2 align=left valign=top>
+                                                    <img width=382 height=131
+                                                         src="http://tracuu.alsc.com.vn/images/image004.png" v:shapes="Picture_x0020_3">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td height=2></td>
+                                            </tr>
+                                        </table>
+                                    </span><![endif]><span>
+                                        <table cellpadding=0 cellspacing=0>
+                                            <tr>
+                                                <td height=19 width=64 style='height:14.5pt;width:48pt'></td>
+                                            </tr>
+                                        </table>
+                                    </span>
+                                </td>
+                                <td colspan=16></td>
+                            </tr>
+                            <tr height=133 style='height:101.5pt;mso-xlrowspan:7'>
+                                <td height=133 colspan=17 style='height:101.5pt;mso-ignore:colspan'></td>
+                            </tr>
+                            <tr height=19 style='height:14.5pt'>
+                                <td colspan=6 rowspan=4 height=76 class=xl65 width=384 style='height:58.0pt;
+  width:288pt'>
+                                    GI&#7844;Y PHÉP RA VÀO <br> @Html.Raw(@row.listTicket[0].CompanyName)
+                                </td>
+                                <td colspan=6 rowspan=4 class=xl65 width=384 style='width:288pt'>
+                                    GI&#7844;Y
+                                    PHÉP RA VÀO <br> @Html.Raw(@row.listTicket[1].CompanyName)
+                                </td>
+                                <td colspan=5 style='mso-ignore:colspan'></td>
+                            </tr>
+                            <tr height=19 style='height:14.5pt'>
+                                <td height=19 colspan=4 style='height:14.5pt;mso-ignore:colspan'></td>
+                                <td><span style='mso-run:yes'> </span></td>
+                            </tr>
+                            <tr height=19 style='height:14.5pt'>
+                                <td height=19 colspan=5 style='height:14.5pt;mso-ignore:colspan'></td>
+                            </tr>
+                            <tr height=19 style='height:14.5pt'>
+                                <td height=19 colspan=5 style='height:14.5pt;mso-ignore:colspan'></td>
+                            </tr>
+                            <tr height=19 style='height:14.5pt'>
+                                <td colspan=6 rowspan=8 height=152 class=xl67 style='height:116.0pt'>THÁNG @row.listTicket[0].ExpiredDate.Value.ToString("MM/yyyy")</td>
+                                <td colspan=6 rowspan=8 class=xl67>THÁNG @row.listTicket[1].ExpiredDate.Value.ToString("MM/yyyy")</td>
+                                <td colspan=5 style='mso-ignore:colspan'></td>
+                            </tr>
+                            <tr height=19 style='height:14.5pt'>
+                                <td height=19 colspan=5 style='height:14.5pt;mso-ignore:colspan'></td>
+                            </tr>
+                            <tr height=19 style='height:14.5pt'>
+                                <td height=19 colspan=5 style='height:14.5pt;mso-ignore:colspan'></td>
+                            </tr>
+                            <tr height=19 style='height:14.5pt'>
+                                <td height=19 colspan=5 style='height:14.5pt;mso-ignore:colspan'></td>
+                            </tr>
+                            <tr height=19 style='height:14.5pt'>
+                                <td height=19 colspan=5 style='height:14.5pt;mso-ignore:colspan'></td>
+                            </tr>
+                            <tr height=19 style='height:14.5pt'>
+                                <td height=19 colspan=5 style='height:14.5pt;mso-ignore:colspan'></td>
+                            </tr>
+                            <tr height=19 style='height:14.5pt'>
+                                <td height=19 colspan=5 style='height:14.5pt;mso-ignore:colspan'></td>
+                            </tr>
+                            <tr height=19 style='height:14.5pt'>
+                                <td height=19 colspan=5 style='height:14.5pt;mso-ignore:colspan'></td>
+                            </tr>
+                            <tr height=19 style='height:14.5pt'>
+                                <td colspan=6 rowspan=6 height=114 width=384 style='height:87.0pt;width:288pt'
+                                    align=left valign=top>
+
+                                    <span style='mso-ignore:vglayout;
+  position:absolute;z-index:7;margin-left:256px;margin-top:1px;width:120px;
+  height:118px'><img width=120 height=118 src="@row.listTicket[0].PrintQrCode" v:shapes="Picture_x0020_7"></span><![endif]><span style='mso-ignore:vglayout2'>
+                                        <table cellpadding=0 cellspacing=0>
+                                            <tr>
+                                                <td colspan=6 rowspan=6 height=114 class=xl68 width=384 style='height:87.0pt;
+    width:288pt'>
+                                                    <span style='mso-run:yes'>    </span><font class="font5">
+                                                        @*<span style='mso-run:yes'></span>Ngày h&#7871;t h&#7841;n<br>*@
+                                                        <span style='mso-run:yes'>         </span>@row.listTicket[0].BSX<span style='mso-run:yes'></span>
+                                                    </font>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </span>
+                                </td>
+                                <td colspan=6 rowspan=6 height=114 width=384 style='height:87.0pt;width:288pt'
+                                    align=left valign=top>
+
+                                    <![if !vml]><span style='mso-ignore:vglayout;
+  position:absolute;z-index:4;margin-left:256px;margin-top:1px;width:120px;
+  height:120px'><img width=120 height=120 src="@row.listTicket[1].PrintQrCode" v:shapes="Picture_x0020_4"></span><![endif]><span style='mso-ignore:vglayout2'>
+                                        <table cellpadding=0 cellspacing=0>
+                                            <tr>
+                                                <td colspan=6 rowspan=6 height=114 class=xl68 width=384 style='height:87.0pt;
+    width:288pt'>
+                                                    <span style='mso-run:yes'>    </span><font class="font5">
+                                                        @*<span style='mso-run:yes'></span>Ngày h&#7871;t h&#7841;n<br>*@
+                                                        <span style='mso-run:yes'>         </span>@row.listTicket[1].BSX<span style='mso-run:yes'></span>
+                                                    </font>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </span>
+                                </td>
+                                <td colspan=5 style='mso-ignore:colspan'></td>
+                            </tr>
+                            <tr height=19 style='height:14.5pt'>
+                                <td height=19 colspan=5 style='height:14.5pt;mso-ignore:colspan'></td>
+                            </tr>
+                            <tr height=19 style='height:14.5pt'>
+                                <td height=19 colspan=5 style='height:14.5pt;mso-ignore:colspan'></td>
+                            </tr>
+                            <tr height=19 style='height:14.5pt'>
+                                <td height=19 colspan=5 style='height:14.5pt;mso-ignore:colspan'></td>
+                            </tr>
+                            <tr height=19 style='height:14.5pt'>
+                                <td height=19 colspan=5 style='height:14.5pt;mso-ignore:colspan'></td>
+                            </tr>
+                            <tr height=19 style='height:14.5pt'>
+                                <td height=19 colspan=5 style='height:14.5pt;mso-ignore:colspan'></td>
+                            </tr>
+                            <tr height=19 style='height:14.5pt'>
+                                <td height=19 colspan=6 style='height:14.5pt;mso-ignore:colspan'></td>
+                                <td colspan=7 rowspan=6 height=114 width=448 style='mso-ignore:colspan-rowspan;
+  height:87.0pt;width:336pt'>
+
+                                    <![if !vml]><span style='mso-ignore:vglayout'>
+                                        <table cellpadding=0 cellspacing=0>
+                                            <tr>
+                                                <td width=0 height=17></td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td><img width=388 height=86 src="http://tracuu.alsc.com.vn/images/image010Fee.png" v:shapes="Picture_x0020_5"></td>
+                                                <td width=60></td>
+                                            </tr>
+                                            <tr>
+                                                <td height=11></td>
+                                            </tr>
+                                        </table>
+                                    </span><![endif]><!--[if !mso & vml]><span style='width:336.0pt;height:87.0pt'></span><![endif]-->
+                                </td>
+                                <td colspan=4 style='mso-ignore:colspan'></td>
+                            </tr>
+                            <tr height=19 style='height:14.5pt'>
+                                <td height=19 style='height:14.5pt' align=left valign=top>
+
+                                    <![if !vml]><span style='mso-ignore:vglayout;
+  position:absolute;z-index:8;margin-left:0px;margin-top:2px;width:376px;
+  height:85px'><img width=376 height=85 src="http://tracuu.alsc.com.vn/images/image012Fee.png" v:shapes="Picture_x0020_8"></span><![endif]><span style='mso-ignore:vglayout2'>
+                                        <table cellpadding=0 cellspacing=0>
+                                            <tr>
+                                                <td height=19 width=64 style='height:14.5pt;width:48pt'></td>
+                                            </tr>
+                                        </table>
+                                    </span>
+                                </td>
+                                <td colspan=5 style='mso-ignore:colspan'></td>
+                                <td colspan=4 style='mso-ignore:colspan'></td>
+                            </tr>
+                        </div>
+                        <tr height=19 style='height:14.5pt'>
+                            <td height=19 colspan=6 style='height:14.5pt;'></td>
+                        </tr>
+                        <tr height=19 style='height:14.5pt'>
+                            <td height=19 colspan=6 style='height:14.5pt'></td>
+                        </tr>
+                        <tr height=19 style='height:14.5pt'>
+                            <td height=19 colspan=6 style='height:14.5pt'></td>
+                        </tr>
+                        <tr height=19 style='height:14.5pt'>
+                            <td height=19 colspan=6 style='height:14.5pt'></td>
+                        </tr>
+                        <tr height=19 style='height:14.5pt'>
+                            <td height=19 colspan=6 style='height:14.5pt'></td>
+                        </tr>
+                        <tr height=19 style='height:14.5pt'>
+                            <td height=19 colspan=6 style='height:14.5pt'></td>
+                        </tr>
+                        <tr height=19 style='height:14.5pt'>
+                            <td height=19 colspan=6 style='height:14.5pt'></td>
+                        </tr>
+                        <tr height=19 style='height:14.5pt'>
+                            <td height=19 colspan=6 style='height:14.5pt;'></td>
+                        </tr>
+                        <tr height=19 style='height:25.8pt'>
+                            <td height=19 colspan=6 style='height:14.5pt;'></td>
+                        </tr>
+
+                    </div>
+                    @*page4*@
+                    <div>
+
+                        <tr height=19 style='height:77.5pt'>
+                            <td height=19 colspan=6 style='height:14.5pt'></td>
+                        </tr>
+                        @*content*@
+                        <div>
+                            <tr height=19 style='height:14.5pt'>
+                                <td height=19 style='height:14.5pt' align=left valign=top>
+
+                                    <![if !vml]><span style='mso-ignore:vglayout;
+  position:absolute;z-index:1;margin-left:6px;margin-top:13px;width:726px;
+  height:536px'>
+                                        <table cellpadding=0 cellspacing=0>
+                                            <tr>
+                                                <td width=0 height=0></td>
+                                                <td width=351></td>
+                                                <td width=24></td>
+                                                <td width=351></td>
+                                            </tr>
+                                            <tr>
+                                                <td height=2></td>
+                                                <td rowspan=2 align=left valign=top>
+                                                    <img width=351 height=536
+                                                         src="http://tracuu.alsc.com.vn/images/image015.png" v:shapes="TextBox_x0020_1">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td height=534></td>
+                                                <td style="padding:20px"></td>
+                                                <td align=left valign=top>
+                                                    <img width=351 height=534 src="http://tracuu.alsc.com.vn/images/image016.png"
+                                                         v:shapes="TextBox_x0020_2">
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </span><![endif]><span style='mso-ignore:vglayout2'>
+                                        <table cellpadding=0 cellspacing=0>
+                                            <tr>
+                                                <td height=19 width=64 style='height:14.5pt;width:48pt'></td>
+                                            </tr>
+                                        </table>
+                                    </span>
+                                </td>
+                                <td colspan=16 style='mso-ignore:colspan'></td>
+                            </tr>
+                        </div>
+                        <tr height=19 style='height:500.5pt'>
+                            <td height=19 colspan=6 style='height:528px'></td>
+                        </tr>
+
+                    </div>
+                }
+            }
+
+        }
+
+
+
+
+
+
+
+        <![endif]>
+    </table>
+
+</body>
+
+</html>

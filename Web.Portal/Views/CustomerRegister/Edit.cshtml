@@ -1,0 +1,108 @@
+﻿@{
+    Layout = null;
+}
+
+@model Web.Portal.Layer.CUSTOMER_REGISTER
+<form class="form-horizontal" id="frmAction">
+
+    <input type="hidden" name="keyValue" value="@Html.DisplayFor(model=>model.CUSID)" />
+    <input type="hidden" name="CMD" value="@ViewBag.CMD" />
+    <div class="form-body">
+        <div class="form-group form-md-line-input">
+
+            <label class="col-md-3 control-label" for="frmAction">
+                <b>CODE:</b>
+                <span class="required">*</span>
+            </label>
+            <div class="col-md-5">
+                <input class="form-control" placeholder="Mã Đăng Ký" style="text-transform:uppercase" maxlength="50" value="@Html.DisplayTextFor(model=>model.CUSID)" name="CUSID" id="CUSID" />
+                <div class="form-control-focus"> </div>
+                <span class="help-block">Nhập mã đăng ký</span>
+            </div>
+
+           
+        </div>
+        <div class="form-group form-md-line-input">
+            <label class="col-md-3 control-label" for="frmAction">
+                <b>TÊN VIẾT TẮT:</b>
+                <span class="required">*</span>
+            </label>
+            <div class="col-md-9">
+                <input class="form-control" placeholder="Tên viết tắt" style="text-transform:uppercase"  value="@Html.DisplayTextFor(model=>model.INFOR)" name="INFOR" />
+                <div class="form-control-focus"> </div>
+                <span class="help-block">Nhập tên viết tắt doanh nghiệp</span>
+            </div>
+           
+
+        </div>
+        <div class="form-group form-md-line-input">
+            <label class="col-md-3 control-label" for="frmAction">
+                <b>TÊN DOANH NGHIỆP:</b>
+                <span class="required">*</span>
+            </label>
+            <div class="col-md-9">
+                <input class="form-control" placeholder="Tên doanh nghiệp" style="text-transform:uppercase" value="@Html.DisplayTextFor(model=>model.REMARK)" name="REMARK" id="REMARK" />
+                <div class="form-control-focus"> </div>
+                <span class="help-block">Nhập tên doanh nghiệp</span>
+            </div>
+        </div>
+        <div class="form-group form-md-line-input">
+
+            <label class="col-md-3 control-label" for="frmAction">
+                <b>NGƯỜI ĐẠI DIỆN:</b>
+               
+            </label>
+            <div class="col-md-9">
+                <input class="form-control" placeholder="NGƯỜI ĐẠI DIỆN" style="text-transform:uppercase" maxlength="50" value="@Html.DisplayTextFor(model=>model.REMARK1)" name="REMARK1" id="REMARK1" />
+                <div class="form-control-focus"> </div>
+                <span class="help-block">Nhập remark</span>
+            </div>
+
+           
+
+        </div>
+        
+
+
+    </div>
+
+    <div class="text-center">
+        <button type="submit" class="btn btn-success" id="btnSave"><i class="fa fa-floppy-o"></i> Lưu thông tin</button>
+        <button type="reset" class="btn btn-success"><i class="fa fa-refresh"></i> Làm mới</button>
+    </div>
+
+    
+
+    <!-- /.box-footer -->
+</form>
+<script>
+    $(".form_datetime").datetimepicker({
+        autoclose: true,
+        isRTL: App.isRTL(),
+        format: "dd/mm/yyyy  hh:ii:ss",
+        pickerPosition: (App.isRTL() ? "bottom-right" : "bottom-left")
+    });
+    var message = {
+        CUSID: {
+            required: "Mã số đăng ký không được trống"
+        },
+        INFOR: {
+            required: "Tên viết tắt không được trống"
+        }, REMARK: {
+            required: "Tên doanh nghiệp không được trống"
+        }
+
+    };
+    var rule = {
+        CUSID: { required: true },
+        INFOR: { required: true },
+        REMARK: { required: true }
+
+    };
+   
+    egovutil.submit("#frmAction", rule, message, "/customerregister/action");
+   
+
+
+</script>
+

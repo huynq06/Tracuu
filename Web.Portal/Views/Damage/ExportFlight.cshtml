@@ -1,0 +1,166 @@
+﻿@{
+    Layout = null;
+    int PageCurrent = 0;
+
+}
+<div class="page-logo" style="margin-top: -15px;margin-bottom:50px;">
+    <a href="#">
+        <img src="http://tracuu.alsc.com.vn/logo/logoNew.png" style="width:40%;height:100px" alt="logo">
+    </a>
+</div>
+<div style="margin-top:1000px !important">
+    <p style="text-align:center;font-family:'Times New Roman';font-size:15pt;font-weight:bold;">BÁO CÁO PHỤC VỤ CHUYẾN BAY ĐẾN</p>
+    <p style="text-align:center;font-family:'Times New Roman';font-size:12pt">Chuyến bay:  @ViewBag.Flight     Ngày bay: @ViewBag.Date      Giờ dự kiến hạ cánh: @ViewBag.ETA       Giờ hạ cánh thực tế:@ViewBag.ATA</p>
+    <p style="text-align:left;font-family:'Times New Roman';font-size:14pt">Quantity</p>
+</div>
+
+<table class="table table-striped table-bordered table-advance table-hover dt-responsive" border="1" style="width:100%;font-family:'Times New Roman';font-size:14pt">
+    <thead>
+        <tr>
+            <th class="all" style="width:25%;font-size:14px;background-color:yellow !important;text-align:center" colspan="2">
+                Total AWB
+            </th>
+            <th style="width:25%;font-size:14px;background-color:yellow !important;text-align:center" colspan="2">
+                Hàng hóa(Cargo)
+            </th>
+            <th style="width:25%;font-size:14px;background-color:yellow !important;text-align:center" colspan="2">
+                Bưu điện(Post Mail)
+            </th>
+            <th style="width:25%;font-size:14px;background-color:yellow !important;text-align:center" colspan="2">
+                Tổng hợp(Total)
+            </th>
+
+        </tr>
+        <tr>
+            <th class="all" style="width:12.5%;font-size:14px;background-color:yellow !important;text-align:center">
+                (MAWB)
+            </th>
+            <th style="width:12.5%;font-size:14px;background-color:yellow !important;text-align:center">
+                (HAWB)
+            </th>
+            <th style="width:12.5%;font-size:14px;background-color:yellow !important;text-align:center">
+                (pcs)
+            </th>
+            <th style="width:12.5%;font-size:14px;background-color:yellow !important;text-align:center">
+                (kgs)
+            </th>
+            <th style="width:12.5%;font-size:14px;background-color:yellow !important;text-align:center">
+                (pcs)
+            </th>
+            <th style="width:12.5%;font-size:14px;background-color:yellow !important;text-align:center">
+                (kgs)
+            </th>
+            <th style="width:12.5%;font-size:14px;background-color:yellow !important;text-align:center">
+                (pcs)
+            </th>
+            <th style="width:12.5%;font-size:14px;background-color:yellow !important;text-align:center">
+                (kgs)
+            </th>
+        </tr>
+
+    </thead>
+    <tbody>
+        <tr>
+            <td style="font-size:14px;font-weight:bold">@ViewBag.TotalMAWB</td>
+            <td style="font-size:14px;font-weight:bold">@ViewBag.TotalHAWB</td>
+            <td style="font-size:14px;font-weight:bold"> @ViewBag.TotalQuantityReceive</td>
+            <td style="font-size:14px;font-weight:bold"> @ViewBag.TotalWeightReceive</td>
+            <td style="font-size:14px;font-weight:bold"> @ViewBag.TotalQuantityMP</td>
+            <td style="font-size:14px;font-weight:bold">@ViewBag.TotalWeightMP</td>
+            <td style="font-size:14px;font-weight:bold">@ViewBag.TotalQuantity</td>
+            <td style="font-size:14px;font-weight:bold"> @ViewBag.TotalWeight</td>
+        </tr>
+
+    </tbody>
+
+</table>
+
+<p style="text-align:left;font-family:'Times New Roman';font-size:14pt">Irregularities</p>
+<table class="table table-striped table-bordered table-advance table-hover dt-responsive" border="1" style="width:100%;font-family:'Times New Roman';font-size:14pt">
+    <thead>
+        <tr style="background-color:blue">
+            <th class="all" style="width:5%;font-size:14px;background-color:yellow !important;text-align:center" rowspan="2">
+                STT
+            </th>
+            <th style="width:15%;font-size:14px;background-color:yellow !important;text-align:center" rowspan="2">
+                MAWB
+            </th>
+            <th style="width:15%;font-size:14px;background-color:yellow !important;text-align:center" rowspan="2">
+                HAWB
+            </th>
+            <th style="width:10%;font-size:14px;background-color:yellow !important;text-align:center" colspan="2">
+                Theo AWB
+            </th>
+            <th style="width:20%;font-size:14px;background-color:yellow !important;text-align:center" colspan="2">
+                Theo MNF
+            </th>
+            <th style="width:15%;font-size:14px;background-color:yellow !important;text-align:center" colspan="2">
+                Theo Hàng Thực Tế
+            </th>
+            <th style="width:20%;font-size:14px;background-color:yellow !important;text-align:center" colspan="2">
+                Lộ Trình
+            </th>
+            <th style="width:15%;font-size:14px;background-color:yellow !important;text-align:center" rowspan="2">
+                Bất thường về tài liệu
+            </th>
+
+            <th style="width:15%;font-size:14px;background-color:yellow !important;text-align:center" rowspan="2">
+                Bất thường về hàng hóa
+            </th>
+
+
+        </tr>
+        <tr>
+            <th style="width:15%;font-size:14px;background-color:yellow !important;text-align:center">
+                Số kiện
+            </th>
+            <th style="width:10%;font-size:14px;background-color:yellow !important;text-align:center">
+                Trọng lượng
+            </th>
+            <th style="width:15%;font-size:14px;background-color:yellow !important;text-align:center">
+                Số kiện
+            </th>
+            <th style="width:10%;font-size:14px;background-color:yellow !important;text-align:center">
+                Trọng lượng
+            </th>
+            <th style="width:15%;font-size:14px;background-color:yellow !important;text-align:center">
+                Số kiện
+            </th>
+            <th style="width:10%;font-size:14px;background-color:yellow !important;text-align:center">
+                Trọng lượng
+            </th>
+            <th style="width:15%;font-size:14px;background-color:yellow !important;text-align:center">
+                Từ
+            </th>
+            <th style="width:10%;font-size:14px;background-color:yellow !important;text-align:center" colspan="2">
+                Đến
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var row in (IList<Web.Portal.Layer.ImpAWB>)ViewData["DamageList"])
+        {
+            PageCurrent += 1;
+
+            <tr>
+                <td style="font-size:14px;font-weight:bold">@PageCurrent</td>
+                <td style="font-size:14px;font-weight:bold">@Html.DisplayTextFor(model => row.Prefix)@Html.Raw(Web.Portal.Utils.Format.FormAWB(row.AWB))</td>
+                <td style="font-size:14px;font-weight:bold"> @Html.DisplayTextFor(model => row.HAWB)</td>
+                <td style="font-size:14px;font-weight:bold"> @Html.DisplayTextFor(model => row.QuantityExpected)</td>
+                <td style="font-size:14px;font-weight:bold"> @Html.DisplayTextFor(model => row.WeightExpected)</td>
+                <td style="font-size:14px;font-weight:bold"> @Html.DisplayTextFor(model => row.QuantityExpected)</td>
+                <td style="font-size:14px;font-weight:bold"> @Html.DisplayTextFor(model => row.WeightExpected)</td>
+                <td style="font-size:14px;font-weight:bold"> @Html.DisplayTextFor(model => row.QuantityReceived)</td>
+                <td style="font-size:14px;font-weight:bold"> @Html.DisplayTextFor(model => row.WeightReceived)</td>
+                <td style="font-size:14px;font-weight:bold">@Html.DisplayTextFor(model => row.ORGIN) </td>
+                <td style="font-size:14px;font-weight:bold">@Html.DisplayTextFor(model => row.DEST) </td>
+                <td style="font-size:14px;font-weight:bold">@Html.Raw(!row.Remarks.Equals("DMGD") ? Web.Portal.Utils.Constants.GetMissingSR(row.Remarks) : string.Empty) </td>
+                <td style="font-size:14px;font-weight:bold">@Html.Raw(row.Remarks.Equals("DMGD") ? row.Remarks : string.Empty)</td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+<strong>Others:</strong>
+<p style="text-align:right;font-family:'Times New Roman';font-size:13pt">Prepared by</p>
+

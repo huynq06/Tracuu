@@ -1,0 +1,84 @@
+﻿
+@{
+    Layout = null;
+    int PageCurrent = 0;
+    string[] columns = (string[])ViewData["column"];
+    System.Data.DataTable tableReport = ((System.Data.DataTable)ViewData["DataList"]);
+    double sumWeight = 0;
+    double sumChargeAbleReal = 0;
+    int totalPieces = 0;
+    double sumChagreAbleWeight = 0;
+}
+<p style="text-align:center;font-family:'Times New Roman';font-size:15pt;font-weight:bold;text-transform:uppercase">
+    @ViewBag.Des
+</p>
+<div class='col-md-2 col-xs-12 margin-top-10'>
+    <label class='control-label'><b>Tổng số: @ViewBag.TotalRecord</b></label>
+</div>
+
+<table border="1" class="table table-striped table-bordered table-advance table-hover dt-responsive" id="tbl-report">
+
+    <thead>
+        <tr>
+            <th class="all" style="width:3%;font-size:16px;background-color:yellow !important;text-align:center">STT</th>
+            <th style="width:10%;font-size:14px;background-color:yellow !important;text-align:center">
+                Ngày
+            </th>
+            <th style="width:10%;font-size:14px;background-color:yellow !important;text-align:center">
+                Số AWB
+            </th>
+            <th style="width:10%;font-size:14px;background-color:yellow !important;text-align:center">
+                PIECES
+            </th>
+            <th style="width:10%;font-size:14px;background-color:yellow !important;text-align:center">
+                Weight
+            </th>
+            <th style="width:10%;font-size:14px;background-color:yellow !important;text-align:center">
+                Chargeable
+            </th>
+          
+            <th style="width:10%;font-size:14px;background-color:yellow !important;text-align:center">
+                Chargeable Real
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var row in (List<Web.Portal.Common.ViewModel.HandlingReportViewModel>)ViewData["listHandling"])
+        {
+            PageCurrent += 1;
+            sumWeight += @row.Weight;
+            totalPieces += @row.Pieces;
+            sumChagreAbleWeight += @row.ChargeableWeigt;
+            sumChargeAbleReal += @row.ChargeableReal;
+            <tr>
+                <td>@PageCurrent</td>
+                <td>@Html.Raw(row.Date)</td>
+                <td>@Html.Raw(row.AWB)</td>
+                <td>@Html.Raw(row.Pieces)</td>
+                <td>
+                    @Html.Raw(row.Weight)
+                </td>
+                <td>
+                    @Html.Raw(row.ChargeableWeigt == 0 ? "" : row.ChargeableWeigt.ToString())
+                </td>
+                
+                <td>
+                    @Html.Raw(row.ChargeableReal)
+                </td>
+
+            </tr>
+        }
+        <tr>
+            <td>Tổng</td>
+            <td></td>
+            <td></td>
+            <td>@totalPieces</td>
+            <td>@sumWeight</td>
+            <td>@sumChagreAbleWeight</td>
+            <td>@sumChargeAbleReal</td>
+        </tr>
+    </tbody>
+
+</table>
+

@@ -1,0 +1,315 @@
+﻿@{
+    Layout = null;
+    int rowIndex = 0;
+
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet">
+            <div class="portlet-title">
+                <div class="caption caption-md">
+                    <span class="caption-subject font-blue-madison bold uppercase">DANH SÁCH XE</span>
+                </div>
+                <div class="actions">
+                   
+                    <a href="javascript:;" id="btnPrint" class="btn btn-circle btn-info btn-print" target="_blank">
+                        <i class="fa fa-plus"></i> Add To Queue
+                    </a>
+                    @*<a href="/Ticket/ProcessPrint" class="btn btn-circle btn-info btn-print" target="_blank">
+                        <i class="fa fa-link"></i> Link to Queue
+                    </a>*@
+                    <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;">
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class='col-md-2 col-xs-12 margin-top-10'>
+    <label class='control-label'><b>Tổng số: @ViewBag.Total</b></label>
+</div>
+<table ID="tbl-sop" class="table table-striped table-bordered table-advance table-hover">
+    <thead>
+        <tr>
+            <th style="wIDth:5%;font-size:16px;text-align:center">
+                STT
+            </th>
+            <th style="width:5%;text-align:center">
+                Select ALL <input type="checkbox" id="chk_All" class="icheck chk-all">
+            </th>
+            <th style="wIDth:15%;font-size:16px;text-align:center">
+                BSX
+            </th>
+            <th style="wIDth:15%;font-size:16px;text-align:center">
+                TicketName
+            </th>
+            <th style="wIDth:15%;font-size:16px;text-align:center">
+                Mô tả
+            </th>
+            <th style="wIDth:15%;font-size:16px;text-align:center">
+                Ngày Tạo
+            </th>
+            <th style="wIDth:15%;font-size:16px;text-align:center">
+                Ngày Hết Hạn
+            </th>
+            <th style="wIDth:15%;font-size:16px;text-align:center">
+                Mô tả
+            </th>
+            <th style="wIDth:15%;font-size:16px;text-align:center">
+                Trạng Thái
+            </th>
+            @*<th style="wIDth:10%;font-size:16px;text-align:center">
+                Action
+            </th>*@
+
+        </tr>
+
+    </thead>
+    <tbody id="cartBody">
+        @foreach (var row in (IList<Web.Portal.Model.Models.tblTicket>)ViewData["TicketList"])
+        {
+            rowIndex += 1;
+
+            <tr id="@Html.DisplayFor(model => row.ID)">
+                <td>@rowIndex</td>
+                <td style="text-align:center">
+                    <input type="checkbox" value="@Html.DisplayFor(model => row.ID)" class="icheck item_imp">
+                </td>
+                <td><a href="#" data-id="@Html.DisplayFor(model=>row.ID)" class="btn  btn-xs sqs-member-edit">@Html.Raw(row.PlateNumber1)</a></td>
+                <td><a href="#" data-id="@Html.DisplayFor(model=>row.ID)" class="btn  btn-xs sqs-member-edit">@Html.Raw(row.TicketName)</a></td>
+                <td><a href="#" data-id="@Html.DisplayFor(model=>row.ID)" class="btn  btn-xs sqs-member-edit">@Html.Raw(row.HoVaTen)</a></td>
+                <td><a href="#" data-id="@Html.DisplayFor(model=>row.ID)" class="btn  btn-xs sqs-member-edit">@Html.Raw(row.CreatedDate.Value.ToString("dd/MM/yyyy"))</a></td>
+                <td><a href="#" data-id="@Html.DisplayFor(model=>row.ID)" class="btn  btn-xs sqs-member-edit">@Html.Raw(row.ExpiredDate.Value.ToString("dd/MM/yyyy"))</a></td>
+                <td><a href="#" data-id="@Html.DisplayFor(model=>row.ID)" class="btn  btn-xs sqs-member-edit">@Html.Raw(row.HoVaTen)</a></td>
+                <td>@Html.Raw(Web.Portal.Utils.Constants.GetStatusPrint(row.PrintStatus.Value))</td>
+                @*<td style="text-align:center">
+                    <a href="#" data-id="@Html.DisplayFor(model => row.ID)" class="btn btn-lg dim-edit">
+                        <i class="fa fa-check-circle"></i>Add to Print Queue
+                    </a>
+                </td>*@
+
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="box-footer clearfix">
+    @Html.Raw(ViewBag.Paging)
+</div>
+<script>
+    egovutil.loadPaging(pagingfl, "/ticket/list?id=0&ps="
+         + $("#pagingfl_step").val()
+          + "&ticketType=" + $("#ticket").val()
+       , "#content-list-result");
+
+
+
+    $("#pagingfl_step").change(function () {
+        egovutil.getContent("#content-list-result", "/ticket/list?id=0&ps=" + $(this).val()
+             + "&ticketType=" + $("#ticket").val()
+            );
+    });
+
+    $(window).keydown(function (event) {
+        if (event.which == 112) {
+            event.preventDefault();
+            $('.input-sm').focus()
+
+        }
+    });
+    $('input[type="checkbox"]').iCheck({
+        checkboxClass: 'icheckbox_flat-blue'
+
+    });
+    $('.chk-all').on('ifChanged', function (event) {
+        if (event.target.checked)
+            $('.icheck').iCheck('check');
+        else
+            $('.icheck').iCheck('uncheck');
+
+
+
+    });
+    var customAdmin = {
+        init: function () {
+            //$('#stk').focus();
+            customAdmin.registerEvent();
+        },
+        registerEvent: function () {
+
+            $('#btnPrint').off('click').on('click', function (e) {
+                console.log('da chay vao day')
+                e.preventDefault();
+                var cartList = [];
+                //var imgUrl = $('#imgAwb').val();
+                var index = 0;
+                $('#cartBody > tr').each(function () {
+                    index++;
+                    //console.log(index);
+                    trid = $(this).attr('id'); // table row ID
+                    //var value = $(this).find('input').val();
+                    var check = false;
+                    var id = trid + 'id';
+                    if ($(this).find('input').eq(0).is(":checked")) {
+                        check = true;
+                    }
+                    if (check) {
+                        cartList.push({
+                            ID: trid,
+                        });
+                       
+                    }
+                    //var note = $(this).find('input').eq(2).val();
+                  
+                })
+                //window.location.href = "/vct";
+                //console.log(cartList);
+                $.ajax({
+                    url: '/Ticket/PrintAction',
+                    type: 'POST',
+                    data: {
+                        printViewModel: JSON.stringify(cartList)
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        setTimeout(function () {
+                            $('.icheck').iCheck('uncheck');
+                            hermesAction.searchList();
+                            egovutil.MessageToast(data.Type, data.Title, data.Message);
+                        }, 200);
+                        //setTimeout(function () {
+                        //    window.location.href = "/ticket/printqueue";
+                        //}, 500);
+                    }
+                });
+                //$("#pxk").val("");
+            });
+            $('#btnWaiting').off('click').on('click', function (e) {
+                e.preventDefault();
+                e.preventDefault();
+                var cartList = [];
+                var imgUrl = $('#imgAwb').val();
+                $('#cartBody > tr').each(function () {
+                    trid = $(this).attr('id'); // table row ID
+                    var value = $(this).find('input').val();
+                    var check = false;
+                    var id = trid + 'id';
+                    var note = $(this).find('input').eq(2).val();
+                    if ($(this).find('input').eq(1).is(":checked")) {
+                        check = true;
+                    }
+                    console.log(trid);
+                    cartList.push({
+                        ETkNo: trid,
+                        TkNo: value,
+                        Check: check,
+                        ImgUrl: imgUrl,
+                        Note: note
+                    });
+                })
+                $.ajax({
+                    url: '/qltkimport/WaitingSaveDoc',
+                    type: 'POST',
+                    data: {
+                        tkViewModel: JSON.stringify(cartList)
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        setTimeout(function () {
+                            egovutil.MessageToast(data.Type, data.Title, data.Message);
+                        }, 200);
+                        setTimeout(function () {
+                            window.location.href = "/qltkimport";
+                        }, 500);
+                    }
+                });
+                //$("#pxk").val("");
+            });
+            $('#btnRefresh').off('click').on('click', function (e) {
+                e.preventDefault();
+                window.location.href = "/qltkimport";
+            });
+
+        },
+        addItem: function (barcode) {
+            App.blockUI({
+                target: '#egov-body-main',
+                boxed: true,
+                message: 'Đang tải dữ liệu...'
+            });
+            var awb = $('#Awb').text();
+            console.log(awb);
+            $.ajax({
+                url: '/qltkimport/addSoTK',
+                data: {
+                    barcode: barcode
+                },
+                type: 'POST',
+                dataType: 'json',
+                success: function (response) {
+                    setTimeout(function () {
+                        if (response.status) {
+                            egovutil.getContent("#content-list-result", "/qltkImport/resultPXK?awb=" + awb);
+                            $('#stk').focus();
+
+                        }
+                        else {
+                            egovutil.MessageToast("error", "Thông báo", "Không tìm thấy số tờ khai!!!");
+                        }
+                    }, 200);
+                    $('#barCode').val("");
+
+                }
+            });
+            App.unblockUI('#egov-body-main');
+        },
+        loadItem: function (data) {
+            $.ajax({
+                url: '/qltkimport/ResultPXK',
+                data: {
+                    data: data
+                },
+                type: 'POST',
+                dataType: 'json',
+                success: function (response) {
+                    setTimeout(function () {
+                        // customAdmin.loadData();
+                    }, 200);
+                    $('#barCode').val("");
+
+                }
+            });
+        },
+
+    }
+    customAdmin.init();
+    var Action = {
+        setValueInput: function () {
+
+            $('.input-sm').attr('placeholder', 'Phím tắt F1')
+        },
+    }
+    var Actionfocus = {
+        setFocus: function () {
+            $('.btn-bold').focus();
+        }
+    }
+
+  
+    $(".dim-edit").click(function () {
+        egovutil.dlgConfirmAction("Print Confirm?  ", "Bạn có muốn add to Print Queue?", "/Ticket/Print/" + $(this).attr("data-id"), "hermesAction.searchList();");
+        Actionfocus.setFocus();
+    });
+    $(".dim-edit").click(function () {
+        egovutil.dlgConfirmAction("Print Confirm?  ", "Bạn có muốn add to Print Queue?", "/Ticket/Print/" + $(this).attr("data-id"), "hermesAction.searchList();");
+        Actionfocus.setFocus();
+    });
+    $(".booking-edit").click(function () {
+        egovutil.dialog("Sửa thông tin AWB", "large", "/VCT/edit/" + $(this).attr("data-ID"), "hermesAction.searchWaiting();");
+    });
+    egovutil.CreateTableSort("#tbl-sop", [[0, "asc"]], [
+
+                { "orderable": true, "targets": 0 }
+    ], true);
+
+</script>

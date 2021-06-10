@@ -1,0 +1,136 @@
+﻿@{
+    Layout = null;
+    int rowIndex = 0;
+}
+@model Web.Portal.Common.ApiViewModel.AwbExpDetailViewModel
+<div class='col-md-12 col-xs-12 margin-top-10'>
+    <label class='control-label'><b>TỔNG SỐ: @ViewBag.Total</b></label>
+</div>
+
+<table id="tbl-hawb" class="table table-striped table-bordered table-advance table-hover dt-responsive">
+    <thead>
+        <tr>
+            <th style="width:10%">
+                STT
+            </th>
+            <th style="width:10%">
+
+            </th>
+         
+            <th style="width:10%">
+                MAWB
+            </th>
+            <th style="width:10%">
+                KIỆN
+            </th>
+            <th style="width:10%">
+                CÂN
+            </th>
+            <th style="width:10%">
+                TÌNH TRẠNG
+            </th>
+            <th style="width:10%">
+                CHI TIẾT
+            </th>
+            @*<th style="width:10%">
+                    ORI - DES
+                </th>
+                <th style="width:10%">
+                    GOODS NAME
+                </th>
+                <th style="width:10%">
+                    CONSIGNEE
+                </th>
+                <th style="width:10%">
+                    CONSIGN ADDR
+                </th>
+                <th style="width:10%">
+                    SHIPPER
+                </th>
+                <th style="width:10%">
+                    SHIPPER ADDR
+                </th>
+                <th style="width:10%">
+                    SHIPMENT REMARK
+                </th>*@
+
+
+        </tr>
+    </thead>
+    <tbody>
+      
+
+            <tr>
+                <td>@Html.Raw(Model.Mawb)</td>
+                <td>
+                    <div class="btn-group">
+                        <button class="btn green btn-sm btn-outline  dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                            <i class="fa fa-angle-down"></i>
+                        </button>
+                        <ul class="dropdown-menu pull-right" style="left:0px">
+                            <li>
+                                <a href="javascript:;" class="flight-detail btn btn-xs" data-id="@Model.Lab_ident" style="margin-right:45px !important">
+                                    <i class="fa fa-pencil"></i>THÔNG TIN ĐIỆN
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </td>
+              
+                
+
+                <td>
+                    <a href="/AwbDetail/MawbDetail?lab_ident=@Model.Lab_ident&mawb=@Model.Mawb target="_blank" class="btn  btn-xs sqs-member-edit">@Html.Raw(Model.Mawb)</a>
+                </td>
+                <td>
+                    <a href="#" class="btn  btn-xs sqs-member-edit">@Html.Raw(Model.Quantity)</a>
+                </td>
+                <td>
+                    <a href="#" class="btn  btn-xs sqs-member-edit">@Html.Raw(Model.Weight)</a>
+                </td>
+                <td>@Html.Raw(Web.Portal.Utils.Constants.GetStatusExport(Model.Status))</td>
+
+                <td align="center">
+                    <a href="/AwbExportDetail/MawbDetail?lab_ident=@Model.Lab_ident&mawb=@Model.Mawb&status=@Model.Status" target="_blank" class="btn  btn-xs sqs-member-edit"><div class="btn-group green"><i style="font-size:30px;" class="fa fa-eye"></i></div> </a>
+                </td>
+                @*<td>
+                        <a href="#" class="btn  btn-xs sqs-member-edit">@Html.Raw(row.Origin + " - " + row.Destination)</a>
+                    </td>
+                    <td>
+                        <a href="#" class="btn  btn-xs sqs-member-edit">@Html.Raw(row.GoodsName)</a>
+                    </td>
+                    <td>
+                        <a href="#" class="btn  btn-xs sqs-member-edit">@Html.Raw(row.Consignee)</a>
+                    </td>
+                    <td>
+                        <a href="#" class="btn  btn-xs sqs-member-edit">@Html.Raw(row.ConsigneeAdd)</a>
+                    </td>
+                    <td>
+                        <a href="#" class="btn  btn-xs sqs-member-edit">@Html.Raw(row.Shipper)</a>
+                    </td>
+                    <td>
+                        <a href="#" class="btn  btn-xs sqs-member-edit">@Html.Raw(row.ShipperAdd)</a>
+                    </td>
+                    <td>
+                        <a href="#" class="btn  btn-xs sqs-member-edit">@Html.Raw(row.Remark)</a>
+                    </td>*@
+
+            </tr>
+     
+    </tbody>
+</table>
+<script>
+    //$(".flight-detail").click(function () {
+    //    egovutil.dialog("THÔNG TIN CHUYẾN BAY", "large", "/AwbDetail/FlightDetail?lagi_ident=" + $(this).attr("data-id"), "hermesAction.search();");
+    //});s
+    $(".flight-detail").click(function () {
+        egovutil.dialog("THÔNG TIN ĐIỆN VĂN", "large", "/AwbExportDetail/MessageDetail?lagi_ident=" + $(this).attr("data-id"), "hermesAction.search();");
+    });
+    egovutil.CreateTableSort("#tbl-hawb", [[0, "asc"]], [
+
+   {
+
+       "orderable": false, "targets": [0, 0]
+   }
+    ], false);
+</script>

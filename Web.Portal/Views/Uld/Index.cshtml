@@ -1,0 +1,72 @@
+﻿@{
+    Layout = "~/Views/Layout/Core.cshtml";
+}
+
+<div style="background-color:#eef1f5">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet">
+                <div class="portlet-body">
+                    <div class="form-group form-md-line-input">
+                        <div class="form-group form-md-line-input" style="margin-left:10px">
+                            <label class="col-md-1 control-label" style="margin-left:10px;padding-top:5px">
+                                <b>Chọn Ngày:</b>
+                                <span class="required">*</span>
+                            </label>
+                            <div class="col-md-2 col-xs-12">
+                                <div class="input-group">
+
+                                    <input class="form-control form-control-inline date-picker" value="@Html.Raw(DateTime.Now.ToString("dd/MM/yyyy"))" id="ata" placeholder="Từ ngày" maxlength="20" data-date-format="dd/mm/yyyy" />
+                                    <div class="form-control-focus"> </div>
+                                    <span class="input-group-btn">
+                                        <button id="btn-search-sita" class="btn btn-success" type="button"><i class="fa fa-search"></i></button>
+                                    </span>
+
+
+                                </div>
+
+
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div id="content-ULDlist-result">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    
+</div>
+<script>
+    var flight = {
+        search: function () {
+            egovutil.getContent("#content-ULDlist-result", "/uld/list?ata=" + $("#ata").val());
+        }
+    }
+    flight.search();
+    setInterval(flight.search, 12000);
+    $('.date-picker').datepicker({
+        rtl: App.isRTL(),
+        orientation: "left",
+        autoclose: true
+    });
+    //$(".btn-export-log").click(function () {
+    //    window.location.href = "/HawbManagement/export?fno=" + $("#fno").val()
+    //                                                                + "&ata=" + $("#ata").val()
+    //});
+    $("#btn-search-sita").click(function () { flight.search(); })
+    $('.bs-select').selectpicker({
+        iconBase: 'fa',
+        tickIcon: 'fa-check'
+    });
+
+
+
+</script>

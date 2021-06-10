@@ -1,0 +1,128 @@
+﻿
+@{
+    Layout = null;
+
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet">
+            <div class="portlet-title">
+                <div class="caption caption-md">
+                    <span class="caption-subject font-blue-madison bold uppercase">QUẢN LÝ THÔNG TIN ĐĂNG KÝ KINH DOANH</span>
+                </div>
+                <div class="actions">
+                    <a href="javascript:;" class="btn btn-circle btn-danger btn-add">
+                        <i class="fa fa-plus"></i>Thêm mới thông tin đăng ký
+                    </a>
+                  
+                    <a href="javascript:;" data-id="02" class="btn btn-circle btn-danger btn-export">
+                        <i class="fa fa-download"></i> Xuất thông tin
+                    </a>
+                   
+                    <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="row">
+                    <div class="form-group form-md-line-input">
+                        
+                        <div class="col-md-2 col-xs-12">
+                                <input class="form-control form-control-inline" id="code" value="" placeholder="Mã đăng ký" />
+                                <div class="form-control-focus"> </div>
+                                <span class="help-block">Tìm theo mã đăng ký</span>                              
+                            
+                        </div>
+                        <div class="col-md-3 col-xs-12">
+                                <input class="form-control form-control-inline" id="shortname" value="" placeholder="Tên viết tắt doanh nghiệp " />
+                                <div class="form-control-focus"> </div>
+                                <span class="help-block">Tìm theo Tên viết tắt doanh nghiệp</span>
+                                
+
+                            </div>
+                        
+                         
+                        <div class="col-md-2 col-xs-12">
+                                <input class="form-control form-control-inline" id="fullname" value="" placeholder="Tên doanh nghiệp đăng ký" />
+                                <div class="form-control-focus"> </div>
+                                <span class="help-block">Tìm theo Tên doanh nghiệp đăng ký</span>
+                                
+
+                        </div>
+                    
+
+                        <div class="col-md-3 col-xs-12">
+
+                            <div class="input-group">
+
+                                <input class="form-control form-control-inline" id="person" value="" placeholder="Tên đại diện" />
+                                <div class="form-control-focus"> </div>
+                                <span class="help-block">Tìm theo tên đại diện</span>
+                                <span class="input-group-btn">
+                                    <button id="btn-search" class="btn btn-success" type="button"><i class="fa fa-search"></i></button>
+                                </span>
+
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="content-list-result">
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+
+
+
+        </div>
+    </div>
+
+</div>
+<script>
+    var customerRegisterAction = {
+        search: function () {
+            egovutil.getContent("#content-list-result", "/customerregister/list?"
+                                                                    + "code=" + $("#code").val()
+                                                                    + "&shortname=" + $("#shortname").val()
+                                                                    + "&fullname=" + $("#fullname").val()
+                                                                    +"&person="+$("#person").val()
+
+                                                                    );
+        }
+    }
+    $('.date-picker').datepicker({
+        rtl: App.isRTL(),
+        orientation: "left",
+        autoclose: true
+    });
+    $(".btn-export").click(function () {
+        window.location.href = "/customerregister/export?code=" + $("#code").val()
+                                                                    + "&shortname=" + $("#shortname").val()
+                                                                    + "&fullname=" + $("#fullname").val()
+                                                                    +"&person="+$("#person").val()
+    });
+   
+    $('.bs-select').selectpicker({
+        iconBase: 'fa',
+        tickIcon: 'fa-check'
+    });
+    $(".btn-add").click(function () {
+        egovutil.dialog("Thêm mới thông tin đăng ký", "large", "/customerregister/edit?cmd=ADD", "customerRegisterAction.search()");
+    });
+    
+    // sitaAction.search();
+    $("#btn-search").click(function () { customerRegisterAction.search(); })
+
+</script>

@@ -1,0 +1,146 @@
+﻿@{
+    Layout = "~/Views/Layout/Core.cshtml";
+
+}
+
+<div class="row">
+    <div class="col-md-12 col-xs-12">
+        <a href="#">
+            <img src="~/logo/logoals.png" alt="logo" style="width:100%;" class="img-responsive">
+        </a>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet">
+            <div class="portlet-title" style="text-align:center !important;" >
+                <div class="caption caption-md center-align" style="text-align:center !important;float:none !important">
+                    <p style="text-align:center">
+                        <span class="caption-subject font-blue-madison bold uppercase" style="text-align:center">Danh sách điều xe ALSC</span>
+                    </p>
+                   
+                </div>
+                @*<div class="actions">
+                    <a href="javascript:;" data-id="02" class="btn btn-circle btn-danger btn-export-log">
+                        <i class="fa fa-download"></i> Xuất danh sách
+                    </a>
+                    <a href="javascript:;" class="btn btn-default btn-sm btn-add-item">
+                        <i class="fa fa-plus"></i> Thêm mới
+                    </a>
+                    <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;">
+                    </a>
+                </div>*@
+            </div>
+            <div class="portlet-body">
+                <div class="row">
+                    <div class="form-group form-md-line-input">
+                        <div class="form-group form-md-line-input">
+                            <div class="md-radio-inline col-md-10">
+                                <div class="md-radio has-warning">
+                                    <input id="ttWaiting" name="tinhTrang" value="1" class="md-radiobtn" type="radio" checked>
+                                    <label for="ttWaiting">
+                                        <span></span>
+                                        <span class="check"></span>
+                                        <span class="box"></span>Tầng 1
+                                    </label>
+                                </div>
+                                <div class="md-radio has-success">
+                                    <input id="ttNow" name="tinhTrang" value="2" class="md-radiobtn" type="radio" >
+                                    <label for="ttNow">
+                                        <span class="inc"></span>
+                                        <span class="check"></span>
+                                        <span class="box"></span> Tầng 2
+                                    </label>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        </div>
+
+
+                </div>
+                <div class="row">
+                    <div class="col-md-12 col-sm-12">
+                        <div id="content-list-result">
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+
+
+
+        </div>
+    </div>
+
+</div>
+<script>
+    var Action = {
+        setValueInput: function () {
+
+            $('.input-sm').attr('placeholder', 'NHẬP BSX')
+        },
+    }
+   // var i = $("#content-list-result input")
+   //// selectedTextarea = $('input')[0];
+   // i.placeholder = "Nhập BSX";
+   // console.log($('.input-sm').attr);
+   // $('.input-sm').attr('placeholder', 'NHẬP BSX');
+    var refreshIntervalId;
+    var hermesAction = {
+        searchWaiting: function () {
+         
+            egovutil.getContentCallBack("#content-list-result", "/Dieuxe/list/1", Action.setValueInput);
+        },
+        searchNow: function () {
+            egovutil.getContentCallBack("#content-list-result", "/Dieuxe/list/2", Action.setValueInput);
+                                                                  
+        }
+    }
+    hermesAction.searchWaiting();
+  //  setInterval(hermesAction.searchWaiting, 60000);
+    $(".btn-add-item").click(function () {
+        egovutil.dialog("THÊM MỚI HÀNG NHANH", "large", "/Dieuxe/edit/", "hermesAction.search()");
+    });
+    $('.date-picker').datepicker({
+        rtl: App.isRTL(),
+        orientation: "left",
+        autoclose: true
+    });
+    $(".btn-export-log").click(function () {
+        window.location.href = "/Dieuxe/export?fno=" + $("#fno").val()
+                                                                    + "&ata=" + $("#ata").val()
+    });
+
+    $('.bs-select').selectpicker({
+        iconBase: 'fa',
+        tickIcon: 'fa-check'
+    });
+    refreshIntervalId =  setInterval(hermesAction.searchWaiting,
+               20000)
+
+    // sitaAction.search();
+    $("#btn-search-sita").click(function () { hermesAction.search(); })
+
+    $('input[type=radio][name=tinhTrang]').change(function () {
+        if (this.id == 'ttWaiting') {
+            egovutil.getContentCallBack("#content-list-result", "/Dieuxe/list/1", Action.setValueInput);
+            clearInterval(refreshIntervalId);
+            refreshIntervalId = setInterval(hermesAction.searchWaiting,
+            10000)
+        }
+        else if (this.id == 'ttNow') {
+            egovutil.getContentCallBack("#content-list-result", "/Dieuxe/list/2", Action.setValueInput);
+            clearInterval(refreshIntervalId);
+            refreshIntervalId =    setInterval(hermesAction.searchNow,
+              10000)
+                                  
+        }
+    });
+</script>

@@ -1,0 +1,773 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<REPORT>
+  <TLN01>
+    <SQL>
+      select distinct lagi.lagi_mawb_prefix||'-'||ltrim(to_char(lagi.lagi_mawb_no, '00000000')) as AWB,
+lagi.lagi_quantity_expected as Pieces_Bill, lagi.lagi_weight_expected as Weight_Bill, 
+x.PIECES as PIECES_FFM,x.WEIGHT as WEIGHT_FFM,
+(select sum(lagi2.lagi_quantity_expected)
+from lagi lagi2
+where lagi2.lagi_master_ident_no = lagi.lagi_ident_no
+group by lagi2.lagi_master_ident_no)  as Pieces_Hawb,
+(select sum(lagi2.lagi_weight_expected)
+from lagi lagi2
+where lagi2.lagi_master_ident_no = lagi.lagi_ident_no
+group by lagi2.lagi_master_ident_no)  as Weight_Hawb,
+ lagi.LAGI_GOODS_CONTENT as NATURE,
+awbu.awbu_specialhandlingcodes as SHC,
+lagi.lagi_shipment_remarks as REMARK,
+
+  0 as CheckCondtion,
+  lagi.lagi_master_ident_no as ID
+
+--  sond.sond_special_goods as SHC
+FROM flui flui
+JOIN PALO palo 
+     on palo.palo_lvg_in = flui.flui_al_2_3_letter_code
+     and palo.palo_flight_no_in = flui.flui_flight_no 
+     and to_date('02-01-0001' ,'DD-MM-YYYY') + flui.flui_schedule_date = to_date('02-01-0001' ,'DD-MM-YYYY') + palo.palo_flight_arrival_date
+JOIN AWBU_AWBPERULD_LIST awbu
+     on awbu.awbu_uld_isn = palo.palo_uld_isn 
+     and awbu.awbu_uld_serial = palo.palo_serial_no_
+     and awbu.awbu_uld_no = palo.palo_type
+     and awbu.awbu_uld_owner = palo.palo_owner
+     and awbu.awbu_object_type = 'IMPORT AWB'
+JOIN LAGI lagi 
+     on awbu.awbu_mawb_prefix = lagi.lagi_mawb_prefix
+     and awbu.awbu_mawb_serial_no = lagi.lagi_mawb_no
+	  left join 
+ (select t.awbu_mawb_ident_no as ID, sum (t.awbu_pieces_origin) as PIECES,sum( t.awbu_weight_origin) as WEIGHT from 
+ (select distinct awbu.* 
+FROM flui flui 
+JOIN PALO palo 
+     on palo.palo_lvg_in = flui.flui_al_2_3_letter_code 
+     and palo.palo_flight_no_in = flui.flui_flight_no 
+     and to_date('02-01-0001' , 'DD-MM-YYYY') +flui.flui_schedule_date = to_date('02-01-0001', 'DD-MM-YYYY') + palo.palo_flight_arrival_date 
+JOIN AWBU_AWBPERULD_LIST awbu 
+     on awbu.awbu_uld_isn = palo.palo_uld_isn 
+     and awbu.awbu_uld_serial = palo.palo_serial_no_ 
+     and awbu.awbu_uld_no = palo.palo_type 
+     and awbu.awbu_uld_owner = palo.palo_owner 
+     and awbu.awbu_object_type = 'IMPORT AWB' 
+JOIN LAGI lagi 
+     on awbu.awbu_mawb_prefix = lagi.lagi_mawb_prefix 
+     and awbu.awbu_mawb_serial_no = lagi.lagi_mawb_no 
+ --   and to_date('02-01-0001' , 'DD-MM-YYYY') +lagi.lagi_flight_date_in = awbu.awbu_flight_date 
+WHERE  1 = 1 
+ AND to_date('02-01-0001' , 'DD-MM-YYYY') +flui.flui_schedule_date = to_date('{0}', 'dd/mm/yyyy') 
+ AND flui.flui_al_2_3_letter_code || flui.flui_flight_no = '{1}' )t group by t.awbu_mawb_ident_no )x
+ on x.ID =  lagi.lagi_ident_no
+  --   and lagi.lagi_master_ident_no = 0
+   
+ --   and lagi.lagi_flight_no_in = awbu.awbu_flight_no 
+ --   and to_date('02-01-0001' ,'DD-MM-YYYY') + lagi.lagi_flight_date_in = awbu.awbu_flight_date
+ --   JOIN SOND sond on sond.sond_prefix = lagi.lagi_mawb_prefix and sond.sond_serial_no = lagi.lagi_mawb_no  
+WHERE 
+  1 = 1 
+  AND lagi.lagi_deleted = 0
+  --AND awbu.awbu_mawb_prefix not like '%Z%'
+ AND to_date('02-01-0001' ,'DD-MM-YYYY') + flui.flui_schedule_date = to_date('{0}','dd/mm/yyyy') 
+ AND flui.flui_al_2_3_letter_code || flui.flui_flight_no = '{1}'
+ order by 1,4
+ 
+    </SQL>
+    <FIND>FromDate,FlightNumber</FIND>
+    <COLUMN>AWB,Pieces_FWB,Weight_FWB,PIECES_FFM,WEIGHT_FFM,Pieces_FHL,Weight_FHL,NATURE,SHC,REMARK,CheckCondtion</COLUMN> 
+    <DES>DANH SÁCH HÀNG DỰ KIẾN VỀ TRÊN CHUYẾN BAY</DES>    
+  </TLN01>
+   <TLN02>
+    <SQL>
+select x.FLIGHT_NO as FLIGHT_NO,
+x.MAWB as MAWB,
+z.HAWB,
+ x.pieces_received as "SỐ KIỆN",
+ x.weight_received as "TRỌNG LƯỢNG",
+ y.pieces_received as "SỐ KIỆN BƯU ĐIỆN",
+ y.weight_received as "TRỌNG LƯỢNG BƯU ĐIỆN",
+(x.pieces_received + NVL(y.pieces_received, 0)  ) as "TỔNG KIỆN",             
+(x.weight_received + NVL(y.weight_received, 0)) as "TỔNG TRỌNG LƯỢNG",
+(x.MAWB + z. HAWB) as "TỔNG LÔ HÀNG"
+ from 
+(select
+m.FLIGHT_NO,
+count(distinct(m.MAWB))as MAWB,
+sum(m.pieces_received) as pieces_received,
+sum(m.weight_received) as weight_received
+
+from
+(
+select distinct
+flui.flui_al_2_3_letter_code || flui.flui_flight_no FLIGHT_NO,
+to_char(to_date(flui.flui_landed_time,'HH24MISS'),'HH24:MI:SS') as ATA_TIME,
+lagi.lagi_mawb_prefix||lagi.lagi_mawb_no as MAWB,
+lagi.lagi_hawb as HAWB,
+lagi.lagi_quantity_received as pieces,
+lagi.lagi_weight_received as weight,
+j.*
+--grli.grli_shc as shc
+--max(grli.grli_shc) over (partition by grai.grai_object_group_isn order by grli.grli_shc desc) as shc,
+--row_number() over (partition by grai.grai_object_group_isn order by grai.grai_object_group_isn) as rn
+from
+(
+  select
+  k.*,
+  grai.grai_numeric_value as weight_received
+  from
+  (
+  select 
+    grai.grai_object_isn as ID,
+      grai.grai_object_group_isn as group_no,
+     grai.grai_numeric_value as pieces_received
+          from han_w1_hl.grai_group_additional_info grai
+      where
+        grai.grai_group_type='PIECES'
+      and grai.grai_group_code='RECEIVED'
+  )k
+    join han_w1_hl.grai_group_additional_info grai on k.ID= grai.grai_object_isn and k.group_no=grai.grai_object_group_isn
+  and grai.grai_group_type='WEIGHT'
+  and grai.grai_group_code='RECEIVED'  
+)j
+  join han_w1_hl.grai_group_additional_info grai on j.ID= grai.grai_object_isn and j.group_no=grai.grai_object_group_isn
+  and grai.grai_group_type='FLIGHT'
+  and grai.grai_group_code='ISN'   
+  join han_w1_hl.flui flui on grai.grai_value = flui.flui_internal_number
+  join han_w1_hl.lagi lagi on j.ID = lagi.lagi_ident_no
+ -- JOIN han_w1_hl.grli_group_location_info grli on j.ID = grli.grli_object_isn
+  where  to_date('02-01-0001' ,'DD-MM-YYYY') + flui.flui_landed_date = to_date('{0}','dd/mm/yyyy') 
+  and  lagi.LAGI_GOODS_CONTENT NOT  LIKE '%MAIL%'
+ and lagi.LAGI_GOODS_CONTENT NOT LIKE '%POST%'
+) m
+--where rn=1 
+group by m.FLIGHT_NO )x
+left join 
+(
+select
+m.FLIGHT_NO,
+count(distinct(m.MAWB))as MAWB,
+--SUM(NVL2(LENGTH(TRIM(m.HAWB)),1,0)) as HAWB,
+COUNT(DISTINCT m.HAWB) - COUNT(DISTINCT CASE WHEN m.HAWB = ' ' THEN 0 END) as HAWB,
+sum(m.pieces_received) as pieces_received,
+sum(m.weight_received) as weight_received
+
+from
+(
+select distinct
+flui.flui_al_2_3_letter_code || flui.flui_flight_no FLIGHT_NO,
+to_char(to_date(flui.flui_landed_time,'HH24MISS'),'HH24:MI:SS') as ATA_TIME,
+lagi.lagi_mawb_prefix||lagi.lagi_mawb_no as MAWB,
+lagi.lagi_hawb as HAWB,
+lagi.lagi_quantity_received as pieces,
+lagi.lagi_weight_received as weight,
+j.*,
+--grli.grli_shc as shc
+--max(grli.grli_shc) over (partition by grai.grai_object_group_isn order by grli.grli_shc desc) as shc,
+row_number() over (partition by grai.grai_object_group_isn order by grai.grai_object_group_isn) as rn
+from
+(
+  select
+  k.*,
+  grai.grai_numeric_value as weight_received
+  from
+  (
+  select 
+    grai.grai_object_isn as ID,
+      grai.grai_object_group_isn as group_no,
+     grai.grai_numeric_value as pieces_received
+          from han_w1_hl.grai_group_additional_info grai
+      where
+        grai.grai_group_type='PIECES'
+      and grai.grai_group_code='RECEIVED'
+  )k
+    join han_w1_hl.grai_group_additional_info grai on k.ID= grai.grai_object_isn and k.group_no=grai.grai_object_group_isn
+  and grai.grai_group_type='WEIGHT'
+  and grai.grai_group_code='RECEIVED'  
+)j
+  join han_w1_hl.grai_group_additional_info grai on j.ID= grai.grai_object_isn and j.group_no=grai.grai_object_group_isn
+  and grai.grai_group_type='FLIGHT'
+  and grai.grai_group_code='ISN'   
+  join han_w1_hl.flui flui on grai.grai_value = flui.flui_internal_number
+  join han_w1_hl.lagi lagi on j.ID = lagi.lagi_ident_no
+--  JOIN han_w1_hl.grli_group_location_info grli on j.ID = grli.grli_object_isn
+  where  to_date('02-01-0001' ,'DD-MM-YYYY') + flui.flui_landed_date = to_date('{0}','dd/mm/yyyy') 
+  and  (lagi.LAGI_GOODS_CONTENT  LIKE '%MAIL%'
+ or lagi.LAGI_GOODS_CONTENT  LIKE '%POST%')
+) m
+where rn=1 
+group by m.FLIGHT_NO     
+)y on x.FLIGHT_NO = y.FLIGHT_NO
+join (
+SELECT 
+ flui.flui_al_2_3_letter_code||flui.flui_flight_no AS FLIGHT_NO,
+  count(distinct lagi.LAGI_HAWB) - COUNT(DISTINCT CASE WHEN lagi.LAGI_HAWB = ' ' THEN 1 END) as HAWB
+FROM flui flui
+JOIN PALO palo 
+     on palo.palo_lvg_in = flui.flui_al_2_3_letter_code
+     and palo.palo_flight_no_in = flui.flui_flight_no 
+     and to_date('02-01-0001' ,'DD-MM-YYYY') + flui.flui_schedule_date = to_date('02-01-0001' ,'DD-MM-YYYY') + palo.palo_flight_arrival_date  
+JOIN AWBU_AWBPERULD_LIST awbu
+     on awbu.awbu_uld_isn = palo.palo_uld_isn 
+     and awbu.awbu_uld_serial = palo.palo_serial_no_
+     and awbu.awbu_uld_no = palo.palo_type
+     and awbu.awbu_uld_owner = palo.palo_owner
+     and awbu.awbu_object_type = 'IMPORT AWB'
+JOIN LAGI lagi 
+     on awbu.awbu_mawb_prefix = lagi.lagi_mawb_prefix
+     and awbu.awbu_mawb_serial_no = lagi.lagi_mawb_no
+     and lagi.lagi_ident_no NOT IN 
+     (
+         SELECT 
+         l.lagi_ident_no
+         FROM han_w1_hl.lagi l 
+         WHERE EXISTS (
+         SELECT 1 
+         FROM han_w1_hl.lagi t2 
+        WHERE t2.lagi_mawb_no = l.lagi_mawb_no
+         and t2.lagi_mawb_prefix = l.lagi_mawb_prefix
+         AND t2.lagi_ident_no &lt;&gt; l.lagi_ident_no
+         and t2.lagi_deleted = 0
+         )
+        AND l.lagi_hawb = ' '
+    )
+   -- and lagi.lagi_flight_no_in = awbu.awbu_flight_no 
+   -- and to_date('02-01-0001' ,'DD-MM-YYYY') + lagi.lagi_flight_date_in = awbu.awbu_flight_date
+WHERE 
+  1 = 1 
+  AND lagi.lagi_deleted = 0
+  AND to_date('02-01-0001' ,'DD-MM-YYYY') + flui.flui_landed_date  = to_date('{0}','dd/mm/yyyy') 
+  group by   flui.flui_al_2_3_letter_code,flui.flui_flight_no
+)z on x.FLIGHT_NO = z.FLIGHT_NO
+    </SQL>
+    <FIND>FromDate</FIND>
+    <COLUMN>FLIGHT_NO,MAWB,HAWB,SỐ KIỆN,TRỌNG LƯỢNG,SỐ KIỆN BƯU ĐIỆN,TRỌNG LƯỢNG BƯU ĐIỆN,TỔNG KIỆN,TỔNG TRỌNG LƯỢNG,TỔNG LÔ HÀNG</COLUMN> 
+    <DES>BÁO CÁO SẢN LƯỢNG CHUYẾN BAY THEO NGÀY</DES>    
+  </TLN02>
+  <TLN03>
+    <SQL>     
+  select 
+k.ATA_DATE as "NGÀY", 
+sum(k.pieces) as "TỔNG KIỆN", 
+sum(k.weight) as "TỔNG TRỌNG LƯỢNG",
+ sum(k.pieces_mail) as "TỔNG KIỆN MAIL",
+ sum(k.weight_mail) as "TỔNG TRỌNG LƯỢNG MAIL",
+  sum(k.pieces) +  NVL(sum(k.pieces_mail), 0)  AS TOTALPICES,
+ sum(k.weight) + NVL(sum(k.weight_mail),0) AS TOTALWEIGHT,
+ sum(k.totalAwb) as "TỔNG SỐ LÔ HÀNG"
+from
+(
+select x.ATA_DATE, 
+x.pieces_received as pieces,
+ x.weight_received as weight,
+ y.pieces_received as pieces_mail,
+ y.weight_received as weight_mail,
+(x.MAWB + z.HAWB) as totalAwb
+ from 
+(select
+m.FLIGHT_NO,
+m.ATA_DATE,
+count(distinct(m.MAWB))as MAWB,
+--SUM(NVL2(LENGTH(TRIM(m.HAWB)),1,0)) as HAWB,
+COUNT(DISTINCT m.HAWB) - COUNT(DISTINCT CASE WHEN m.HAWB = ' ' THEN 0 END) as HAWB,
+sum(m.pieces_received) as pieces_received,
+sum(m.weight_received) as weight_received
+
+from
+(
+select distinct
+flui.flui_al_2_3_letter_code || flui.flui_flight_no FLIGHT_NO,
+to_char(to_date('02-01-0001' ,'DD-MM-YYYY') + flui.flui_landed_date, 'DD-MM-YYYY') AS ATA_DATE,
+lagi.lagi_mawb_prefix||lagi.lagi_mawb_no as MAWB,
+lagi.lagi_hawb as HAWB,
+lagi.lagi_quantity_received as pieces,
+lagi.lagi_weight_received as weight,
+j.*
+--grli.grli_shc as shc
+--max(grli.grli_shc) over (partition by grai.grai_object_group_isn order by grli.grli_shc desc) as shc,
+--row_number() over (partition by grai.grai_object_group_isn order by grai.grai_object_group_isn) as rn
+from
+(
+  select
+  k.*,
+  grai.grai_numeric_value as weight_received
+  from
+  (
+  select 
+    grai.grai_object_isn as ID,
+      grai.grai_object_group_isn as group_no,
+     grai.grai_numeric_value as pieces_received
+          from han_w1_hl.grai_group_additional_info grai
+      where
+        grai.grai_group_type='PIECES'
+      and grai.grai_group_code='RECEIVED'
+  )k
+    join han_w1_hl.grai_group_additional_info grai on k.ID= grai.grai_object_isn and k.group_no=grai.grai_object_group_isn
+  and grai.grai_group_type='WEIGHT'
+  and grai.grai_group_code='RECEIVED'  
+)j
+  join han_w1_hl.grai_group_additional_info grai on j.ID= grai.grai_object_isn and j.group_no=grai.grai_object_group_isn
+  and grai.grai_group_type='FLIGHT'
+  and grai.grai_group_code='ISN'   
+  join han_w1_hl.flui flui on grai.grai_value = flui.flui_internal_number
+  join han_w1_hl.lagi lagi on j.ID = lagi.lagi_ident_no
+--  JOIN han_w1_hl.grli_group_location_info grli on j.ID = grli.grli_object_isn
+  where  to_date('02-01-0001' ,'DD-MM-YYYY') + flui.flui_landed_date between to_date('{0}','dd/mm/yyyy') and to_date('{1}','dd/mm/yyyy')
+  and  lagi.LAGI_GOODS_CONTENT NOT  LIKE '%MAIL%'
+ and lagi.LAGI_GOODS_CONTENT NOT LIKE '%POST%'
+) m
+--where rn=1 
+group by m.FLIGHT_NO,m.ATA_DATE )x
+left join 
+(
+select
+m.FLIGHT_NO,
+m.ATA_DATE,
+count(distinct(m.MAWB))as MAWB,
+--SUM(NVL2(LENGTH(TRIM(m.HAWB)),1,0)) as HAWB,
+COUNT(DISTINCT m.HAWB) - COUNT(DISTINCT CASE WHEN m.HAWB = ' ' THEN 0 END) as HAWB,
+sum(m.pieces_received) as pieces_received,
+sum(m.weight_received) as weight_received
+
+from
+(
+select distinct
+flui.flui_al_2_3_letter_code || flui.flui_flight_no FLIGHT_NO,
+to_char(to_date('02-01-0001' ,'DD-MM-YYYY') + flui.flui_landed_date, 'DD-MM-YYYY') AS ATA_DATE,
+lagi.lagi_mawb_prefix||lagi.lagi_mawb_no as MAWB,
+lagi.lagi_hawb as HAWB,
+lagi.lagi_quantity_received as pieces,
+lagi.lagi_weight_received as weight,
+j.*
+--grli.grli_shc as shc
+--max(grli.grli_shc) over (partition by grai.grai_object_group_isn order by grli.grli_shc desc) as shc,
+--row_number() over (partition by grai.grai_object_group_isn order by grai.grai_object_group_isn) as rn
+from
+(
+  select
+  k.*,
+  grai.grai_numeric_value as weight_received
+  from
+  (
+  select 
+    grai.grai_object_isn as ID,
+      grai.grai_object_group_isn as group_no,
+     grai.grai_numeric_value as pieces_received
+          from han_w1_hl.grai_group_additional_info grai
+      where
+        grai.grai_group_type='PIECES'
+      and grai.grai_group_code='RECEIVED'
+  )k
+    join han_w1_hl.grai_group_additional_info grai on k.ID= grai.grai_object_isn and k.group_no=grai.grai_object_group_isn
+  and grai.grai_group_type='WEIGHT'
+  and grai.grai_group_code='RECEIVED'  
+)j
+  join han_w1_hl.grai_group_additional_info grai on j.ID= grai.grai_object_isn and j.group_no=grai.grai_object_group_isn
+  and grai.grai_group_type='FLIGHT'
+  and grai.grai_group_code='ISN'   
+  join han_w1_hl.flui flui on grai.grai_value = flui.flui_internal_number
+  join han_w1_hl.lagi lagi on j.ID = lagi.lagi_ident_no
+--  JOIN han_w1_hl.grli_group_location_info grli on j.ID = grli.grli_object_isn
+  where  to_date('02-01-0001' ,'DD-MM-YYYY') + flui.flui_landed_date between to_date('{0}','dd/mm/yyyy') and to_date('{1}','dd/mm/yyyy') 
+  and  (lagi.LAGI_GOODS_CONTENT  LIKE '%MAIL%'
+ or lagi.LAGI_GOODS_CONTENT  LIKE '%POST%')
+) m
+--where rn=1 
+group by m.FLIGHT_NO,m.ATA_DATE     
+)y on x.FLIGHT_NO = y.FLIGHT_NO and x.ATA_DATE = y.ATA_DATE
+join (
+SELECT 
+ flui.flui_al_2_3_letter_code||flui.flui_flight_no AS FLIGHT_NO,
+ to_char(to_date('02-01-0001' ,'DD-MM-YYYY') + flui.flui_landed_date, 'DD-MM-YYYY') AS ATA_DATE,
+  count(distinct lagi.LAGI_HAWB) - COUNT(DISTINCT CASE WHEN lagi.LAGI_HAWB = ' ' THEN 1 END) as HAWB
+FROM flui flui
+JOIN PALO palo 
+     on palo.palo_lvg_in = flui.flui_al_2_3_letter_code
+     and palo.palo_flight_no_in = flui.flui_flight_no 
+     and to_date('02-01-0001' ,'DD-MM-YYYY') + flui.flui_schedule_date = to_date('02-01-0001' ,'DD-MM-YYYY') + palo.palo_flight_arrival_date  
+JOIN AWBU_AWBPERULD_LIST awbu
+     on awbu.awbu_uld_isn = palo.palo_uld_isn 
+     and awbu.awbu_uld_serial = palo.palo_serial_no_
+     and awbu.awbu_uld_no = palo.palo_type
+     and awbu.awbu_uld_owner = palo.palo_owner
+     and awbu.awbu_object_type = 'IMPORT AWB'
+JOIN LAGI lagi 
+     on awbu.awbu_mawb_prefix = lagi.lagi_mawb_prefix
+     and awbu.awbu_mawb_serial_no = lagi.lagi_mawb_no
+     and lagi.lagi_ident_no NOT IN 
+     (
+         SELECT 
+         l.lagi_ident_no
+         FROM han_w1_hl.lagi l 
+         WHERE EXISTS (
+         SELECT 1 
+         FROM han_w1_hl.lagi t2 
+        WHERE t2.lagi_mawb_no = l.lagi_mawb_no
+         and t2.lagi_mawb_prefix = l.lagi_mawb_prefix
+         AND t2.lagi_ident_no &lt;&gt; l.lagi_ident_no
+         and t2.lagi_deleted = 0
+         )
+        AND l.lagi_hawb = ' '
+    )
+   -- and lagi.lagi_flight_no_in = awbu.awbu_flight_no 
+   -- and to_date('02-01-0001' ,'DD-MM-YYYY') + lagi.lagi_flight_date_in = awbu.awbu_flight_date
+WHERE 
+  1 = 1 
+  AND lagi.lagi_deleted = 0
+   and  to_date('02-01-0001' ,'DD-MM-YYYY') + flui.flui_landed_date between to_date('{0}','dd/mm/yyyy') and to_date('{1}','dd/mm/yyyy') 
+  group by   flui.flui_al_2_3_letter_code,flui.flui_flight_no,flui.flui_landed_date
+)z on  x.FLIGHT_NO = z.FLIGHT_NO and x.ATA_DATE = z.ATA_DATE
+)k group by k.ATA_DATE
+order by k.ATA_DATE asc
+    </SQL>
+    <FIND>FromDate,ToDate</FIND>
+    <COLUMN>NGÀY,TỔNG KIỆN,TỔNG TRỌNG LƯỢNG,TỔNG KIỆN MAIL,TỔNG TRỌNG LƯỢNG MAIL,TOTALPICES,TOTALWEIGHT,TỔNG SỐ LÔ HÀNG</COLUMN>   
+  <DES>BÁO CÁO TỔNG HỢP SẢN LƯỢNG</DES>    	
+  </TLN03>
+   <TLN04>
+    <SQL>
+      select distinct 
+lagi.lagi_mawb_prefix||lagi.lagi_mawb_no as MAWB,
+lagi.lagi_hawb as HAWB_NO,
+lagi.lagi_quantity_received as PIECES_FWB,
+lagi.lagi_weight_received as WEIGTH_FWB,
+sum(j.pieces_received) as PIECES,
+sum(j.weight_received) as WEIGTH,
+  0 as "TÌNH TRẠNG",
+      lagi.lagi_goods_content as "TÊN HÀNG",
+  (select case when  l.lagi_quantity_received &lt; l.lagi_quantity_expected then 0
+ else 1 end as Check_Receive from lagi l where l.lagi_ident_no = lagi.lagi_ident_no) as CHECK_RECEIVE,
+    (select count(grai_object_isn) from grai_group_additional_info where grai_object_isn = lagi.lagi_ident_no
+                             and grai_group_type = 'DATE' and grai_group_code = 'DELIVERED') as STATUS_DELIVERED ,  
+                             
+  (select count(ccf.cusf_form_number) from lagi l 
+--inner join agen a on l.lagi_ident_no = a.agen_ident_no 
+inner join cusf_customs_forms ccf on ccf.cusf_ident_no = l.lagi_ident_no 
+where l.lagi_ident_no = lagi.lagi_ident_no
+--and a.agen_status_external = 'DOCUMENT WERE HANDED OUT TO'
+) as STATUS_PXK,
+lagi.LAGI_SHIPPER_NAME as "NGƯỜI GỬI",
+lagi.LAGI_CONSIGNEE_NAME as "NGƯỜI NHẬN",
+lagi.LAGI_SHIPMENT_REMARKS as REMARK  
+from
+(
+  select
+  k.*,
+  grai.grai_numeric_value as weight_received
+  from
+  (
+  select 
+    grai.grai_object_isn as ID,
+      grai.grai_object_group_isn as group_no,
+     grai.grai_numeric_value as pieces_received
+          from han_w1_hl.grai_group_additional_info grai
+      where
+        grai.grai_group_type='PIECES'
+      and grai.grai_group_code='RECEIVED'
+  )k
+    join han_w1_hl.grai_group_additional_info grai on k.ID= grai.grai_object_isn and k.group_no=grai.grai_object_group_isn
+  and grai.grai_group_type='WEIGHT'
+  and grai.grai_group_code='RECEIVED'  
+)j
+  join han_w1_hl.grai_group_additional_info grai on j.ID= grai.grai_object_isn and j.group_no=grai.grai_object_group_isn
+  and grai.grai_group_type='FLIGHT'
+  and grai.grai_group_code='ISN'   
+  join han_w1_hl.flui flui on grai.grai_value = flui.flui_internal_number
+  join han_w1_hl.lagi lagi on j.ID = lagi.lagi_ident_no
+ -- JOIN han_w1_hl.grli_group_location_info grli on j.ID = grli.grli_object_isn
+  where  to_date('02-01-0001' ,'DD-MM-YYYY') + flui.flui_landed_date = to_date('{0}','dd/mm/yyyy') 
+  and flui.flui_al_2_3_letter_code || flui.flui_flight_no = '{1}'
+ -- and  lagi.LAGI_GOODS_CONTENT NOT  LIKE '%MAIL%'
+ -- and lagi.LAGI_GOODS_CONTENT NOT LIKE '%POST%'
+ group by lagi.lagi_ident_no,lagi.lagi_mawb_prefix||lagi.lagi_mawb_no,
+ lagi.lagi_hawb,lagi.lagi_quantity_received,
+ lagi.lagi_weight_received,lagi.LAGI_SHIPPER_NAME,lagi.LAGI_CONSIGNEE_NAME,
+ lagi.LAGI_SHIPMENT_REMARKS,lagi.lagi_goods_content
+ order by 1
+ 
+    </SQL>
+    <FIND>FromDate,FlightNumber</FIND>
+    <COLUMN>MAWB,HAWB_NO,PIECES_FWB,WEIGTH_FWB,PIECES,WEIGTH,TÌNH TRẠNG,TÊN HÀNG,NGƯỜI GỬI,NGƯỜI NHẬN,REMARK</COLUMN> 
+    <DES>DANH SÁCH HÀNG VỀ TRÊN CHUYẾN BAY</DES>    
+  </TLN04>
+  <TLN05>
+    <SQL>
+      select * from (select distinct
+lagi.lagi_mawb_prefix||lagi.lagi_mawb_no as MAWB,
+lagi.LAGI_HAWB as HAWB,
+lagi.lagi_quantity_received as PIECES,
+lagi.lagi_weight_received as WEIGHT,
+sslp.sslp_rack_row as LOCATION,
+j.*,
+--grli.grli_shc as shc
+max(locs.locs_physical_isn) over (partition by grai.grai_object_group_isn order by locs.locs_physical_isn desc) as sequence_no,
+--max(grli.grli_shc) over (partition by grai.grai_object_group_isn order by grli.grli_shc desc) as shc,
+row_number() over (partition by grai.grai_object_group_isn order by grai.grai_object_group_isn desc) as rn
+from
+(
+  select
+  k.*,
+  grai.grai_numeric_value as WEIGHT_RECEIVED
+  from
+  (
+ select 
+ i.*,
+     grai.grai_numeric_value as PIECES_RECEIVED
+          from
+          (
+          	 select 
+    grai.grai_object_isn as ID,
+    grai.grai_object_group_isn as group_no,
+         grai.grai_value as SHC
+   from    
+    han_w1_hl.grai_group_additional_info grai 
+          
+      where
+        grai.grai_group_type='SHC'
+      and grai.grai_group_code='STORAGE'
+          )i
+          join han_w1_hl.grai_group_additional_info grai 
+    on i.ID= grai.grai_object_isn 
+    and i.group_no=grai.grai_object_group_isn
+  and grai.grai_group_type='PIECES'
+  and grai.grai_group_code='RECEIVED'  
+     )k
+    join han_w1_hl.grai_group_additional_info grai 
+    on k.ID= grai.grai_object_isn 
+    and k.group_no=grai.grai_object_group_isn
+  and grai.grai_group_type='WEIGHT'
+  and grai.grai_group_code='RECEIVED'  
+)j
+  join han_w1_hl.grai_group_additional_info grai 
+  on j.ID= grai.grai_object_isn
+  and j.group_no=grai.grai_object_group_isn
+  and grai.grai_group_type='FLIGHT'
+  and grai.grai_group_code='ISN'   
+  join han_w1_hl.flui flui on grai.grai_value = flui.flui_internal_number
+  join han_w1_hl.lagi lagi on j.ID = lagi.lagi_ident_no
+ -- JOIN han_w1_hl.grli_group_location_info grli on j.ID = grli.grli_object_isn
+--  join agen agen on agen.agen_ident_no = lagi.lagi_ident_no
+  
+  join locs_locations locs on lagi.lagi_ident_no = locs.locs_object_isn
+  join han_w1_hl.sslp_physical_locations sslp  on locs.locs_physical_isn = sslp.sslp_physical_isn
+ where  to_date('02-01-0001' ,'DD-MM-YYYY') + flui.flui_landed_date = to_date('{0}','dd/mm/yyyy')
+  and flui.flui_al_2_3_letter_code || flui.flui_flight_no = '{1}'
+ -- and grai.grai_object_group_isn = '10022001063019'
+ -- order by locs.locs_last_updated
+ 
+) m
+where rn=1
+order by 1 
+ 
+    </SQL>
+    <FIND>FromDate,FlightNumber</FIND>
+    <COLUMN>MAWB,HAWB,PIECES,WEIGHT,LOCATION,ID,GROUP_NO,PIECES_RECEIVED,WEIGHT_RECEIVED,SHC,RN</COLUMN> 
+    <DES>DANH SÁCH HÀNG ĐẶC BIỆT TRÊN CHUYẾN BAY</DES>    
+  </TLN05>
+   <TLN06>
+    <SQL>
+      SELECT 
+       T.LAGI_GOODS_CONTENT TEN_HANG
+      ,T.LAGI_QUANTITY_RECEIVED SO_LUONG
+      ,T.LAGI_WEIGHT_RECEIVED TRONG_LUONG
+      ,T.Lagi_Shipper_Name NGUOI_GUI
+	  ,T.Lagi_Shipper_Address DIA_CHI
+      ,t.lagi_consignee_name NGUOI_NHAN
+	  ,t.lagi_consignee_address DIA_CHI
+      ,T.LAGI_MAWB_PREFIX || TO_CHAR(T.LAGI_MAWB_NO
+                                    ,'00000000') MAWB
+      ,T.LAGI_HAWB HAWB
+      ,K.KUND_3_LETTER_CODE || ' ' || T.LAGI_FLIGHT_NO_IN FLIGHT_NO
+      , TO_CHAR(GET_DATETIME(T.LAGI_FLIGHT_DATE_IN
+                   ,0),'DD/MM/YYYY') FLIGHT_DATE
+      ,'ALSC' VI_TRI_DIA_DIEM
+      ,'' PHAN_LOAI        
+      ,T.LAGI_SHIPMENT_REMARKS GHI_CHU
+      ,LISTAGG(L.SSLP_RACK_ROW||'-'||L.SSLP_RACK_LOCATION||'-'||L.SSLP_RACK_HEIGHT, ', ') WITHIN GROUP (ORDER BY L.LOCS_PHYSICAL_ISN) VI_TRI
+FROM   LAGI                T
+      ,KUND                K
+      ,LCNV_LOCATIONS_VIEW L
+WHERE  T.LAGI_CUSTOMER_NO_AIRLINE = K.KUND_CUSTOMER_NO_
+AND    L.IDENT_NO = T.LAGI_IDENT_NO
+AND    L.LOCS_DELETED = 0
+AND    T.LAGI_DELETED = 0
+AND    K.KUND_RECORD_DELETED = 0
+AND    (T.LAGI_DATE_LATEST_PKG_DEL IS NULL OR
+      TO_CHAR(T.LAGI_DATE_LATEST_PKG_DEL) = ' ')
+AND T.Lagi_Date_First_Pkg_Rec &lt;= trunc(sysdate) - {0}
+--AND    T.LAGI_MAWB_NO = '23314362'
+GROUP  BY T.LAGI_MAWB_PREFIX || TO_CHAR(T.LAGI_MAWB_NO
+                                       ,'00000000')
+         ,T.LAGI_HAWB
+         ,K.KUND_3_LETTER_CODE || ' ' || T.LAGI_FLIGHT_NO_IN
+         ,GET_DATETIME(T.LAGI_FLIGHT_DATE_IN
+                      ,0)
+         ,T.LAGI_QUANTITY_EXPECTED
+         ,T.LAGI_WEIGHT_EXPECTED
+         ,T.LAGI_QUANTITY_RECEIVED
+         ,T.LAGI_WEIGHT_RECEIVED
+         ,T.LAGI_SHIPMENT_REMARKS
+         ,T.LAGI_GOODS_CONTENT
+         ,T.Lagi_Shipper_Name
+         ,T.Lagi_Consignee_Name
+		 ,T.Lagi_Shipper_Address
+         ,t.lagi_consignee_address
+ORDER BY GET_DATETIME(T.LAGI_FLIGHT_DATE_IN ,0) desc
+ 
+    </SQL>
+    <FIND>total</FIND>
+    <COLUMN>TEN_HANG,SO_LUONG,TRONG_LUONG,NGUOI_GUI,DIA_CHI,NGUOI_NHAN,DIA_CHI,MAWB,HAWB,FLIGHT_NO,FLIGHT_DATE,VI_TRI_DIA_DIEM,PHAN_LOAI,GHI_CHU,VI_TRI</COLUMN> 
+    <DES>BÁO CÁO HÀNG TỒN V2</DES>    
+  </TLN06>
+   <HERMES28>
+   <SQL>
+      select  P_RESULT.* from ( 
+	  select rownum rankid,(count(*) OVER ()) TOTAL,
+        t.*,
+k.time_message_sent,
+round((to_date(k.time_message_sent,'dd/mm/yyyy HH24:MI:SS')-to_date(t.time_confirmed,'dd/mm/yyyy HH24:MI:SS'))*24*60,2) as time_used
+from
+(
+  SELECT distinct
+    labs.labs_ident_no as LAS_INDENT,
+    flup.FLUP_FLIGHT_NO_LVG||flup.flup_flight_no AS FLIGHT_NO ,
+    to_char(to_date('02-01-0001' ,'DD-MM-YYYY') + flup.flup_actual_date, 'DD/MM/YYYY')  AS DEPARTURE_DATE,
+    flup.FLUP_ACTUAL_TIME  AS DEPARTURE_TIME ,  
+    labs.LABS_MAWB_PREFIX||labs.LABS_MAWB_SERIAL_NO AS AWB_NO,
+    to_char(a.agen_creation_datetime,'DD-MM-YYYY HH24:MI:SS') as time_confirmed
+  FROM FLUP flup
+      JOIN CONT cont 
+           ON cont.CONT_FLIGHT_NO_  = flup.flup_flight_no
+           and to_date('02-01-0001' ,'DD-MM-YYYY') + cont.CONT_DATE = to_date('02-01-0001' ,'DD-MM-YYYY') + flup.flup_scheduled_date
+      JOIN AWBU_AWBPERULD_LIST awbu
+          on awbu.awbu_uld_isn = cont.cont_uld_isn
+      JOIN LABS labs 
+           on awbu.awbu_mawb_ident_no = labs.LABS_IDENT_NO
+      join agen a
+           on labs.labs_ident_no = a.agen_ident_no
+           and a.agen_status_external = 'AWB CONFIRMED' 
+           --and a.agen_type='EXPORT'
+           and a.agen_remarks = 'AWB was confirmed at ...'     
+  WHERE 
+  1 = 1 
+  AND to_date('02-01-0001' ,'DD-MM-YYYY') + flup.FLUP_ACTUAL_DATE between to_date('{0}','DD/MM/YYYY') and to_date('{1}','DD/MM/YYYY')
+  AND labs.labs_deleted = 0
+) t
+left join
+(
+  SELECT distinct
+      labs.labs_ident_no as LAS_INDENT,
+      flup.FLUP_FLIGHT_NO_LVG||flup.flup_flight_no AS FLIGHT_NO ,
+      to_char(to_date('02-01-0001' ,'DD-MM-YYYY') + flup.flup_actual_date, 'DD/MM/YYYY')  AS DEPARTURE_DATE,
+      flup.FLUP_ACTUAL_TIME  AS DEPARTURE_TIME ,  
+      labs.LABS_MAWB_PREFIX||labs.LABS_MAWB_SERIAL_NO AS AWB_NO,
+      to_char(a.agen_creation_datetime,'DD-MM-YYYY HH24:MI:SS') as time_message_sent
+  FROM FLUP flup
+    JOIN CONT cont 
+         ON cont.CONT_FLIGHT_NO_  = flup.flup_flight_no
+         and to_date('02-01-0001' ,'DD-MM-YYYY') + cont.CONT_DATE = to_date('02-01-0001' ,'DD-MM-YYYY') + flup.flup_scheduled_date
+    JOIN AWBU_AWBPERULD_LIST awbu
+        on awbu.awbu_uld_isn = cont.cont_uld_isn
+    JOIN LABS labs 
+         on awbu.awbu_mawb_ident_no = labs.LABS_IDENT_NO
+    left join agen a
+         on labs.labs_ident_no = a.agen_ident_no
+         and a.agen_status_external = 'MESSAGE SENT' 
+         --and a.agen_type='EXPORT'
+         and a.agen_remarks = 'C2K:RCS Message has been sent Succesfully'     
+  WHERE 
+  1 = 1 
+  AND to_date('02-01-0001' ,'DD-MM-YYYY') + flup.FLUP_ACTUAL_DATE between to_date('{0}','DD/MM/YYYY') and to_date('{1}','DD/MM/YYYY')
+  AND labs.labs_deleted = 0
+) k
+on t.LAS_INDENT=k.LAS_INDENT
+ORDER BY t.DEPARTURE_DATE, t.DEPARTURE_TIME, t.FLIGHT_NO, t.AWB_NO ASC)P_RESULT 
+	  where rankid> ({2}-1) * {3} and rankid&lt;=((({2}-1) * {3} ) + {3}) 
+    </SQL>
+    <FIND>FromDate,ToDate,Page,PageSize</FIND>
+    <COLUMN>LAS_INDENT,FLIGHT_NO</COLUMN>   
+  </HERMES28>
+   <HERMES01_1>
+    <SQL>     
+SELECT
+  row_number() OVER (ORDER BY AGEN_CREATION_DATETIME) as STT
+, AIRLINE
+, PREFIX
+, to_char(MAWB_SERIAL_NO, '00000000') as MAWB_SERIAL_NO
+, ORIGIN
+, DESTINATION
+, BOOKED_QUANTITY
+, RECEIVED_QUANTITY
+, BOOKED_WEIGHT
+, RECEIVED_WEIGHT
+, DELIVERED_VOLUME
+, AGENT_NAME
+, to_char(to_date('02-01-0001' ,'DD-MM-YYYY') + CONFIRMED_DATE, 'DD/MM/YYYY') as CONFIRMED_DATE
+, CONFIRMED_TIME
+, AGEN_CREATION_DATETIME
+, RCS_STATUS
+, to_char(RCS_SENT_DATETIME, 'DD/MM/YYYY HH24:MI:SS') as RCS_SENT_DATETIME
+FROM REPORT.EXP_DAILY_AWB
+WHERE 
+    AGEN_CREATION_DATETIME between to_date('{0}','DD/MM/YYYY') and to_date('{0}','DD/MM/YYYY') + 1
+AND 
+    AIRLINE not like 'JL'
+AND AIRLINE like '{1}'
+AND (PREFIX || trim(to_char(MAWB_SERIAL_NO, '00000000'))) = {2}
+ORDER BY AGEN_CREATION_DATETIME ASC
+    </SQL>
+    <FIND>FromDate,FlightNumber,Mawb</FIND>
+    <COLUMN>STT,AIRLINE,ORIGIN,DESTINATION</COLUMN>     
+  </HERMES01_1>
+<HERMES03>
+    <SQL>     
+ select  P_RESULT.* from ( 
+	  select rownum rankid,(count(*) OVER ()) TOTAL,
+      labs.labs_ident_no as LAS_INDENT,
+      labs.LABS_DATE_STATUS_4_SET as RECEIVED_DATE,
+      labs.LABS_TIME_STATUS_4_SET as RECEIVED_TIME,
+      labs.LABS_MAWB_PREFIX as AWP,
+      labs.LABS_MAWB_SERIAL_NO AS SERIAL_NO, 
+      labs.LABS_DESTINATION as DEST,
+      labs.LABS_SHIPPER_NAME  as SHIPPER_NAME,
+      labs.LABS_SHIPPER  as CUS_CODE,
+      labs.LABS_CONSIGNEE_NAME  as CONSIGNEE_NAME, 
+      labs.LABS_AGENT_NAME as CNEE,  
+      labs.labs_quantity_del as RECEIVED_PIECES,
+      labs.labs_weight_del as RECEIVED_WEIGHT,
+      sum(awbu.awbu_pieces) as DEPARTED_PIECES,
+      sum(awbu.awbu_weight)  as DEPARTED_WEIGHT,
+      labs.labs_quantity_del - sum(nvl(awbu.awbu_pieces,0)) as INVENTORY_PIECES,
+      labs.labs_weight_del - sum(nvl(awbu.awbu_weight,0)) as INVENTORY_WEIGHT,
+      labs.LABS_CONTENT  as NATURE,
+      labs.LABS_SPECIAL_GOODS as SHC  
+    FROM labs labs
+    left join awbu_awbperuld_list awbu 
+         on awbu.awbu_mawb_ident_no = labs.labs_ident_no
+         and awbu.awbu_object_type = 'EXPORT AWB'
+    WHERE  
+         labs.labs_deleted = 0
+         and labs.labs_returntoagent=0
+      AND labs.LABS_LIVE_UNTIL >= sysdate
+    GROUP BY 
+      labs.labs_ident_no,
+      labs.LABS_DATE_STATUS_4_SET,
+      labs.LABS_TIME_STATUS_4_SET,
+      labs.LABS_MAWB_PREFIX,
+      labs.LABS_MAWB_SERIAL_NO, 
+      labs.LABS_DESTINATION,
+      labs.LABS_SHIPPER_NAME,
+      labs.LABS_SHIPPER,
+      labs.LABS_CONSIGNEE_NAME, 
+      labs.LABS_AGENT_NAME,  
+      labs.labs_quantity_del,
+      labs.labs_weight_del,
+      labs.labs_quantity_manif,
+      labs.labs_weight_manif,
+      labs.LABS_CONTENT,
+      labs.LABS_SPECIAL_GOODS,
+      rownum     	  
+    ORDER BY RECEIVED_DATE, RECEIVED_TIME ASC)P_RESULT 
+	  where rankid> ({0}-1) * {1} and rankid&lt;=((({0}-1) * {1} ) + {1}) 
+    </SQL>
+    <FIND>Page,PageSize</FIND>
+    <COLUMN>LAS_INDENT,RECEIVED_DATE,RECEIVED_TIME,DEST</COLUMN>     
+</HERMES03>
+</REPORT>

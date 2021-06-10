@@ -1,0 +1,78 @@
+﻿@{
+    Layout = "~/Views/Layout/Guest.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet">
+            <div class="portlet-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="content-list-result">
+                            <table id="location" border='1'>
+                                <tr>
+                                    <th>Countries</th>
+                                    <th>Cities</th>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script>
+    var service = 'http://support.als.com.vn:8882/rest/api/2/issue/ALSCKT-3/properties/proforma.forms.i1';
+    var username = "huy.nguyen.quang";
+    var password = "hoangtuech@1";
+    var capsoAction = {
+        search: function () {
+            //egovutil.getContent("#content-list-result", "/capso/list" );
+            
+            //loadData();
+        }
+    }
+    //function make_base_auth(user, password) {
+    //    var tok = user + ':' + password;
+    //    var hash = btoa(tok);
+    //    return "Basic " + hash;
+    //}
+    loadData = function () {
+        var u1 = "huy.nguyen.quang";
+        var p1 = "hoangtuech@1";
+
+        var url1 = 'http://support.als.com.vn:8882/rest/api/2/issue/ALSCKT-3/properties/proforma.forms.i1';
+        $.ajax({
+            url: url1,
+            success: function (data) {
+                cons
+            },
+            xhrFields: {
+                withCredentials: true
+            },
+            crossDomain: true,
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert(textStatus, errorThrown);
+                console.log(errorThrown);
+            },
+            // headers: {
+            //'Authorization': 'Basic bWFkaHVhOndlbGNvbWUxMjM=',
+            //},
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("Authorization", "Basic " + btoa(u1 + ":" + p1));
+            },
+
+            type: 'GET',
+            dataType: 'jsonp',
+        });
+
+    }
+    capsoAction.search();
+    //setInterval(capsoAction.search, 12000);
+
+
+
+
+</script>

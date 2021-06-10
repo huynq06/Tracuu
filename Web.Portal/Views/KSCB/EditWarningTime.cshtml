@@ -1,0 +1,67 @@
+﻿
+@{
+    Layout = null;
+}
+@model Web.Portal.Model.Models.ULD_TYPE
+<form class="form-horizontal" id="frmAction">
+
+    <input type="hidden" name="keyValue" value="@Html.DisplayFor(model=>model.ID)" />
+    <div class="form-body">
+        <div class="form-group form-md-line-input">
+            <label class="col-md-3 control-label" for="frmAction">
+                <b>LOẠI ULD:</b>
+                <span class="required">*</span>
+            </label>
+            <div class="col-md-3">
+                <input class="form-control form-control-inline input txtName" placeholder="Loại ULD" maxlength="256" data-id="@Html.DisplayTextFor(model=>model.Name)" value="@Html.DisplayTextFor(model=>model.Name)" name="name" />
+                <div class="form-control-focus"> </div>
+                <span class="help-block">NHẬP LOẠI ULD</span>
+            </div>
+        </div>
+        <div class="form-group form-md-line-input">
+            <label class="col-md-3 control-label" for="frmAction">
+                <b>STT:</b>
+                <span class="required">*</span>
+            </label>
+            <div class="col-md-3">
+                <input class="form-control form-control-inline input txtName" placeholder="Số thứ tự" maxlength="256" data-id="@Html.DisplayTextFor(model=>model.STT)" value="@Html.DisplayTextFor(model=>model.STT)" name="stt" />
+                <div class="form-control-focus"> </div>
+                <span class="help-block">NHẬP STT</span>
+            </div>
+        </div>
+        <div class="form-group form-md-line-input">
+            <label class="col-md-3 control-label" for="frmAction">
+                <b>THỜI GIAN KHAI THÁC:</b>
+                <span class="required">*</span>
+            </label>
+            <div class="col-md-3">
+                <input id="customerEmail" class="form-control form-control-inline" placeholder="Nhập thời gian khai thác" maxlength="256" value="@Html.DisplayTextFor(model=>model.TimeOperation)" name="timeOperation" />
+                <div class="form-control-focus"> </div>
+                @*<span class="help-block">Nhập Tiêu Đề SEO</span>*@
+            </div>
+            <label class="col-md-3 control-label" for="frmAction">
+                <b>THỜI GIAN CẢNH BÁO:</b>
+                <span class="required">*</span>
+            </label>
+            <div class="col-md-3">
+                <input id="customerEmail" class="form-control form-control-inline" placeholder="Nhập thời gian cảnh báo" maxlength="256" value="@Html.DisplayTextFor(model=>model.TimeNotify)" name="timeNotify" />
+                <div class="form-control-focus"> </div>
+                @*<span class="help-block">Nhập Tiêu Đề SEO</span>*@
+            </div>
+        </div>
+
+        
+    </div>
+
+    <div class="text-center">
+        <button type="submit" class="btn btn-success" id="btnSave"><i class="fa fa-floppy-o"></i> Lưu thông tin</button>
+        <button type="reset" class="btn btn-success"><i class="fa fa-refresh"></i> Làm mới</button>
+    </div>
+    <!-- /.box-footer -->
+</form>
+<script>
+    var message = {};
+    var rule = {};
+    egovutil.submit("#frmAction", rule, message, "/kscb/actionwarning");
+
+</script>

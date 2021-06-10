@@ -1,0 +1,209 @@
+﻿@{
+    Layout = null;
+    
+}
+
+<form class="form-horizontal" id="frmAction">
+
+    
+    <div class="form-body" id="frm-radio-tem">
+
+        <div class="form-group form-md-line-input">  
+            <label class="col-md-2 control-label" for="frmAction">
+                <b>Ngày thống kê:</b>
+                <span class="required">*</span>
+            </label>         
+            <div class="col-md-2 col-xs-12">
+
+                <input class="form-control form-control-inline date-picker" value="@Html.Raw(DateTime.Now.ToString("dd/MM/yyyy"))" id="da_check" placeholder="Ngày báo cáo" maxlength="20" data-date-format="dd/mm/yyyy" />
+                <div class="form-control-focus"> </div>
+                <span class="help-block">Ngày báo cáo</span>
+
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-success " id="btn-add-option" type="button" value="Thêm chỉ tiêu"><i class="fa fa-plus"></i></button>
+            </div>
+        </div>
+        <div class="form-group form-md-line-input" id="footer-tem">
+            <div class="form-group form-md-line-input" id="tem_0">
+
+                <div class="col-md-6">
+                    <input type="text" name="title_rp" class="form-control form-control-inline" value="Dưới 30 ngày" placeholder="Tiêu đề báo cáo " />
+                    <div class="form-control-focus"> </div>
+                    <span class="help-block">Nhập thông tin tiêu đề thống kê</span>
+
+                </div>
+                <div class="col-md-2">
+                    <input type="text" name="num_fr" class="form-control form-control-inline" value="0" placeholder="Số ngày bắt đầu" />
+                    <div class="form-control-focus"> </div>
+                    <span class="help-block">Số ngày bắt đầu</span>
+
+                </div>
+                <div class="col-md-2">
+                    <input type="text" name="num_to" class="form-control form-control-inline" value="29" placeholder="Số ngày kết thúc" />
+                    <div class="form-control-focus"> </div>
+                    <span class="help-block">Số ngày kết thúc</span>
+
+                </div>
+                <div class="col-md-2">
+                    <button class="btn btn-danger" type="button" onclick="removeTem('tem_0')"><i class="fa fa-remove"></i></button>
+                </div>
+            </div>
+
+
+            <div class="form-group form-md-line-input" id="tem_1">
+
+                <div class="col-md-6">
+                    <input type="text" name="title_rp" class="form-control form-control-inline" value="Từ 30 ngày đến 90 ngày" placeholder="Tiêu đề báo cáo " />
+                    <div class="form-control-focus"> </div>
+                    <span class="help-block">Nhập thông tin tiêu đề thống kê</span>
+
+                </div>
+                <div class="col-md-2">
+                    <input type="text" name="num_fr" class="form-control form-control-inline" value="30" placeholder="Số ngày bắt đầu" />
+                    <div class="form-control-focus"> </div>
+                    <span class="help-block">Số ngày bắt đầu</span>
+
+                </div>
+                <div class="col-md-2">
+                    <input type="text" name="num_to" class="form-control form-control-inline" value="90" placeholder="Số ngày kết thúc" />
+                    <div class="form-control-focus"> </div>
+                    <span class="help-block">Số ngày kết thúc</span>
+
+                </div>
+                <div class="col-md-2">
+                    <button class="btn btn-danger" type="button" onclick="removeTem('tem_1')"><i class="fa fa-remove"></i></button>
+                </div>
+            </div>
+
+
+            <div class="form-group form-md-line-input" id="tem_2">
+
+                <div class="col-md-6">
+                    <input type="text" name="title_rp" class="form-control form-control-inline" value="Trên 90 ngày" placeholder="Tiêu đề báo cáo " />
+                    <div class="form-control-focus"> </div>
+                    <span class="help-block">Nhập thông tin tiêu đề thống kê</span>
+
+                </div>
+                <div class="col-md-2">
+                    <input type="text" name="num_fr" class="form-control form-control-inline" value="91" placeholder="Số ngày bắt đầu" />
+                    <div class="form-control-focus"> </div>
+                    <span class="help-block">Số ngày bắt đầu</span>
+
+                </div>
+                <div class="col-md-2">
+                    <input type="text" name="num_to" class="form-control form-control-inline" value="500" placeholder="Số ngày kết thúc" />
+                    <div class="form-control-focus"> </div>
+                    <span class="help-block">Số ngày kết thúc</span>
+
+                </div>
+                <div class="col-md-2">
+                    <button class="btn btn-danger" type="button" onclick="removeTem('tem_2')"><i class="fa fa-remove"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center">
+        <button type="button" class="btn btn-success" id="btnExport"><i class="fa fa-floppy-o"></i> Xuất báo cáo</button>
+        <button type="reset" class="btn btn-success"><i class="fa fa-refresh"></i> Làm mới</button>
+    </div>
+    <div id="row-hidden" class="hidden">
+        <div class="form-group form-md-line-input" id="tem_alias">
+
+            <div class="col-md-6">
+                <input type="text" name="title_rp" class="form-control form-control-inline" value="" placeholder="Tiêu đề báo cáo " />
+                <div class="form-control-focus"> </div>
+                <span class="help-block">Nhập thông tin tiêu đề thống kê</span>
+
+            </div>
+            <div class="col-md-2">
+                <input type="text" name="num_fr" class="form-control form-control-inline" value="30" placeholder="Số ngày bắt đầu" />
+                <div class="form-control-focus"> </div>
+                <span class="help-block">Số ngày bắt đầu</span>
+
+            </div>
+            <div class="col-md-2">
+                <input type="text" name="num_to" class="form-control form-control-inline" value="30" placeholder="Số ngày kết thúc" />
+                <div class="form-control-focus"> </div>
+                <span class="help-block">Số ngày kết thúc</span>
+
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-danger" type="button" onclick="removeTem('tem_alias')"><i class="fa fa-remove"></i></button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- /.box-footer -->
+</form>
+<script>
+    var rcount = 2;
+    var message = {
+
+        da_check: {
+            required: "Ngày báo cáo không được trống"
+        }
+
+
+    };
+    var rule = {
+        da_check: {
+
+            required: true
+        }
+    };
+    $("#btnExport").click(function () {
+        var t_rp = $("input[name= 'title_rp']").map(function (i, e) {
+            return e.value;
+        }).get();
+        var n_fr = $("input[name= 'num_fr']").map(function (i, e) {
+            return e.value;
+        }).get();
+        var n_to = $("input[name= 'num_to']").map(function (i, e) {
+            return e.value;
+        }).get();
+
+        window.location.href = "/custom/exinventcount?ti=" + t_rp
+                                                   + "&st=" + n_fr
+                                                   + "&ed=" + n_to
+                                                   + "&date=" + $("#da_check").val()
+      
+    });
+    function removeTem(id)
+    {
+
+       $("#"+id).remove();
+    }
+    $("#btn-add-option").click(function () {
+        rcount+=1;
+        $($("#row-hidden").html()
+            .replace("tem_alias", "tem_" + rcount)
+            
+            .replace("removeTem('tem_alias')", "removeTem('tem_" + rcount + "')")).appendTo($("#footer-tem"));
+
+       // $("#content_radio").append($("#row-hidden").html());
+    });
+
+    $("#footer-tem").sortable(
+        {
+            revert: true,
+            stop: function (event, ui) {
+            }
+        });
+    $('.date-picker').datepicker({
+        rtl: App.isRTL(),
+        orientation: "left",
+        autoclose: true
+    });
+
+    /*$(".form-tem-radio").draggable({
+        connectToSortable: "#frm-radio-tem",
+        helper: "remove",
+        revert: "invalid",
+        drag: function (event, ui) {
+            // $(this).remove();
+        }
+    });*/
+</script>

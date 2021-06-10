@@ -1,0 +1,182 @@
+﻿
+@{
+    Layout = null;
+    int PageCurrent = 0;
+    IEnumerable<Web.Portal.Common.ViewModel.ConditionViewModel> ConditionList = (IEnumerable<Web.Portal.Common.ViewModel.ConditionViewModel>)ViewData["ListCondition"];
+    IEnumerable<Web.Portal.Common.ViewModel.IssueDetailViewModel> listIssue = (IEnumerable<Web.Portal.Common.ViewModel.IssueDetailViewModel>)ViewData["ListIssueDetail"];
+}
+
+<div class="row">
+    <div class='col-md-12 col-xs-12 margin-top-10' style="align-items: center;text-align:center">
+        <label class='control-label' style="align-items: center "><b><span style="color:red">DANH SÁCH LÔ HÀNG CHỜ TIẾP NHẬN </span></b></label>
+    </div>
+</div>
+
+<table class="table table-bordered table-striped table-condensed flip-content" id="table_fixed">
+    <thead class="flip-content">
+        <tr style="">
+            <th class="all" rowspan="2" style="width:2%;background-color:yellow !important;text-align:center">
+                STT
+            </th>
+            <th rowspan="2" style="width:10%;background-color:yellow !important;text-align:center">
+                AWB
+            </th>
+            <th rowspan="2" style="width:10%;background-color:yellow !important;text-align:center">
+                SỐ KIỆN
+            </th>
+            <th rowspan="2" style="width:10%;background-color:yellow !important;text-align:center">
+                BOOKING
+            </th>
+            <th rowspan="2" style="width:10%;background-color:yellow !important;text-align:center">
+                NGÀY TẠO
+            </th>
+            <th rowspan="2" style="width:10%;background-color:yellow !important;text-align:center">
+                CUTOFFTIME
+            </th>
+            <th colspan="5" style="width:30%;background-color:yellow !important;text-align:center">
+                ĐIỀU KIỆN TIẾP NHẬN
+            </th>
+           
+        </tr>
+        <tr style="">
+            <th style="width:10%;background-color:yellow !important;text-align:center">
+                GIẤY GT
+            </th> 
+            <th style="width:10%;background-color:yellow !important;text-align:center">
+                Custom
+            </th>
+            <th style="width:10%;background-color:yellow !important;text-align:center">
+                Goods
+            </th>
+            <th style="width:10%;background-color:yellow !important;text-align:center">
+                Label
+            </th>
+            <th style="width:10%;background-color:yellow !important;text-align:center">
+                Có khách hàng
+            </th>
+
+        </tr>
+    </thead>
+</table>
+<div class="portlet-body flip-scroll" id="contain">
+    <table class="table table-bordered table-striped table-condensed flip-content" id="table_scroll">
+        <tbody>
+            @if (listIssue.ToList().Count > 0)
+            {
+                foreach (var row in (IList<Web.Portal.Common.ViewModel.IssueDetailViewModel>)ViewData["ListIssueDetail"])
+                {
+                    PageCurrent += 1;
+                    <tr style="@Html.Raw(row.SortValue== 0 ? "background-color:#f2f2f2;font-weight: bold;font-size: 18px;" : "background-color:#FFCC00;color:white;font-weight: bold;font-size: 18px;")">
+                        <td style="width:10%;text-align:center;font-weight: bold !important;font-size: 18px !important;">@PageCurrent</td>
+                        <td style="width:10%;text-align:center;font-weight: bold !important;font-size: 18px !important;">@Html.Raw(row.AWB) </td>
+                        <td style="width:10%;text-align:center;font-weight: bold !important;font-size: 18px !important;">@Html.Raw(row.pieces) </td>
+                        <td style="width:10%;text-align:center;font-weight: bold !important;font-size: 18px !important;">@Html.Raw(row.Booking) </td>
+                        <td style="width:10%;text-align:center;font-weight: bold !important;font-size: 18px !important;">@Html.Raw(row.Created.Value.ToString("dd/MM/yy HH:mm")) </td>
+
+                        <td style="width:10%;text-align:center;font-weight: bold !important;font-size: 18px !important;">@Html.Raw(row.TimeSpanToCutOff)</td>
+                        @foreach (var rowCondition in ConditionList.ToList().Where(c => c.issue_id == row.id))
+                    {
+                            <td style="width:10%;padding-top:19px;" align="center"><div class="btn-group green"><i style="font-size:30px; @Html.Raw(rowCondition.@checked==true? "color:#00b33c":"color:red")" class="fa @Html.Raw(rowCondition.@checked==true? "green fa-check-circle-o": "red fa-close")"></i></div> </td>
+                        }
+                       
+                    </tr>
+                }
+            }
+
+        </tbody>
+
+    </table>
+    <p></p>
+    <p></p>
+    <style>
+        body {
+           font-family: 'helvetica';
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        #contain {
+            height: 700px;
+            overflow-y: scroll;
+        }
+
+        #table_scroll {
+            width: 100%;
+            margin-top: 700px;
+            margin-bottom: 700px;
+            border-collapse: collapse;
+        }
+
+            #table_scroll thead th {
+               padding-top: 10px;
+                 padding-left: 10px;
+                background-color: #ea922c;
+                color: #fff;
+            }
+
+            #table_scroll tbody td {
+              padding-top: 10px;
+              font-weight: bold;
+            font-size: 18px;
+                color: black;
+            }
+    </style>
+    <script>
+        var cfsAction = {
+            search: function () {
+                $.post(encodeURI("/Issue/waitinglist"), function (data) {
+                    $("#content-list-result").html(data);
+                });
+            }
+        }
+        $(document).ready(function () {
+            pageScroll();
+
+            $("#contain").mouseover(function () {
+                clearTimeout(my_time);
+            }).mouseout(function () {
+                pageScroll();
+            });
+
+            getWidthHeader('table_fixed', 'table_scroll');
+
+        });
+
+        var my_time;
+        var step = 1;
+        function pageScroll() {
+            var objDiv = document.getElementById("contain");
+            objDiv.scrollTop = objDiv.scrollTop + step;
+            console.log(Math.floor((objDiv.scrollTop + 500)));
+            console.log(objDiv.scrollHeight)
+            if (objDiv.scrollHeight - Math.floor((objDiv.scrollTop + 700)) <= 0) {
+                objDiv.scrollTop = 0;
+                cfsAction.search();
+
+            }
+
+            else {
+                my_time = setTimeout('pageScroll()', 25);
+            }
+
+        }
+
+        function getWidthHeader(id_header, id_scroll) {
+            var colCount = 0;
+            $('#' + id_scroll + ' tr:nth-child(1) td').each(function () {
+                if ($(this).attr('colspan')) {
+                    colCount += +$(this).attr('colspan');
+                } else {
+                    colCount++;
+                }
+            });
+
+            for (var i = 1; i <= colCount; i++) {
+                var th_width = $('#' + id_scroll + ' > tbody > tr:first-child > td:nth-child(' + i + ')').width();
+                $('#' + id_header + ' > thead th:nth-child(' + i + ')').css('width', th_width + 'px');
+            }
+        }
+    </script>
+</div>
+
+

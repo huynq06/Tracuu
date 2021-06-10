@@ -1,0 +1,129 @@
+﻿
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet">
+            <div class="portlet-title">
+                <div class="caption caption-md">
+                    <span class="caption-subject font-blue-madison bold uppercase">@ViewBag.Des</span>
+                </div>
+                <div class="actions">
+                    <a href="javascript:;" data-id="02" class="btn btn-circle btn-danger btn-export">
+                        <i class="fa fa-download"></i> Xuất thông tin
+                    </a>
+
+                    <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="row">
+                    <div class="form-group form-md-line-input">
+                        <input type="hidden" name="keyValue" id="reportId" value="@ViewBag.ID" />
+                        <input type="hidden" name="keyPaging" id="reportPaging" value="@ViewBag.Paging" />
+                        <div class="col-md-2 col-xs-3" style="@Html.Raw(ViewBag.FromDate =="true"? "" : "display:none")">
+                            <input class="form-control form-control-inline  date-picker" id="fda" value="@Html.Raw(DateTime.Now.ToString("dd/MM/yyyy"))" placeholder="Từ ngày" maxlength="20" data-date-format="dd/mm/yyyy" />
+                            <div class="form-control-focus"> </div>
+                            <span class="help-block">Từ ngày</span>
+                        </div>
+                        <div class="col-md-2 col-xs-12" style="@Html.Raw(ViewBag.ToDate =="true"? "" : "display:none")">
+                            <input class="form-control form-control-inline  date-picker" id="tda" value="@Html.Raw(DateTime.Now.ToString("dd/MM/yyyy"))" placeholder="Đến ngày" maxlength="20" data-date-format="dd/mm/yyyy" />
+                            <div class="form-control-focus"> </div>
+                            <span class="help-block">Tìm theo ngày</span>
+                        </div>
+                        <div class="col-md-2 col-xs-12 uppercase" style="@Html.Raw(ViewBag.FlightNumber == "true"? "" : "display:none")">
+                            <input class="form-control form-control-inline input txtName" placeholder="FLIGHT NUMBER" maxlength="30" id="flightNumber" />
+                            <div class="form-control-focus"> </div>
+                            <span class="help-block">Flight Number</span>
+                        </div>
+                        <div class="col-md-2 col-xs-12" style="@Html.Raw(ViewBag.Mawb =="true"? "" : "display:none")">
+                            <input class="form-control form-control-inline input txtName" placeholder="SỐ MAWB" maxlength="30" id="mawb" />
+                            <div class="form-control-focus"> </div>
+                            <span class="help-block">SỐ MAWB</span>
+                        </div>
+                        <div class="col-md-2 col-xs-12" style="@Html.Raw(ViewBag.SHC =="true"? "" : "display:none")">
+                            <select class="form-control  bs-select" id="shc" data-live-search="true" data-size="8">
+                                @*<option value="100"></option>*@
+                                <option value="25">25</option>
+                                <option value="30">30</option>
+                                <option value="35">35</option>
+                            </select>
+                            <div class="form-control-focus"> </div>
+                            <span class="help-block">POINT</span>
+                        </div>
+                        <div class="col-md-2 col-xs-12">
+                            <div class="input-group">
+                                <span class="input-group-btn">
+                                    <button id="btn-search-sita" class="btn btn-success" type="button"><i class="fa fa-search"></i></button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="content-list-result">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var id = $('#reportId').val()
+    var paging = $('#reportPaging').val()
+
+    var invoiceAction = {
+        search: function () {
+            console.log(paging);
+            if (paging == "true") {
+                egovutil.getContent("#content-list-result", "/HandlingReport/Reportlist?id=" + id
+                                                                   + "&paging=" + paging
+                                                                   + "&FromDate=" + $("#fda").val()
+                                                                   + "&ToDate=" + $("#tda").val()
+                                                                   + "&FlightNumber=" + $("#flightNumber").val()
+                                                                   + "&Mawb=" + $("#mawb").val()
+                                                                   + "&Shc=" + $("#shc").val()
+                                                                   + "&Page=1"
+                                                                   + "&PageSize=50"
+                                                                   );
+            }
+            else {
+                egovutil.getContent("#content-list-result", "/HandlingReport/Reportlist?id=" + id
+                                                                 + "&paging=" + paging
+                                                                   + "&FromDate=" + $("#fda").val()
+                                                                   + "&ToDate=" + $("#tda").val()
+                                                                   + "&FlightNumber=" + $("#flightNumber").val()
+                                                                   + "&Mawb=" + $("#mawb").val()
+                                                                   + "&Shc=" + $("#shc").val()
+                                                                 );
+            }
+        }
+    }
+    $('.date-picker').datepicker({
+        rtl: App.isRTL(),
+        orientation: "left",
+        autoclose: true
+    });
+
+
+    $('.bs-select').selectpicker({
+        iconBase: 'fa',
+        tickIcon: 'fa-check'
+    });
+    $(".btn-export").click(function () {
+        window.location.href = "/HandlingReport/export?id=" + id+"&fn=EXReport1&FromDate=" + $("#fda").val()
+                                                                    + "&ToDate=" + $("#tda").val()
+                                                                    + "&Page=1"
+                                                                    + "&PageSize=50"
+    });
+
+    // sitaAction.search();
+    $("#btn-search-sita").click(function () {
+       invoiceAction.search();
+
+    })
+
+</script>

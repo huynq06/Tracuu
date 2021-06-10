@@ -1,0 +1,102 @@
+﻿
+@{
+    Layout = null;
+}
+@model Web.Portal.Model.Models.FlightConfig
+<form class="form-horizontal" id="frmAction">
+
+    <input type="hidden" name="keyValue" value="@Html.DisplayFor(model=>model.ID)" />
+    <div class="form-body">
+        <div class="form-group form-md-line-input">
+            <label class="col-md-3 control-label" for="frmAction">
+                <b>TÊN HÃNG:</b>
+                <span class="required">*</span>
+            </label>
+            <div class="col-md-9">
+                <input class="form-control form-control-inline input txtName" placeholder="Tên hãng" maxlength="256" data-id="@Html.DisplayTextFor(model=>model.FlightNumber)" value="@Html.DisplayTextFor(model=>model.FlightNumber)" name="flightNumber" />
+                <div class="form-control-focus"> </div>
+                <span class="help-block">NHẬP TÊN HÃNG</span>
+            </div>
+        </div>
+
+        <div class="form-group form-md-line-input">
+            <label class="col-md-3 control-label" for="frmAction">
+                <b>TYPE:</b>
+                <span class="required">*</span>
+            </label>
+            <div class="col-md-3">
+                <input id="customerEmail" class="form-control form-control-inline" placeholder="Nhập Type P/C" maxlength="256" value="@Html.DisplayTextFor(model=>model.FlightType)" name="flightType" />
+                <div class="form-control-focus"> </div>
+                @*<span class="help-block">Nhập Tiêu Đề SEO</span>*@
+            </div>
+            <label class="col-md-3 control-label" for="frmAction">
+                <b>AIRCRAFT TYPE:</b>
+                @*<span class="required">*</span>*@
+            </label>
+            <div class="col-md-3">
+                <input id="customerEmail" class="form-control form-control-inline" placeholder="Aircraft Type" maxlength="256" value="@Html.DisplayTextFor(model=>model.FlightTypeOfAirCraft)" name="flightAirCraftType" />
+                <div class="form-control-focus"> </div>
+                @*<span class="help-block">Nhập Tiêu Đề SEO</span>*@
+            </div>
+        </div>
+        
+        <div class="form-group form-md-line-input">
+            <label class="col-md-3 control-label" for="frmAction">
+                <b>SOP(m):</b>
+                <span class="required">*</span>
+            </label>
+            <div class="col-md-3">
+                <input class="form-control form-control-inline" placeholder="SOP" maxlength="50" value="@Html.DisplayTextFor(model=>model.SopTime)" name="sop" />
+                <div class="form-control-focus"> </div>
+            </div>
+            <label class="col-md-3 control-label" for="frmAction">
+                <b>SHC Time(m):</b>
+                <span class="required">*</span>
+            </label>
+            <div class="col-md-3">
+                <input class="form-control form-control-inline" placeholder="Thời gian xử lý hàng lạnh" maxlength="50" value="@Html.DisplayTextFor(model=>model.SHCTIME)" name="shc" />
+                <div class="form-control-focus"> </div>
+            </div>
+        </div>
+        <div class="form-group form-md-line-input">
+            <label class="col-md-3 control-label" for="frmAction">
+                <b>SHC Alert 1(m):</b>
+                <span class="required">*</span>
+            </label>
+            <div class="col-md-3">
+                <input class="form-control form-control-inline" placeholder="cảnh báo lần 1 trước SOP" maxlength="50" value="@Html.DisplayTextFor(model=>model.AlertSHC1)" name="alertSHC1" />
+                <div class="form-control-focus"> </div>
+            </div>
+            <label class="col-md-3 control-label" for="frmAction">
+                <b>SHC Alert 2(m):</b>
+                <span class="required">*</span>
+            </label>
+            <div class="col-md-3">
+                <input class="form-control form-control-inline" placeholder="cảnh báo lần 2 trước SOP" maxlength="50" value="@Html.DisplayTextFor(model=>model.AlertSHC2)" name="alertSHC2" />
+                <div class="form-control-focus"> </div>
+            </div>
+        </div>
+        <div class="form-group form-md-line-input">
+            <label class="col-md-3 control-label" for="frmAction">
+                <b>FINAL LOAD(m):</b>
+                <span class="required">*</span>
+            </label>
+            <div class="col-md-3">
+                <input class="form-control form-control-inline" placeholder="Thời gian gửi Final Load" maxlength="50" value="@Html.DisplayTextFor(model=>model.FinalLoad)" name="final" />
+                <div class="form-control-focus"> </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center">
+        <button type="submit" class="btn btn-success" id="btnSave"><i class="fa fa-floppy-o"></i> Lưu thông tin</button>
+        <button type="reset" class="btn btn-success"><i class="fa fa-refresh"></i> Làm mới</button>
+    </div>
+    <!-- /.box-footer -->
+</form>
+<script>
+    var message = {};
+    var rule = {};
+    egovutil.submit("#frmAction", rule, message, "/kscb/actionsop");
+
+</script>

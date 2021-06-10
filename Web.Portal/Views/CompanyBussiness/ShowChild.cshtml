@@ -1,0 +1,64 @@
+﻿
+@{
+    Layout = null;
+    string fromDate = "";
+    string toDate = "";
+    string styleCanhBao = "";
+}
+
+@model Web.Portal.Layer.CompanyBussiness
+
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <td>TRẠNG THÁI</td>
+                    <td>MÃ</td>
+                    <td>LOẠI CÔNG VĂN</td>
+                    <td>NỘI DUNG CHI TIẾT</td>
+                    <td>TỪ NGÀY</td>
+                    <td>ĐẾN NGÀY</td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in (IList<Web.Portal.Layer.CompanyChild_Authority>)ViewData["CompanyChild_AuthorityList"])
+                {
+
+                    fromDate = item.FromDate.ToString("dd/MM/yyyy");
+                    toDate = item.ToDate.ToString("dd/MM/yyyy");
+                    if(item.TrangThai != "ĐỦ ĐIỀU KIỆN")
+                    {
+                        styleCanhBao = "color:red; font-weight:bold";
+                    }
+                    else
+                    {
+                        styleCanhBao = "color:green; font-weight:bold";
+                    }
+                <tr>
+                    <td style="@styleCanhBao">
+                        @Html.DisplayTextFor(model => item.TrangThai)
+                    </td>
+                    <td>
+                        @Html.DisplayTextFor(model => item.TableContentOrder)
+                    </td>
+                    <td>
+                        @Html.DisplayTextFor(model => item.AuthorityType)
+                    </td>
+                    <td>
+                        @Html.DisplayTextFor(model => item.Description)
+                    </td>
+                    <td>
+                        @fromDate
+                    </td>
+                    <td>
+                        @toDate
+
+                        @*@Html.DisplayTextFor(model => item.ToDate.ToShortDateString())*@
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

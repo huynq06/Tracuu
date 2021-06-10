@@ -1,0 +1,32 @@
+﻿@{
+    Layout = "~/Views/Layout/Core.cshtml";
+}
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet">
+                <div class="portlet-body">
+                    <div class="row">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div id="content-list-result">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        </div>
+
+<script>
+            var cfsAction = {
+                search: function () {
+                    egovutil.getContent("#content-list-result", "/Issue/list");
+                }
+            }
+
+            cfsAction.search();
+</script>

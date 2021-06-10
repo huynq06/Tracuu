@@ -1,0 +1,109 @@
+﻿
+@{
+    Layout = null;
+    //int PageCurrent = 0;
+    //string[] columns = (string[])ViewData["column"];
+    //System.Data.DataTable tableReport = ((System.Data.DataTable)ViewData["DataList"]);
+
+}
+<div class='col-md-2 col-xs-12 margin-top-10'>
+    <label class='control-label'><b>Tổng số: @ViewBag.Total</b></label>
+</div>
+<table ID="tbl-sop" class="table table-striped table-bordered table-advance table-hover">
+    <thead>
+        <tr>
+            <th style="wIDth:5%;font-size:16px;text-align:center">
+                T-ID
+            </th>
+            <th style="wIDth:15%;font-size:16px;text-align:center">
+                INVOICE #
+            </th>
+            <th style="wIDth:15%;font-size:16px;text-align:center">
+                INVOICE DATE
+            </th>
+            <th style="wIDth:15%;font-size:16px;text-align:center">
+                INVOICE TYPE
+            </th>
+            <th style="wIDth:15%;font-size:16px;text-align:center">
+                OBJECT TYPE
+            </th>
+            <th style="wIDth:15%;font-size:16px;text-align:center">
+                CHECK STATUS
+            </th>
+
+            <th style="wIDth:10%;font-size:16px;text-align:center">
+                Action
+            </th>
+
+        </tr>
+
+    </thead>
+    <tbody>
+        @foreach (var row in (IList<Web.Portal.Layer.ErpChecking>)ViewData["ErpList"])
+        {
+
+
+            <tr >
+                <td>@Html.Raw(row.InvoiceIsn)</td>
+                <td style="text-align:center">@Html.Raw(row.InvoiceNumber)</td>
+                <td>@Html.Raw(row.InvoiceDate.HasValue? row.InvoiceDate.Value.ToString("dd/MM/yyyy") : "")</td>
+                <td>@Html.Raw(row.InvoiceType)</td>
+                <td>@Html.Raw(row.ObjectType)</td>
+                <td style="text-align:center">@Html.Raw(Web.Portal.Utils.Constants.GetStatusERP(row.Status))</td>
+                @{
+                    if (row.Status == -1)
+                    {
+                        <td style="text-align:center">
+                            <a href="#" data-invoice="@Html.DisplayFor(model => row.InvoiceType)" data-object="@Html.DisplayFor(model => row.ObjectType)" data-date="@Html.DisplayFor(model => row.InvoiceDate)" data-check="@Html.DisplayFor(model => row.Status)" data-ID="@Html.DisplayFor(model => row.InvoiceIsn)" class="btn btn-lg dim-edit">
+                                <i class="fa fa-check-circle"></i> Re-check
+                            </a>
+                        </td>
+                    }
+                    else if (row.Status == 0)
+                    {
+                        <td style="text-align:center">
+                            <a href="#" data-invoice="@Html.DisplayFor(model => row.InvoiceType)" data-object="@Html.DisplayFor(model => row.ObjectType)" data-date="@Html.DisplayFor(model => row.InvoiceDate)" data-check="@Html.DisplayFor(model => row.Status)" data-ID="@Html.DisplayFor(model => row.InvoiceIsn)" class="btn btn-lg dim-edit">
+                                <i class="fa fa-recycle"></i> Mark to Syn
+                            </a>
+                        </td>
+                    }
+                    else
+                    {
+                        <td style="text-align:center">
+                        </td>
+                    }
+                }
+               
+                 
+               
+
+            </tr>
+        }
+    </tbody>
+</table>
+<script>
+    $(".dim-edit").click(function () {
+        var title = "";
+        var content = "";
+        var link = "";
+        
+        if ($(this).attr("data-check") == 0) {
+            title = "Mark to Sync?";
+            content = "Bạn có muốn Mark To Sync?"
+            link = "/AccountantReport/MarkToAsyn?invoiceIsn=" + $(this).attr("data-id")
+            + "&invoice-date=" + $(this).attr("data-date")
+                                                                    + "&invoice-type=" + $(this).attr("data-invoice")
+            console.log(link)
+        }
+        else {
+            title = "Re-check?";
+            content = "Bạn có muốn Re-check?"
+            link = "/AccountantReport/Recheck?invoiceIsn=" + $(this).attr("data-id")
+           + "&invoice-date=" + $(this).attr("data-date")
+                                                                   + "&invoice-type=" + $(this).attr("data-invoice")
+        }
+        console.log(link);
+        egovutil.dlgConfirmAction(title, content, link, "erpAction.search();");
+        Actionfocus.setFocus();
+    });
+</script>

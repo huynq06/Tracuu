@@ -1,0 +1,73 @@
+﻿@{
+    Layout = null;
+}
+
+
+<form class="form-horizontal" id="frmChangePassword">
+
+
+
+
+    <div class="form-body">
+
+        <div class="form-group form-md-line-input">
+            <label for="currentpassword" class="col-md-4 control-label">Mật khẩu hiện tại: <span class="text-red">*</span></label>
+
+            <div class="col-md-8">
+                <input class="form-control" type="password" id="currentpassword" name="currentpassword" />
+                <div class="form-control-focus"> </div>
+                <span class="help-block">Nhập mật khẩu hiện tại</span>
+            </div>
+
+        </div>
+        <div class="form-group form-md-line-input">
+            <label for="password" class="col-md-4 control-label">Mật khẩu mới: <span class="text-red">*</span></label>
+
+            <div class="col-md-8">
+                <input class="form-control" type="password" id="password" name="password" />
+                <div class="form-control-focus"> </div>
+                <span class="help-block">Nhập mật khẩu mới</span>
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <div class="text-center">
+        <button type="submit" class="btn btn-success" id="btnSave"><i class="fa fa-floppy-o"></i> Thay đổi</button>
+        <button type="reset" class="btn btn-success"><i class="fa fa-refresh"></i> Làm mới</button>
+    </div>
+
+
+    <!-- /.box-footer -->
+</form>
+<script>
+
+
+
+    var message = {
+        currentpassword: {
+            required: "Mật khẩu hiện tại không được trống"
+        },
+        password: {
+            required: "Mật khẩu không được trống"
+        }
+    };
+    var rule = {
+        currentpassword: {
+
+            required: true
+        },
+        password: {
+            required: true
+        }
+    };
+    egovutil.submit("#frmChangePassword", rule, message, "/password/action");
+
+</script>
+
+
+
+

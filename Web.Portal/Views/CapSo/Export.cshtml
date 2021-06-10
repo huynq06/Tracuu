@@ -1,0 +1,122 @@
+﻿@{
+    Layout = null;
+    IList<Web.Portal.Layer.Ticket> TicketList = (IList<Web.Portal.Layer.Ticket>)ViewData["TicketList"];
+    IList<Web.Portal.Layer.CapSoLog> CapSoLogList = (IList<Web.Portal.Layer.CapSoLog>)ViewData["CapSoLogList"];
+    IList<Web.Portal.Layer.AgenInfo> AgenList = (IList<Web.Portal.Layer.AgenInfo>)ViewData["AgenList"];
+}
+<p style="text-align:center;font-family:'Times New Roman';font-size:15pt;font-weight:bold">BÁO CÁO CẤP SỐ NGÀY @ViewBag.DATE</p>
+<table class="table table-striped table-bordered table-advance table-hover dt-responsive" border="1" style="width:100%;font-family:'Times New Roman';font-size:14pt">
+
+
+    <thead>
+        <tr>
+            <th style="width:15%;font-size:16px;background-color:yellow !important;text-align:center">
+                SỐ ĐƯỢC CẤP
+            </th>
+            <th style="width:15%;font-size:16px;background-color:yellow !important;text-align:center">
+                MAWB
+            </th>
+            <th style="width:15%;font-size:16px;background-color:yellow !important;text-align:center">
+                HAWB
+            </th>
+            <th style="width:10%;font-size:16px;background-color:yellow !important;text-align:center">
+                GIỜ CẤP
+            </th>
+            <th style="width:15%;font-size:16px;background-color:yellow !important;text-align:center">
+                GIỜ BẤM GỌI
+            </th>
+            <th style="width:15%;font-size:16px;background-color:yellow !important;text-align:center">
+                THỜI GIAN XUẤT PHIẾU
+            </th>
+            <th style="width:15%;font-size:16px;background-color:yellow !important;text-align:center">
+                NHÂN VIÊN
+            </th>
+        </tr>
+
+
+
+    </thead>
+    <tbody>
+    <tbody>
+        @foreach (var row in (IList<Web.Portal.Layer.AgenInfo>)AgenList)
+        {
+            var capSoCheck = CapSoLogList.Where(x => x.MAWB.Trim().Equals(row.MAWB.Trim())).ToList();
+            if (capSoCheck.Count > 0)
+            {
+                var capSoSelect = capSoCheck.First();
+                if (capSoSelect.HAWB == "ALLHAWB")
+                {
+                    // var capSo = CapSoLogList.FirstOrDefault(x => x.MAWB.Trim().Equals(row.MAWB.Trim()) && (row.TOTAL <= 1 || x.HAWB.Trim().Equals(row.HAWB.Trim())));
+                    var ticket = capSoCheck != null ? TicketList.FirstOrDefault(x => x.ID.Trim().Equals(capSoSelect.ID.Trim())) : null;
+                    <tr>
+                        <td style="font-size:12px;color:#d21212;font-weight:bold">@Html.Raw(capSoCheck != null ? capSoSelect.ID : string.Empty)</td>
+                        <td style="font-size:12px;color:#d21212;font-weight:bold">@Html.Raw(row.MAWB)</td>
+                        <td style="font-size:12px;color:#d21212;font-weight:bold">@Html.Raw(row.HAWB)</td>
+                        <td style="font-size:12px;color:#d21212;font-weight:bold">@Html.Raw(ticket != null && ticket.TicketTime.HasValue ? ticket.TicketTime.Value.ToString("HH:mm") : string.Empty)</td>
+                        <td style="font-size:12px;color:#d21212;font-weight:bold">@Html.Raw(ticket != null && ticket.ReadTime.HasValue ? ticket.ReadTime.Value.ToString("HH:mm") : string.Empty)</td>
+                        <td style="font-size:12px;color:#d21212;font-weight:bold">@Html.Raw(row.AGENTIME)</td>
+                        <td style="font-size:12px;color:#d21212;font-weight:bold">@Html.Raw(row.EMPCODE + " - " + row.EMPNAME)</td>
+                    </tr>
+                }
+                else
+                {
+                    var capSo = CapSoLogList.FirstOrDefault(x => x.MAWB.Trim().Equals(row.MAWB.Trim()) && (row.TOTAL <= 1 || x.HAWB.Trim().Equals(row.HAWB.Trim())));
+                    var ticket = capSo != null ? TicketList.FirstOrDefault(x => x.ID.Trim().Equals(capSo.ID.Trim())) : null;
+                    <tr>
+                        <td style="font-size:12px;color:#d21212;font-weight:bold">@Html.Raw(capSo != null ? capSo.ID : string.Empty)</td>
+                        <td style="font-size:12px;color:#d21212;font-weight:bold">@Html.Raw(row.MAWB)</td>
+                        <td style="font-size:12px;color:#d21212;font-weight:bold">@Html.Raw(row.HAWB)</td>
+                        <td style="font-size:12px;color:#d21212;font-weight:bold">@Html.Raw(ticket != null && ticket.TicketTime.HasValue ? ticket.TicketTime.Value.ToString("HH:mm") : string.Empty)</td>
+                        <td style="font-size:12px;color:#d21212;font-weight:bold">@Html.Raw(ticket != null && ticket.ReadTime.HasValue ? ticket.ReadTime.Value.ToString("HH:mm") : string.Empty)</td>
+                        <td style="font-size:12px;color:#d21212;font-weight:bold">@Html.Raw(row.AGENTIME)</td>
+                        <td style="font-size:12px;color:#d21212;font-weight:bold">@Html.Raw(row.EMPCODE + " - " + row.EMPNAME)</td>
+                    </tr>
+                    if (capSo != null)
+                    {
+                        var listcapSoReCheck = CapSoLogList.Where(x => x.HAWB.Contains("cap") && x.HAWB.Contains(capSo.ID)).ToList();
+                        if (listcapSoReCheck.Count > 0)
+                        {
+                            var capSoReCheck = listcapSoReCheck[0];
+                            if (capSoReCheck != null)
+                            {
+                                var ticketRecheck = capSoReCheck != null ? TicketList.FirstOrDefault(x => x.ID.Trim().Equals(capSoReCheck.ID.Trim())) : null;
+                                <tr>
+                                    <td style="font-size:12px;color:#d21212;font-weight:bold">@Html.Raw(capSoReCheck != null ? capSoReCheck.ID+ "-" + capSoReCheck.HAWB : string.Empty)</td>
+                                    <td style="font-size:12px;color:#d21212;font-weight:bold">@Html.Raw(row.MAWB)</td>
+                                    <td style="font-size:12px;color:#d21212;font-weight:bold">@Html.Raw(row.HAWB)</td>
+                                    <td style="font-size:12px;color:#d21212;font-weight:bold">@Html.Raw(ticketRecheck != null && ticketRecheck.TicketTime.HasValue ? ticketRecheck.TicketTime.Value.ToString("HH:mm") : string.Empty)</td>
+                                    <td style="font-size:12px;color:#d21212;font-weight:bold">@Html.Raw(ticketRecheck != null && ticketRecheck.ReadTime.HasValue ? ticketRecheck.ReadTime.Value.ToString("HH:mm") : string.Empty)</td>
+                                    <td style="font-size:12px;color:#d21212;font-weight:bold">@Html.Raw(row.AGENTIME)</td>
+                                    <td style="font-size:12px;color:#d21212;font-weight:bold">@Html.Raw(row.EMPCODE + " - " + row.EMPNAME)</td>
+                                </tr>
+                            }
+                        }
+
+                    }
+
+
+                }
+            }
+
+            else
+            {
+                var capSo = CapSoLogList.FirstOrDefault(x => x.MAWB.Trim().Equals(row.MAWB.Trim()) && (row.TOTAL <= 1 || x.HAWB.Trim().Equals(row.HAWB.Trim())));
+                var ticket = capSo != null ? TicketList.FirstOrDefault(x => x.ID.Trim().Equals(capSo.ID.Trim())) : null;
+                <tr>
+                    <td style="font-size:12px;color:#d21212;font-weight:bold">@Html.Raw(capSo != null ? capSo.ID : string.Empty)</td>
+                    <td style="font-size:12px;color:#d21212;font-weight:bold">@Html.Raw(row.MAWB)</td>
+                    <td style="font-size:12px;color:#d21212;font-weight:bold">@Html.Raw(row.HAWB)</td>
+                    <td style="font-size:12px;color:#d21212;font-weight:bold">@Html.Raw(ticket != null && ticket.TicketTime.HasValue ? ticket.TicketTime.Value.ToString("HH:mm") : string.Empty)</td>
+                    <td style="font-size:12px;color:#d21212;font-weight:bold">@Html.Raw(ticket != null && ticket.ReadTime.HasValue ? ticket.ReadTime.Value.ToString("HH:mm") : string.Empty)</td>
+                    <td style="font-size:12px;color:#d21212;font-weight:bold">@Html.Raw(row.AGENTIME)</td>
+                    <td style="font-size:12px;color:#d21212;font-weight:bold">@Html.Raw(row.EMPCODE + " - " + row.EMPNAME)</td>
+                </tr>
+            }
+
+
+        }
+    </tbody>
+</table>
+
+
+

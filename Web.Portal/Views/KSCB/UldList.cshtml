@@ -1,0 +1,134 @@
+﻿
+@{
+    Layout = null;
+    int PageCurrent = 0;
+}
+
+@*<div class="portlet-body flip-scroll"> set table doc tren mobile*@ 
+    <div class="col-lg-4 col-sm-12">
+        <table id="tbl-organization" class="table table-striped table-bordered table-advance table-hover dt-responsive">
+            <thead>
+                <tr style="">
+                    <th class="all" style="width:3%">
+                        STT
+                    </th>
+                    <th style="width:5%">
+
+                    </th>
+                    <th style="width:10%;font-size:16px;background-color:yellow !important;text-align:center">
+                        ULD NAME
+                    </th>
+                    <th style="width:10%;font-size:16px;background-color:yellow !important;text-align:center">
+                        CHUYẾN BAY
+                    </th>
+                    <th style="width:10%;font-size:16px;background-color:yellow !important;text-align:center">
+                        TIẾN TRÌNH
+                    </th>
+                    <th style="width:10%;font-size:16px;background-color:yellow !important;text-align:center">
+                        VỊ TRÍ
+                    </th>
+                    <th style="width:10%;font-size:16px;background-color:yellow !important;text-align:center">
+                        LOẠI
+                    </th>
+                    <th style="width:10%;font-size:16px;background-color:yellow !important;text-align:center">
+                        START TIME
+                    </th>
+                    <th style="width:10%;font-size:16px;background-color:yellow !important;text-align:center">
+                        NOTIFY
+                    </th>
+                    <th style="width:10%;font-size:16px;background-color:yellow !important;text-align:center">
+                        NOTE
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var row in (IList<Web.Portal.Model.Models.ULDByFlight>)ViewData["ListULDByFlight"])
+            {
+                PageCurrent += 1;
+                <tr>
+                    <td>@PageCurrent</td>
+                    <td>
+
+                        <div class="btn-group">
+                            <button class="btn green btn-sm btn-outline  dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                <i class="fa fa-angle-down"></i>
+                            </button>
+                            <ul class="dropdown-menu pull-right" style="left:0px">
+                                <li>
+                                    <a href="javascript:;" data-id="@Html.DisplayFor(model => row.ID)" class="uld-finish btn btn-xs @Html.Raw(row.Status.Value== 1 ? "" : "disabled")">
+                                        <i class="fa fa-check"></i> Hoàn thành khai thác
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:;" data-id="@Html.DisplayFor(model => row.ID)" class="uld-detail">
+                                        <i class="fa fa-info"></i> Chi tiết
+                                    </a>
+                                </li>
+
+                                @*<li>
+                                        <a href="javascript:;" data-id="@Html.DisplayFor(model => row.ID)" class="sqs-soghinhan-comment">
+                                            <i class="fa fa-comment"></i> Comment
+                                        </a>
+                                    </li>*@
+
+
+                            </ul>
+                        </div>
+
+
+
+                    </td>
+                    <td style="font-size:14px"><a href="#" data-uldflight="@Html.DisplayFor(model=>row.Flight_ID)" class="btn  btn-xs uld-asign">@Html.DisplayTextFor(model => row.Name)</a></td>
+                    <td style="font-size:14px"><a href="#" data-uldflight="@Html.DisplayFor(model=>row.Flight_ID)" class="btn  btn-xs uld-asign">@Html.DisplayTextFor(model => row.FlightNumber)</a></td>
+                    <td style="font-size:14px"><a href="#" data-uldflight="@Html.DisplayFor(model=>row.Flight_ID)" class="btn  btn-xs uld-asign">@Html.DisplayTextFor(model => row.StatusMessage)</a></td>
+                    <td style="font-size:14px"><a href="#" data-uldflight="@Html.DisplayFor(model=>row.Flight_ID)" class="btn  btn-xs uld-asign">@Html.DisplayTextFor(model => row.LocationID)</a></td>
+                    <td style="font-size:14px"><a href="#" data-uldflight="@Html.DisplayFor(model=>row.Flight_ID)" class="btn  btn-xs uld-asign">@Html.DisplayTextFor(model => row.ULD_TYPE)</a></td>
+                    <td style="font-size:14px"><a href="#" data-uldflight="@Html.DisplayFor(model=>row.Flight_ID)" class="btn  btn-xs uld-asign">@Html.Raw(row.StartTime.HasValue ? row.StartTime.Value.ToString("dd/MM/yyyy hh:mm") : "")</a></td>
+                    <td style="font-size:14px"><a href="#" data-uldflight="@Html.DisplayFor(model=>row.Flight_ID)" class="btn  btn-xs uld-asign">@Html.DisplayTextFor(model => row.NotifyMessage)</a></td>
+                    <td style="font-size:14px"><a href="#" data-uldflight="@Html.DisplayFor(model=>row.Flight_ID)" class="btn  btn-xs uld-asign">@Html.DisplayTextFor(model => row.Note)</a></td>
+                </tr>
+                }
+            </tbody>
+        </table>
+        <div class="box-footer clearfix">
+            @Html.Raw(ViewBag.Paging)
+
+        </div>
+        </div>
+
+    @*</div>*@
+<script>
+    egovutil.loadPaging(pagingsgn, "/kscb/UldList?ps=" + $("#pagingsgn_step").val() + "&code=" + $("#codepr").val() + "&fda=" + $("#fda").val()
+                                                                    + "&tda=" + $("#tda").val(),"#content-listUld-result");
+    //egovutil.CreateTableSort("#tbl-organization", [[0, "asc"]], [
+
+    //          { "orderable": false, "targets": 2 }
+    //], true);
+ 
+    $("#codepr").autocomplete(
+{
+    source: function (request, response) {
+        egovutil.getContent("#content-listUld-result", "/kscb/UldList?code=" + $("#codepr").val() + "&fda=" + $("#fda").val()
+                                                                    + "&tda=" + $("#tda").val());
+    }
+
+});
+    $(".uld-asign").click(function () {
+        console.log($(this).data('uldflight'));
+    });
+    $("#pagingsgn_step").change(function () {
+        egovutil.getContent("#content-listUld-result", "/kscb/UldList?ps=" + $(this).val());
+    });
+    $(".uld-finish").click(function () {
+        console.log($(this).attr('data-id'));
+        console.log($(this).data('uldflight'));
+        egovutil.dlgConfirmAction("Hoàn thành khai thác ULD", "Bạn có muốn hoàn thành ULD này? ", "/kscb/finishUld/" + $(this).attr('data-id'), " flightAction.search()");
+    });
+    $("#refresh").click(function () {
+        $("#codepr").val("");
+        egovutil.getContent("#content-listUld-result", "/kscb/UldList?code=" + $("#codepr").val() + "&fda=" + $("#fda").val()
+                                                                    + "&tda=" + $("#tda").val());
+        
+    });
+</script>
+

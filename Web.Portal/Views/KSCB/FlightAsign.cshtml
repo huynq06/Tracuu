@@ -1,0 +1,258 @@
+﻿
+@{
+    Layout = null;
+}
+@model Web.Portal.Model.Models.Flight
+<style>
+        element.style {
+             width:20px;
+    }
+        #ui-id-1 {
+            width:100px;
+        }
+
+        .ui-autocomplete ui-front ui-menu ui-widget ui-widget-content {
+            width:100px;
+        }
+        .ui-autocomplete {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            z-index: 10051;
+            float: left;
+            display: none;
+            min-width: 60px;
+             min-width: 80px;
+            padding: 4px 0;
+            margin: 0 0 10px 25px;
+            list-style: none;
+            background-color: #ffffff;
+            border-color: #ccc;
+            border-color: rgba(0, 0, 0, 0.2);
+            border-style: solid;
+            border-width: 1px;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            border-radius: 5px;
+            -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+            -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+            -webkit-background-clip: padding-box;
+            -moz-background-clip: padding;
+            background-clip: padding-box;
+            *border-right-width: 2px;
+            *border-bottom-width: 2px;
+        }
+
+        .ui-menu-item > a.ui-corner-all {
+            display: block;
+            padding: 3px 15px;
+            clear: both;
+            font-weight: normal;
+            line-height: 18px;
+            color: #555555;
+            white-space: nowrap;
+            text-decoration: none;
+        }
+
+        .ui-state-hover, .ui-state-active {
+            color: #ffffff;
+            text-decoration: none;
+            background-color: #0088cc;
+            border-radius: 0px;
+            -webkit-border-radius: 0px;
+            -moz-border-radius: 0px;
+            background-image: none;
+        }
+</style>
+<div id="content-uld">
+    <form class="form-horizontal" id="frmAction">
+
+        <input type="hidden" name="keyValue" id="txtFlightID" value="@Html.DisplayFor(model=>model.FlightID)" />
+        <div class="form-group form-md-line-input">
+            <label class="col-md-2 control-label" for="frmAction">
+                <b>CHUYẾN BAY:</b>
+            </label>
+            <div class="col-md-5">
+                <label class="control-label" for="frmAction">
+                    <b style="color:red"> @Html.DisplayFor(model => model.FlightNumber)</b>
+                </label>
+            </div>
+        </div>
+        <div class="form-body">
+            <div class="form-group form-md-line-input">
+                <label class="col-md-2 control-label" for="frmAction">
+                    <b>BARCODE ULD:</b>
+                    <span class="required">*</span>.
+                </label>
+                <div class="col-md-5">
+                    <input class="form-control form-control-inline" id="barCode" placeholder="Bắn barcode" name="barCode" />
+                    <div class="form-control-focus"> </div>
+                    <span class="help-block">BARCODE</span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group form-md-line-input">
+            <label class="col-md-2 control-label" for="frmAction">
+                <b>LOẠI ULD:</b>
+                <span class="required">*</span>
+            </label>
+            <div class="col-md-5">
+                <select class="form-control  bs-select" name="uld_typeID" id="uld_typeID" data-live-search="true" data-size="8">
+                    <option></option>
+                    @foreach (var item in (IList<Web.Portal.Model.Models.ULD_TYPE>)ViewData["ULD_TYPEList"])
+                    {
+                        <option value="@Html.DisplayTextFor(model=>item.ID)">@Html.DisplayTextFor(model => item.Name)</option>
+                    }
+                </select>
+                <div class="form-control-focus"> </div>
+                <span class="help-block">Chọn loại ULD</span>
+            </div>
+
+            <label class="col-md-2 control-label" for="frmAction">
+                <b>Vị Trí:</b>
+                <span class="required">*</span>
+            </label>
+            <div class="col-md-3">
+                <select class="form-control  bs-select" name="locationID" id="locationID" data-live-search="true" data-size="8">
+                    <option></option>
+                    @foreach (var item in (IList<Web.Portal.Model.Models.Location>)ViewData["LocationList"])
+                    {
+                        <option value="@Html.DisplayTextFor(model=>item.ID)">@Html.DisplayTextFor(model => item.LocationName)</option>
+                    }
+                </select>
+                <div class="form-control-focus"> </div>
+                <span class="help-block">Chọn Vị Trí</span>
+            </div>
+
+        </div>
+        <div class="form-group form-md-line-input">
+            <label class="col-md-2 control-label" for="frmAction">
+                <b>Bất thường:</b>
+            </label>
+            <div class="md-radio-inline col-md-6">
+                <div class="md-radio has-warning">
+                    <input id="tts_in" name="warning" value="false" class="md-radiobtn" type="radio" checked>
+                    <label for="tts_in">
+                        <span></span>
+                        <span class="check"></span>
+                        <span class="box"></span>Không Bất Thường
+                    </label>
+                </div>
+                <div class="md-radio">
+                    <input id="tts_out" name="warning" value="true" class="md-radiobtn" type="radio">
+                    <label for="tts_out">
+                        <span class="inc"></span>
+                        <span class="check"></span>
+                        <span class="box"></span> Bất Thường
+                    </label>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="form-group form-md-line-input">
+
+            <label class="col-md-2 control-label" for="frmAction">
+                <b>Ghi chú:</b>
+
+            </label>
+            <div class="col-md-10">
+                <textarea rows="2" cols="10" class="form-control" placeholder="Ghi chú khác" name="note"></textarea>
+                <div class="form-control-focus"> </div>
+                <span class="help-block">Nhập ghi chú khác</span>
+            </div>
+        </div>
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-success" id="btnSave"><i class="fa fa-floppy-o"></i> Lưu thông tin</button>
+            <button type="reset" id="reset" class="btn btn-success"><i class="fa fa-refresh"></i> Làm mới</button>
+        </div>
+
+
+
+
+        <!-- /.box-footer -->
+    </form>
+</div>
+<script>
+    var dlgAction = {
+        search: function () {
+            egovutil.getContent("#content-uld", "/kscb/flightasign/" + $('#txtFlightID').val());
+        }
+    }
+  
+    $('.bs-select').selectpicker({
+        iconBase: 'fa',
+        tickIcon: 'fa-check'
+    });
+    $("#reset").click(function () {
+        dlgAction.search();
+    });
+
+    var message = {
+        locationID: {
+            required: "Vị Trí Không được trống"
+        },
+        uld_typeID:
+        {
+            required: "Loại ULD không được trống"
+        },
+        barCode:
+        {
+            required: "Vui lòng nhập Barcode"
+        }
+    };
+    var rule = {
+        locationID: { required: true },
+        uld_typeID: { required: true },
+        barCode: { required: true },
+    };
+
+    egovutil.submitCallBack("#frmAction", rule, message, "/KSCB/action", flightAction.search());
+    var common = {
+        init: function () {
+            common.registerEvents();
+        },
+        registerEvents: function () {
+            var flightID = $('#txtFlightID').val();
+
+
+            $("#barCode").autocomplete({
+                minLength: 0,
+
+                source: function (request, response) {
+                    var data = {
+                        keyword: request.term,
+                        ID: flightID
+                    }
+                    $.ajax({
+                        url: "/KSCB/GetListULDByName/txtFlightID",
+                        dataType: "json",
+                        data: {
+                            dataViewModel: JSON.stringify(data)
+                        },
+                        success: function (res) {
+                            response(res.data);
+                        }
+                    });
+                },
+                focus: function (event, ui) {
+                    $("#barCode").val(ui.item.label);
+                    return false;
+                },
+                select: function (event, ui) {
+                    $("#barCode").val(ui.item.label);
+                    return false;
+                }
+            }).autocomplete("instance")._renderItem = function (ul, item) {
+                return $("<li style='float:left;width:50%;height:50px;color:red;list-style: none;border-bottom: 1px black;'>")
+        .append("<a style='height:200px'>" + item.label + "</a>")
+        .appendTo(ul);
+            };
+
+        }
+    }
+    common.init();
+
+</script>

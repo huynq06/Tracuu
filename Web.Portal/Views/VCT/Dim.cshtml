@@ -1,0 +1,102 @@
+﻿@{
+    Layout = null;
+    int rowIndex = 0;
+
+}
+<div class='col-md-2 col-xs-12 margin-top-10'>
+    <label class='control-label'><b>Tổng số: @ViewBag.Total</b></label>
+</div>
+<table ID="tbl-sop" class="table table-striped table-bordered table-advance table-hover">
+    <thead>
+        <tr>
+            <th rowspan="2" style="wIDth:15%;font-size:16px;text-align:center">
+                AWB
+            </th>
+           
+            <th colspan="2" style="wIDth:30%;text-align:center;font-size:16px">
+                    VỊ TRÍ
+                </th>
+        
+        </tr>
+        <tr>
+            <th style="width:10%;text-align:center;text-align:center;background-color:bisque">
+                CÂN 1
+            </th>
+            <th style="width:10%;text-align:center;text-align:center;background-color:aquamarine">
+                CÂN 2
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var row in (IList<Web.Portal.Model.Models.VCT>)ViewData["VCTList"])
+        {
+            rowIndex += 1;
+
+            <tr>
+               
+                <td><a href="#" data-ID="@Html.DisplayFor(model=>row.ID)" class="btn  btn-xs sqs-member-edit">@Html.Raw(row.LABS_AWB)</a></td>
+                <td style="text-align:center">
+                        <a href="#" data-ID="@Html.DisplayFor(model => row.ID)" data-value="1" class="btn btn-lg issue-edit">
+                            <i class="fa fa-share"></i> CHUYỂN
+                        </a>
+                    </td>
+                    <td style="text-align:center">
+                        <a href="#" data-ID="@Html.DisplayFor(model => row.ID)" data-value="2" class="btn btn-lg issue-edit">
+                            <i class="fa fa-share"></i> CHUYỂN
+                        </a>
+                    </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<script>
+    $(window).keydown(function (event) {
+        if (event.which == 112) {
+            event.preventDefault();
+            $('.input-sm').focus()
+
+        }
+    });
+    var Action = {
+        setValueInput: function () {
+
+            $('.input-sm').attr('placeholder', 'Phím tắt F1')
+        },
+    }
+    var Actionfocus = {
+        setFocus: function () {
+            $('.btn-bold').focus();
+        }
+    }
+    $(".btn-add-item").click(function () {
+        egovutil.dialog("Thêm mới SOP", "large", "/kscb/edit/", "egovutil.loadUrlMain('/issuemanagement/edit')");
+    });
+    //$(".issue-edit").click(function () {
+    //    var check = 0;
+    //    var id = $(this).attr("data-ID");
+
+    //    if ($("#1_" + id).prop("checked")) {
+    //        check = 1;
+    //    }
+    //    else {
+    //        check = 2;
+    //    }
+    //    console.log(check);
+    //    egovutil.dialog("Sửa thông tin AWB", "large", "/issuemanagement/edit?id=" + $(this).attr("data-ID") + "&check=" + check, "egovutil.loadUrlMain('/issuemanagement')");
+    //});
+    //$(".sqs-member-delete").click(function () {
+    //    egovutil.dlgConfirmAction("Xóa thông tin SOP", "Bạn muốn xóa thông tin SOP", "/kscb/delete/" + $(this).attr("data-ID"), "egovutil.loadUrlMain('/kscb/soptime')");
+    //});
+    $(".issue-edit").click(function () {
+        egovutil.dlgConfirmAction("CHUYỂN HÀNG  ", "Bạn có muốn chuyển lô hàng đến Cân" + $(this).attr("data-value") + "?", "/VCT/Transfer?id=" + $(this).attr("data-id") + "&value=" + $(this).attr("data-value"), "hermesAction.searchDim();");
+        Actionfocus.setFocus();
+    });
+    $(".booking-edit").click(function () {
+        egovutil.dialog("Sửa thông tin AWB", "large", "/issuemanagement/edit/" + $(this).attr("data-ID"), "hermesAction.searchDim()");
+    });
+    egovutil.CreateTableSort("#tbl-sop", [[0, "asc"]], [
+
+                { "orderable": true, "targets": 0 }
+    ], true);
+
+</script>

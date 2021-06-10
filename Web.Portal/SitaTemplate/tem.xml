@@ -1,0 +1,15 @@
+﻿<soapenv:Envelope xmlns:soapenv="http://www.w3.org/2003/05/soap-envelope" xmlns:urn="urn:sap-com:document:sap:rfc:functions">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <urn:ZFM_GET_INT>
+         <!--Optional:-->
+         <I_INPUT>
+            <!--Zero or more repetitions:-->
+            <item>
+               <ID>{0}</ID>
+               <TYPE>{1}</TYPE>
+            </item>
+         </I_INPUT>
+      </urn:ZFM_GET_INT>
+   </soapenv:Body>
+</soapenv:Envelope>

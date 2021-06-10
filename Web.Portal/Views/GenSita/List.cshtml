@@ -1,0 +1,119 @@
+﻿
+@{
+    Layout = null;
+    int PageCurrent =0;
+
+}
+<div class='col-md-2 col-xs-12 margin-top-10'>
+    <label class='control-label'><b>Tổng số: @ViewBag.Total</b></label>
+</div>
+
+<table class="table table-striped table-bordered table-advance table-hover dt-responsive" id="tbl-impsita">
+    <thead>
+        <tr>
+            <th class="all" style="width:3%"></th>
+            <th style="width:5%;text-align:center">
+                <input type="checkbox" id="chk_All" class="icheck chk-all">
+            </th>
+            <th style="width:15%">
+                MAWB
+            </th>
+            <th style="width:5%">
+                HAWB
+            </th>
+            <th style="width:15%">
+                RCF
+            </th>
+            <th style="width:15%">
+                NFD
+            </th>
+            <th style="width:15%">
+                AWR
+            </th>
+            <th style="width:15%">
+                DLV
+            </th>
+            <th style="width:10%">
+                ORIGIN-DEST
+            </th>
+            <th style="width:10%">
+                FLIGHT-DATE
+            </th>           
+            <th style="width:30%">
+                CONSIGNEE
+            </th>          
+            <th style="width:30%">
+                SHIPPER
+            </th>  
+            <th style="width:15%">
+                PCS BILL
+            </th>
+            <th style="width:15%">
+                GW BILL
+            </th>
+            <th style="width:15%">
+                PCS GOODS
+            </th>
+            <th style="width:15%">
+                GW GOODS
+            </th>
+            <th style="width:15%">
+                PCS DELIVERY
+            </th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var row in (IList<Web.Portal.Layer.ImpSita>)ViewData["ImpSitaLists"])
+        {
+            PageCurrent += 1;
+            <tr>
+                <td>@PageCurrent</td>
+                <td style="text-align:center">
+
+                    <input type="checkbox" value="@Html.DisplayFor(model=>row.LAGI_INDENT_NO)" class="@Html.Raw(string.IsNullOrEmpty(row.HAWB)?"icheck ident_id":"hidden")">
+                </td>
+                <td><a href="#" data-id="@Html.DisplayTextFor(model=>row.LAGI_INDENT_NO)" class="edit-sita">@Html.DisplayTextFor(model => row.PREFIX)-@Html.DisplayTextFor(model => row.SERIAL_NO)</a></td>
+                <td><a href="#" data-id="@Html.DisplayTextFor(model=>row.LAGI_INDENT_NO)" class="edit-sita">@Html.DisplayTextFor(model => row.HAWB)</a></td> 
+                <td>@Html.Raw(Web.Portal.Utils.Constants.GetActiveMail(row.RCF_SENT.ToString()))</td>
+                <td>@Html.Raw(Web.Portal.Utils.Constants.GetActiveMail(row.NFD_SENT.ToString()))</td> 
+                <td>@Html.Raw(Web.Portal.Utils.Constants.GetActiveMail(row.AWR_SENT.ToString()))</td> 
+                <td>@Html.Raw(Web.Portal.Utils.Constants.GetActiveMail(row.DLV_SENT.ToString()))</td>                                             
+                <td><a href="#" data-id="@Html.DisplayTextFor(model=>row.LAGI_INDENT_NO)" class="edit-sita">@Html.DisplayTextFor(model => row.FLT_ORG)-@Html.DisplayTextFor(model => row.FLT_DEST)</a></td>
+                <td><a href="#" data-id="@Html.DisplayTextFor(model=>row.LAGI_INDENT_NO)" class="edit-sita">@Html.DisplayTextFor(model => row.FLIGHT_NO)/@Html.Raw(row.ATA_DATE.HasValue  ? row.ATA_DATE.Value.ToString("dd/MM/yyyy") : string.Empty)</a></td>                
+                <td><a href="#" data-id="@Html.DisplayTextFor(model=>row.LAGI_INDENT_NO)" class="edit-sita">@Html.DisplayTextFor(model => row.CONSIGNEE_NAME)</a></td>
+                <td><a href="#" data-id="@Html.DisplayTextFor(model=>row.LAGI_INDENT_NO)" class="edit-sita">@Html.DisplayTextFor(model => row.SHIPPER_NAME)</a></td>                             
+                <td><a href="#" data-id="@Html.DisplayTextFor(model=>row.LAGI_INDENT_NO)" class="edit-sita">@Html.DisplayTextFor(model => row.AWB_EXPECTED_PIECES)</a></td>
+                <td><a href="#" data-id="@Html.DisplayTextFor(model=>row.LAGI_INDENT_NO)" class="edit-sita">@Html.DisplayTextFor(model => row.AWB_EXPECTED_WEIGHT)</a></td>
+                <td><a href="#" data-id="@Html.DisplayTextFor(model=>row.LAGI_INDENT_NO)" class="edit-sita">@Html.DisplayTextFor(model => row.RECEIVED_PIECES)</a></td>
+                <td><a href="#" data-id="@Html.DisplayTextFor(model=>row.LAGI_INDENT_NO)" class="edit-sita">@Html.DisplayTextFor(model => row.RECEIVED_WEIGHT)</a></td>
+                <td><a href="#" data-id="@Html.DisplayTextFor(model=>row.LAGI_INDENT_NO)" class="edit-sita">@Html.DisplayTextFor(model => row.DELIVERED_PIECES)</a></td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+<script>
+   
+    egovutil.CreateTableSort("#tbl-impsita", [[0, "asc"]], [
+
+    {
+
+        "orderable": false, "targets": [0, 1]
+    }
+    ], false);
+    $('input[type="checkbox"]').iCheck({
+        checkboxClass: 'icheckbox_flat-blue'
+
+    });
+    $('.chk-all').on('ifChanged', function (event) {
+        if (event.target.checked)
+            $('.icheck').iCheck('check');
+        else
+            $('.icheck').iCheck('uncheck');
+    });
+    $(".edit-sita").click(function () {
+        egovutil.dialog("Xuất thông tin điện văn", "large", "/gensita/edit?id=" + $(this).attr("data-id"), "");
+    });
+   
+</script>

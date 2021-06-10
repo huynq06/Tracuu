@@ -1,0 +1,70 @@
+﻿@{
+    Layout = null;
+
+
+}
+<p style="text-align:center;font-family:'Times New Roman';font-size:15pt;font-weight:bold">LỊCH BAY HÀNG XUẤT TỪ @ViewBag.FromDate - @ViewBag.ToDate</p>
+<table class="table table-striped table-bordered table-advance table-hover dt-responsive" border="1" style="width:100%;font-family:'Times New Roman';font-size:14pt">
+
+    
+        <thead>
+            <tr>
+                <th class="all" style="width:5%;font-size:16px;background-color:yellow !important;text-align:center">
+
+                </th>
+                <th style="width:15%;font-size:16px;background-color:yellow !important;text-align:center">
+                    CODE
+                </th>
+                <th style="width:10%;font-size:16px;background-color:yellow !important;text-align:center">
+                    FLIGHT NO
+                </th>
+                <th style="width:20%;font-size:16px;background-color:yellow !important;text-align:center">
+                    SCHEDULE DATE
+                </th>
+                <th style="width:15%;font-size:16px;background-color:yellow !important;text-align:center">
+                    SCHEDULE TIME
+                </th>
+                <th style="width:20%;font-size:16px;background-color:yellow !important;text-align:center">
+                    ESTIMATED DATE
+                </th>
+                <th style="width:20%;font-size:16px;background-color:yellow !important;text-align:center">
+                    ESTIMATED TIME
+                </th>
+
+                <th style="width:15%;font-size:16px;background-color:yellow !important;text-align:center">
+                    DEPARTED DATE
+                </th>
+                <th style="width:15%;font-size:16px;background-color:yellow !important;text-align:center">
+                    DEPARTED TIME
+                </th>
+
+
+
+            </tr>
+
+
+           
+        </thead>
+        <tbody>
+            @foreach (var row in (IList<Web.Portal.Layer.FlightExport>)ViewData["flightLists"])
+            {
+
+
+                <tr style="@Html.Raw(row.Departed==true?"background-color:blue":"background-color:#debb1f;")">
+                    <td style="font-size:14px;color:white;font-weight:bold">@Html.Raw(row.Departed == true ? "DEPARTED" : "")</td>
+                    <td style="font-size:14px;color:white;font-weight:bold">@Html.DisplayTextFor(model => row.Code)</td>
+                    <td style="font-size:14px;color:white;font-weight:bold">@Html.DisplayTextFor(model => row.FlightNo)</td>
+                    <td style="font-size:14px;color:white;font-weight:bold">@Html.Raw(row.Scheduled.HasValue && row.Scheduled.Value != DateTime.MinValue && !row.Expected.Value.ToString("dd/MM/yyyy").Equals("02/01/0001") ? row.Scheduled.Value.ToString("dd/MM/yyyy") : string.Empty)</td>
+                    <td style="font-size:14px;color:white;font-weight:bold">@Html.Raw(row.ScheduledTime.Equals("00:00:00") ? string.Empty : row.ScheduledTime)</td>
+                    <td style="font-size:14px;color:white;font-weight:bold">@Html.Raw(row.Expected.HasValue && row.Expected.Value != DateTime.MinValue && !row.Expected.Value.ToString("dd/MM/yyyy").Equals("02/01/0001") ? row.Expected.Value.ToString("dd/MM/yyyy") : string.Empty)</td>
+                    <td style="font-size:14px;color:white;font-weight:bold">@Html.Raw(row.ExpectedTime.Equals("00:00:00") ? string.Empty : row.ExpectedTime)</td>
+                    <td style="font-size:14px;color:white;font-weight:bold">@Html.Raw(row.Actualed.HasValue && row.Actualed.Value != DateTime.MinValue && !row.Actualed.Value.ToString("dd/MM/yyyy").Equals("02/01/0001") ? row.Actualed.Value.ToString("dd/MM/yyyy") : string.Empty)</td>
+                    <td style="font-size:14px;color:white;font-weight:bold">@Html.Raw(row.ActualTime.Equals("00:00:00") ? string.Empty : row.ActualTime)</td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+
+
+

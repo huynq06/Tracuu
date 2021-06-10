@@ -1,0 +1,43 @@
+﻿@{
+    Layout = null;
+    int PageCurent = 0;
+}
+<table id="tree-table" class="table table-hover table-bordered">
+    <thead>
+        <tr>
+
+            
+            <th style="width:5%;background-color:yellow !important;text-align:center">
+                STT
+            </th>            
+            <th style="width:30%;background-color:yellow !important;text-align:center">BÊN ĐƯỢC ỦY QUYỀN</th>
+            <th style="width:30%;background-color:yellow !important;text-align:center">ĐỊA CHỈ</th>
+            <th style="width:10%;background-color:yellow !important;text-align:center">ID.NO</th>
+            <th style="width:10%;background-color:yellow !important;text-align:center">LOẠI CÔNG VĂN</th>
+            <th style="width:20%;background-color:yellow !important;text-align:center">NỘI DUNG ỦY QUYỀN</th>
+            <th style="width:5%;background-color:yellow !important;text-align:center">ẢNH</th>
+           
+
+        </tr>
+
+
+    </thead>
+    <tbody>
+            @foreach (var row in (IList<Web.Portal.Layer.CompanyBussiness>)ViewData["CompanyBussinessList"])
+            {
+                PageCurent+= 1;
+                <tr>
+                    <td style="width:5%;text-align:center">
+                        @Html.Raw(PageCurent)
+                    </td>
+                    <td style="width:30%;text-align:center">@Html.DisplayTextFor(model=>row.Name)</td>
+                    <td style="width:30%;text-align:center">@Html.DisplayTextFor(model => row.Address)</td>
+                    <td style="width:10%;text-align:center">@Html.DisplayTextFor(model => row.IdNo)</td>
+                    <td style="width:10%;text-align:center">@Html.DisplayTextFor(model => row.TypeDoc)</td>
+                    <td style="width:10%;text-align:center">@Html.DisplayTextFor(model => row.Description)</td>
+                    <td style="width:5%;text-align:center"></td>
+                    
+                </tr>
+            }
+    </tbody>
+</table>

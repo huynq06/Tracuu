@@ -1,0 +1,170 @@
+﻿@{
+    Layout = null;
+
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet">
+            <div class="portlet-title">
+                <div class="caption caption-md">
+                    <span class="caption-subject font-blue-madison bold uppercase">Thống kê điện FSU</span>
+                </div>
+                <div class="actions">
+                    <a href="javascript:;" data-id="02" class="btn btn-circle btn-danger btn-export-log">
+                        <i class="fa fa-download"></i> Xuất thông tin
+                    </a>
+                    <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="row">
+                    <div class="form-group form-md-line-input">    
+                        <div class="col-md-2 col-xs-12">
+                            <select class="form-control  bs-select" id="st">
+                                <option value="DLV">DLV</option>
+                                <option value="RCF">RCF</option>
+                                <option value="AWR">AWR</option>
+                                <option value="NFD">NFD</option>
+                            </select>
+
+                        </div>  
+                        <div class="col-md-2 col-xs-12">
+                            <select class="form-control  bs-select" id="cd" data-live-search="true" data-size="8">
+                                <option value="ALL"></option>
+                                @foreach (var item in (IList<string>)ViewData["CODE"])
+                                {
+                                    <option value="@Html.DisplayTextFor(model=>item)">@Html.DisplayTextFor(model => item)</option>
+                                }
+                            </select>
+                            <div class="form-control-focus"> </div>
+                            <span class="help-block">Ký hiệu</span>
+                        </div>
+                        <div class="col-md-2 col-xs-12">
+                            <select class="form-control  bs-select" id="fno" data-live-search="true" data-size="8">
+                                <option value="ALL"></option>
+                                @foreach (var item in (IList<string>)ViewData["CODE"])
+                                {
+                                    <option value="@Html.DisplayTextFor(model=>item)">@Html.DisplayTextFor(model => item)</option>
+                                }
+                            </select>
+                            <div class="form-control-focus"> </div>
+                            <span class="help-block">Tìm theo số hiệu</span>
+                        </div>                  
+                        <div class="col-md-2 col-xs-12">
+
+                            <input class="form-control form-control-inline form_datetime" value="@Html.Raw(DateTime.Now.ToString("dd/MM/yyyy 00:00"))" id="fda" placeholder="Từ ngày" maxlength="20" data-date-format="dd/mm/yyyy hh:ii" />
+                            <div class="form-control-focus"> </div>
+                            <span class="help-block">Tìm theo từ ngày</span>
+
+                        </div>
+
+
+                        <div class="col-md-3 col-xs-12">
+
+                            <div class="input-group">
+
+
+                                <input class="form-control form-control-inline form_datetime" value="@Html.Raw(DateTime.Now.ToString("dd/MM/yyyy 23:59"))" id="tda" placeholder="Đến ngày" maxlength="20" data-date-format="dd/mm/yyyy hh:ii" />
+                                <div class="form-control-focus"> </div>
+                                <span class="help-block">Tìm theo từ ngày</span>
+                                <span class="input-group-btn">
+                                    <button  class="btn btn-success btn-export-log" type="button"><i class="fa fa-download"></i></button>
+                                </span>
+
+
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div class="form-group form-md-line-input">
+                        <div class="col-md-12">
+
+                            <div class="kv-avatar center-block">
+                                <div id="fileImport">
+
+                                </div>
+
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group form-md-line-input">
+
+                        <div id="content-list-result">
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+
+
+
+
+            </div>
+
+
+
+
+
+        </div>
+    </div>
+
+</div>
+<script>
+    var sitaAction = {
+        search: function () {
+            egovutil.getContent("#content-list-result", "/sita/list?fda=" + $("#fda").val()
+                                                                       + "&tda=" + $("#tda").val() + "&st=" + $("#st").val()
+                                                                       +"&cd=" + $("#cd").val()  + "&fno=" + $("#fno").val()
+                                                                       + "&file=" + $("#fileImportattach").val()
+
+                                                                    );
+        },
+         changeCode: function () {
+                egovutil.getContentCallBack("#fno", "/sita/getno/" + $("#cd").val(), "$('#fno').selectpicker('refresh');");
+            }
+    }
+    $('.bs-select').selectpicker({
+        iconBase: 'fa',
+        tickIcon: 'fa-check'
+    });
+    $(".btn-export-log").click(function () {
+        window.location.href = "/sita/export?fda=" + $("#fda").val() + "&tda=" + $("#tda").val() + "&st=" + $("#st").val()
+                                                                     + "&cd=" + $("#cd").val() + "&fno=" + $("#fno").val()
+                                                                     + "&file=" + $("#fileImportattach").val()
+
+
+
+    });
+    egovutil.createUploadFile("fileImport", "", "");
+
+    $(".form_datetime").datetimepicker({
+        autoclose: true,
+        isRTL: App.isRTL(),
+        format: "dd/mm/yyyy  hh:ii",
+        pickerPosition: (App.isRTL() ? "bottom-right" : "bottom-left")
+    });
+
+    $('.bs-select').selectpicker({
+        iconBase: 'fa',
+        tickIcon: 'fa-check'
+    });
+    $("#cd").change(function () {
+        sitaAction.changeCode();
+    });
+    sitaAction.changeCode();
+    // sitaAction.search();
+
+    //$("#btn-search").click(function () { sitaAction.search(); })
+
+</script>

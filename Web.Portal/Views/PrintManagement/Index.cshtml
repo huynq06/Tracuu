@@ -1,0 +1,88 @@
+﻿@{
+    Layout = null;
+}
+@*@section footerJS{
+        <script src="/Style/assets/global/plugins/jquery-nestable/jquery.nestable.js" type="text/javascript"></script>
+        <script src="@Url.Content("~/Script/pos-client.js")"></script>
+        <script src="@Url.Content("~/Script/common.js")"></script>
+
+    }*@
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet">
+            <div class="portlet-title">
+                <div class="caption caption-md">
+                    <span class="caption-subject font-blue-madison bold uppercase">Cấu hình vị trí </span>
+                </div>
+                <div class="actions">
+                    <a href="javascript:;" data-id="02" class="btn btn-circle btn-danger btn-export-log">
+                        <i class="fa fa-download"></i> Xuất danh sách
+                    </a>
+                    <a href="javascript:;" class="btn btn-default btn-sm btn-add-item">
+                        <i class="fa fa-plus"></i> Thêm mới
+                    </a>
+                    <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                @*<div class="row">
+                        <div class="form-group form-md-line-input">
+                            <div class="col-md-2 col-xs-12">
+                                <div class="input-group">
+
+                                    <input class="form-control form-control-inline input txtName" placeholder="Chuyến bay" maxlength="256" id="fno" />
+                                    <div class="form-control-focus"> </div>
+                                    <span class="help-block">Ký hiệu</span>
+                                    <span class="input-group-btn">
+                                        <button id="btn-search-sita" class="btn btn-success" bind-event-click="isPaidOveride()" type="button"><i class="fa fa-search"></i></button>
+                                    </span>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>*@
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="content-list-result">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script>
+
+    var configAction = {
+        search: function () {
+            egovutil.getContent("#content-list-result", "/printmanagement/List"
+                                                                    );
+        },
+        downloadInvoice: function (id) {
+            console.log('da chay vao day ' +id);
+        }
+    }
+    configAction.search();
+
+    $(".btn-add-item").click(function () {
+        egovutil.dialog("THÊM MỚI NGÀY LỄ", "large", "/holiday/edit/", "hermesAction.search()");
+    });
+    $('.date-picker').datepicker({
+        rtl: App.isRTL(),
+        orientation: "left",
+        autoclose: true
+    });
+
+    $('.bs-select').selectpicker({
+        iconBase: 'fa',
+        tickIcon: 'fa-check'
+    });
+
+    // sitaAction.search();
+    //$("#btn-search-sita").click(function () { hermesAction.search(); })
+
+</script>

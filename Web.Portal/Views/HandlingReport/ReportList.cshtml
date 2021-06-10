@@ -1,0 +1,101 @@
+﻿
+@{
+    Layout = null;
+    int PageCurrent = 0;
+    string[] columns = (string[])ViewData["column"];
+    System.Data.DataTable tableReport = ((System.Data.DataTable)ViewData["DataList"]);
+
+}
+<div class='col-md-2 col-xs-12 margin-top-10'>
+    <label class='control-label'><b>Tổng số: @ViewBag.TotalRecord</b></label>
+</div>
+<input type="hidden" name="keyValue" id="reportId" value="@ViewBag.ID" />
+<table class="table table-striped table-bordered table-advance table-hover dt-responsive" id="tbl-report">
+   
+    <thead>
+        <tr>
+            <th class="all" style="width:3%;font-size:16px;background-color:yellow !important;text-align:center"></th>
+            <th style="width:10%"></th>
+            <th style="width:10%;font-size:14px;background-color:yellow !important;text-align:center">
+                Số HD
+            </th>
+            <th style="width:10%;font-size:14px;background-color:yellow !important;text-align:center">
+                AWB
+            </th>
+            <th style="width:10%;font-size:14px;background-color:yellow !important;text-align:center">
+                HAWB
+            </th>
+            <th style="width:10%;font-size:14px;background-color:yellow !important;text-align:center">
+                TỔNG TIỀN CHƯA VAT
+            </th>
+            <th style="width:10%;font-size:14px;background-color:yellow !important;text-align:center">
+                THUẾ VAT
+            </th>
+
+            <th style="width:10%;font-size:14px;background-color:yellow !important;text-align:center">
+                TỔNG TIỀN
+            </th>
+
+            <th style="width:10%;font-size:14px;background-color:yellow !important">
+                TRẠNG THÁI
+            </th>
+            <th style="width:10%;font-size:14px;background-color:yellow !important">
+                Số HDDT
+            </th>
+
+
+
+        </tr>
+    </thead>
+    <tbody>
+      
+      @foeach (var row in (IList<Web.Portal.Common.ViewModel.HandlingReportViewModel>)ViewData["listHandling"])
+        {
+            rowIndex += 1;
+
+            <tr>
+                <td>@rowIndex</td>
+
+                <td><a href="#" data-id="@Html.DisplayFor(model=>row.ID)" class="btn  btn-xs sqs-member-edit">@Html.Raw(row.AWB)</a></td>
+                <td>
+                    <a href="#" data-id="@Html.DisplayFor(model => row.ID)" class="btn  btn-xs sqs-member-edit">@Html.DisplayTextFor(model => row.Group)</a>
+                </td>
+                <td>
+                    <a href="#" data-id="@Html.DisplayFor(model => row.ID)" class="btn  btn-xs sqs-member-edit">@Html.Raw(row.Pieces)</a>
+                </td>
+
+            </tr>
+        }
+    </tbody>
+
+</table>
+<div class="box-footer clearfix">
+    @Html.Raw(ViewBag.Paging)
+</div>
+<script>
+    var id = $('#reportId').val()
+    egovutil.loadPaging(pagingexpawb, "/HandlingReport/ReportList?id=" + id
+                                                                    + "&FromDate=" + $("#fda").val()
+                                                                    + "&ToDate=" + $("#tda").val()
+                                                                    + "&Page=1"
+                                                                    + "&PageSize=" + $("#pagingexpawb_step").val(), "#content-list-result");
+
+
+
+    $("#pagingexpawb_step").change(function () {
+        egovutil.getContent("#content-list-result",
+                                                             "/HandlingReport/ReportList?id=" + id
+                                                                    + "&FromDate=" + $("#fda").val()
+                                                                    + "&ToDate=" + $("#tda").val()
+                                                                    + "&Page=1"
+                                                                    + "&PageSize=" + $(this).val());
+    });
+
+    egovutil.CreateTableSort("#tbl-report", [[0, "asc"]], [
+
+        {
+
+            "orderable": false, "targets": [0, 0]
+        }
+        ], false);
+</script>

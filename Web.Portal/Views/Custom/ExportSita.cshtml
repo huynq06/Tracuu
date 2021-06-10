@@ -1,0 +1,11 @@
+﻿@{
+    Layout = null;
+}
+NON-DLVD SHPT
+M-@ViewBag.MAWB @ViewBag.Expected @ViewBag.Dest   EX:@ViewBag.Flight
+@foreach (var row in (IList<Web.Portal.Layer.ImpHAWB>)ViewData["HAWBList"])
+{
+    @Html.Raw("HAWB - "+row.HAWB+"  P"+row.QuantityReceived+"K"+row.WeightReceived+ System.Environment.NewLine)
+}
+HAN HS ALRD INFRMD N/ A BUT CNEE HS NOT COME TO P / U SHPT TILL DTE
+BRGDS

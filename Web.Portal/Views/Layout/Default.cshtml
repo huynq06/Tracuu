@@ -1,0 +1,174 @@
+﻿<!DOCTYPE html>
+<html lang="en" class="no-js">
+<!-- BEGIN HEAD -->
+<head>
+    <meta charset="utf-8" />
+    <title>HỆ THỐNG TRA CỨU THÔNG TIN ALSC</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css" />
+   
+    <link href="@Url.Content("~/Style/custom/font-awesome/css/all.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Style/assets/global/plugins/font-awesome/css/font-awesome.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Style/assets/global/plugins/simple-line-icons/simple-line-icons.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Style/assets/global/plugins/bootstrap/css/bootstrap.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Style/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css")" rel="stylesheet" type="text/css" />
+    <!-- END GLOBAL MANDATORY STYLES -->
+    <!-- BEGIN PAGE LEVEL PLUGINS -->
+    <link href="@Url.Content("~/Style/assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.css")" rel="stylesheet" type="text/css" />
+
+    <link href="@Url.Content("~/Style/assets/global/plugins/fullcalendar/fullcalendar.min.css")" rel="stylesheet" type="text/css" />
+
+    <link href="@Url.Content("~/Style/assets/global/plugins/jstree/dist/themes/default/style.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Style/assets/global/plugins/bootstrap-toastr/toastr.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Style/assets/global/plugins/bootstrap-select/css/bootstrap-select.min.css")" rel="stylesheet" type="text/css" />
+
+    <link href="/Style/assets/global/plugins/bootstrap-multiselect/css/bootstrap-multiselect.css" rel="stylesheet" type="text/css" />
+    <link href="/Style/assets/global/plugins/select2/css/select2-bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="/Style/assets/global/plugins/jquery-multi-select/css/multi-select.css" rel="stylesheet" type="text/css" />
+    <link href="/Style/assets/global/plugins/datatables/datatables.min.css" rel="stylesheet" type="text/css" />
+    <link href="/Style/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css" rel="stylesheet" type="text/css" />
+    <link href="/Style/assets/global/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.css" rel="stylesheet" type="text/css" />
+    <link href="/Style/assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css" rel="stylesheet" type="text/css" />
+    <link href="/Style/assets/global/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css" rel="stylesheet" type="text/css" />
+    <link href="/Style/assets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="/Style/fileupload/fileinput.css">
+    <link rel="stylesheet" href="/Style/assets/global/plugins/icheck/skins/all.css">
+    <link href="/Style/assets/global/plugins/jquery-nestable/jquery.nestable.css" rel="stylesheet" type="text/css" />
+    <!-- END PAGE LEVEL PLUGINS -->
+    <!-- BEGIN THEME GLOBAL STYLES -->
+
+    <link href="@Url.Content("~/Style/assets/global/css/components.min.css")" rel="stylesheet" id="style_components" type="text/css" />
+    <link href="@Url.Content("~/Style/assets/global/css/plugins.min.css")" rel="stylesheet" type="text/css" />
+    <!-- END THEME GLOBAL STYLES -->
+    <!-- BEGIN THEME LAYOUT STYLES -->
+    <link href="@Url.Content("~/Style/assets/layouts/layout/css/layout.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Style/assets/layouts/layout/css/themes/default.min.css")" rel="stylesheet" type="text/css" id="style_color" />
+    <link href="@Url.Content("~/Style/assets/layouts/layout/css/custom.min.css")" rel="stylesheet" type="text/css" />
+    <!-- END THEME STYLES -->
+    <link rel="shortcut icon" href="favicon.ico" />
+
+    <script src="@Url.Content("~/Script/jquery-2.2.3.min.js")"></script>
+    <script src="@Url.Content("~/Script/jquery-ui.min.js")"></script>
+
+
+
+
+    <script src="@Url.Content("~/Style/assets/global/plugins/bootstrap/js/bootstrap.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Style/assets/global/plugins/js.cookie.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Style/assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Style/assets/global/plugins/jquery.blockui.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Style/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js")" type="text/javascript"></script>
+
+    <!-- END CORE PLUGINS -->
+    <!-- BEGIN PAGE LEVEL PLUGINS -->
+    <script src="@Url.Content("~/Style/assets/global/plugins/bootstrap-select/js/bootstrap-select.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Style/assets/global/plugins/bootstrap-multiselect/js/bootstrap-multiselect.js")" type="text/javascript"></script>
+    <script src="/Style/assets/global/plugins/jquery-multi-select/js/jquery.multi-select.js" type="text/javascript"></script>
+
+    <script src="@Url.Content("~/Style/assets/global/plugins/jstree/dist/jstree.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Style/assets/global/plugins/bootstrap-toastr/toastr.min.js")" type="text/javascript"></script>
+
+    <script src="@Url.Content("~/Style/assets/global/plugins/jquery-validation/js/jquery.validate.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Style/assets/global/plugins/jquery-validation/js/additional-methods.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Style/assets/global/plugins/icheck/icheck.min.js")" type="text/javascript"></script>
+    <script src="/Style/assets/global/scripts/datatable.js" type="text/javascript"></script>
+    <script src="/Style/assets/global/plugins/datatables/datatables.min.js" type="text/javascript"></script>
+    <script src="/Style/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js" type="text/javascript"></script>
+    <script src="/Style/assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js" type="text/javascript"></script>
+    <script src="/Style/assets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
+    <script src="/Style/assets/global/plugins/bootstrap-wysihtml5/wysihtml5-0.3.0.js" type="text/javascript"></script>
+    <script src="/Style/assets/global/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.js" type="text/javascript"></script>
+    <script src="/Style/assets/global/plugins/jquery-nestable/jquery.nestable.js" type="text/javascript"></script>
+
+    <!-- END PAGE LEVEL PLUGINS -->
+    <!-- BEGIN THEME GLOBAL SCRIPTS -->
+    <script src="@Url.Content("~/Style/assets/global/scripts/app.min.js")" type="text/javascript"></script>
+    <!-- END THEME GLOBAL SCRIPTS -->
+    <!-- BEGIN PAGE LEVEL SCRIPTS -->
+    <!-- END PAGE LEVEL SCRIPTS -->
+    <!-- BEGIN THEME LAYOUT SCRIPTS -->
+    <script src="@Url.Content("~/Style/assets/layouts/layout/scripts/layout.min.js")" type="text/javascript"></script>
+
+    <script src="/Script/fileupload/fileinput.js"></script>
+    <script src="~/Style/custom/js/numeral/numeral.js"></script>
+    <script src="@Url.Content("~/Style/assets/global/plugins/bootbox/bootbox.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Script/jquery.bootpag.min.js")"></script>
+    <script src="~/Style/custom/js/mustache.js/mustache.js"></script>
+    <script src="@Url.Content("~/Script/go.js")"></script>
+    <script src="@Url.Content("~/Style/plugins/fullcalendar/fullcalendar.min.js")"></script>
+    <script src="@Url.Content("~/Script/chart/fusioncharts.js?v=1")"></script>
+    <script src="@Url.Content("~/Script/chart/fusioncharts.charts.js?v=1")"></script>
+    <script src="@Url.Content("~/Script/chart/fusioncharts.theme.fint.js?v=1")"></script>
+    <script src="@Url.Content("~/Script/egov-util.js")"></script>
+    <script src="@Url.Content("~/Script/jquery.mask.js")"></script>
+    @RenderSection("footerJS", required: false)
+  
+</head>
+
+<body class="page-header-fixed page-sidebar-closed-hide-logo page-content-white " id="egov-body-main">
+    <div class="page-wrapper">
+        <!-- BEGIN HEADER -->
+        <div class="page-header navbar navbar-fixed-top">
+            <!-- BEGIN HEADER INNER -->
+            <div class="page-header-inner">
+                <!-- BEGIN LOGO -->
+                <div class="page-logo">
+
+                    <div class="menu-toggler sidebar-toggler">
+                        <span></span>
+                    </div>
+                </div>
+
+                <!-- END LOGO -->
+                <!-- BEGIN RESPONSIVE MENU TOGGLER -->
+                <a href="javascript:;" class="menu-toggler responsive-toggler" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span></span>
+                </a>
+                <!-- END RESPONSIVE MENU TOGGLER -->
+                <!-- BEGIN TOP NAVIGATION MENU -->
+                @Html.Action("Top", "Menu")
+                <!-- END TOP NAVIGATION MENU -->
+            </div>
+            <!-- END HEADER INNER -->
+        </div>
+        <!-- END HEADER -->
+        <div class="clearfix"> </div>
+        <!-- BEGIN CONTAINER -->
+        <div class="page-container">
+            <!-- BEGIN SIDEBAR -->
+            <div class="page-sidebar-wrapper">
+                <div class="page-sidebar navbar-collapse collapse">
+
+                    @Html.Action("Index", "Menu")
+                    <!-- END SIDEBAR MENU -->
+                </div>
+            </div>
+            <!-- END SIDEBAR -->
+            <!-- BEGIN CONTENT -->
+            <div class="page-content-wrapper">
+                <div class="page-content egov-page-content">
+                    @RenderBody()
+                </div>
+            </div>
+            <!-- END CONTENT -->
+            <!-- BEGIN INFOR SIDEBAR -->
+            <!-- END INFOR SIDEBAR -->
+        </div>
+        <!-- END CONTAINER -->
+        <!-- BEGIN FOOTER -->
+        <div class="page-footer">
+            <div class="page-footer-inner">
+                HỆ THỐNG TRA CỨU THÔNG TIN ALSC
+            </div>
+            <div class="scroll-to-top">
+                <i class="icon-arrow-up"></i>
+            </div>
+        </div>
+        <!-- END FOOTER -->
+       
+    </div>
+  
+</body>
+
+</html>

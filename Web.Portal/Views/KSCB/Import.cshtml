@@ -1,0 +1,66 @@
+﻿@{
+    Layout = null;
+}
+@model  Web.Portal.Model.Models.tblMission
+<form class="form-horizontal" id="frmAction">
+    <input type="hidden" name="type" value="ADD" />
+    <input type="hidden" name="keyValue" value="@ViewBag.ID" />
+    <div class="form-body">
+
+        <div class="form-group form-md-line-input">
+            <div class="col-md-12">
+
+                <div class="kv-avatar center-block">
+                    <div id="fileImport">
+
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <div class="text-center">
+        <button type="submit" class="btn btn-success" id="btnSave"><i class="fa fa-floppy-o"></i> Lưu thông tin</button>
+        <button type="reset" class="btn btn-success"><i class="fa fa-refresh"></i> Làm mới</button>
+    </div>
+
+
+
+    <!-- /.box-footer -->
+</form>
+<script>
+
+    var message = {
+        organizationId: {
+            required: "Số lượng không được trống"
+            },
+        regDate:
+            {
+                required: "Ngày đăng ký không được trống"
+            }
+
+    };
+    var rule = {
+        organizationId: { required: true },
+        regDate: { required: true }
+
+    };
+    egovutil.submit("#frmAction", rule, message, "/kscb/importfile");
+    $('.date-picker').datepicker({
+        rtl: App.isRTL(),
+        orientation: "left",
+        autoclose: true
+    });
+
+    $('.bs-select').selectpicker({
+        iconBase: 'fa',
+        tickIcon: 'fa-check'
+    });
+    egovutil.createUploadFile("fileImport", "", "");
+</script>
+
+

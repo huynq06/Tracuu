@@ -1,0 +1,261 @@
+﻿@{
+   
+
+}
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet">
+            <div class="portlet-title">
+                <div class="caption caption-md">
+                    <span class="caption-subject font-blue-madison bold uppercase">BÁO CÁO TÍCH HỢP HERMES - ERP</span>
+                </div>
+
+                <div class="actions">
+
+                    <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="row">
+                    <div class="form-group form-md-line-input">
+
+                        <div class="col-md-2 col-xs-3" >
+                            <input class="form-control form-control-inline  date-picker" id="fda" value="@Html.Raw(DateTime.Now.AddDays(-2).ToString("dd/MM/yyyy"))" placeholder="Từ ngày" maxlength="20" data-date-format="dd/mm/yyyy" />
+                            <div class="form-control-focus"> </div>
+                            <span class="help-block">Từ ngày</span>
+                        </div>
+                        <div class="col-md-2 col-xs-12">
+                            <input class="form-control form-control-inline  date-picker" id="tda" value="@Html.Raw(DateTime.Now.AddDays(-2).ToString("dd/MM/yyyy"))" placeholder="Đến ngày" maxlength="20" data-date-format="dd/mm/yyyy" />
+                            <div class="form-control-focus"> </div>
+                            <span class="help-block">Tìm theo ngày</span>
+                        </div>
+                        <div class="col-md-2 col-xs-3">
+                            <select class="form-control  bs-select" id="invoice_type" data-live-search="true" data-size="8">
+                                <option value="ALL"></option>
+                                <option value="('CASH')">CASH</option>
+                                <option value="('DEBIT NOTE')">DEBIT NOTE</option>
+                                <option value="('CREDITNOTE')">CREDITNOTE</option>
+                            </select>
+                            <div class="form-control-focus"> </div>
+                            <span class="help-block">TYPE</span>
+                        </div>
+                        <div class="col-md-2 col-xs-3">
+                            <select class="form-control  bs-select" id="object_type" data-live-search="true" data-size="8">
+                                <option value="ALL"></option>
+                                <option value="('IMPORT AWB')">IMPORT</option>
+                                <option value="('EXPORT AWB')">EXPORT</option>
+                            </select>
+                            <div class="form-control-focus"> </div>
+                            <span class="help-block">TYPE</span>
+                        </div>
+                      
+                        <div class="col-md-2 col-xs-6">
+                            <div class="input-group">
+
+                                <select class="mt-multiselect  btn btn-default" id="tinhTrang" multiple="multiple" data-clickable-groups="true">
+                                    <optgroup label="Trạng thái xử lý" class="group-1">
+                                        <option value="1">OK</option>
+                                        <option value="-1" selected>NOT OK</option>
+                                        <option value="0" selected>MISSING</option>
+                                    </optgroup>
+
+                                </select>
+                                <span class="input-group-btn">
+                                    <button id="btn-search-erp" class="btn btn-success" type="button"><i class="fa fa-search"></i></button>
+                                </span>
+
+
+                            </div>
+
+                          
+
+
+                        </div>
+                        
+
+
+                    </div>
+                    
+                </div>
+
+                <div class="form-group form-md-line-input">
+                    
+                    <div class="col-md-12" id="content-list-result">
+                    </div>
+                </div>
+
+            </div>
+
+
+
+
+
+        </div>
+    </div>
+    
+
+</div>
+<script>
+    $('.bs-select').selectpicker({
+        iconBase: 'fa',
+        tickIcon: 'fa-check'
+    });
+    function LoadData()
+    {
+        if ($("#colShow").val() == null) {
+            egovutil.MessageToast("error", "Thông báo", "Vui lòng chọn cột hiển thị");
+        } else {
+
+            showReportCol();
+        }
+    }
+
+    var actionchange=function(t,a,i)
+    {
+
+
+
+
+        $('select#colShow').find('option').each(function () {
+
+            var check = false;
+
+            var idcheck = $(this).val();
+            var labelcheck = $(this).text();
+
+
+        //$("#nestable_list_2").each(function()
+        //{
+        //    $(this).find("li").each(function()
+        //    {
+        //        if ( $(this).attr("data-id") == idcheck)
+        //            check = true;
+        //    })
+        //})
+        if (check == false && a == true && $(t).text().length <100 && $(t).val()==idcheck)
+            $("#nestable_list_2 > ol").append("<li class='dd-item' id='nst_" + idcheck + "'  data-id='" + idcheck + "'><div class='dd-handle'>" + labelcheck + "</div></li>");
+        if (check == false && a == true && $(t).text().length > 100 )
+            $("#nestable_list_2 > ol").append("<li class='dd-item' id='nst_" + idcheck + "'  data-id='" + idcheck + "'><div class='dd-handle'>" + labelcheck + "</div></li>");
+
+        if(check==true && a==false && $(t).text().length>100)
+            $("#nst_" + idcheck).remove();
+        if(check==true && a==false && $(t).text().length<100 && $(t).val()==idcheck)
+            $("#nst_" + idcheck).remove();
+
+        });
+        $('#nestable_list_2').nestable('reinit');
+    }
+
+
+    $(".mt-multiselect").multiselect({
+        enableClickableOptGroups: 1, enableCollapsibleOptGroups: 2, buttonWidth: "100%", onChange: actionchange
+
+    });
+    var erpAction = {
+        search: function () {
+         
+            egovutil.getContent("#content-list-result", "/AccountantReport/ReportListERP?tt=" + $("#tinhTrang").val()
+                                                                    + "&invoice=" + $("#invoice_type").val()
+                                                                    + "&object=" + $("#object_type").val()
+                                                                    + "&fda=" + $("#fda").val()
+                                                                    + "&tda=" + $("#tda").val()
+                                                                    );
+        }
+    }
+    $('.date-picker').datepicker({
+        rtl: App.isRTL(),
+        orientation: "left",
+        autoclose: true
+    });
+    function showReportCol()
+    {
+        var cs = $(".rpt-list").sortable("toArray");
+
+        if ($("#typeShow").val() == "DS") {
+            egovutil.getContent("#content-list-result", "/sqs/reportsvbt/list?"
+
+                                                                + "&fda=" + $("#fda").val()
+                                                                + "&tda=" + $("#tda").val()
+                                                                + "&gId=" + $("#groupId").val()
+                                                                + "&tt=" + $("#tinhTrang").val()
+                                                                + "&cs=" + cs
+                                                                + "&tp=" + $("#typeReport").val()
+                                                                + "&ts=" + $("#typeShow").val()
+                                                               //  + "&col=" + $("#orderCol").val()
+
+                                                                );
+        }
+
+        if ($("#typeShow").val() == "BD") {
+            egovutil.getContent("#content-list-result", "/sqs/reportsvbt/chartreport?"
+
+                                                                + "&fda=" + $("#fda").val()
+                                                                + "&tda=" + $("#tda").val()
+                                                                + "&gId=" + $("#groupId").val()
+                                                                + "&tt=" + $("#tinhTrang").val()
+                                                                + "&cs=" + cs
+                                                                + "&tp=" + $("#typeReport").val()
+                                                                + "&ts=" + $("#typeShow").val()
+                                                               //  + "&col=" + $("#orderCol").val()
+
+                                                                );
+        }
+    }
+
+
+
+
+
+    $("#btn-search-erp").click(function () { erpAction.search(); })
+    $("#btn-export-report").click(function () {
+        if ($("#colShow").val() == null)
+        {
+            egovutil.MessageToast("error", "Thông báo", "Vui lòng chọn cột hiển thị");
+        } else
+        {
+
+
+                window.location.href = "/sqs/reportsvbt/exportds?"
+
+                                                                    + "&fda=" + $("#fda").val()
+                                                                    + "&tda=" + $("#tda").val()
+                                                                    + "&gId=" + $("#groupId").val()
+                                                                    + "&tt=" + $("#tinhTrang").val()
+                                                                    + "&cs=" + $(".rpt-list").sortable("toArray")
+                                                                    + "&tp=" + $("#typeReport").val()
+                                                                    + "&ts=" + $("#typeShow").val()
+                                                                   // + "&col=" + $("#orderCol").val()
+
+
+
+
+
+        }
+
+
+
+    })
+    $("#typeReport").change(function () { LoadData(); });
+    $("#typeShow").change(function () { LoadData(); });
+
+    //$("#nestable_list_2").nestable({ group: 1 });
+
+    $(".rpt-list").sortable(
+        {
+
+            stop: function (event, ui) {
+
+                var idArr = $(".rpt-list").sortable("toArray");
+
+                showReportCol();
+
+
+            }
+        });
+
+</script>
+
+

@@ -1,0 +1,121 @@
+﻿@{
+    Layout = null;
+
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet">
+            <div class="portlet-title">
+                <div class="caption caption-md">
+                    <span class="caption-subject font-blue-madison bold uppercase">QUẢN LÝ SCAN QRCODE</span>
+                </div>
+                <div class="actions">
+                    <a href="javascript:;" data-id="02" class="btn btn-circle btn-danger btn-export-log">
+                        <i class="fa fa-download"></i> Xuất danh sách
+                    </a>
+                    <a href="javascript:;" class="btn btn-default btn-sm btn-add-item">
+                        <i class="fa fa-plus"></i> Thêm mới
+                    </a>
+                    <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="row">
+                    <div class="form-group form-md-line-input">
+
+                        <div class="col-md-2 col-xs-12">
+
+                            <input class="form-control form-control-inline date-picker" value="@Html.Raw(DateTime.Now.ToString("dd/MM/yyyy"))" id="fda" placeholder="Từ ngày" maxlength="20" data-date-format="dd/mm/yyyy" />
+                            <div class="form-control-focus"> </div>
+                            <span class="help-block">Tìm theo từ ngày</span>
+
+                        </div>
+                        <div class="col-md-2 col-xs-12">
+
+                           
+                                <select class="form-control  bs-select" id="ticket" data-live-search="true" data-size="8">
+                                    @*<option value="-1"></option>*@
+                                    <option value="1">VÉ NGÀY</option>
+                                    <option value="2">VÉ THÁNG</option>
+                                </select>
+                                <div class="form-control-focus"> </div>
+                                <span class="help-block">LOẠI VÉ</span>
+                               
+
+
+                            </div>
+                        <div class="col-md-2 col-xs-12">
+
+                            <div class="input-group" style="padding-left:20px !important">
+                                <select class="form-control  bs-select" id="location" data-live-search="true" data-size="8">
+                                    @*<option value="-1"></option>*@
+                                    <option value="1">TẦNG 1</option>
+                                    <option value="2">TẦNG 2</option>
+                                </select>
+                                <div class="form-control-focus"> </div>
+                                <span class="help-block">LOCATION</span>
+                                <span class="input-group-btn">
+                                    <button id="btn-search-sita" class="btn btn-success" type="button"><i class="fa fa-search"></i></button>
+                                </span>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="content-list-result">
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+
+
+
+        </div>
+    </div>
+
+</div>
+<script>
+    var callTruckAction = {
+        search: function () {
+            egovutil.getContent("#content-list-result", "/CallTruck/ScanInOutList?fda=" + $("#fda").val()
+                 + "&ticket=" + $("#ticket").val()
+                                                                      //+ "&tda=" + $("#tda").val()
+                                                                      + "&location=" + $("#location").val()
+                );
+        }
+    }
+    $('.date-picker').datepicker({
+        rtl: App.isRTL(),
+        orientation: "left",
+        autoclose: true
+    });
+    $('.bs-select').selectpicker({
+        iconBase: 'fa',
+        tickIcon: 'fa-check'
+    });
+    $("#btn-search-sita").click(function () {
+        callTruckAction.search();
+
+    })
+
+    callTruckAction.search();
+    $(".btn-export-log").click(function () {
+        window.location.href = "/CallTruck/ScanInOutExport?fda=" + $("#fda").val()
+             + "&ticket=" + $("#ticket").val()
+                                                                      //+ "&tda=" + $("#tda").val()
+                                                                      + "&location=" + $("#location").val()
+    });
+
+</script>

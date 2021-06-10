@@ -1,0 +1,133 @@
+﻿@{
+    
+}
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet">
+            <div class="portlet-title">
+                <div class="caption caption-md">
+                    <span class="caption-subject font-blue-madison bold uppercase">BÁO CÁO HÀNG VỀ</span>
+                </div>
+                <div class="actions">
+                    <a href="javascript:;" data-id="02" class="btn btn-circle btn-danger btn-export-log">
+                        <i class="fa fa-download"></i> Xuất danh sách
+                    </a>
+
+                    <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="row">
+                    <div class="form-group form-md-line-input">
+                        <div class="col-md-2 col-xs-3">
+                            <select class="form-control  bs-select" id="cd" data-live-search="true" data-size="8">
+                                <option value="ALL"></option>
+                                @foreach (var item in (IList<string>)ViewData["CODE"])
+                                {
+                                    <option value="@Html.DisplayTextFor(model=>item)">@Html.DisplayTextFor(model => item)</option>
+                                }
+                            </select>
+                            <div class="form-control-focus"> </div>
+                            <span class="help-block">Ký hiệu</span>
+                        </div>
+                        <div class="col-md-2 col-xs-9">
+                            <select class="form-control  bs-select" id="fno" data-live-search="true" data-size="8">
+                                <option value="ALL"></option>
+                                @foreach (var item in (IList<string>)ViewData["CODE"])
+                                {
+                                    <option value="@Html.DisplayTextFor(model=>item)">@Html.DisplayTextFor(model => item)</option>
+                                }
+                            </select>
+                            <div class="form-control-focus"> </div>
+                            <span class="help-block">Tìm theo số hiệu</span>
+                        </div>
+
+
+                        <div class="col-md-2 col-xs-12">
+
+                            <input class="form-control form-control-inline date-picker" value="@Html.Raw(DateTime.Now.ToString("dd/MM/yyyy"))" id="fda" placeholder="Từ ngày" maxlength="20" data-date-format="dd/mm/yyyy" />
+                            <div class="form-control-focus"> </div>
+                            <span class="help-block">Tìm theo từ ngày</span>
+
+                        </div>
+
+                        <div class="col-md-2 col-xs-12">
+
+                            <div class="input-group">
+
+                                <input class="form-control form-control-inline  date-picker" id="tda" value="@Html.Raw(DateTime.Now.ToString("dd/MM/yyyy"))" placeholder="Đến ngày" maxlength="20" data-date-format="dd/mm/yyyy" />
+                                <div class="form-control-focus"> </div>
+                                <span class="help-block">Tìm theo đến ngày</span>
+                                <span class="input-group-btn">
+                                    <button id="btn-search-sita" class="btn btn-success" type="button"><i class="fa fa-search"></i></button>
+                                </span>
+
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="content-list-result">
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+
+
+
+        </div>
+    </div>
+
+</div>
+<script>
+    var hermesAction = {
+        search: function () {
+            egovutil.getContent("#content-list-result", "/impawb/listrs?cd="+$("#cd").val()
+                                                                    + "&fno=" + $("#fno").val()
+                                                                    + "&fda=" + $("#fda").val()
+                                                                    + "&tda=" + $("#tda").val()
+
+
+                                                                    );
+        },
+        changeCode: function () {
+            egovutil.getContentCallBack("#fno", "/impawb/getno/" + $("#cd").val(), "$('#fno').selectpicker('refresh');");
+        }
+    }
+    $('.date-picker').datepicker({
+        rtl: App.isRTL(),
+        orientation: "left",
+        autoclose: true
+    });
+    $(".btn-export-log").click(function () {
+        window.location.href = "/impawb/exportrs?cd=" + $("#cd").val() + "&fno=" + $("#fno").val()
+                                                                    + "&fda=" + $("#fda").val()
+                                                                    + "&tda=" + $("#tda").val()
+    });
+
+    $('.bs-select').selectpicker({
+        iconBase: 'fa',
+        tickIcon: 'fa-check'
+    });
+    $("#cd").change(function () {
+        hermesAction.changeCode();
+    });
+    hermesAction.changeCode();
+    // sitaAction.search();
+    $("#btn-search-sita").click(function () { hermesAction.search(); })
+
+</script>

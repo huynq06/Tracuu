@@ -1,0 +1,227 @@
+﻿@{
+    Layout = null;
+    List<Web.Portal.Layer.CompanyBussiness> CompanyBussinessList = (List<Web.Portal.Layer.CompanyBussiness>)ViewData["CompanyBussinessList"];
+    IList<Web.Portal.Layer.CompanyChild> CompanyChildList = (IList<Web.Portal.Layer.CompanyChild>)ViewData["CompanyChildList"];
+    List<Web.Portal.Layer.CompanyBussiness> CompanyParent = new List<Web.Portal.Layer.CompanyBussiness>();   
+    foreach (var item in CompanyBussinessList)
+    {
+        if (CompanyBussinessList.Count(x => item.ParentId == x.CompanyId )>= 0  && CompanyParent.Count(x=>x.CompanyId==item.CompanyId)==0)
+        {
+            CompanyParent.Add(item);
+        }
+
+    }
+    
+}
+<style>
+    table#tree-table tr td {
+        border: 1px solid #00000063 !important;
+    }
+</style>
+<table id="tree-table" class="table table-hover table-bordered">
+    <thead>
+        <tr>
+
+            <th style="width:5%;background-color:yellow !important;text-align:center">
+                <input type="checkbox" id="chk_All" class="icheck chk-all">
+            </th>
+            <th style="width:5%;background-color:yellow !important;text-align:center">
+            </th>
+            <th style="width:10%;background-color:yellow !important;text-align:center">CODE</th>
+            <th style="width:25%;background-color:yellow !important;text-align:center">BÊN ỦY QUYỀN</th>
+            <th style="width:20%;background-color:yellow !important;text-align:center">BÊN ĐƯỢC ỦY QUYỀN</th>
+            <th style="width:10%;background-color:yellow !important;text-align:center">ID.NO</th>
+            <th style="width:10%;background-color:yellow !important;text-align:center">LOẠI CÔNG VĂN</th>
+            <th style="width:20%;background-color:yellow !important;text-align:center">NỘI DUNG UQ</th>
+ 
+            <th style="width:5%;background-color:yellow !important;text-align:center">ẢNH</th>
+            <th style="width:5%;background-color:yellow !important;text-align:center"></th>
+
+        </tr>
+
+
+    </thead>
+    <tbody>
+    @foreach (var row in CompanyParent)
+    {
+        var childCompany = CompanyBussinessList.Where(x => x.ParentId == row.CompanyId).ToList();
+        if (childCompany.Count > 0)
+        {
+
+        <tr>
+            <td style="text-align:center;vertical-align:middle" @Html.Raw(childCompany.Count > 1 ? "rowspan='" + childCompany.Count + "'" : string.Empty)>
+               <input type="checkbox" value="@Html.DisplayFor(model => row.CompanyId)" class="icheck check_code">
+            </td>
+            <td style="text-align:center;vertical-align:middle" @Html.Raw(childCompany.Count > 1 ? "rowspan='" + childCompany.Count + "'" : string.Empty)>
+                <div class="btn-group">
+                    <button class="btn green btn-sm btn-outline  dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                        <i class="fa fa-angle-down"></i>
+                    </button>
+                    <ul class="dropdown-menu pull-right">
+                        <li>
+                            <a href="javascript:;" data-id="@Html.DisplayFor(model => row.CompanyId)" class="add-child">
+                                <i class="fa fa-plus"></i> Thêm ủy quyền
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;"  data-id="@Html.DisplayFor(model => row.CompanyId)" class="edit-record">
+                                <i class="fa fa-edit"></i> Sửa bản ghi
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="javascript:;" data-id="@Html.DisplayFor(model => row.CompanyId)" class="delete-record">
+                                <i class="fa fa-trash-o"></i>Xóa bản ghi
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+            <td style="text-align:center;vertical-align:middle" @Html.Raw(childCompany.Count > 1 ? "rowspan='" + childCompany.Count + "'" : string.Empty)><a href="#" style="" data-id="@Html.Raw(row.CompanyId)" class="edit-record">@Html.DisplayTextFor(model => row.Code)</a></td>
+
+            <td  style="vertical-align:middle;" @Html.Raw(childCompany.Count > 1 ? "rowspan='" + childCompany.Count + "'" : string.Empty)>
+                <p style="border-bottom: 1px dotted red;"><strong>TÊN CTY: </strong><a href="#" data-id="@Html.Raw(row.CompanyId)" class="edit-record">@Html.DisplayTextFor(model => row.Name)</a></p>
+                <p><strong>ĐỊA CHỈ: </strong><a href="#" data-id="@Html.Raw(row.CompanyId)" class="edit-record">@Html.DisplayTextFor(model => row.Address)</a></p>
+            </td>
+            @for (int i = 0; i == 0 && childCompany.Count > 0; i++)
+            {
+                var ps = CompanyChildList.FirstOrDefault(x => x.CompanyId == childCompany[i].CompanyId && x.ParentId == row.CompanyId);
+                <td style="">
+                    <p style="border-bottom: 1px dotted red;"><a href="#" class="view-child" data-id="@Html.Raw(childCompany[i].CompanyId)">@Html.Raw(childCompany[i].Name)</a></p>
+                    <p><a href="#" class="view-child" data-id="@Html.Raw(childCompany[i].CompanyId)">@Html.Raw(childCompany[i].Address)</a></p>
+                </td>
+                        <td>@Html.Raw(childCompany[i].IdNo)</td>
+                        <td>@Html.Raw(ps != null ? ps.TypeDoc : string.Empty)</td>
+                        <td>@Html.Raw(ps != null ? ps.Description : string.Empty)</td>
+                        <td>
+                            <a href="javascript:;" data-id="@Html.Raw(ps != null ? ps.CompanyChildId : 0)" class="show-album">
+                                <i class="fa fa-search"></i>
+                            </a>
+
+                        </td>
+                        <td>
+                            <div class="btn-group">
+                                <button class="btn green btn-sm btn-outline  dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                    <i class="fa fa-angle-down"></i>
+                                </button>
+                                <ul class="dropdown-menu pull-right">
+                                    <li>
+                                        <a href="javascript:;" data-id="@Html.DisplayFor(model => childCompany[i].CompanyId)" data-parent="@Html.DisplayFor(model => row.CompanyId)"  class="show-child" >
+                                            <i class="fa fa-search"></i> Xem ủy quyền
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:;" data-id="@Html.DisplayFor(model => childCompany[i].CompanyId)" class="add-child">
+                                            <i class="fa fa-plus"></i> Thêm ủy quyền
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:;" data-parent="@Html.DisplayFor(model => row.CompanyId)" data-id="@Html.DisplayFor(model => childCompany[i].CompanyId)" class="edit-child">
+                                            <i class="fa fa-edit"></i> Sửa bản ghi
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a href="javascript:;" data-id="@Html.DisplayFor(model => childCompany[i].CompanyId)" class="delete-record">
+                                            <i class="fa fa-trash-o"></i>Xóa bản ghi
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:;" data-parent="@Html.DisplayFor(model => row.CompanyId)" data-id="@Html.DisplayFor(model => childCompany[i].CompanyId)" class="delete-record-child">
+                                            <i class="fa fa-trash-o"></i>Xóa liên kết
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+            }
+
+
+        </tr>
+            for (int i = 1; i < childCompany.Count; i++)
+            {
+                var ps = CompanyChildList.FirstOrDefault(x => x.CompanyId == childCompany[i].CompanyId && x.ParentId == row.CompanyId);
+                <tr>
+                    <td style="">
+                        <p style="border-bottom: 1px dotted red;"><a href="#" class="view-child" data-id="@Html.Raw(childCompany[i].CompanyId)">@Html.Raw(childCompany[i].Name)</a></p>
+                        <p><a href="#" class="view-child" data-id="@Html.Raw(childCompany[i].CompanyId)">@Html.Raw(childCompany[i].Address)</a></p>
+                    </td>
+                    <td><a href="#">@Html.Raw(childCompany[i].IdNo)</a></td>
+                    <td>@Html.Raw(ps != null ? ps.TypeDoc : string.Empty)</td>
+                    <td>@Html.Raw(ps != null ? ps.Description : string.Empty)</td>
+              
+                    <td>
+                        <a href="javascript:;" data-id="@Html.Raw(ps != null ? ps.CompanyChildId : 0)" class="show-album">
+                            <i class="fa fa-search"></i>
+                        </a>
+
+                    </td>
+                    <td>
+                        <div class="btn-group">
+                            <button class="btn green btn-sm btn-outline  dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                <i class="fa fa-angle-down"></i>
+                            </button>
+                            <ul class="dropdown-menu pull-right">
+                                <li>
+                                    <a href="javascript:;" data-id="@Html.DisplayFor(model => childCompany[i].CompanyId)"  data-parent="@Html.DisplayFor(model => row.CompanyId)"  class="show-child">
+                                        <i class="fa fa-search"></i> Xem ủy quyền
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:;" data-id="@Html.DisplayFor(model => childCompany[i].CompanyId)" class="add-child">
+                                        <i class="fa fa-plus"></i> Thêm ủy quyền
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:;" data-parent="@Html.DisplayFor(model => row.CompanyId)" data-id="@Html.DisplayFor(model => childCompany[i].CompanyId)" class="edit-child">
+                                        <i class="fa fa-edit"></i> Sửa bản ghi
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="javascript:;" data-id="@Html.DisplayFor(model => childCompany[i].CompanyId)" class="delete-record">
+                                        <i class="fa fa-trash-o"></i>Xóa bản ghi
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:;" data-parent="@Html.DisplayFor(model => row.CompanyId)" data-id="@Html.DisplayFor(model => childCompany[i].CompanyId)" class="delete-record-child">
+                                        <i class="fa fa-trash-o"></i>Xóa liên kết
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+            }
+        }
+
+    }
+    </tbody>
+
+</table>
+<script>
+    $(".show-child").click(function () {
+        egovutil.dialog("Xem chi tiết thông tin ủy quyền", "large", "/companybussiness/showchild/" + $(this).attr("data-id") + "?cmd=SHOW&parent=" + $(this).attr("data-parent"), "");
+    });
+    $(".add-child").click(function () {
+        egovutil.dialog("Thêm mới thông tin ủy quyền", "large", "/companybussiness/editchild/0?cmd=ADD&parent=" + $(this).attr("data-id"), "companyBussinessAction.search()");
+    });
+    $(".edit-child").click(function () {
+        egovutil.dialog("Sửa thông tin ủy quyền", "large", "/companybussiness/editchild/" + $(this).attr("data-id") + "?cmd=UPDATE&parent=" + $(this).attr("data-parent"), "companyBussinessAction.search()");
+    });
+    $(".edit-record").click(function () {
+        egovutil.dialog("Sửa thông tin ủy quyền", "large", "/companybussiness/editmain/" + $(this).attr("data-id") + "?cmd=UPDATE", "companyBussinessAction.search()");
+    });
+    $(".delete-record").click(function () {
+        egovutil.dlgConfirmAction("Xóa thông tin", "Bạn muốn xóa thông tin này? \r\n LƯU Ý: THÔNG TIN NÀY SẼ BỊ XÓA Ở TẤT CẢ CÁC ỦY QUYỀN.", "/companybussiness/delete/" + $(this).attr("data-id") , "companyBussinessAction.search();");
+    });
+    $(".delete-record-child").click(function () {
+        egovutil.dlgConfirmAction("Xóa liên kết", "Bạn muốn xóa liên kết ủy quyền này? ", "/companybussiness/deletechildmap/" + $(this).attr("data-id") + "?parent=" + $(this).attr("data-parent"), "companyBussinessAction.search();");
+    });
+    $(".view-child").click(function () {
+        egovutil.dialog("Danh sách thông tin ủy quyền", "large", "/companybussiness/listuq/" + $(this).attr("data-id"), "");
+    });
+    $(".show-album").click(function () {
+        egovutil.dialog("Ảnh thông tin ủy quyền", "large", "/companybussiness/showalbum/" + $(this).attr("data-id"), "");
+    });
+</script>

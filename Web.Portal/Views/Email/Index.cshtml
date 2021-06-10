@@ -1,0 +1,102 @@
+﻿@{
+    Layout = null;
+
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet">
+            <div class="portlet-title">
+                <div class="caption caption-md">
+                    <span class="caption-subject font-blue-madison bold uppercase">DANH SÁCH EMAIL KHÁCH HÀNG</span>
+                </div>
+                <div class="actions">
+                    <a href="javascript:;" data-id="02" class="btn btn-circle btn-danger btn-export-log">
+                        <i class="fa fa-download"></i> Xuất danh sách
+                    </a>
+                    <a href="javascript:;" class="btn btn-default btn-sm btn-add-item">
+                        <i class="fa fa-plus"></i> Thêm mới
+                    </a>
+                    <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="row">
+                    <div class="form-group form-md-line-input">
+                        @*<div class="col-md-2 col-xs-3">
+                            <input class="form-control form-control-inline input txtName" placeholder="Chuyến bay" maxlength="256" id="fno" />
+                            <div class="form-control-focus"> </div>
+                            <span class="help-block">Ký hiệu</span>
+                        </div>
+                        <div class="col-md-2 col-xs-12">
+                            <div class="input-group">
+
+                                <input class="form-control form-control-inline date-picker" value="@Html.Raw(DateTime.Now.ToString("dd/MM/yyyy"))" id="ata" placeholder="Từ ngày" maxlength="20" data-date-format="dd/mm/yyyy" />
+                                <div class="form-control-focus"> </div>
+                                <span class="help-block">Tìm theo ATA</span>
+                                <span class="input-group-btn">
+                                    <button id="btn-search-sita" class="btn btn-success" type="button"><i class="fa fa-search"></i></button>
+                                </span>
+
+
+                            </div>
+
+
+                        </div>*@
+                    </div>
+
+
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="content-list-result">
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+
+
+
+        </div>
+    </div>
+
+</div>
+<script>
+    var EmailAction = {
+        search: function () {
+            egovutil.getContent("#content-list-result", "/Email/list?fno=" + $("#fno").val()
+                                                                    + "&ata=" + $("#ata").val()
+                                                                    );
+        }
+    }
+    EmailAction.search();
+    $(".btn-add-item").click(function () {
+        egovutil.dialog("THÊM MỚI Email", "large", "/Email/edit/", "EmailAction.search()");
+    });
+    $('.date-picker').datepicker({
+        rtl: App.isRTL(),
+        orientation: "left",
+        autoclose: true
+    });
+    $(".btn-export-log").click(function () {
+        window.location.href = "/HawbManagement/export?fno=" + $("#fno").val()
+                                                                    + "&ata=" + $("#ata").val()
+    });
+
+    $('.bs-select').selectpicker({
+        iconBase: 'fa',
+        tickIcon: 'fa-check'
+    });
+
+    // sitaAction.search();
+    $("#btn-search-sita").click(function () { EmailAction.search(); })
+
+</script>

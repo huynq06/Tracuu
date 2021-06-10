@@ -1,0 +1,80 @@
+﻿
+@{
+    Layout = null;
+    int PageCurrent = 0;
+    string[] columns = (string[])ViewData["column"];
+    System.Data.DataTable tableReport = ((System.Data.DataTable)ViewData["DataList"]);
+    int totalPicesAWB = 0;
+    double totalWeightAWB = 0;
+    int totalPices = 0;
+    double totalWeight = 0;
+}
+<p style="text-align:center;font-family:'Times New Roman';font-size:15pt;font-weight:bold;text-transform:uppercase">
+    @ViewBag.Des
+</p>
+<p style="text-align:center;font-family:'Times New Roman';font-size:13pt;font-weight:bold;text-transform:uppercase">
+    @ViewBag.FlightNumber
+</p>
+
+<div class='col-md-2 col-xs-12 margin-top-10'>
+    <label class='control-label'><b>Tổng số: @ViewBag.TotalRecord</b></label>
+</div>
+<input type="hidden" name="keyValue" id="reportId" value="@ViewBag.ID" />
+
+<table border="1" class="table table-striped table-bordered table-advance table-hover dt-responsive" id="tbl-report">
+    <thead>
+        <tr>
+            <th class="all" style="width:3%"></th>
+            @foreach (var item in columns)
+            {
+                <th style="width:15%">@Html.DisplayTextFor(model => item) </th>
+
+            }
+
+        </tr>
+    </thead>
+    <tbody>
+        @for (int i = 0; i < tableReport.Rows.Count; i++)
+        {
+            PageCurrent += 1;
+            totalPicesAWB += int.Parse(tableReport.Rows[i][2].ToString());
+            totalWeightAWB += double.Parse(tableReport.Rows[i][3].ToString());
+            totalPices += int.Parse(tableReport.Rows[i][4].ToString());
+            totalWeight += double.Parse(tableReport.Rows[i][5].ToString());
+
+            <tr>
+                <td>@PageCurrent</td>
+                @foreach (var rs in columns)
+                {
+                  
+
+                    if (rs == "TÌNH TRẠNG")
+                    {
+                        <td>@Html.Raw(Web.Portal.Utils.Constants.CheckStatus(int.Parse(tableReport.Rows[i][rs].ToString())))</td>
+                    }
+                    else
+                    {
+                        <td>@Html.Raw(tableReport.Rows[i][rs])</td>
+                    }
+
+                }
+
+
+            </tr>
+        }
+        <tr style="color:red">
+            <td>Tổng</td>
+            <td></td>
+            <td></td>
+            <td>@totalPicesAWB</td>
+            <td>@totalWeightAWB</td>
+            <td>@totalPices</td>
+            <td>@totalWeight</td>
+           
+        </tr>
+    </tbody>
+
+</table>
+<div class="box-footer clearfix">
+    @Html.Raw(ViewBag.Paging)
+</div>

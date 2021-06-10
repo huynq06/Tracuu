@@ -1,0 +1,82 @@
+﻿@{
+    Layout = null;
+    int rowIndex = 0;
+}
+<div class="row">
+    <p style="text-align:center;font-family:'Times New Roman';font-size:15pt;font-weight:bold;text-transform:uppercase">
+        @ViewBag.TitleReport
+    </p>
+    <p style="text-align:center;font-family:'Times New Roman';font-size:13pt;font-weight:bold;text-transform:uppercase">
+        Từ Ngày: @ViewBag.FromDate - Đến Ngày: @ViewBag.ToDate
+    </p>
+</div>
+<div class='col-md-12 col-xs-12 margin-top-10'>
+    <label class='control-label'><b>TỔNG SỐ: @ViewBag.Total</b></label>
+</div>
+
+<table id="tbl-hawb" class="table table-striped table-bordered table-advance table-hover dt-responsive" border="1">
+    <thead>
+        <tr>
+            <th style="width:3%">
+                STT
+            </th>
+            <th style="width:3%">
+                KHO KÉO DÀI
+            </th>
+
+            <th style="width:10%">
+                MAWB
+            </th>
+            <th style="width:10%">
+                KIỆN
+            </th>
+            <th style="width:10%">
+                CÂN
+            </th>
+            <th style="width:10%">
+                NGÀY TẠO
+            </th>
+            <th style="width:10%">
+                BOOKING
+            </th>
+            <th style="width:10%">
+                NHÂN VIÊN
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var row in (IList<Web.Portal.Model.Models.EXP_AWB>)ViewData["listAwb"])
+        {
+            rowIndex += 1;
+
+            <tr>
+                <td>@rowIndex</td>
+                <td>
+                   @Html.Raw(row.WAREHOUSE)
+                </td>
+                <td>
+                   @Html.Raw(row.AWBNO)
+                </td>
+                <td>
+                    @Html.Raw(row.BOOKED_PIECES)
+                </td>
+                <td>
+                    @Html.Raw(row.WEIGHT)
+                </td>
+                <td>
+                    @Html.Raw(row.CREATED_AT.Value.ToString("dd/MM/yyyy HH:mm"))
+                </td>
+                <td>
+                    @Html.Raw(row.UPDATED_BOOKING.HasValue ? row.UPDATED_BOOKING.Value.ToString("dd/MM/yyyy HH:mm") : "")
+                </td>
+                <td>
+                    @Html.Raw(row.USER_ACTION)
+                </td>
+
+            </tr>
+        }
+
+
+
+    </tbody>
+</table>

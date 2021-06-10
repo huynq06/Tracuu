@@ -1,0 +1,232 @@
+﻿@{
+    Layout = null;
+    string[] roleUsers = ViewData["RoleUser"] != null ? (string[])ViewData["RoleUser"] : new string[1] { string.Empty };
+
+}
+@model Web.Portal.Sercurity.Member
+
+<div class="portlet-body form">
+    <form class="form-horizontal" id="frmAction">
+        <input type="hidden" name="memberId" value="@Html.DisplayFor(model=>model.MemberId)" />
+        <div class="tabbable-line">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="#tab_1_1" data-toggle="tab">Thông tin người dùng</a>
+                </li>
+                <li>
+                    <a href="#tab_1_2" data-toggle="tab">Quyền hạn</a>
+                </li>
+
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane fade active in" id="tab_1_1">
+                    <div class="col-md-3">
+                        <div class="kv-avatar center-block">
+                            <div id="fileAvatar" type-file="">
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+
+                        <div class="form-group form-md-line-input">
+
+                            <label for="code" class="col-md-3  control-label"><b>Mã thành viên:</b><span class="required">*</span></label>
+                            <div class="col-md-3">
+
+                                <input class="form-control" maxlength="30" value="@Html.DisplayFor(model=>model.Code)" name="code" />
+                                <div class="form-control-focus"> </div>
+                                <span class="help-block">Nhập mã thành viên</span>
+
+                            </div>
+
+                        </div>
+                        <div class="form-group form-md-line-input">
+                            <label for="fullName" class="col-md-3  control-label"><b>Họ và tên:</b><span class="required" aria-required="true">*</span></label>
+                            <div class="col-md-9">
+
+                                <input class="form-control" maxlength="30" value="@Html.DisplayTextFor(model=>model.FullName)" name="fullName" />
+                                <div class="form-control-focus"> </div>
+                                <span class="help-block">Nhập họ tên</span>
+
+
+                            </div>
+                        </div>
+                        <div class="form-group form-md-line-input">
+                            <label for="active" class="col-md-3  control-label"><b>Phòng ban:</b></label>
+                            <div class="col-md-9">
+
+                                <select class="form-control bs-select" name="groupId">
+                                    @foreach (var row in (IList<Web.Portal.Sercurity.Organization>)ViewData["OrganizationList"])
+                                    {
+                                        <option value="@Html.DisplayFor(model=>row.OrganizationId)">@Html.DisplayTextFor(model => row.Name)</option>
+                                    }
+
+
+                                </select>
+
+                            </div>
+
+
+
+
+                        </div>
+                        <div class="form-group form-md-line-input">
+
+
+                            <label for="userName" class="col-md-3  control-label"><b>Tên đăng nhập:</b><span class="required">*</span></label>
+                            <div class="col-md-9">
+
+                                <input class="form-control" maxlength="15" value="@Html.DisplayTextFor(model=>model.UserName)" name="userName" />
+                                <div class="form-control-focus"> </div>
+                                <span class="help-block">Nhập tên đăng nhập</span>
+
+
+                            </div>
+                        </div>
+                        <div class="form-group form-md-line-input">
+                            <label for="matKhau" class="col-md-3  control-label"><b>Mật khẩu:</b><span class="required">*</span></label>
+                            <div class="col-md-9">
+
+                                <input class="form-control" maxlength="30" value="" type="password" name="password" />
+                                <div class="form-control-focus"> </div>
+                                <span class="help-block">Nhập mật khẩu</span>
+
+
+                            </div>
+                        </div>
+
+
+                        <div class="form-group form-md-line-input">
+                            <label for="ngaySinh" class="col-md-3  control-label"><b>Chức vụ:</b><span class="required">*</span></label>
+                            <div class="col-md-9">
+                                <input class="form-control" maxlength="50" value="@Html.DisplayTextFor(model=>model.Rank)" name="rank" />
+                                <div class="form-control-focus"> </div>
+                                <span class="help-block">Nhập chức vụ</span>
+
+
+                            </div>
+                        </div>
+                        <div class="form-group form-md-line-input">
+                            <label for="email" class="col-md-3  control-label"><b>Email:</b></label>
+                            <div class="col-md-9">
+
+                                <input class="form-control" type="email" maxlength="50" value="@Html.DisplayTextFor(model=>model.Email)" name="email" />
+                                <div class="form-control-focus"> </div>
+                                <span class="help-block">Nhập thông tin email</span>
+
+
+                            </div>
+                        </div>
+
+
+                        <div class="form-group form-md-line-input">
+                            <label for="active" class="col-md-3  control-label"><b>Trạng thái:</b></label>
+                            <div class="col-md-3">
+
+                                <select class="form-control bs-select" name="active">
+                                    <option value="True">Sử dụng</option>
+                                    <option value="False">Ngừng sử dụng</option>
+                                </select>
+                                <div class="form-control-focus"> </div>
+                                <span class="help-block">Chọn trạng thái</span>
+                            </div>
+
+
+
+
+                        </div>
+
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="tab_1_2">
+                    @foreach (var item in (string[])ViewData["RoleList"])
+                    {
+
+                        <div class="box-footer">
+                            <div class="md-checkbox">
+                                <input id="rlItem_@item" name="userRoles" value="@Html.DisplayFor(model=>item)" class="md-checkboxbtn" type="checkbox" @Html.Raw(roleUsers != null && Array.Exists(roleUsers, x => x.ToUpper().Trim().Equals(item.Trim().ToUpper())) ? "checked" : "")>
+                                <label for="rlItem_@item">
+                                    <span></span>
+                                    <span class="check"></span>
+                                    <span class="box"></span> @Html.DisplayTextFor(model => item)
+                                </label>
+                            </div>
+
+
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+        <div class="text-center margin-top-10">
+            <button type="submit" class="btn btn-success" id="btnSave"><i class="fa fa-floppy-o"></i> Cập nhật</button>
+            <button type="reset" class="btn btn-success"><i class="fa fa-refresh"></i> Làm mới</button>
+        </div>
+
+    </form>
+</div>
+
+<script>
+
+    $('.bs-select').selectpicker({
+        iconBase: 'fa',
+        tickIcon: 'fa-check'
+    });
+
+
+        var message = {
+
+            code:{
+                    required:"Mã thành viên không được trống"
+            },
+            fullName:
+                {
+                    required:"Họ tên không được trống"
+                },
+            userName: {
+                required:"Tên đăng nhập không được trống"
+            },
+            password: {
+                required: "Mật khẩu không được trống"
+            },
+            email:{
+                required:"Email không được trống",
+                email:"Email không đúng định dạng"
+            }
+        };
+        var rule = {
+
+            code:{
+                required:true
+            },
+            fullName:{
+                required:true
+            },
+            userName:{
+                required:true
+            },
+            password: {
+                required: true
+            },
+            email: {
+                required: true,
+                email: true
+            }
+        };
+        egovutil.submit("#frmAction", rule, message, "/member/action");
+        egovutil.createAvatar("fileAvatar", "@Web.Portal.Upload.DisplayUrl.FormatUrlAvatar(Model.Avatar!=null?Model.Avatar:string.Empty)");
+
+
+</script>
+
+
+

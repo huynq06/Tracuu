@@ -1,0 +1,123 @@
+﻿@{
+    Layout = null;
+    int rowIndex = 0;
+
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet">
+            <div class="portlet-title">
+                <div class="caption caption-md">
+                    <span class="caption-subject font-blue-madison bold uppercase">Danh sách Hãng bay</span>
+                </div>
+
+                <div class="actions">
+
+                    <a href="javascript:;" class="btn btn-default btn-sm btn-add-item">
+                        <i class="fa fa-plus"></i> Thêm mới
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+
+                <div class="form-group form-md-line-input">
+                    <table id="tbl-sop" class="table table-striped table-bordered table-advance table-hover">
+                        <thead>
+                            <tr>
+                                <th style="width:5%">
+                                    STT
+                                </th>
+                                <th style="width:15%">
+                                    Hãng
+                                </th>
+                                <th style="width:15%">
+                                    Type
+                                </th>
+                                <th style="width:10%">
+                                    AirCraftType    
+                                </th>
+                                <th style="width:15%">
+                                    SOP TIME(m)
+                                </th>
+                                <th style="width:10%">
+                                    SHC TIME(m)
+                                </th>
+                                <th style="width:10%">
+                                    Alert 1
+                                </th>
+                                <th style="width:10%">
+                                    Alert 2
+                                </th>
+                                <th style="width:10%">
+                                    FINAL LOAD
+                                </th>
+                                <th>
+
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var row in (IList<Web.Portal.Model.Models.FlightConfig>)ViewData["ConfigSopList"])
+                            {
+                                rowIndex += 1;
+
+                                <tr>
+                                    <td>@rowIndex</td>
+                                    <td><a href="#" data-id="@Html.DisplayFor(model=>row.ID)" class="btn  btn-xs sqs-member-edit">@Html.Raw(row.FlightNumber)</a></td>
+                                    <td>
+                                        <a href="#" data-id="@Html.DisplayFor(model => row.ID)" class="btn  btn-xs sqs-member-edit">@Html.DisplayTextFor(model => row.FlightType)</a>
+                                    </td>
+                                    <td>
+                                        <a href="#" data-id="@Html.DisplayFor(model => row.ID)" class="btn  btn-xs sqs-member-edit">@Html.Raw(string.IsNullOrEmpty(row.FlightTypeOfAirCraft)? "" : row.FlightTypeOfAirCraft)</a>
+                                    </td>
+                                    <td>
+                                        <a href="#" data-id="@Html.DisplayFor(model => row.ID)" class="btn  btn-xs sqs-member-edit">@Html.DisplayTextFor(model => row.SopTime)</a>
+                                    </td>
+                                    <td>
+                                        <a href="#" data-id="@Html.DisplayFor(model => row.ID)" class="btn  btn-xs sqs-member-edit">@Html.DisplayTextFor(model => row.SHCTIME)</a>
+                                    </td>
+                                    <td>
+                                        <a href="#" data-id="@Html.DisplayFor(model => row.ID)" class="btn  btn-xs sqs-member-edit">@Html.DisplayTextFor(model => row.AlertSHC1)</a>
+                                    </td>
+                                    <td>
+                                        <a href="#" data-id="@Html.DisplayFor(model => row.ID)" class="btn  btn-xs sqs-member-edit">@Html.DisplayTextFor(model => row.AlertSHC2)</a>
+                                    </td>
+                                    <td>
+                                        <a href="#" data-id="@Html.DisplayFor(model => row.ID)" class="btn  btn-xs sqs-member-edit">@Html.DisplayTextFor(model => row.FinalLoad)</a>
+                                    </td>
+                                    <td>
+                                        <a href="#" data-id="@Html.DisplayFor(model => row.ID)" class="btn  btn-xs sqs-member-edit">
+                                            <i class="fa fa-edit"></i> Sửa
+                                        </a>
+                                        <a href="#" data-id="@Html.DisplayFor(model => row.ID)" class="btn  btn-xs sqs-member-delete">
+                                            <i class="fa fa fa-trash-o"></i> Xóa
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(".btn-add-item").click(function () {
+        egovutil.dialog("Thêm mới SOP", "large", "/kscb/edit/", "egovutil.loadUrlMain('/kscb/soptime')");
+    });
+    $(".sqs-member-edit").click(function () {
+        egovutil.dialog("Sửa thông tin SOP", "large", "/kscb/edit/" + $(this).attr("data-id"), "egovutil.loadUrlMain('/kscb/soptime')");
+    });
+    $(".sqs-member-delete").click(function () {
+        egovutil.dlgConfirmAction("Xóa thông tin SOP", "Bạn muốn xóa thông tin SOP", "/kscb/deletesop/" + $(this).attr("data-id"), "egovutil.loadUrlMain('/kscb/soptime')");
+    });
+    egovutil.CreateTableSort("#tbl-sop", [[0, "asc"]], [
+
+                { "orderable": false, "targets": 6 }
+    ], true);
+
+</script>

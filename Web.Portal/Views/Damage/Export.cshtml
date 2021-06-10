@@ -1,0 +1,8 @@
+﻿@{
+    Layout = null;
+}
+@Html.Raw("IRP"+System.Environment.NewLine+ ViewBag.FlightNo)
+@foreach (var row in (IList<Web.Portal.Layer.ImpAWB>)ViewData["DamageList"])
+{@Html.Raw(row.Prefix + "-" + Web.Portal.Utils.Format.FormAWB(row.AWB) + "/" + row.ORGIN + row.DEST + "/" + "T" + row.QuantityExpected + "K" + row.WeightExpected +  row.GoodsContent + System.Environment.NewLine )}               
+SI-WEATHER-
+BRGDS            

@@ -1,0 +1,35 @@
+﻿@{
+    Layout = null;
+    int PageCurrent = 0;
+}
+<p style="text-align:center;font-family:'Times New Roman';font-size:15pt;font-weight:bold;">THỐNG KÊ HÀNG ĐẶT BIỆT</p>
+<p style="text-align:center;font-family:'Times New Roman';font-size:15pt;font-weight:bold;">FLIGHT:  @ViewBag.Flight          DATE: @ViewBag.Date </p>
+<table class="table table-striped table-bordered table-advance table-hover dt-responsive" border="1" style="width:100%;font-family:'Times New Roman';font-size:14pt">
+    <thead>
+        <tr>
+            <th class="all" style="width:3%;background-color:yellow !important;text-align:center"></th>
+                <th style="width:20%;background-color:yellow !important;text-align:center">MAWB</th>
+                <th style="width:20%;background-color:yellow !important;text-align:center">THỂ LOẠI</th>
+                <th style="width:50%;background-color:yellow !important;text-align:center">VỊ TRÍ</th>
+
+        </tr>
+
+
+    </thead>
+    <tbody>
+        @foreach (var row in (IList<Web.Portal.Layer.CargoSpecial>)ViewData["CargoSpecialList"])
+        {
+            PageCurrent += 1;
+
+            <tr>
+                <td style="font-size:14px;font-weight:bold">@PageCurrent</td>
+                <td style="font-size:14px;font-weight:bold">@Html.DisplayTextFor(model => row.PREFIX)-@Html.DisplayTextFor(model => row.MAWB)</td>
+                <td style="font-size:14px;font-weight:bold">@Html.DisplayTextFor(model => row.TYPE)</td>
+                <td style="font-size:14px;font-weight:bold">@Html.Raw(row.POSITION)</td>
+
+
+            </tr>
+        }
+    </tbody>
+
+</table>

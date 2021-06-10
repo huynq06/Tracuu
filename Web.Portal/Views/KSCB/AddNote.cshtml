@@ -1,0 +1,93 @@
+﻿
+@{
+    Layout = null;
+}
+@model Web.Portal.Model.Models.ULDByFlight
+
+<div id="content-uld">
+    <form class="form-horizontal" id="frmAction">
+
+        <input type="hidden" name="keyValue" id="txtUldID" value="@Html.DisplayFor(model=>model.ID)" />
+        <div class="form-group form-md-line-input">
+            <label class="col-md-2 control-label" for="frmAction">
+                <b>Tên ULD:</b>
+            </label>
+            <div class="col-md-5">
+                <label class="control-label" for="frmAction">
+                    <b style="color:red"> @Html.DisplayFor(model => model.Name)</b>
+                </label>
+            </div>
+        </div>
+        <div class="form-group form-md-line-input">
+            <label class="col-md-2 control-label" for="frmAction">
+                <b>Chuyến Bay:</b>
+            </label>
+            <div class="col-md-5">
+                <label class="control-label" for="frmAction">
+                    <b style="color:red"> @ViewBag.Flight</b>
+                </label>
+            </div>
+        </div>
+        
+        <div class="form-group form-md-line-input">
+
+            <label class="col-md-2 control-label" for="frmAction">
+                <b>Ghi chú:</b>
+
+            </label>
+            <div class="col-md-10">
+                <textarea rows="2" cols="10" class="form-control" placeholder="Ghi chú khác" name="note"></textarea>
+                <div class="form-control-focus"> </div>
+                <span class="help-block">Nhập ghi chú khác</span>
+            </div>
+        </div>
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-success" id="btnSave"><i class="fa fa-floppy-o"></i> Lưu thông tin</button>
+            <button type="reset" id="reset" class="btn btn-success"><i class="fa fa-refresh"></i> Làm mới</button>
+        </div>
+
+
+
+
+        <!-- /.box-footer -->
+    </form>
+</div>
+<script>
+    var dlgAction = {
+        search: function () {
+            egovutil.getContent("#content-uld", "/kscb/flightasign/" + $('#txtFlightID').val());
+        }
+    }
+
+    $('.bs-select').selectpicker({
+        iconBase: 'fa',
+        tickIcon: 'fa-check'
+    });
+    $("#reset").click(function () {
+        dlgAction.search();
+    });
+
+    var message = {
+        locationID: {
+            required: "Vị Trí Không được trống"
+        },
+        uld_typeID:
+        {
+            required: "Loại ULD không được trống"
+        },
+        barCode:
+        {
+            required: "Vui lòng nhập Barcode"
+        }
+    };
+    var rule = {
+        locationID: { required: true },
+        uld_typeID: { required: true },
+        barCode: { required: true },
+    };
+
+    egovutil.submitCallBack("#frmAction", rule, message, "/KSCB/AddNoteAction", flightAction.search());
+ 
+
+</script>

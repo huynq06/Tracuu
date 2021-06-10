@@ -1,0 +1,57 @@
+﻿
+@{
+    Layout = null;
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet">
+            <div class="portlet-title">
+                <div class="caption caption-md">
+                    <span class="caption-subject font-blue-madison bold uppercase">Danh Sách Chuyến Bay OPEN</span>
+                </div>
+                <div class="actions">
+                    <a href="javascript:;" data-id="02" id="btn-export-log" class="btn btn-circle btn-danger btn-export-log">
+                        <i class="fa fa-download"></i> Upload Phân ca
+                    </a>
+
+                    <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+              
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="content-list-result">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    $('.date-picker').datepicker({
+        rtl: App.isRTL(),
+        orientation: "left",
+        autoclose: true
+    });
+    var flightAction = {
+        search: function () {
+            egovutil.getContent("#content-list-result", "/kscb/list?" + "fda=" + $("#fda").val()
+                                                                    + "&tda=" + $("#tda").val());
+        }
+    }
+    flightAction.search();
+    $("#btn-search-sita").click(function () { flightAction.search(); })
+    //setInterval(capsoAction.search, 12000);
+
+    $("#btn-export-log").click(function () {
+
+        egovutil.dialog("Import thông tin đăng ký", "large", "/KSCB/import?id=1");
+    });
+
+
+</script>

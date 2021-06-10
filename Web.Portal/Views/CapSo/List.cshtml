@@ -1,0 +1,256 @@
+﻿@{
+    Layout = null;
+    IList<Web.Portal.Layer.CapSo> CapSoList3 = (IList<Web.Portal.Layer.CapSo>)ViewData["CapSoList3"];
+    IList<Web.Portal.Layer.CapSo> CapSoList2 = (IList<Web.Portal.Layer.CapSo>)ViewData["CapSoList2"];
+    IList<Web.Portal.Layer.CapSo> CapSoList1 = (IList<Web.Portal.Layer.CapSo>)ViewData["CapSoList1"];
+
+}
+<style>
+    .table-bordered, .table-bordered > tbody > tr > td, .table-bordered > tbody > tr > th, .table-bordered > tfoot > tr > td, .table-bordered > tfoot > tr > th, .table-bordered > thead > tr > td, .table-bordered > thead > tr > th {
+    border: 1px solid #006b99 !important;
+}
+</style>
+@if (!string.IsNullOrEmpty(@ViewBag.MessageAller1))
+{
+    <div class='col-md-12 col-xs-12 margin-top-10 alert alert-warning'>
+        @ViewBag.MessageAller1
+
+    </div>
+    <div class='col-md-12 col-xs-12 margin-top-10 alert alert-warning'>
+        @ViewBag.MessageTranfer1
+
+    </div>
+}
+@if (!string.IsNullOrEmpty(@ViewBag.MessageAller2))
+{
+    <div class='col-md-12 col-xs-12 margin-top-10 alert alert-warning'>
+
+        @ViewBag.MessageAller2
+    </div>
+    <div class='col-md-12 col-xs-12 margin-top-10 alert alert-warning'>
+
+        @ViewBag.messageTranfer2
+    </div>
+}
+
+<div class='col-md-12 col-xs-12 margin-top-10'>
+    <b style="text-align:right;font-size:20px" >
+        <span style="color:#006b99">TỔNG SỐ PHIẾU ĐANG LÀM:</span> <span style="color:#006b99">@ViewBag.totalProcess - </span> <span style="color:#006b99">SỐ LÔ HÀNG:</span> <span style="color:#006b99">@ViewBag.totalAWBProcess </span>
+    </b>
+</div>
+<div class='col-md-12 col-xs-12 margin-top-10'>
+    <b style="text-align:right;font-size:20px">
+        <span style="color:red">TỔNG SỐ PHIẾU ĐANG CHỜ:</span> <span style="color:red">@ViewBag.totalWait - </span> <span style="color:red">SỐ LÔ HÀNG:</span> <span style="color:red">@ViewBag.toatalAWBWait </span>
+    </b>
+</div>
+
+<div class="col-lg-4 col-sm-12">
+    <div class='col-md-2 col-xs-12 margin-top-10' style="padding-left:0 !important;padding-right:0 !important;padding-top:24px;">
+        <label class='control-label uppercase bold' style="color:#006b99"><b>ĐẦU 3:</b></label>
+    </div>
+    <div class='col-md-10 col-xs-12 margin-top-10' style="padding-left:0 !important;padding-right:0 !important">
+        <div class='col-md-12 col-xs-12 margin-top-10'>
+            <label class='control-label'><b style="color:#006b99"> Số phiếu đang làm: <span style="color:red">@ViewBag.totalProcessQ3 </span> </b> <b style="color:#006b99">Số lô hàng: <span style="color:red">@ViewBag.totalAWBProcessQ3 </span> </b></label>
+        </div>
+        <div class='col-md-12 col-xs-12 margin-top-10'>
+            <label class='control-label'><b style="color:#006b99">Số phiếu chờ: <span style="color:red">@ViewBag.totalWaitQ3 </span> </b> <b style="color:#006b99">Số lô hàng: <span style="color:red">@ViewBag.toatalAWBWaitQ3 </span>  </b></label>
+        </div>
+    </div>
+    <table class="table table-striped table-bordered table-advance table-hover dt-responsive">
+        <thead>
+            <tr style="">
+                <th style="width:10%;font-size:14px;background-color:#e4a025 !important;text-align:center;color:#006b99;padding-bottom:30px">
+                    SỐ CẤP
+                </th>
+                <th style="width:10%;font-size:14px;background-color:#e4a025 !important;text-align:center;color:#006b99">
+                    THỜI GIAN CẤP
+                </th>
+                <th style="width:10%;font-size:14px;background-color:#e4a025 !important;text-align:center;color:#006b99;padding-bottom:48px">
+                    TÌNH TRẠNG
+                </th>
+                <th style="width:10%;font-size:14px;background-color:#e4a025 !important;text-align:center;color:#006b99;padding-bottom:30px">
+                    SỐ LÔ HÀNG
+                </th>
+                <th style="width:10%;font-size:14px;background-color:#e4a025 !important;text-align:center;color:#006b99">
+                    THỜI GIAN CHỜ
+                </th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var row in CapSoList3)
+            {
+                string bg = "";
+                string clr = "";
+                if (row.CheckService == "PROCESS")
+                {
+                    bg = "";
+                    clr = "black";
+                }
+                else if (int.Parse(row.WAIT) <= 25)
+                {
+                    bg = "#00e600";
+                    clr = "black";
+                }
+                else if (int.Parse(row.WAIT) > 30)
+                {
+                    bg = "#ff3300";
+                    clr = "white";
+                }
+                else
+                {
+                    bg = "#ffff00";
+                    clr = "black";
+                }
+                <tr style="background-color:@bg">
+                    <td style="font-size:18px;color:@clr;font-weight:bold;text-align:center">@Html.DisplayTextFor(model => row.QUEUE)</td>
+                    <td style="font-size:18px;color:@clr;font-weight:bold;text-align:center">@Html.Raw(row.CREATED.HasValue ? row.CREATED.Value.ToString("HH:mm") : string.Empty)</td>
+                    <td style="font-size:18px;color:@clr;font-weight:bold;text-align:center">@Html.Raw(row.CheckService == "WAIT" ? "ĐANG CHỜ" : "Charging" + "- Q" + row.IndexValue)</td>
+                    <td style="font-size:18px;color:@clr;font-weight:bold;text-align:center">@Html.Raw(row.CheckService == "WAIT" ? row.CountAWB : row.AWBRemain)
+                    <td style="font-size:18px;color:@clr;font-weight:bold;text-align:center">@Html.Raw(row.CheckService == "WAIT" ? row.WAIT + " phút" : "")</td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div class="col-lg-4 col-sm-12">
+    <div class='col-md-2 col-xs-12 margin-top-10' style="padding-left:0 !important;padding-right:0 !important;padding-top:24px;">
+        <label class='control-label uppercase' style="color:#006b99"><b>ĐẦU 2:</b></label>
+    </div>
+    <div class='col-md-10 col-xs-12 margin-top-10' style="padding-left:0 !important">
+        <div class='col-md-12 col-xs-12 margin-top-10'>
+            <label class='control-label'><b style="color:#006b99">Số phiếu đang làm: <span style="color:red">@ViewBag.totalProcessQ2 </span> </b> <b style="color:#006b99">Số lô hàng: <span style="color:red">@ViewBag.totalAWBProcessQ2 </span> </b></label>
+        </div>
+        <div class='col-md-12 col-xs-12 margin-top-10'>
+            <label class='control-label'><b style="color:#006b99">Số phiếu chờ: <span style="color:red">@ViewBag.totalWaitQ2 </span> </b> <b style="color:#006b99">Số lô hàng: <span style="color:red">@ViewBag.toatalAWBWaitQ2 </span>  </b></label>
+        </div>
+    </div>
+    <table class="table table-striped table-bordered table-advance table-hover dt-responsive" >
+        <thead>
+            <tr style="">
+                <th style="width:10%;font-size:14px;background-color:#e4a025 !important;text-align:center;color:#006b99;padding-bottom:30px">
+                    SỐ CẤP
+                </th>
+                <th style="width:10%;font-size:14px;background-color:#e4a025 !important;text-align:center;color:#006b99">
+                    THỜI GIAN CẤP
+                </th>
+                <th style="width:10%;font-size:14px;background-color:#e4a025 !important;text-align:center;color:#006b99;padding-bottom:48px">
+                    TÌNH TRẠNG
+                </th>
+                <th style="width:10%;font-size:14px;background-color:#e4a025 !important;text-align:center;color:#006b99;padding-bottom:30px">
+                    SỐ LÔ HÀNG
+                </th>
+                <th style="width:10%;font-size:14px;background-color:#e4a025 !important;text-align:center;color:#006b99">
+                    THỜI GIAN CHỜ
+                </th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var row in CapSoList2)
+            {
+                string bg = "";
+                string clr = "";
+                if (row.CheckService == "PROCESS")
+                {
+                    bg = "";
+                    clr = "black";
+                }
+                else if (int.Parse(row.WAIT) <= 25)
+                {
+                    bg = "#00e600";
+                    clr = "black";
+                }
+                else if (int.Parse(row.WAIT) > 30)
+                {
+                    bg = "#ff3300";
+                    clr = "white";
+                }
+                else
+                {
+                    bg = "#ffff00";
+                    clr = "black";
+                }
+            <tr style="background-color:@bg">
+                <td style="font-size:18px;color:@clr;font-weight:bold;text-align:center">@Html.DisplayTextFor(model => row.QUEUE)</td>
+                <td style="font-size:18px;color:@clr;font-weight:bold;text-align:center">@Html.Raw(row.CREATED.HasValue ? row.CREATED.Value.ToString("HH:mm") : string.Empty)</td>
+                <td style="font-size:18px;color:@clr;font-weight:bold;text-align:center">@Html.Raw(row.CheckService == "WAIT" ? "ĐANG CHỜ" : "Charging" + "- Q" + row.IndexValue)</td>
+                <td style="font-size:18px;color:@clr;font-weight:bold;text-align:center">@Html.Raw(row.CheckService == "WAIT" ? row.CountAWB : row.AWBRemain)
+                <td style="font-size:18px;color:@clr;font-weight:bold;text-align:center">@Html.Raw(row.CheckService == "WAIT" ? row.WAIT + " phút" : "")</td>
+
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div class="col-lg-4 col-sm-12">
+    <div class='col-md-2 col-xs-12 margin-top-10' style="padding-left:0 !important;padding-right:0 !important;padding-top:24px;">
+        <label class='control-label uppercase'><b style="color:#006b99">ĐẦU  1:</b></label>
+    </div>
+    <div class='col-md-10 col-xs-12 margin-top-10' style="padding-left:0 !important">
+        <div class='col-md-12 col-xs-12 margin-top-10'>
+            <label class='control-label'><b style="color:#006b99">Số phiếu đang làm: <span style="color:red">@ViewBag.totalProcessQ1 </span> </b> <b style="color:#006b99">Số lô hàng: <span style="color:red">@ViewBag.totalAWBProcessQ1 </span> </b></label>
+        </div>
+        <div class='col-md-12 col-xs-12 margin-top-10'>
+            <label class='control-label'><b style="color:#006b99">Số phiếu chờ: <span style="color:red">@ViewBag.totalWaitQ1 </span> </b> <b style="color:#006b99">Số lô hàng: <span style="color:red">@ViewBag.toatalAWBWaitQ1 </span>  </b></label>
+        </div>
+    </div>
+    <table class="table table-striped table-bordered table-advance table-hover dt-responsive">
+        <thead>
+            <tr style="">
+                <th style="width:10%;font-size:14px;background-color:#e4a025 !important;text-align:center;color:#006b99;padding-bottom:30px">
+                    SỐ CẤP
+                </th>
+                <th style="width:10%;font-size:14px;background-color:#e4a025 !important;text-align:center;color:#006b99">
+                    THỜI GIAN CẤP
+                </th>
+                <th style="width:10%;font-size:14px;background-color:#e4a025 !important;text-align:center;color:#006b99;padding-bottom:48px">
+                    TÌNH TRẠNG
+                </th>
+                <th style="width:10%;font-size:14px;background-color:#e4a025 !important;text-align:center;color:#006b99;padding-bottom:30px">
+                    SỐ LÔ HÀNG
+                </th>
+                <th style="width:10%;font-size:14px;background-color:#e4a025 !important;text-align:center;color:#006b99">
+                    THỜI GIAN CHỜ
+                </th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var row in CapSoList1)
+            {
+                string bg = "";
+                string clr = "";
+                if(row.CheckService== "PROCESS")
+                {
+                    bg = "";
+                    clr = "black";
+                }
+                else if (int.Parse(row.WAIT) <= 25)
+                {
+                    bg = "#00e600";
+                    clr = "black";
+                }
+                else if (int.Parse(row.WAIT) > 30)
+                {
+                    bg = "#ff3300";
+                    clr = "white";
+                }
+                else
+                {
+                    bg = "#ffff00";
+                    clr = "black";
+                }
+                <tr style="background-color:@bg">
+                    <td style="font-size:18px;color:@clr;font-weight:bold;text-align:center">@Html.DisplayTextFor(model => row.QUEUE)</td>
+                    <td style="font-size:18px;color:@clr;font-weight:bold;text-align:center">@Html.Raw(row.CREATED.HasValue ? row.CREATED.Value.ToString("HH:mm") : string.Empty)</td>
+                    <td style="font-size:18px;color:@clr;font-weight:bold;text-align:center">@Html.Raw(row.CheckService == "WAIT" ? "ĐANG CHỜ" : "Charging" + "- Q" + row.IndexValue)</td>
+                    <td style="font-size:18px;color:@clr;font-weight:bold;text-align:center">@Html.Raw(row.CheckService == "WAIT" ? row.CountAWB : row.AWBRemain)
+                    <td style="font-size:18px;color:@clr;font-weight:bold;text-align:center">@Html.Raw(row.CheckService == "WAIT" ? row.WAIT + " phút" : "")</td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

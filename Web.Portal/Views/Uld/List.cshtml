@@ -1,0 +1,344 @@
+﻿@{
+    Layout = null;
+    IList<Web.Portal.Common.ViewModel.LocationViewModel> listLocationViewModel = (IList<Web.Portal.Common.ViewModel.LocationViewModel>)ViewData["listLocationViewModel"];
+    IList<Web.Portal.Common.ViewModel.AWBByULDViewModel> listAWBViewModel = (IList<Web.Portal.Common.ViewModel.AWBByULDViewModel>)ViewData["ListAwbByULDViewModel"];
+    IList<Web.Portal.Model.Models.HawbInAwb> listHAWBModel = (IList<Web.Portal.Model.Models.HawbInAwb>)ViewData["ListHawbInAWB"];
+
+int check = ViewBag.Flight;
+}
+<audio id="audio" src="~/media/ALARM.mp3" style="display:none"></audio>
+<div class="row" style="margin-left:20px">
+    <div class="col-md-12">
+        <div class="portlet">
+            <div class="portlet-title">
+                <div class="caption caption-md">
+                    <span class="caption-subject font-blue-madison bold uppercase">DANH SÁCH CHUYẾN BAY ĐANG KHAI THÁC</span>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="row">
+                    @foreach (var item in (IList<Web.Portal.Common.ViewModel.FlightViewModel>)ViewData["ListFlightViewModel"])
+                    {
+                        if (item.ULDTotal > 0)
+                        {
+                            var awbByFlight = listAWBViewModel.Where(c => c.Flight_ID == item.FlightID).ToList();
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="overflow-y:scroll;height:300px">
+                                <div class="dashboard-stat2 ">
+                                    <div class="display">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" style="padding-left:0px;padding-right:1px;border-right:1px solid red;">
+                                            <div class="number">
+                                                <h4 class="font-green-sharp">
+                                                    <span style="font-weight:bold" data-counter="counterup" data-value="7800">@Html.Raw(item.FlightNumber)</span>
+                                                    @*<small class="font-green-sharp">$</small>*@
+                                                </h4>
+                                                <h4 class="font-blue-sharp">
+                                                    <span style="font-weight:bold;font-size:12px;" data-counter="counterup" data-value="7800">ATA: @Html.Raw(item.LandedDate.Value.ToString("dd/MM/yy HH:mm"))</span>
+                                                    @*<small class="font-green-sharp">$</small>*@
+                                                </h4>
+                                                <h4 class="font-blue-sharp">
+                                                    <span style="font-weight:bold;font-size:12px;" data-counter="counterup" data-value="7800">SOP: @Html.Raw(item.TimeToFinish.Value.ToString("dd/MM/yy HH:mm"))</span>
+                                                    @*<small class="font-green-sharp">$</small>*@
+                                                </h4>
+
+                                                <h4 class="font-blue-sharp">
+                                                    <div data-id="@Html.DisplayFor(model=>item.TimeToSop)" class="@Html.Raw(item.ID == check ? "pulsate-regular" : "")" @*style="padding: 5px;"*@>
+                                                        <span style="font-weight:bold;font-size:12px;" data-counter="counterup" data-value="7800">REMAIN TIME: @Html.Raw(item.TimeToSop)</span>
+                                                    </div>
+                                                    @*<small class="font-green-sharp">$</small>*@
+                                                </h4>
+
+                                                <small class="font-green-jungle">REMAIN ULD: @Html.DisplayFor(model => item.ULDRemain)/@Html.DisplayFor(model => item.ULDTotal)</small>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" style="padding-left:6px;padding-right:0px;">
+                                            <div class="number">
+                                                <h4 class="font-green-sharp">
+                                                    <span style="font-weight:bold;font-size:14px;" data-counter="counterup" data-value="7800">SPECIAL CARGO</span>
+                                                    @*<small class="font-green-sharp">$</small>*@
+                                                </h4>
+                                                <h4 class="font-blue-sharp">
+                                                    <span style="font-weight:bold;font-size:12px;" data-counter="counterup" data-value="7800">REMAIN TIME: @Html.Raw(@awbByFlight.Count > 0 ? awbByFlight[0].TimeFinish.ToString()  : "0")</span>
+                                                    @*<small class="font-green-sharp">$</small>*@
+                                                </h4>
+                                                @foreach (var awb in awbByFlight)
+                                                {
+                                                    var listHawbView = listHAWBModel.Where(c => c.AWB_ID == awb.AWB_ID);
+                                                    <h4 class="font-blue-sharp">
+                                                        <span style="font-weight:bold;font-size:12px;" data-counter="counterup" data-value="7800">@Html.Raw(awb.HaveMultiHawb==true? awb.AWB + "<span style=\"color:red\">*</span>" : awb.AWB)</span>
+                                                    </h4>
+                                                    foreach (var hawb in listHawbView)
+                                                    {
+                                                        <h4 class="font-red-flamingo">
+                                                            <span style="font-weight:bold;font-size:12px;" data-counter="counterup" data-value="7800">@hawb.HAWB</span>
+                                                        </h4>
+                                                    }
+                                                }
+                                            </div>
+                                        </div>
+
+
+                                        @*<div class="icon">
+                                                <i class="fa fa-plane" style="color:cornflowerblue"></i>
+                                            </div>*@
+                                    </div>
+                                    <div class="progress-info">
+                                        <div class="progress" style="background-color:red">
+                                            <span style="width: @Html.Raw((item.ULDFinish+item.ULDProcessing)*100/item.ULDTotal)%;" class="progress-bar progress-bar-success green-sharp">
+                                                <span class="sr-only">76% progress</span>
+                                            </span>
+                                        </div>
+                                        <div class="status">
+                                            <div class="status-title"> progress </div>
+                                            <div class="status-number"> @Html.Raw((item.ULDFinish + item.ULDProcessing) * 100 / item.ULDTotal)% </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                    }
+                    
+
+                    <div id="chart-container" class="col-lg-4 col-md-4">
+
+
+                    </div>
+                    <div class="col-md-4">
+                        <table class="table table-striped table-bordered table-advance table-hover dt-responsive" id="tbl-checker">
+                            <thead>
+                                <tr style="">
+
+                                    <th colspan="3" style="width:10%;background-color:chartreuse !important;text-align:center">
+                                        PHÂN CA
+                                    </th>
+
+                                </tr>
+                                <tr style="">
+
+                                    <th style="width:10%;background-color:chartreuse !important;text-align:center">
+                                        Nhân viên
+                                    </th>
+                                    <th style="width:10%;background-color:chartreuse !important;text-align:center">
+                                        Công việc
+                                    </th>
+                                    <th style="width:10%;background-color:chartreuse !important;text-align:center">
+                                        CA
+                                    </th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var row in (List<Web.Portal.Model.Models.tblMission>)ViewData["checkerList1"])
+                                {
+
+                                    <tr>
+
+                                        <td align="center">@Html.DisplayTextFor(model => row.StaffName)</td>
+                                        <td align="center">@Html.DisplayTextFor(model => row.MissionName)</td>
+                                        <td align="center">@Html.DisplayTextFor(model => row.CaLV)</td>
+                                    </tr>
+                                }
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="row" style="margin-left:20px;margin-right:20px">
+    <div class="col-md-12">
+        <div class="portlet">
+            <div class="portlet-title">
+                <div class="caption caption-md">
+                    <span class="caption-subject font-blue-madison bold uppercase">DANH SÁCH VỊ TRÍ ĐANG KHAI THÁC</span>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="row">
+                    @foreach (var itemLocation in (IList<Web.Portal.Model.Models.Location>)ViewData["ListLocation"])
+                    {
+                        var listLocationViewModelSelect = listLocationViewModel.Where(c => c.LocationID == itemLocation.LocationID).ToList();
+                        if (listLocationViewModelSelect.Count > 1)
+                        {
+                            if (listLocationViewModelSelect[0].UldNotify.Value == 1 && listLocationViewModelSelect[1].UldNotify.Value == 1)
+                            {
+                                <div class="col-md-2 col-sm-2 col-xs-6" style="">
+                                    <div class="color-demo tooltips">
+                                        <div class="color-view color-view bg-green-turquoise bg-font-green-turquoise bold uppercase" style="padding: 25px 8px">
+                                            <div class="" style="font-size:14px">
+                                                @listLocationViewModelSelect[0].ULDName - @listLocationViewModelSelect[0].FlightNumber
+                                            </div>
+                                            <div class="" style="font-size:14px"> (@listLocationViewModelSelect[0].TimeProcess/ @listLocationViewModelSelect[0].TimeOperation)</div>
+                                            <div class="" style="font-size:14px">@listLocationViewModelSelect[1].ULDName - @listLocationViewModelSelect[1].FlightNumber</div>
+                                            <div class="lowercase" style="font-size:14px">(@listLocationViewModelSelect[1].TimeProcess/ @listLocationViewModelSelect[1].TimeOperation) (phút)</div>
+                                            @*<div class="" style="font-size:14px">@listLocationViewModelSelect[0].TimeProcess/ @listLocationViewModelSelect[0].TimeOperation</div>*@
+                                            <br />
+                                        </div>
+                                        @*<div class="" style="font-size:14px">@item.TimeProcess/ @item.TimeOperation</div>*@
+                                        <div class="color-info bg-white c-font-14 sbold"> @Html.DisplayFor(model => itemLocation.LocationName) </div>
+                                    </div>
+
+                                </div>
+                            }
+                            else if (listLocationViewModelSelect[0].UldNotify.Value == 2 || listLocationViewModelSelect[1].UldNotify.Value == 2)
+                            {
+                                <div class="col-md-2 col-sm-2 col-xs-6" style="">
+                                    <div class="color-demo tooltips">
+                                        <div class="color-view  color-view bg-yellow-lemon  bg-font-green-turquoise bold uppercase" style="padding: 25px 8px">
+                                            <div class="" style="font-size:14px">
+                                                @listLocationViewModelSelect[0].ULDName - @listLocationViewModelSelect[0].FlightNumber
+                                            </div>
+
+                                            <div class="" style="font-size:14px"> (@listLocationViewModelSelect[0].TimeProcess/ @listLocationViewModelSelect[0].TimeOperation)</div>
+                                            <div class="" style="font-size:14px">@listLocationViewModelSelect[1].ULDName - @listLocationViewModelSelect[1].FlightNumber</div>
+                                            <div class="lowercase" style="font-size:14px">(@listLocationViewModelSelect[1].TimeProcess/ @listLocationViewModelSelect[1].TimeOperation) (phút)</div>
+                                            @*<div class="" style="font-size:14px">@listLocationViewModelSelect[0].TimeProcess/ @listLocationViewModelSelect[0].TimeOperation</div>*@
+                                            <br />
+
+
+                                            @*<div class="" style="font-size:14px">@listLocationViewModelSelect[0].TimeProcess/ @listLocationViewModelSelect[0].TimeOperation</div>*@
+                                        </div>
+
+                                        <div class="color-info bg-white c-font-14 sbold"> @Html.DisplayFor(model => itemLocation.LocationName) </div>
+                                    </div>
+
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="col-md-2 col-sm-2 col-xs-6" style="">
+                                    <div class="color-demo tooltips">
+                                        <div class="color-view color-view bg-red-flamingo-opacity bg-font-red-flamingo bold uppercase " style="padding: 25px 8px">
+                                            <div class="" style="font-size:14px">
+                                                @listLocationViewModelSelect[0].ULDName - @listLocationViewModelSelect[0].FlightNumber
+                                            </div>
+                                            <div class="" style="font-size:14px"> (@listLocationViewModelSelect[0].TimeProcess/ @listLocationViewModelSelect[0].TimeOperation)</div>
+                                            <div class="" style="font-size:14px">@listLocationViewModelSelect[1].ULDName - @listLocationViewModelSelect[1].FlightNumber</div>
+                                            <div class="lowercase" style="font-size:14px">(@listLocationViewModelSelect[1].TimeProcess/ @listLocationViewModelSelect[1].TimeOperation) (phút)</div>
+                                            @*<div class="" style="font-size:14px">@listLocationViewModelSelect[0].TimeProcess/ @listLocationViewModelSelect[0].TimeOperation</div>*@
+
+                                            <br />
+                                            @*<div class="" style="font-size:14px">@listLocationViewModelSelect[0].TimeProcess/ @listLocationViewModelSelect[0].TimeOperation</div>*@
+                                        </div>
+
+                                        <div class="color-info bg-white c-font-14 sbold"> @Html.DisplayFor(model => itemLocation.LocationName) </div>
+                                    </div>
+
+                                </div>
+                            }
+                        }
+                        else
+                        {
+
+                            if (string.IsNullOrEmpty(listLocationViewModelSelect[0].ULDName))
+                            {
+                                <div class="col-md-2 col-sm-2 col-xs-6" style="">
+                                    <div class="color-demo tooltips">
+                                        <div class="color-view color-view bg-grey-salsa bg-font-grey-salsa bold uppercase">
+                                            FREE
+                                            <div class="" style="font-size:14px">	&nbsp;</div>
+                                            <div class="" style="font-size:14px">	&nbsp;</div>
+                                            <div class="" style="font-size:14px">	&nbsp;</div>
+                                        </div>
+
+                                        <div class="color-info bg-white c-font-14 sbold"> @Html.DisplayFor(model => itemLocation.LocationName) </div>
+                                    </div>
+
+                                </div>
+                            }
+                            else
+                            {
+                                if (listLocationViewModelSelect[0].UldNotify.Value == 1)
+                                {
+                                    <div class="col-md-2 col-sm-2 col-xs-6" style="">
+                                        <div class="color-demo tooltips">
+                                            <div class="color-view color-view bg-green-turquoise bg-font-green-turquoise bold uppercase">
+                                                @listLocationViewModelSelect[0].ULDName
+                                                <div class="" style="font-size:14px">@listLocationViewModelSelect[0].FlightNumber</div>
+                                                <div class="" style="font-size:14px">ĐANG KHAI THÁC</div>
+                                                <div class="lowercase" style="font-size:14px">@listLocationViewModelSelect[0].TimeProcess/ @listLocationViewModelSelect[0].TimeOperation (phút)</div>
+                                            </div>
+                                            @*<div class="" style="font-size:14px">@item.TimeProcess/ @item.TimeOperation</div>*@
+
+
+                                            <div class="color-info bg-white c-font-14 sbold"> @Html.DisplayFor(model => itemLocation.LocationName) </div>
+                                        </div>
+
+                                    </div>
+                                }
+                                else if (listLocationViewModelSelect[0].UldNotify.Value == 2)
+                                {
+                                    <div class="col-md-2 col-sm-2 col-xs-6" style="">
+                                        <div class="color-demo tooltips">
+                                            <div class="color-view  color-view bg-yellow-lemon  bg-font-green-turquoise bold uppercase">
+                                                @listLocationViewModelSelect[0].ULDName
+                                                <div class="" style="font-size:14px">@listLocationViewModelSelect[0].FlightNumber</div>
+                                                <div class="" style="font-size:14px">ĐANG KHAI THÁC</div>
+                                                <div class="lowercase" style="font-size:14px">@listLocationViewModelSelect[0].TimeProcess/ @listLocationViewModelSelect[0].TimeOperation (phút)</div>
+                                            </div>
+
+                                            <div class="color-info bg-white c-font-14 sbold"> @Html.DisplayFor(model => itemLocation.LocationName) </div>
+                                        </div>
+
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="col-md-2 col-sm-2 col-xs-6" style="">
+                                        <div class="color-demo tooltips">
+                                            <div class="color-view color-view bg-red-flamingo-opacity bg-font-red-flamingo bold uppercase ">
+                                                @listLocationViewModelSelect[0].ULDName
+                                                <div class="" style="font-size:14px">@listLocationViewModelSelect[0].FlightNumber</div>
+                                                <div class="" style="font-size:14px">ĐANG KHAI THÁC</div>
+                                                <div class="lowercase" style="font-size:14px">@listLocationViewModelSelect[0].TimeProcess/ @listLocationViewModelSelect[0].TimeOperation (phút)</div>
+                                            </div>
+
+                                            <div class="color-info bg-white c-font-14 sbold"> @Html.DisplayFor(model => itemLocation.LocationName) </div>
+                                        </div>
+
+                                    </div>
+                                }
+
+                            }
+                        }
+                    }
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@if (!string.IsNullOrEmpty(@ViewBag.Translate))
+{
+    <iframe src="https://support.lsdsoftware.com/read-aloud/speak/vi/Whisper?q=@ViewBag.Translate" allow="autoplay" id="audio" style="display:none"></iframe>
+}
+<script>
+    var number = parseInt(@ViewBag.Number);
+    console.log(number);
+    if (number == 1)
+    {
+        var audio = $("#audio")[0];
+        audio.play();
+    }
+    var chartWork;
+    function DetailsChart(index) {
+    }
+    egovutil.chartDisplay(chartWork, "chart-container", "pie2d", "100%", "800", "", "", "Biểu đồ đánh giá", "ULD", "", "/uld/GetResult", "idPdf", "idPng", "DetailsChart");
+</script>
+<script src="~/Style/assets/global/plugins/jquery.pulsate.min.js" type="text/javascript"></script>
+<script src="~/Style/assets/global/plugins/jquery-bootpag/jquery.bootpag.min.js" type="text/javascript"></script>
+<script src="~/Style/assets/global/plugins/holder.js" type="text/javascript"></script>
+<!-- END PAGE LEVEL PLUGINS -->
+<!-- BEGIN THEME GLOBAL SCRIPTS -->
+<script src="~/Style/assets/global/scripts/app.min.js" type="text/javascript"></script>
+<!-- END THEME GLOBAL SCRIPTS -->
+<!-- BEGIN PAGE LEVEL SCRIPTS -->
+<script src="~/Style/assets/pages/scripts/ui-general.min.js" type="text/javascript"></script>

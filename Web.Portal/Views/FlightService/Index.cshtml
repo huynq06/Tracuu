@@ -1,0 +1,35 @@
+﻿@{
+    Layout = "~/Views/Layout/Core.cshtml";
+}
+
+<div style="background-color:#eef1f5">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet">
+                <div class="portlet-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div id="content-flight-result">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<script>
+    var flight = {
+        search: function () {
+            egovutil.getContent("#content-flight-result", "/flightService/list");
+        }
+    }
+    flight.search();
+    //setInterval(flight.search, 12000);
+  
+
+
+
+</script>

@@ -1,0 +1,68 @@
+﻿@{
+    Layout = null;
+    List<Web.Portal.Layer.ULD> uldsList = (List<Web.Portal.Layer.ULD>)ViewData["uldsList"];
+    List<Web.Portal.Layer.ULDDETAILS> uldsDetails = (List<Web.Portal.Layer.ULDDETAILS>)ViewData["uldsDetails"];
+}
+
+
+
+<table class="table table-striped table-bordered table-advance table-hover dt-responsive" border="1" style="width:100%;font-family:'Times New Roman';font-size:14pt">
+    <thead>
+        <tr style="background-color:yellow">
+            <th style="width:10%">   
+                DATE             
+            </th>
+            <th style="width:10%">               
+                FLIGHTNO
+            </th>
+            <th style="width:10%">               
+                AWB
+            </th>
+            <th style="width:10%">
+                WEIGHT
+            </th>
+            <th>ULD</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var row in (IList<Web.Portal.Layer.ULD>)ViewData["ulds"])
+        {
+            var listUldItems = uldsList.Where(x => x.AWB.Trim().Equals(row.AWB.Trim())).ToList();
+            <tr>
+                <td>@Html.DisplayTextFor(model=>row.DATEULD)</td>
+                <td>@Html.DisplayTextFor(model => row.FLIGHTNO)</td>
+                <td>@Html.DisplayTextFor(model => row.AWB)</td>
+                <td>@Html.DisplayTextFor(model => row.TOTALWEIGHT)</td>
+                <td>
+                     <table border="1" width="100%">
+                         @foreach (var item_abc in listUldItems)
+                         {
+                             var listDetails = uldsDetails.Where(x => x.ULD.Equals(item_abc.ULDID)).ToList();
+                         <tr>
+                             <td>@Html.DisplayTextFor(model=>item_abc.ULDID)</td>
+                             <td>@Html.DisplayTextFor(model => item_abc.NETWEIGHT)</td>
+                             <td>
+                                 <table border="1" width="100%">
+                                     @foreach (var item_ds in listDetails)
+                                     {
+                                        <tr>
+                                            <td>@Html.DisplayTextFor(model => item_ds.AWB)</td>
+                                            <td>@Html.DisplayTextFor(model => item_ds.WEIGHT)</td>
+                                        </tr>
+
+                                     }
+                                     <tr>
+                                         <td></td>
+                                         <td style="color:red;font-weight:bold">@Html.Raw(listDetails.Sum(x=>Convert.ToDouble(x.WEIGHT)).ToString())</td>
+                                     </tr>
+                                 </table>
+                             </td>
+                         </tr>
+                         }
+                     </table>
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>

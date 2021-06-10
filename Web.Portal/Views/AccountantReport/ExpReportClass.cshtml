@@ -1,0 +1,99 @@
+﻿
+@{
+    Layout = null;
+    int PageCurrent = 0;
+    string[] columns = (string[])ViewData["column"];
+    System.Data.DataTable tableReport = ((System.Data.DataTable)ViewData["DataList"]);
+    double sumTotal = 0;
+}
+<p style="text-align:center;font-family:'Times New Roman';font-size:15pt;font-weight:bold;text-transform:uppercase">
+    @ViewBag.Des
+</p>
+@*<div class='col-md-2 col-xs-12 margin-top-10'>
+        <label class='control-label'><b>Tổng số: @ViewBag.TotalRecord</b></label>
+    </div>*@
+<input type="hidden" name="keyValue" id="reportId" value="@ViewBag.ID" />
+
+<table border="1" class="table table-striped table-bordered table-advance table-hover dt-responsive" id="tbl-report">
+    <thead>
+        <tr>
+            <th class="all" style="width:3%"></th>
+            @foreach (var item in columns)
+            {
+                <th style="width:200px;font-size:11pt;background-color:darkseagreen !important;text-align:center">@Html.DisplayTextFor(model => item) </th>
+
+            }
+            <th style="width:15%;font-size:11pt;background-color:darkseagreen !important;text-align:center">Tổng</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (int i = 0; i < tableReport.Rows.Count; i++)
+        {
+
+
+            PageCurrent += 1;
+            double total = 0;
+            <tr>
+                <td style="font-size:11pt;text-align:center;">@PageCurrent</td>
+                @for (int j = 0; j < columns.ToList().Count; j++)
+                {
+                    <td style="font-size:11pt;text-align:center;">@Html.Raw(tableReport.Rows[i][j])</td>
+                    if (j > 0)
+                    {
+                        total += double.Parse(string.IsNullOrEmpty(tableReport.Rows[i][j].ToString()) ? "0" : tableReport.Rows[i][j].ToString());
+
+                    }
+                }
+                @{sumTotal += total;}
+                <td style="color:red">@total</td>
+            </tr>
+                    }
+        <tr>
+                <td style="font-size:11pt;text-align:center;color:red">Tổng</td>
+                <td></td>
+                @for (int j = 1; j < columns.ToList().Count; j++)
+                {
+                    double sum = 0;
+                    for (int i = 0; i < tableReport.Rows.Count; i++)
+                    {
+                        sum += double.Parse(string.IsNullOrEmpty(tableReport.Rows[i][j].ToString()) ? "0" : tableReport.Rows[i][j].ToString());
+                    }
+                    <td style="font-size:11pt;text-align:center;color:red">@sum</td>
+                }
+                <td style="font-size:11pt;text-align:center;color:red">@sumTotal</td>
+
+        </tr>
+
+    </tbody>
+
+</table>
+<div class="box-footer clearfix">
+    @Html.Raw(ViewBag.Paging)
+</div>
+<script>
+    var id = $('#reportId').val()
+    egovutil.loadPaging(pagingexpawb, "/HandlingReport/ReportList?id=" + id
+                                                                    + "&FromDate=" + $("#fda").val()
+                                                                    + "&ToDate=" + $("#tda").val()
+                                                                    + "&Page=1"
+                                                                    + "&PageSize=" + $("#pagingexpawb_step").val(), "#content-list-result");
+
+
+
+    $("#pagingexpawb_step").change(function () {
+        egovutil.getContent("#content-list-result",
+                                                             "/HandlingReport/ReportList?id=" + id
+                                                                    + "&FromDate=" + $("#fda").val()
+                                                                    + "&ToDate=" + $("#tda").val()
+                                                                    + "&Page=1"
+                                                                    + "&PageSize=" + $(this).val());
+    });
+
+    egovutil.CreateTableSort("#tbl-report", [[0, "asc"]], [
+
+        {
+
+            "orderable": false, "targets": [0, 0]
+        }
+        ], false);
+</script>

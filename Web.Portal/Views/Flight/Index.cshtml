@@ -1,0 +1,68 @@
+﻿@{
+    Layout = "~/Views/Layout/Guest.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet">
+            <div class="portlet-title">
+                <div class="caption caption-md">
+                    <span class="caption-subject font-blue-madison bold uppercase">LỊCH BAY</span>
+                </div>
+                <div class="actions">
+                   
+
+                    <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="row">
+                    <div class="form-group form-md-line-input">
+                    
+                      
+                        <label for="code" class="col-md-12  control-label"><b>THỜI GIAN: <span>@Html.Raw(DateTime.Now.ToString("dd/MM/yyyy HH:mm"))</span></b></label>
+                        
+
+                    
+                    </div>
+
+
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="content-list-result">
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+
+
+
+        </div>
+    </div>
+
+</div>
+
+<script>
+    var flightAction = {
+        search: function () {
+            egovutil.getContent("#content-list-result", "/flight/list" );
+        }
+    }
+    
+   
+    flightAction.search();
+    //var autoCommandTime = setInterval(flightAction.search, 12000);
+
+   
+   
+
+</script>

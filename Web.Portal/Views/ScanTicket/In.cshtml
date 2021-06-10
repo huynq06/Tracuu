@@ -1,0 +1,78 @@
+﻿
+@{
+    Layout = "~/Views/Layout/Core.cshtml";
+}
+<div class="row">
+    <div class="col-md-12 col-xs-12">
+        <a href="#">
+            <img src="~/logo/logoals.png" alt="logo" style="width:100%;" class="img-responsive">
+        </a>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet">
+            <div class="portlet-title">
+                <div class="caption caption-md">
+                    <span class="caption-subject font-blue-madison bold uppercase">KIỂM SOÁT XE VÀO</span>
+                </div>
+                          </div>
+        </div>
+        <div class="portlet-body">
+            @*<div class="row">
+                <div class="col-md-3 col-xs-1">
+                </div>
+                <div class="col-md-9 col-xs-9">
+                    <a href="#">
+                        <img src="~/logo/logoals.png" alt="logo" style="width:555px;height:102px;" class="">
+                    </a>
+                </div>
+            </div>*@
+            <div class="row">
+                <form class="form-horizontal" id="frmAction">
+                    <div class="col-md-3 col-xs-1">
+                    </div>
+                    <div class="col-md-6 col-xs-10">
+                        <input class="form-control form-control-inline input txtName" placeholder="SCAN BARCODE" maxlength="256" id="ticketno" style="height:70px !important" name="syncid" />
+                        <div class="form-control-focus"> </div>
+                    </div>
+                </form>
+
+</div>
+            @*<div class="col-md-12">
+                <div id="content-list-result">
+                </div>
+            </div>*@
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+    $("#ticketno").focus();
+        var dlgAction = {
+            search: function () {
+                egovutil.getContent("#content-pxk", "/pxk/edit/");
+                $("#ticketno").focus();
+            },
+            refresh: function () {
+                $("#ticketno").val('');
+                $("#ticketno").focus();
+            },
+            updatePXK: function (pxk) {
+                console.log(pxk);
+                egovutil.dlgConfirmAction("CẬP NHẬT  ", "Bạn có muốn cập nhật?", "/pxk/update?pxk=" + pxk, dlgAction.refresh);
+            }
+        }
+
+        $(document).keypress(function (e) {
+            if (e.charCode == 32) {
+                dlgAction.search();
+
+            }
+        });
+        var message = {};
+        var rule = {};
+        egovutil.submitCallBack("#frmAction", rule, message, "/scanticket/ActionIn", dlgAction.refresh);
+</script>

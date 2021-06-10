@@ -1,0 +1,114 @@
+﻿
+@{
+    Layout = null;
+    int PageCurrent = 0;
+    string[] columns = (string[])ViewData["column"];
+    System.Data.DataTable tableReport = ((System.Data.DataTable)ViewData["DataList"]);
+    int totalPices = 0;
+    double totalWeight = 0;
+    int totalPicesMail = 0;
+    double totalWeightMail = 0;
+    int totalPicesSum = 0;
+    double totalWeightSum = 0;
+    int totalAWB = 0;
+}
+<div class="page-logo" style="margin-top: -15px;margin-bottom:50px;">
+    <a href="#">
+        <img src="http://tracuu.alsc.com.vn/logo/logoNew.png"  style="width:40%;height:100px" alt="logo">
+    </a>
+</div>
+<div style="margin-top:170px;">
+    <p style="text-align:center;font-family:'Times New Roman';color:white;font-size:15pt;font-weight:bold;text-transform:uppercase">
+        @ViewBag.Des
+    </p>
+    <p style="text-align:center;font-family:'Times New Roman';font-size:13pt;font-weight:bold;text-transform:uppercase">
+
+    </p>
+    <p style="text-align:center;font-family:'Times New Roman';font-size:13pt;font-weight:bold;text-transform:uppercase">
+
+    </p>
+</div>
+<div style="margin-top:170px;">
+    <p style="text-align:center;font-family:'Times New Roman';color:white;font-size:15pt;font-weight:bold;text-transform:uppercase">
+        @ViewBag.Des
+    </p>
+    <p style="text-align:center;font-family:'Times New Roman';font-size:13pt;font-weight:bold;text-transform:uppercase">
+
+    </p>
+    <p style="text-align:center;font-family:'Times New Roman';font-size:13pt;font-weight:bold;text-transform:uppercase">
+
+    </p>
+</div>
+<div style="margin-top:170px;">
+    <p style="text-align:center;font-family:'Times New Roman';font-size:15pt;font-weight:bold;text-transform:uppercase">
+        @ViewBag.Des
+    </p>
+    <p style="text-align:center;font-family:'Times New Roman';font-size:13pt;font-weight:bold;text-transform:uppercase">
+        Từ Ngày: @ViewBag.Fda - Đến Ngày: @ViewBag.Tda
+    </p>
+</div>
+
+
+<table border="1" id="tbl-report">
+    <thead>
+        <tr>
+            <th class="all" style="width:3%"></th>
+            <th class="all" style="width:3%">NGÀY</th>
+            <th style="width:15%">SỐ KIỆN HÀNG HÓA </th>
+            <th style="width:15%">TRỌNG LƯỢNG HÀNG HÓA </th>
+            <th style="width:15%">SỐ KIỆN BƯU ĐIỆN </th>
+            <th style="width:15%">TRỌNG LƯỢNG BƯU ĐIỆN </th>
+            <th style="width:15%">TỔNG SỐ KIỆN</th>
+            <th style="width:15%">TỔNG TRỌNG LƯỢNG </th>
+            <th style="width:15%">TỔNG LÔ HÀNG</th>
+          
+
+        </tr>
+    </thead>
+    <tbody>
+    @for (int i = 0; i < tableReport.Rows.Count; i++)
+    {
+        PageCurrent += 1;
+        totalPices += int.Parse(tableReport.Rows[i][1].ToString());
+        totalWeight += double.Parse(tableReport.Rows[i][2].ToString());
+        totalPicesMail += int.Parse(string.IsNullOrEmpty(tableReport.Rows[i][3].ToString()) ? "0" : tableReport.Rows[i][3].ToString());
+        totalWeightMail += double.Parse(string.IsNullOrEmpty(tableReport.Rows[i][4].ToString()) ? "0" : tableReport.Rows[i][4].ToString());
+        totalPicesSum += int.Parse(tableReport.Rows[i][5].ToString());
+        totalWeightSum += double.Parse(tableReport.Rows[i][6].ToString());
+        totalAWB += int.Parse(tableReport.Rows[i][7].ToString());
+
+            <tr>
+                <td>@PageCurrent</td>
+                @foreach (var rs in columns)
+                {
+                    <td>@Html.Raw(tableReport.Rows[i][rs])</td>
+                }
+            </tr>
+        }
+        <tr>
+            <td>Tổng</td>
+            <td></td>
+            <td>@totalPices</td>
+            <td>@totalWeight</td>
+            <td>@totalPicesMail</td>
+            <td>@totalWeightMail</td>
+            <td>@totalPicesSum</td>
+            <td>@totalWeightSum</td>
+            <td>@totalAWB</td>
+        </tr>
+    </tbody>
+
+</table>
+<p style="text-align:center;font-family:'Times New Roman';font-size:13pt;font-weight:bold;text-transform:uppercase">
+
+</p>
+<div style="margin-top:200px;padding-top:50px;">
+    <table style="width:100%;" border="0">
+        <tr style="font-family:'Times New Roman';font-size:12pt;font-weight:bold;text-transform:uppercase">
+            <td colspan="3" align="center"><strong>Người lập báo cáo</strong></td>
+            <td colspan="6"></td>
+            <td align="center"><strong>Người kiểm soát</strong></td>
+        </tr>
+    </table>
+
+</div>

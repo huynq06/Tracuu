@@ -1,0 +1,44 @@
+﻿@{
+    Layout = "~/Views/Layout/Core.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet">
+            <div class="portlet-body">
+                @*<div class="row">
+                        <form class="form-horizontal" id="frmAction">
+                            <div class="col-md-3 col-xs-1">
+                            </div>
+                            <div class="col-md-6 col-xs-10">
+                                <input class="form-control form-control-inline input txtName" placeholder="SCAN BARCODE" maxlength="256" id="ticketno" style="height:70px !important" name="syncid" />
+                                <div class="form-control-focus"> </div>
+                            </div>
+                        </form>
+
+                    </div>*@
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="content-list-result">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    var capsoAction = {
+        search: function () {
+            egovutil.getContent("#content-list-result", "/capso/list" );
+        }
+    }
+    capsoAction.search();
+    setInterval(capsoAction.search, 12000);
+
+
+
+
+</script>

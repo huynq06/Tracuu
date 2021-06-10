@@ -1,0 +1,150 @@
+﻿@{
+    Layout = null;
+}
+
+@model Web.Portal.Layer.IMP_CUSTOMER_REQUEST
+<form class="form-horizontal" id="frmAction">
+
+    <input type="hidden" name="keyValue" value="@Html.DisplayFor(model=>model.CODE)" />
+    <input type="hidden" name="CMD" value="@ViewBag.CMD" />
+    <div class="form-body">
+        <div class="form-group form-md-line-input">
+
+            <label class="col-md-2 control-label" for="frmAction">
+                <b>CODE:</b>
+                <span class="required">*</span>
+            </label>
+            <div class="col-md-5">
+                <input class="form-control" placeholder="Mã Ủy Quyền" style="text-transform:uppercase" maxlength="50" value="@Html.DisplayTextFor(model=>model.CODE)" name="CODE" id="CODE" />
+                <div class="form-control-focus"> </div>
+                <span class="help-block">Nhập mã ủy quyền</span>
+            </div>
+
+            <label class="col-md-2 control-label" for="frmAction">
+                <b>YEAR:</b>
+                <span class="required">*</span>
+            </label>
+            <div class="col-md-3">
+                <select class="form-control  bs-select" name="YEAR" data-live-search="true" data-size="8">
+
+                @for (int i = 2018; i < 2050; i++)
+                {
+                    <option value="@Html.DisplayTextFor(model=>i)" @Html.Raw(i.ToString().Equals(Model.YEAR.Trim()) ? "Selected" : "")>@Html.DisplayTextFor(model => i)</option>
+                }
+                    <option value="GTDH" @Html.Raw("GTDH".Equals(Model.YEAR) ? "Selected" : "")>GTDH</option>
+                </select>
+                <div class="form-control-focus"> </div>
+                <span class="help-block">Nhập mã ủy quyền</span>
+            </div>
+        </div>
+        <div class="form-group form-md-line-input">
+            <label class="col-md-2 control-label" for="frmAction">
+                <b>INFOR:</b>
+                <span class="required">*</span>
+            </label>
+            <div class="col-md-10">
+                <input class="form-control" placeholder="Tên Doanh Nghiệp" style="text-transform:uppercase"  value="@Html.DisplayTextFor(model=>model.INFOR)" name="INFOR" />
+                <div class="form-control-focus"> </div>
+                <span class="help-block">Nhập tên doanh nghiệp</span>
+            </div>
+           
+
+        </div>
+        <div class="form-group form-md-line-input">
+            <label class="col-md-2 control-label" for="frmAction">
+                <b>PEOPLE:</b>
+                <span class="required">*</span>
+            </label>
+            <div class="col-md-10">
+                <input class="form-control" placeholder="Tên người được ủy quyền" style="text-transform:uppercase" value="@Html.DisplayTextFor(model=>model.PEOPLE)" name="PEOPLE" id="PEOPLE" />
+                <div class="form-control-focus"> </div>
+                <span class="help-block">Nhập tên người được ủy quyền</span>
+            </div>
+        </div>
+        <div class="form-group form-md-line-input">
+
+            <label class="col-md-3 control-label" for="frmAction">
+                <b>NỘI DUNG ỦY QUYỀN:</b>
+               
+            </label>
+            <div class="col-md-4">
+                <input class="form-control" placeholder="REMARK" style="text-transform:uppercase" maxlength="50" value="@Html.DisplayTextFor(model=>model.REMARK)" name="REMARK" id="REMARK" />
+                <div class="form-control-focus"> </div>
+                <span class="help-block">Nội dung ủy quyền</span>
+            </div>
+
+            <label class="col-md-2 control-label" for="frmAction">
+                <b>IDNO:</b>
+                
+            </label>
+            <div class="col-md-3">
+                <input class="form-control form-control-inline "  placeholder="IDNO" value="@Html.DisplayTextFor(model=>model.IDNO)" name="IDNO" id="IDNO" />
+                <div class="form-control-focus"> </div>
+                <span class="help-block">Nhập IDNO</span>
+            </div>
+
+        </div>
+        <div class="form-group form-md-line-input">
+            <div class="col-md-12">
+
+                <div class="kv-avatar center-block">
+                    <div id="fileAlbum">
+
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+
+    <div class="text-center">
+        <button type="submit" class="btn btn-success" id="btnSave"><i class="fa fa-floppy-o"></i> Lưu thông tin</button>
+        <button type="reset" class="btn btn-success"><i class="fa fa-refresh"></i> Làm mới</button>
+    </div>
+
+    
+
+    <!-- /.box-footer -->
+</form>
+<script>
+    egovutil.createUploadFile("fileAlbum", "/customerrequest/attachs/@Html.DisplayFor(model=>model.CODE)?year=@Html.DisplayFor(model=>model.YEAR)", "delFileAlbum");
+    $(".form_datetime").datetimepicker({
+        autoclose: true,
+        isRTL: App.isRTL(),
+        format: "dd/mm/yyyy  hh:ii:ss",
+        pickerPosition: (App.isRTL() ? "bottom-right" : "bottom-left")
+    });
+    var message = {
+        CODE: {
+            required: "Mã số ủy quyền không được trống"
+        },
+        INFOR: {
+            required: "Tên doanh nghiệp không được trống"
+        }, PEOPLE: {
+            required: "Tên người được ủy quyền không được trống"
+        }
+
+    };
+    var rule = {
+        CODE: { required: true },
+        INFOR: { required: true },
+        PEOPLE: { required: true }
+
+    };
+    $('.bs-select').selectpicker({
+        iconBase: 'fa',
+        tickIcon: 'fa-check'
+    });
+    egovutil.submit("#frmAction", rule, message, "/customerrequest/action");
+   
+    function delFileAlbum(key) {
+        egovutil.ajaxCallUrl("/customerrequest/deletefile/" + key, "");
+    }
+
+
+</script>
+

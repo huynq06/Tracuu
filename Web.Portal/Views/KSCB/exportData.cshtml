@@ -1,0 +1,132 @@
+﻿
+@{
+    Layout = "~/Views/Layout/Core.cshtml";
+    IList<Web.Portal.Model.Models.ULDByFlight> uldList = (IList<Web.Portal.Model.Models.ULDByFlight>)ViewData["UldList"];
+    var uldMix = uldList.Where(c => c.ULD_TYPE == 1).ToList().Count;
+    var uldPallet = uldList.Where(c => c.ULD_TYPE == 2).ToList().Count;
+    var uldCarton = uldList.Where(c => c.ULD_TYPE == 3).ToList().Count;
+    var uldLowdect = uldList.Where(c => c.ULD_TYPE == 4).ToList().Count;
+    var uldOther = uldList.Where(c => c.ULD_TYPE == 5 || c.ULD_TYPE == 6).ToList().Count;
+    var uldAke = uldList.Where(c => c.ULD_TYPE == 7).ToList().Count;
+    int PageCurrent = 0;
+}
+
+<p style="text-align:center;font-family:'Times New Roman';font-size:15pt;font-weight:bold;text-transform:uppercase">
+    BIÊN BẢN ĐIỀU PHỐI CHUYẾN BAY
+</p>
+
+<div class="row">
+    <span>CHUYẾN BAY:</span> <span style="color:red">@ViewBag.Flight</span>
+    <br />
+    <span>ATA:</span> <span style="color:red">@ViewBag.ATA</span>
+    <br />
+    <span>SOP:</span> <span style="color:red">@ViewBag.SOP</span>
+    <br />
+    <span>Thời Gian ULD đầu tiên về kho:</span> <span style="color:red">@ViewBag.FirstReceive</span>
+    <br />
+    <span>Thời Gian ULD cuối cùng về kho:</span> <span style="color:red">@ViewBag.LastReceive</span>
+    <br />
+    <span>Thời gian bắt đầu khai thác:</span> <span style="color:red">@ViewBag.FirstMove</span>
+    <br />
+    <span>Thời gian hoàn thành khai thác:</span><span style="color:red">@ViewBag.Finish</span>
+</div>
+<p style="text-align:left;font-family:'Times New Roman';font-size:13pt;">
+   
+</p>
+<div class="row" style="padding-bottom:10px">
+    <div class="col-md-4 col-lg-4" style="text-align:left;font-family:'Times New Roman';font-size:13pt;">
+      
+            <span>Số ULD Mix:</span> <span style="color:red">@uldMix</span>
+        <br />
+            <span>Số ULD Pallet:</span> <span style="color:red">@uldPallet</span>
+        <br />
+            <span>Số ULD Carton:</span> <span style="color:red">@uldCarton</span>
+        <br />
+            <span>Số ULD Lowdeck:</span> <span style="color:red">@uldLowdect</span>
+        <br />
+            <span>Số ULD lưu nguyên mâm:</span> <span style="color:red">@uldOther</span>
+        <br />
+        <span>Số ULD AKE/PEP:</span> <span style="color:red">@uldAke</span>
+        <br />
+    </div>
+    <div class="col-md-4 col-lg-4" style="text-align:left;font-family:'Times New Roman';font-size:13pt;">
+      
+            <span>Tổng số ULD:</span> <span style="color:red">@uldList.Count</span>
+        <br />
+            <span>Số ULD Hoàn thành đúng tiêu Chuẩn:</span> <span style="color:red">@uldList.Where(c=>c.NotifyID!=3).ToList().Count</span>
+        <br />
+            <span>Số ULD Fail:</span> <span style="color:red">@uldList.Where(c => c.NotifyID == 3).ToList().Count</span>
+        <br />
+      
+    </div>
+</div>
+
+    <table style="width:100%" class="table table-striped table-bordered table-advance table-hover dt-responsive">
+        <thead>
+            <tr style="">
+                <th style="width:10%;font-size:13pt;background-color:yellow !important;text-align:center">
+                    STT
+                </th>
+                <th style="width:10%;font-size:13pt;background-color:yellow !important;text-align:center">
+                    ULD No.
+                </th>
+                <th style="width:10%;font-size:13pt;background-color:yellow !important;text-align:center">
+                    Loại ULD
+                </th>
+                <th style="width:10%;font-size:13pt;background-color:yellow !important;text-align:center">
+                    Vị Trí 
+                </th>
+                <th style="width:10%;font-size:13pt;background-color:yellow !important;text-align:center">
+                    Start Time
+                </th>
+                <th style="width:10%;font-size:13pt;background-color:yellow !important;text-align:center">
+                    Finish Time
+                </th>
+                <th style="width:10%;font-size:13pt;background-color:yellow !important;text-align:center">
+                    Total
+                </th>
+                <th style="width:10%;font-size:13pt;background-color:yellow !important;text-align:center">
+                    Tiêu chuẩn(p)
+                </th>
+                <th style="width:10%;font-size:13pt;background-color:yellow !important;text-align:center">
+                    So Với tiêu chuẩn
+                </th>
+                <th style="width:10%;font-size:13pt;background-color:yellow !important;text-align:center">
+                    Ghi chú
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+           @foreach (var row in (IList<Web.Portal.Common.ViewModel.ULDViewModel>)ViewData["UldListView"])
+           {
+               PageCurrent += 1;
+                    <tr>
+                        <td style="width:10%;text-align:center">@PageCurrent</td>
+                        <td style="font-size:13pt;width:10%">@Html.DisplayTextFor(model => row.ULDName)</td>
+                        <td style="font-size:13pt;width:10%">@Html.DisplayTextFor(model => row.ULDType)</td>
+                        <td style="font-size:13pt;width:10%">@Html.DisplayTextFor(model => row.LocationName)</td>
+                        <td style="font-size:13pt;width:10%;text-align:center">@Html.Raw(row.StartTime.HasValue? row.StartTime.Value.ToString("dd/MM/yy HH:mm") : "")</td>
+                        <td style="font-size:13pt;width:10%;text-align:center">@Html.Raw(row.FinishTime.HasValue? row.FinishTime.Value.ToString("dd/MM/yy HH:mm"):"")</td>
+                        <td style="font-size:13pt;width:10%;text-align:center">@Html.Raw(row.TimeOperation.HasValue ? row.TimeOperation.Value.ToString() : "")</td>
+                        <td style="font-size:13pt;width:10%;text-align:center">@Html.DisplayTextFor(model => row.StandartTime)</td>
+                        @if (row.NotifyID.HasValue)
+                        {
+                            <td style="font-size:13pt;width:10%;text-align:center;@Html.Raw(row.NotifyID !=3 ? "background-color:springgreen" : "background-color:orangered")">@Html.Raw(row.NotifyID != 3 ? "OK" : "Fail")</td>
+                        }
+                        else
+	                    {
+                        <td style="font-size:13pt;width:10%;text-align:center;">Chưa xử lý</td>
+	                    }
+                        <td style="font-size:13pt;width:10%;text-align:center">@Html.Raw(string.IsNullOrEmpty(row.Note)? "" : row.Note)</td>
+                        
+                    </tr>
+            }
+        </tbody>
+    </table>
+
+
+
+
+
+
+

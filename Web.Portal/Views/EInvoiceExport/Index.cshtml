@@ -1,0 +1,131 @@
+﻿
+@{
+    Layout = null;
+
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet">
+            <div class="portlet-title">
+                <div class="caption caption-md">
+                    <span class="caption-subject font-blue-madison bold uppercase">HÓA ĐƠN ĐIỆN TỬ HÀNG XUẤT</span>
+                </div>
+                <div class="actions">
+                    <a href="javascript:;" data-id="02" class="btn btn-circle btn-danger btn-export-log">
+                        <i class="fa fa-download"></i> Xuất thông tin
+                    </a>
+
+                    <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="row">
+                    <div class="form-group form-md-line-input">
+                        <div class="col-md-2 col-xs-3">
+                            <input class="form-control form-control-inline" id="iv_number" value="" placeholder="Số hóa đơn điện tử" maxlength="20" />
+                            <div class="form-control-focus"> </div>
+                            <span class="help-block">Số hóa đơn</span>
+                        </div>
+
+                        <div class="col-md-2 col-xs-3">
+                            <input class="form-control form-control-inline" id="iv_mawb" value="" placeholder="Số MAWB" maxlength="12" />
+                            <div class="form-control-focus"> </div>
+                            <span class="help-block">Số vận đơn</span>
+                        </div>
+                        <div class="col-md-2 col-xs-3">
+                            <input class="form-control form-control-inline" id="iv_hawb" value="" placeholder="SỐ HAWB" maxlength="12" />
+                            <div class="form-control-focus"> </div>
+                            <span class="help-block">Số hawb</span>
+                        </div>
+                        <div class="col-md-2 col-xs-3">
+                            <input class="form-control form-control-inline" id="iv_staff" value="" placeholder="NHÂN VIÊN (KHÔNG DẤU)" maxlength="30" />
+                            <div class="form-control-focus"> </div>
+                            <span class="help-block">TÊN NHÂN VIÊN</span>
+                        </div>
+                        @*<div class="col-md-2 col-xs-3">
+                            <select class="form-control  bs-select" id="iv_type" data-live-search="true" data-size="8">
+                                <option value="ALL"></option>
+                                <option value="CASH">TIỀN MẶT</option>
+                                <option value="BANK TFR">CHUYỂN KHOẢN</option>
+                            </select>
+                            <div class="form-control-focus"> </div>
+                            <span class="help-block">Loại thanh toán</span>
+                        </div>*@
+                        <div class="col-md-2 col-xs-3">
+                            <select class="form-control  bs-select" id="iv_status" data-live-search="true" data-size="8">
+                                <option value="100"></option>
+                                <option value="0">LỖI</option>
+                                <option value="2">PHÊ DUYỆT</option>
+                                <option value="3">HỦY</option>
+                            </select>
+                            <div class="form-control-focus"> </div>
+                            <span class="help-block">TRẠNG THÁI</span>
+                        </div>
+
+                        <div class="col-md-2 col-xs-12">
+
+                            <div class="input-group">
+
+                                <input class="form-control form-control-inline  date-picker" id="tda" value="@Html.Raw(DateTime.Now.ToString("dd/MM/yyyy"))" placeholder="Đến ngày" maxlength="20" data-date-format="dd/mm/yyyy" />
+                                <div class="form-control-focus"> </div>
+                                <span class="help-block">Tìm theo ngày</span>
+                                <span class="input-group-btn">
+                                    <button id="btn-search-sita" class="btn btn-success" type="button"><i class="fa fa-search"></i></button>
+                                </span>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="content-list-result">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script>
+    var invoiceAction = {
+        search: function () {
+            egovutil.getContent("#content-list-result", "/einvoiceExport/list?no="+$("#iv_number").val()
+                                                                    + "&awb=" + $("#iv_mawb").val()
+                                                                    + "&hawb="+ $("#iv_hawb").val()
+                                                                    //+ "&ty=" + $("#iv_type").val()
+                                                                    + "&staff=" + $("#iv_staff").val()
+                                                                    + "&status=" + $("#iv_status").val()
+                                                                    + "&date=" + $("#tda").val()
+                                                                    );
+        }
+    }
+    $('.date-picker').datepicker({
+        rtl: App.isRTL(),
+        orientation: "left",
+        autoclose: true
+    });
+    $(".btn-export-log").click(function () {
+        window.location.href = "/einvoiceExport/expExport?no=" + $("#iv_number").val()
+                                                                    + "&awb=" + $("#iv_mawb").val()
+                                                                    + "&hawb=" + $("#iv_hawb").val()
+                                                                    //+ "&ty=" + $("#iv_type").val()
+                                                                    + "&staff=" + $("#iv_staff").val()
+                                                                    + "&status=" + $("#iv_status").val()
+                                                                    + "&date=" + $("#tda").val()
+    });
+
+    $('.bs-select').selectpicker({
+        iconBase: 'fa',
+        tickIcon: 'fa-check'
+    });
+    $("#btn-search-sita").click(function () {
+       invoiceAction.search();
+
+    })
+
+</script>

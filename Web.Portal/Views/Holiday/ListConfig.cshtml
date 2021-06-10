@@ -1,0 +1,94 @@
+﻿@{
+    Layout = null;
+    int rowIndex = 0;
+
+}
+<table id="tbl-holiday" class="table table-striped table-bordered table-advance table-hover">
+    <thead>
+        <tr>
+            <th style="width:5%">
+                STT
+            </th>
+            <th style="width:10%">
+
+            </th>
+            <th style="width:30%">
+                Tầng
+            </th>
+            <th>
+                Tổng số vị trí
+            </th>
+            <th style="width:10%">
+                Số vị trí trống
+            </th>
+
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var row in (IList<Web.Portal.Model.Models.LocationConfig>)ViewData["ListConfig"])
+        {
+            rowIndex += 1;
+
+            <tr>
+                <td>@rowIndex</td>
+                <td>
+
+                    <div class="btn-group">
+                        <button class="btn green btn-sm btn-outline  dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                            <i class="fa fa-angle-down"></i>
+                        </button>
+                        <ul class="dropdown-menu pull-right" style="left:0px">
+                            <li>
+                                <a href="javascript:;" data-id="@Html.DisplayFor(model => row.ID)" class="edit-hawb btn btn-xs" style="margin-right:45px !important">
+                                    <i class="fa fa-pencil"></i> Sửa
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:;" data-id="@Html.DisplayFor(model => row.ID)" class="delete-hawb btn btn-xs" style="margin-right:45px !important">
+                                    <i class="fa fa-trash"></i> Xóa
+                                </a>
+                            </li>
+                            @*<li>
+                                    <a href="javascript:;" data-flight="@Html.DisplayFor(model => row.FlightID)" class="fast-asyn btn btn-xs" style="margin-right:45px !important">
+                                        <i class="fa fa-recycle"></i> ĐỒNG BỘ TỪ HERMES
+                                    </a>
+                                </li>*@
+                        </ul>
+                    </div>
+                </td>
+
+                <td>
+                    <a href="#" data-id="@Html.DisplayFor(model => row.ID)" class="btn  btn-xs sqs-member-edit">@Html.Raw(row.Floor)</a>
+                </td>
+                <td>
+                    <a href="#" data-id="@Html.DisplayFor(model => row.ID)" class="btn  btn-xs sqs-member-edit">@Html.DisplayTextFor(model => row.TotalSpace)</a>
+                </td>
+                <td>
+                    <a href="#" data-id="@Html.DisplayFor(model => row.ID)" class="btn  btn-xs sqs-member-edit">@Html.Raw(row.ThresholdPoint)</a>
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+
+
+<script>
+
+
+    $(".edit-hawb").click(function () {
+        egovutil.dialog("SƯA THÔNG TIN", "large", "/holiday/editConfig/" + $(this).attr("data-id"), "configAction.search();");
+    });
+    $(".delete-holiday").click(function () {
+        egovutil.dlgConfirmAction("XÓA  ", "Bạn có muốn xóa bản ghi?", "/holiday/delete/" + $(this).attr("data-id"), "hermesAction.search();");
+    });
+
+    egovutil.CreateTableSort("#tbl-hawb", [[0, "asc"]], [
+
+                { "orderable": false, "targets": 4 }
+    ], true);
+</script>

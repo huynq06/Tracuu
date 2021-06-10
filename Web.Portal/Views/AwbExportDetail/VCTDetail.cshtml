@@ -1,0 +1,24 @@
+﻿
+@{
+    Layout = null;
+}
+@model Web.Portal.Common.ApiViewModel.VCTViewModel
+<div id="content-invoice">
+    <ul>
+        <li>
+            SỐ VCT: @Model.VCTNo
+        </li>
+        <li>
+            BSX LẤY HÀNG: @Model.BSXNo
+        </li>
+        <li>
+            TÊN LÁI XE: @Model.DriverName
+        </li>
+        <li>
+            GIỜ VÀO: @Model.DateIn.Value.ToString("dd/MM/yy HH:mm")
+        </li>
+        <li>
+            GIỜ RA: @Model.DateOut.Value.ToString("dd/MM/yy HH:mm")
+        </li>
+    </ul>
+</div>

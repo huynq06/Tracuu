@@ -1,0 +1,62 @@
+select * from
+(select * from
+(select distinct
+flup.flup_flight_no_lvg as FLIGHTNO,
+to_char(to_date('02-01-0001' ,'DD-MM-YYYY') + flup.flup_actual_date, 'DD-MM-YYYY') AS DTA_DATE,
+--to_char(to_date(flui.flui_landed_time,'HH24MISS'),'HH24:MI:SS') as ATA_TIME,
+--lagi.lagi_mawb_prefix||lagi.lagi_mawb_no as MAWB,
+--lagi.LAGI_HAWB as HAWB,
+--lagi.lagi_quantity_received as pieces,
+--lagi.lagi_weight_received as weight,
+j.weight_received,
+--grli.grli_shc as shc
+--max(grli.grli_shc) over (partition by grai.grai_object_group_isn order by grli.grli_shc desc) as shc,
+row_number() over (partition by grai.grai_object_group_isn order by grai.grai_object_group_isn) as rn
+from
+(
+  select
+  k.*,
+  grai.grai_numeric_value as weight_received
+  from
+  (
+  select 
+    grai.grai_object_isn as ID,
+      grai.grai_object_group_isn as group_no,
+     grai.grai_numeric_value as pieces_received
+          from han_w1_hl.grai_group_additional_info grai
+      where
+        grai.grai_group_type='PIECES'
+      and grai.grai_group_code='DELIVERED'
+  )k
+    join han_w1_hl.grai_group_additional_info grai on k.ID= grai.grai_object_isn and k.group_no=grai.grai_object_group_isn
+  and grai.grai_group_type='WEIGHT'
+  and grai.grai_group_code='DELIVERED'  
+)j
+  join han_w1_hl.grai_group_additional_info grai on j.ID= grai.grai_object_isn 
+  and j.group_no=grai.grai_object_group_isn
+ -- and grai.grai_group_type='FLIGHT'
+-- and grai.grai_group_code='ISN'   
+--  join han_w1_hl.flup flup on grai.grai_value = flup.flup_int_number
+  join han_w1_hl.labs labs on j.ID = labs.labs_ident_no
+  JOIN AWBU_AWBPERULD_LIST awbu on awbu.awbu_mawb_ident_no = labs.LABS_IDENT_NO
+   JOIN CONT  on awbu.awbu_uld_isn = cont.cont_uld_isn
+  Join Flup  ON cont.CONT_FLIGHT_NO_  = flup.flup_flight_no
+           and to_date('02-01-0001' ,'DD-MM-YYYY') + cont.CONT_DATE = to_date('02-01-0001' ,'DD-MM-YYYY') + flup.flup_actual_date    
+  JOIN han_w1_hl.grli_group_location_info grli on j.ID = grli.grli_object_isn
+  where  to_date('02-01-0001' ,'DD-MM-YYYY') + flup.flup_actual_date between to_date('09/12/2020','dd/mm/yyyy') and to_date('09/12/2020','dd/mm/yyyy')
+) m
+where rn=1 
+)a  
+pivot (
+ sum(weight_received) 
+ for FLIGHTNO in (
+   'CX' as CX,
+   'EK' as EK,
+   'CI' as CI,
+   'JL' as JL,
+   'KE' as KE,
+   'VJ' as VJ,
+   'VZ' as VZ,
+   '5X' as UPS
+   )
+   ) 

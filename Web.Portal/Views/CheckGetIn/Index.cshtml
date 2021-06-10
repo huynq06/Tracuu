@@ -1,0 +1,106 @@
+﻿@{
+    Layout = "~/Views/Layout/Core.cshtml";
+
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet">
+            <div class="portlet-title">
+                <div class="caption caption-md">
+                    <span class="caption-subject font-blue-madison bold uppercase">Danh sách tình trạng Get In</span>
+                </div>
+                <div class="actions">
+                    <a href="javascript:;" data-id="02" class="btn btn-circle btn-danger btn-export-log">
+                        <i class="fa fa-download"></i> Xuất danh sách
+                    </a>
+                    <a href="javascript:;" class="btn btn-default btn-sm btn-add-item">
+                        <i class="fa fa-plus"></i> Thêm mới
+                    </a>
+                    <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="row">
+                    <div class="form-group form-md-line-input">
+                        <div class="col-md-2 col-xs-12">
+
+                            <div class="input-group" style="padding-left:20px !important">
+
+                                <input class="form-control form-control-inline  date-picker" id="tda" value="@Html.Raw(DateTime.Now.ToString("dd/MM/yyyy"))" placeholder="Đến ngày" maxlength="20" data-date-format="dd/mm/yyyy" />
+                                <div class="form-control-focus"> </div>
+                                <span class="help-block">Tìm theo ngày</span>
+                                <span class="input-group-btn">
+                                    <button id="btn-search-sita" class="btn btn-success" type="button"><i class="fa fa-search"></i></button>
+                                </span>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="content-list-result">
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+
+
+
+        </div>
+    </div>
+
+</div>
+<script>
+    var hermesAction = {
+        search: function () {
+            egovutil.getContent("#content-list-result", "/CheckGetIn/list?date=" + $("#tda").val());
+        }
+    }
+    $('.date-picker').datepicker({
+        rtl: App.isRTL(),
+        orientation: "left",
+        autoclose: true
+    });
+    $('.bs-select').selectpicker({
+        iconBase: 'fa',
+        tickIcon: 'fa-check'
+    });
+    $("#btn-search-sita").click(function () {
+        hermesAction.search();
+
+    })
+
+    hermesAction.search();
+    //$(".btn-add-item").click(function () {
+    //    egovutil.dialog("THÊM MỚI HÀNG NHANH", "large", "/HawbManagement/edit/", "hermesAction.search()");
+    //});
+    //$('.date-picker').datepicker({
+    //    rtl: App.isRTL(),
+    //    orientation: "left",
+    //    autoclose: true
+    //});
+    //$(".btn-export-log").click(function () {
+    //    window.location.href = "/HawbManagement/export?fno=" + $("#fno").val()
+    //                                                                + "&ata=" + $("#ata").val()
+    //});
+
+    //$('.bs-select').selectpicker({
+    //    iconBase: 'fa',
+    //    tickIcon: 'fa-check'
+    //});
+
+    //// sitaAction.search();
+    //$("#btn-search-sita").click(function () { hermesAction.search(); })
+
+</script>

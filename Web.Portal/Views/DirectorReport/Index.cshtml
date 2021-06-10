@@ -1,0 +1,66 @@
+﻿
+@{
+    Layout = null;
+}
+<div class="col-md-12 col-sm-10" style="margin-bottom:20px;">
+    <div class="row">
+        <div class="caption caption-md">
+            <span class="caption-subject font-blue-madison bold uppercase">QUẢN LÝ BÁO CÁO BAN GIÁM ĐỐC</span>
+        </div>
+    </div>
+</div>
+<div class="col-md-12 col-sm-12">
+    <div class="portlet light bordered">
+        <div class="portlet-title">
+            <div class="caption caption-md">
+                <i class="icon-bar-chart font-dark hide"></i>
+                <span class="caption-subject font-dark bold uppercase">Báo cáo sản lượng ngày</span>
+                @*<span class="caption-helper">45 pending</span>*@
+            </div>
+            <div class="inputs">
+                <div class="portlet-input input-inline input-small ">
+                    <div class="input-icon right">
+                        <i class="icon-magnifier"></i>
+                        <input type="text" class="form-control form-control-solid input-circle" placeholder="search...">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="scroller" data-always-visible="1" data-rail-visible1="0" data-handle-color="#D7DCE2">
+                <div class="general-item-list">
+                    <div class="item">
+                        <div class="item-head">
+                            <div class="item-details">
+                                <a href="/DirectorReport/Report?id=EXP_KD01&paging=false&fromDate=true&toDate=true&flightNumber=false&mawb=false&shc=false&des=BÁO CÁO SẢN LƯỢNG THEO CHUYẾN BAY HÀNG XUẤT." target="_blank" class="item-name primary-link">Báo cáo sản lượng Export 01</a>
+                                @*<span class="item-label">3 hrs ago</span>*@
+                            </div>
+                            @*<span class="item-status">
+                                    <span class="badge badge-empty badge-success"></span> Open
+                                </span>*@
+                        </div>
+                        <div class="item-body"> BÁO CÁO SẢN LƯỢNG THEO CHUYẾN BAY HÀNG XUẤT. </div>
+                    </div>
+                    <div class="item">
+                        <div class="item-head">
+                            <div class="item-details">
+                                <a href="/DirectorReport/Report?id=IMP_KD01&paging=false&fromDate=true&toDate=true&flightNumber=false&mawb=false&shc=false&des=BÁO CÁO SẢN LƯỢNG THEO NGÀY HÀNG NHẬP." target="_blank" class="item-name primary-link">Báo cáo sản lượng Import 01</a>
+                                @*<span class="item-label">3 hrs ago</span>*@
+                            </div>
+                            @*<span class="item-status">
+                                    <span class="badge badge-empty badge-success"></span> Open
+                                </span>*@
+                        </div>
+                        <div class="item-body"> BÁO CÁO SẢN LƯỢNG THEO NGÀY HÀNG NHẬP. </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    $(".egov-page-content").css({ 'min-height': '850px'});
+</script>

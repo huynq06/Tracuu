@@ -1,0 +1,113 @@
+﻿@{
+    Layout = null;
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet">
+            <div class="portlet-title">
+                <div class="caption caption-md">
+                    <span class="caption-subject font-blue-madison bold uppercase">Tình Trạng Thông Quan</span>
+                </div>
+                @*<div class="actions">
+                    <a href="javascript:;" data-id="02" class="btn btn-circle btn-danger btn-export-log">
+                        <i class="fa fa-download"></i> Xuất danh sách
+                    </a>
+                    <a href="javascript:;" class="btn btn-default btn-sm btn-add-item">
+                        <i class="fa fa-plus"></i> Thêm mới
+                    </a>
+                    <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;">
+                    </a>
+                </div>*@
+            </div>
+            <div class="portlet-body">
+                <div class="row">
+                    <div class="form-group form-md-line-input">                  
+
+                                 
+                        <div class="col-md-2 col-xs-3" style="@Html.Raw(ViewBag.CheckUserLogin == "true"? "" : "display:none")">
+                            <select class="form-control  bs-select" id="warehouse" data-live-search="true" data-size="8">
+                                <option value="ALL"></option>
+                                <option value="ALSW">ALSW</option>
+                                <option value="ALSB">ALSB</option>
+                                <option value="ASG">ASG</option>
+                                <option value="ALSE">ALSE</option>
+                                <option value="ALST">ALST</option>
+                            </select>
+                            <div class="form-control-focus"> </div>
+                            <span class="help-block">WARE HOUSE</span>
+                        </div>
+                        <div class="col-md-2 col-xs-3">
+                            <select class="form-control  bs-select" id="checkStatus" data-live-search="true" data-size="8">
+                                <option value="-1"></option>
+                                <option value="0">ERROR</option>
+                                <option value="1">OK</option>
+                            </select>
+                            <div class="form-control-focus"> </div>
+                            <span class="help-block">STATUS</span>
+                        </div>
+                        <div class="col-md-2 col-xs-3">
+                            <input class="form-control form-control-inline  date-picker" id="fda" value="@Html.Raw(DateTime.Now.ToString("dd/MM/yyyy"))" placeholder="Từ ngày" maxlength="20" data-date-format="dd/mm/yyyy" />
+                            <div class="form-control-focus"> </div>
+                            <span class="help-block">Tìm theo từ ngày</span>
+                        </div>
+
+                        <div class="col-md-2 col-xs-12">
+
+                            <div class="input-group">
+
+                                <input class="form-control form-control-inline  date-picker" id="tda" value="@Html.Raw(DateTime.Now.ToString("dd/MM/yyyy"))" placeholder="Đến ngày" maxlength="20" data-date-format="dd/mm/yyyy" />
+                                <div class="form-control-focus"> </div>
+                                <span class="help-block">Tìm theo đến ngày</span>
+                                <span class="input-group-btn">
+                                    <button id="btn-search" class="btn btn-success" type="button"><i class="fa fa-search"></i></button>
+                                </span>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="content-list-result">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script>
+    $('.date-picker').datepicker({
+        rtl: App.isRTL(),
+        orientation: "left",
+        autoclose: true
+    });
+    var Action = {
+        setValueInput: function () {
+
+            $('.input-sm').attr('placeholder', 'NHẬP SỐ VẬN ĐƠN')
+        },
+    }
+    Action.setValueInput();
+    var hermesAction = {
+        search: function () {
+            egovutil.getContent("#content-list-result", "/CheckGetInAlsx/list?tda=" + $("#tda").val()
+                                                                 + "&fda=" + $("#fda").val()
+                                                                 + "&checkStatus=" + $("#checkStatus").val()
+                                                                 + "&warehouse=" + $("#warehouse").val());
+        }
+    }
+    $('.bs-select').selectpicker({
+        iconBase: 'fa',
+        tickIcon: 'fa-check'
+    });
+
+    $('.form-md-line-input  > div:first').find('.filter-option').text('KHO KÉO DÀI');
+    $('.form-md-line-input  > div:nth-child(2)').find('.filter-option').text('STATUS');
+    $("#btn-search").click(function () { hermesAction.search(); })
+
+</script>

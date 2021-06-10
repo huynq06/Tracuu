@@ -1,0 +1,74 @@
+﻿@{
+    Layout = null;
+    int PageCurrent = 0;
+
+}
+
+<div class='col-md-3 col-xs-12 margin-top-10'>
+    <label class='control-label'><b>Tổng số: @ViewBag.TotalRecord</b></label>
+</div>
+<div class='col-md-4 col-xs-12 margin-top-10'>
+    <label class='control-label uppercase'><b>Tổng số kiện:</b> <b style="color:red">Cargo: @ViewBag.SUMPCS  Mail: @ViewBag.SUMPCSMAIL</b></label>
+</div>
+<div class='col-md-4 col-xs-12 margin-top-10'>
+    <label class='control-label uppercase'><b>Tổng số cân:</b> <b style="color:red">Cargo: @ViewBag.SumGW  Mail: @ViewBag.SumGWMail</b></label>
+</div>
+
+<table class="table table-striped table-bordered table-advance table-hover dt-responsive" id="tbl-flight">
+    <thead>
+        <tr>
+            <th class="all" style="width:5% ">
+                N0
+            </th>
+            <th style="width:10% ">
+                AIRLINES
+            </th>
+            <th style="width:10% ">
+                FLIGHT NO
+            </th>            
+            <th style="width:15% ">
+                RECEIVED DATE
+            </th>
+           
+            <th style="width:15% ">
+                 PIECES CARGO
+            </th>
+
+            <th style="width:15% ">
+                WEIGHT CARGO
+            </th>
+            <th style="width:15% ">
+                PIECES MAIL
+            </th>
+
+            <th style="width:15% ">
+                WEIGHT MAIL
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var row in (IList<Web.Portal.Layer.FlightReport>)ViewData["flightLists"])
+        {
+            PageCurrent += 1;
+
+            <tr>
+                <td>@PageCurrent</td>
+
+                <td><a href="#" class="btn  btn-xs">@Html.DisplayTextFor(model => row.Code)</a></td>
+                <td><a href="#" class="btn  btn-xs">@Html.DisplayTextFor(model => row.FlightNo)</a></td>               
+                <td><a href="#" class="btn  btn-xs">@Html.Raw(row.LandDate.HasValue && row.LandDate.Value != DateTime.MinValue ? row.LandDate.Value.ToString("dd/MM/yyyy") +" "+row.LandTime: string.Empty) </a></td>
+               
+                <td><a href="#" class="btn  btn-xs">@Html.DisplayTextFor(model => row.Pices)</a></td>
+                <td><a href="#" class="btn  btn-xs">@Html.DisplayTextFor(model => row.Weight)</a></td>
+                <td><a href="#" class="btn  btn-xs">@Html.DisplayTextFor(model => row.PicesMail) </a></td>
+                <td><a href="#" class="btn  btn-xs">@Html.DisplayTextFor(model => row.WeightMail) </a></td>
+                
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+
+
+

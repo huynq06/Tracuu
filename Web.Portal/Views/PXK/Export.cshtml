@@ -1,0 +1,107 @@
+﻿@{
+    Layout = null;
+    int rowIndex = 0;
+}
+<p style="text-align:center;font-family:'Times New Roman';font-size:15pt;font-weight:bold">Danh sách PXK - @ViewBag.ATA</p>
+<span>Tổng số phiếu:</span> <span style="color:red">@ViewBag.Total</span>
+<br />
+<span>Số phiếu hoàn thành đúng thời gian:</span> <span style="color:red">@ViewBag.OK</span>
+<br />
+<span>Số phiếu fail SOP:</span> <span style="color:red">@ViewBag.Fail</span>
+<br />
+<table class="table table-striped table-bordered table-advance table-hover dt-responsive" style="width:100%;font-family:'Times New Roman';font-size:14px" border="1" id="tbl-flight">
+    <thead>
+        <tr style="">
+            <th class="all" style="width:3%;background-color:yellow !important;text-align:center">
+                STT
+            </th>
+            <th style="width:10%;background-color:yellow !important;text-align:center">
+                SỐ PXK
+            </th>
+            <th style="width:10%;background-color:yellow !important;text-align:center">
+                SỐ VCT
+            </th>
+            <th style="width:10%;background-color:yellow !important;text-align:center">
+                SỐ MAWB
+            </th>
+            <th style="width:10%;background-color:yellow !important;text-align:center">
+                SỐ HAWB
+            </th>
+            <th style="width:10%;background-color:yellow !important;text-align:center">
+                SỐ KIỆN
+            </th>
+            <th style="width:10%;background-color:yellow !important;text-align:center">
+                TRỌNG LƯỢNG
+            </th>
+            <th style="width:10%;background-color:yellow !important;text-align:center">
+                SỐ GIÁ
+            </th>
+            <th style="width:10%;background-color:yellow !important;text-align:center">
+                CỬA NHẬN PHIẾU
+            </th>
+            <th style="width:10%;background-color:yellow !important;text-align:center">
+                THỜI GIAN NHẬN PHIẾU
+            </th>
+            <th style="width:10%;background-color:yellow !important;text-align:center">
+                THỜI GIAN CHỜ
+            </th>
+            <th style="width:10%;background-color:yellow !important;text-align:center">
+                THỜI GIAN HOÀN THÀNH
+            </th>
+            <th style="width:10%;background-color:yellow !important;text-align:center">
+               SOP
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var row in (IList<Web.Portal.Common.ViewModel.PXKViewModel>)ViewData["pxklist"])
+        {
+            rowIndex += 1;
+            if (row.WaitingTime > 20 && row.WaitingTime < 30)
+            {
+                <tr style="background-color:orange">
+                    <td>@rowIndex</td>
+
+                    <td align="center">@Html.DisplayTextFor(model => row.PXKNo)</td>
+                    <td align="center">@Html.DisplayTextFor(model => row.VCTNo)</td>
+                    <td align="center">@Html.DisplayTextFor(model => row.AWB)</td>
+                    <td align="center">@Html.DisplayTextFor(model => row.Hawb)</td>
+                    <td align="center">@Html.DisplayTextFor(model => row.quantity)</td>
+                    <td align="center">@Html.DisplayTextFor(model => row.weight)</td>
+                    <td align="center">@Html.DisplayTextFor(model => row.GroupNumer)</td>
+                    <td align="center">@Html.DisplayTextFor(model => row.Location)</td>
+                    <td align="center">@Html.Raw(row.Created.ToString("dd/MM/yyyy HH:mm"))</td>
+                    <td align="center">@Html.Raw(row.WaitingTime)</td>
+                    <td align="center">@Html.Raw(row.Finish.HasValue ? row.Finish.Value.ToString("dd/MM/yyyy HH:mm") : "")</td>
+                    <td align="center">@Html.Raw(row.SLA==false ? "Fail" : "OK")</td>
+
+                </tr>
+            }
+            else
+            {
+                <tr style="@Html.Raw(row.WaitingTime>=30?"background-color:red":"")">
+                    <td>@rowIndex</td>
+
+                    <td align="center">@Html.DisplayTextFor(model => row.PXKNo)</td>
+                    <td align="center">@Html.DisplayTextFor(model => row.VCTNo)</td>
+                    <td align="center">@Html.DisplayTextFor(model => row.AWB)</td>
+                    <td align="center">@Html.DisplayTextFor(model => row.Hawb)</td>
+                    <td align="center">@Html.DisplayTextFor(model => row.quantity)</td>
+                    <td align="center">@Html.DisplayTextFor(model => row.weight)</td>
+                    <td align="center">@Html.DisplayTextFor(model => row.GroupNumer)</td>
+                    <td align="center">@Html.DisplayTextFor(model => row.Location)</td>
+                    <td align="center">@Html.Raw(row.Created.ToString("dd/MM/yyyy HH:mm"))</td>
+                    <td align="center">@Html.Raw(row.WaitingTime)</td>
+                    <td align="center">@Html.Raw(row.Finish.HasValue ? row.Finish.Value.ToString("dd/MM/yyyy HH:mm") : "")</td>
+                    <td align="center">@Html.Raw(row.SLA == false ? "Fail" : "OK")</td>
+                </tr>
+            }
+
+        }
+    </tbody>
+
+</table>
+
+
+

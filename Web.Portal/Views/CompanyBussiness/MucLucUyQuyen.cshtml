@@ -1,0 +1,135 @@
+﻿
+@{
+    Layout = null;
+    int stt = 1;
+}
+
+@model Web.Portal.Layer.CompanyBussiness
+
+<div class="row" style="margin-bottom:20px;">
+    <div class="form-group form-md-line-input">
+        <div class="col-md-2 col-xs-12">
+            <select class="form-control  bs-select" id="sr_yearmucluc" data-live-search="true" data-size="8">
+
+                @for (int i = 2018; i < 2050; i++)
+                {
+                    <option value="@Html.DisplayTextFor(model=>i)"  @Html.Raw(i == DateTime.Now.Year ? "Selected" : "")>@Html.DisplayTextFor(model => i)</option>
+                }
+
+            </select>
+            <div class="form-control-focus"> </div>
+            <span class="help-block">Năm</span>
+        </div>
+        <div class="col-md-6 col-xs-12">
+            <select class="form-control  bs-select" name="SelectAuthorityType" id="SelectAuthorityType" data-size="8">
+                <option value="0">Không có/Chưa xác định ủy quyền</option>
+                @foreach (var item in (IList<Web.Portal.Layer.CompanyChild_AuthorityType>)ViewData["CompanyChild_AuthorityTypeList"])
+                {
+                    <option value="@Html.DisplayTextFor(model => item.Id)" >@Html.DisplayTextFor(model => item.AuthorityType)</option>
+                }
+            </select>
+
+        </div>
+        
+      
+
+
+        <div class="col-md-3 col-xs-12">
+
+            <div class="input-group">
+
+
+                <span class="input-group-btn">
+                    <button id="btn-xemmucluc" class="btn btn-success" type="button"><i class="fa fa-search"></i> Xem mục lục</button>
+                </span>
+                <span class="input-group-btn">
+                    <button id="btn-taimucluc" class="btn btn-primary" type="button"><i class="fa fa-download"></i> Tải mục lục</button>
+                </span>
+
+            </div>
+        </div>
+    </div>
+
+
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div id="content-list-result-mucluc">
+            @*<div style="color:red;font-weight:bold;text-align:center;">
+                <h4>TỔNG:</h4>  <h4 id="h4-tong">@ViewBag.AuthorityType</h4>
+            </div>*@
+            <h3 id="h3-tieude-mucluc" style="text-align:center; font-weight:bold; text-transform: uppercase;">@ViewBag.AuthorityType</h3>
+            <table class="table table-bordered" id="tbl-tablecontent">
+                <thead>
+                    <tr>
+                        <td>STT</td>
+                        <td>MÃ</td>
+                        <td>NỘI DUNG</td>
+                        <td>GHI CHÚ</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{stt = 1;}
+                    @foreach (var item in (IList<Web.Portal.Layer.CompanyBussiness>)ViewData["CompanyBussiness_TableContent"])
+                    {
+
+                    <tr>
+                        <td>@stt</td>
+                        <td>
+                            @item.TableContentOrder
+                        </td>
+                        <td>
+                            @item.Name
+                        </td>
+                        <td></td>
+
+                    </tr>
+                        {stt++;}
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+</div>
+
+<script>
+    var dtnow = new Date();
+    
+    //$("#sr_yearmucluc").val(dtnow.getFullYear);
+    $("#btn-xemmucluc").click(function () {
+       // egovutil.getContent("#content-list-result-mucluc", "/companybussiness/MucLucUyQuyen?year=" + $("#sr_year").val() + "&AuthorityTypeId=" + $("#SelectAuthorityType").val());
+        $.ajax({
+            url: "/companybussiness/MucLucUyQuyenJson?year=" + $("#sr_yearmucluc").val() + "&AuthorityTypeId=" + $("#SelectAuthorityType").val(),
+            dataType: "json",
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                $("#h3-tieude-mucluc").text($("#SelectAuthorityType option:selected").text());
+                $("#tbl-tablecontent tbody").empty();
+                var tbody = "";
+                $(data).each(function (index, item) {
+                    tbody += "<tr>";
+                    tbody += "<td>" + (index +1)+"</td>";
+                    tbody += "<td>" + item.TableContentOrder + "</td>";
+                    tbody += "<td>" + item.Name+"</td>";
+                    tbody += "<td>" +""+"</td>";
+                    tbody += "</tr>";
+                })
+                
+                $("#tbl-tablecontent tbody").append(tbody);
+
+                //console.log(data);
+
+            }
+        });
+    })
+    $("#btn-taimucluc").click(function () {
+        window.open("/companybussiness/DownloadMucLuc?year=" + $("#sr_yearmucluc").val()
+            + "&AuthorityTypeId=" + $("#SelectAuthorityType").val()
+            + "&AuthorityType=" + $("#SelectAuthorityType option:selected").text()
+          );
+    })
+</script>

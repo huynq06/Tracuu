@@ -1,0 +1,483 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://microsoft.com/webservices/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://microsoft.com/webservices/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://microsoft.com/webservices/">
+      <s:element name="ApiPHanhHDon">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="b_nsd" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="b_mk" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="HDon" nillable="true" type="tns:HDon" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="HDon">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="DLHDon" type="tns:DLHDon" />
+          <s:element minOccurs="0" maxOccurs="1" name="TTCQT" type="tns:TTCQT" />
+          <s:element minOccurs="0" maxOccurs="1" name="DSCKS" type="tns:DSCKS" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="DLHDon">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Key" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="KeyOld" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="id" type="s:decimal" />
+          <s:element minOccurs="0" maxOccurs="1" name="TTChung" type="tns:TTChung" />
+          <s:element minOccurs="0" maxOccurs="1" name="NDHDon" type="tns:NDHDon" />
+          <s:element minOccurs="0" maxOccurs="1" name="TTKhac" type="tns:TTKhac" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TTChung">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="PBan" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="THDon" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="KHMSHDon" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="KHHDon" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SHDon" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TDLap" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TChat" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DVTTe" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="TGia" type="s:double" />
+          <s:element minOccurs="0" maxOccurs="1" name="HTHDBTThe" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TDLHDBTThe" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="KHMSHDBTThe" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="KHHDBTThe" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SHDBTThe" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TTKhac" type="tns:TTKhac" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TTKhac">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TTin" type="tns:TTin" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TTin">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="TTruong" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="KDLieu" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DLieu" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="NDHDon">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="NBan" type="tns:NBan" />
+          <s:element minOccurs="0" maxOccurs="1" name="NMua" type="tns:NMua" />
+          <s:element minOccurs="0" maxOccurs="1" name="DSHHDVu" type="tns:DSHHDVu" />
+          <s:element minOccurs="0" maxOccurs="1" name="TToan" type="tns:TToan" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="NBan">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Ten" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="MST" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DChi" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="NMua">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Ten" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="MST" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DChi" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TTKhac" type="tns:TTKhac" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="DSHHDVu">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="HHDVu" type="tns:HHDVu" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="HHDVu">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="TChat" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="STT" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Ma" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Ten" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DVTinh" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="SLuong" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="DGia" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="TLCKhau" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="STCKhau" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="ThTien" type="s:decimal" />
+          <s:element minOccurs="0" maxOccurs="1" name="TSuat" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="TThue" type="s:decimal" />
+          <s:element minOccurs="0" maxOccurs="1" name="TTKhac" type="tns:TTKhac" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TToan">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="TgTCThue" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="TgTThue" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="TgTHHDVu" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="TLPhi" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="TPhi" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="TTCKTMai" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="TgTTTBSo" type="s:decimal" />
+          <s:element minOccurs="0" maxOccurs="1" name="TgTTTBChu" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="THTTLTSuat" type="tns:LTSuat" />
+          <s:element minOccurs="0" maxOccurs="1" name="TTKhac" type="tns:TTKhac" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="LTSuat">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="TSuat" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="TThue" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="ThTien" type="s:decimal" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TTCQT">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="MCCQT" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="MSTNBan" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="KHMSHDon" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="KHHDon" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SHDon" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TDLap" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TCT" type="tns:Signature" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Signature">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Signature" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="DSCKS">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="NBan" type="tns:Signature" />
+          <s:element minOccurs="0" maxOccurs="1" name="NMua" type="tns:Signature" />
+          <s:element minOccurs="0" maxOccurs="1" name="TCT" type="tns:Signature" />
+          <s:element minOccurs="0" maxOccurs="1" name="CCKSKhac" type="tns:Signature" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="ApiPHanhHDonResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ApiPHanhHDonResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ApiPHanhHDonKSo">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="b_nsd" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="b_mk" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="HDon" nillable="true" type="tns:HDon" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ApiPHanhHDonKSoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ApiPHanhHDonKSoResult" type="tns:ResponseMes" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ResponseMes">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ReturnCode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ErrorMessage" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Key" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="KHMSHDon" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="KHHDon" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SHDon" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="MTCuu" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PdfBase64" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ExceptionLog" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="ApiHuyHDon">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="b_nsd" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="b_mk" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="b_KeyHDon" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ApiHuyHDonResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ApiHuyHDonResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ApiKyHDon">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="b_nsd" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="b_mk" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="b_KeyHDon" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ApiKyHDonResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ApiKyHDonResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ApiInHoadon">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="b_nsd" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="b_mk" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="b_KeyHDon" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ApiInHoadonResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ApiInHoadonResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ApiLayCTietHDon">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="b_nsd" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="b_mk" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="b_KeyHDon" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ApiLayCTietHDonResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ApiLayCTietHDonResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ApiLayTTinMSKHHDon">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="b_nsd" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="b_mk" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="b_loai" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="b_ngayph" type="s:double" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ApiLayTTinMSKHHDonResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ApiLayTTinMSKHHDonResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="ApiPHanhHDonSoapIn">
+    <wsdl:part name="parameters" element="tns:ApiPHanhHDon" />
+  </wsdl:message>
+  <wsdl:message name="ApiPHanhHDonSoapOut">
+    <wsdl:part name="parameters" element="tns:ApiPHanhHDonResponse" />
+  </wsdl:message>
+  <wsdl:message name="ApiPHanhHDonKSoSoapIn">
+    <wsdl:part name="parameters" element="tns:ApiPHanhHDonKSo" />
+  </wsdl:message>
+  <wsdl:message name="ApiPHanhHDonKSoSoapOut">
+    <wsdl:part name="parameters" element="tns:ApiPHanhHDonKSoResponse" />
+  </wsdl:message>
+  <wsdl:message name="ApiHuyHDonSoapIn">
+    <wsdl:part name="parameters" element="tns:ApiHuyHDon" />
+  </wsdl:message>
+  <wsdl:message name="ApiHuyHDonSoapOut">
+    <wsdl:part name="parameters" element="tns:ApiHuyHDonResponse" />
+  </wsdl:message>
+  <wsdl:message name="ApiKyHDonSoapIn">
+    <wsdl:part name="parameters" element="tns:ApiKyHDon" />
+  </wsdl:message>
+  <wsdl:message name="ApiKyHDonSoapOut">
+    <wsdl:part name="parameters" element="tns:ApiKyHDonResponse" />
+  </wsdl:message>
+  <wsdl:message name="ApiInHoadonSoapIn">
+    <wsdl:part name="parameters" element="tns:ApiInHoadon" />
+  </wsdl:message>
+  <wsdl:message name="ApiInHoadonSoapOut">
+    <wsdl:part name="parameters" element="tns:ApiInHoadonResponse" />
+  </wsdl:message>
+  <wsdl:message name="ApiLayCTietHDonSoapIn">
+    <wsdl:part name="parameters" element="tns:ApiLayCTietHDon" />
+  </wsdl:message>
+  <wsdl:message name="ApiLayCTietHDonSoapOut">
+    <wsdl:part name="parameters" element="tns:ApiLayCTietHDonResponse" />
+  </wsdl:message>
+  <wsdl:message name="ApiLayTTinMSKHHDonSoapIn">
+    <wsdl:part name="parameters" element="tns:ApiLayTTinMSKHHDon" />
+  </wsdl:message>
+  <wsdl:message name="ApiLayTTinMSKHHDonSoapOut">
+    <wsdl:part name="parameters" element="tns:ApiLayTTinMSKHHDonResponse" />
+  </wsdl:message>
+  <wsdl:portType name="ALSServiceSoap">
+    <wsdl:operation name="ApiPHanhHDon">
+      <wsdl:input message="tns:ApiPHanhHDonSoapIn" />
+      <wsdl:output message="tns:ApiPHanhHDonSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ApiPHanhHDonKSo">
+      <wsdl:input message="tns:ApiPHanhHDonKSoSoapIn" />
+      <wsdl:output message="tns:ApiPHanhHDonKSoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ApiHuyHDon">
+      <wsdl:input message="tns:ApiHuyHDonSoapIn" />
+      <wsdl:output message="tns:ApiHuyHDonSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ApiKyHDon">
+      <wsdl:input message="tns:ApiKyHDonSoapIn" />
+      <wsdl:output message="tns:ApiKyHDonSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ApiInHoadon">
+      <wsdl:input message="tns:ApiInHoadonSoapIn" />
+      <wsdl:output message="tns:ApiInHoadonSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ApiLayCTietHDon">
+      <wsdl:input message="tns:ApiLayCTietHDonSoapIn" />
+      <wsdl:output message="tns:ApiLayCTietHDonSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ApiLayTTinMSKHHDon">
+      <wsdl:input message="tns:ApiLayTTinMSKHHDonSoapIn" />
+      <wsdl:output message="tns:ApiLayTTinMSKHHDonSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ALSServiceSoap" type="tns:ALSServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="ApiPHanhHDon">
+      <soap:operation soapAction="http://microsoft.com/webservices/ApiPHanhHDon" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ApiPHanhHDonKSo">
+      <soap:operation soapAction="http://microsoft.com/webservices/ApiPHanhHDonKSo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ApiHuyHDon">
+      <soap:operation soapAction="http://microsoft.com/webservices/ApiHuyHDon" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ApiKyHDon">
+      <soap:operation soapAction="http://microsoft.com/webservices/ApiKyHDon" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ApiInHoadon">
+      <soap:operation soapAction="http://microsoft.com/webservices/ApiInHoadon" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ApiLayCTietHDon">
+      <soap:operation soapAction="http://microsoft.com/webservices/ApiLayCTietHDon" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ApiLayTTinMSKHHDon">
+      <soap:operation soapAction="http://microsoft.com/webservices/ApiLayTTinMSKHHDon" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="ALSServiceSoap12" type="tns:ALSServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="ApiPHanhHDon">
+      <soap12:operation soapAction="http://microsoft.com/webservices/ApiPHanhHDon" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ApiPHanhHDonKSo">
+      <soap12:operation soapAction="http://microsoft.com/webservices/ApiPHanhHDonKSo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ApiHuyHDon">
+      <soap12:operation soapAction="http://microsoft.com/webservices/ApiHuyHDon" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ApiKyHDon">
+      <soap12:operation soapAction="http://microsoft.com/webservices/ApiKyHDon" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ApiInHoadon">
+      <soap12:operation soapAction="http://microsoft.com/webservices/ApiInHoadon" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ApiLayCTietHDon">
+      <soap12:operation soapAction="http://microsoft.com/webservices/ApiLayCTietHDon" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ApiLayTTinMSKHHDon">
+      <soap12:operation soapAction="http://microsoft.com/webservices/ApiLayTTinMSKHHDon" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ALSService">
+    <wsdl:port name="ALSServiceSoap" binding="tns:ALSServiceSoap">
+      <soap:address location="http://api.cinvoice.vn/service/iv_v/ALSService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="ALSServiceSoap12" binding="tns:ALSServiceSoap12">
+      <soap12:address location="http://api.cinvoice.vn/service/iv_v/ALSService.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

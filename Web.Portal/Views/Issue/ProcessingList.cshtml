@@ -1,0 +1,101 @@
+﻿
+@{
+    Layout = null;
+    int PageCurrent = 0;
+    IEnumerable<Web.Portal.Common.ViewModel.IssueViewModel> listIssue = (IEnumerable<Web.Portal.Common.ViewModel.IssueViewModel>)ViewData["listIssue"];
+}
+
+<div class="row">
+    <div class='col-md-12 col-xs-4 margin-top-10'>
+        <div class='col-md-12 col-xs-12 margin-top-10' style="align-items: center;text-align:center">
+            <label class='control-label' style="align-items: center;font-size:24px !important;font-weight:bold !important "><b><span style="color:red;font-size:24px;font-weight:bold">DANH SÁCH LÔ HÀNG CHỜ CÂN</span></b></label>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <table class="table table-striped table-bordered table-advance table-hover dt-responsive" id="tbl-checker">
+            <thead>
+                <tr style="">
+
+                    <th colspan="4" style="width:10%;background-color:yellow !important;text-align:center">
+                        CÂN 1
+                    </th>
+
+                </tr>
+                <tr style="">
+
+                    <th style="width:10%;font-size:24px;font-weight:bold;background-color:yellow !important;text-align:center">
+                        AWB
+                    </th>
+                    <th style="width:10%;font-size:24px;font-weight:bold;background-color:yellow !important;text-align:center">
+                        NGÀY TẠO
+                    </th>
+                    <th style="width:10%;font-size:24px;font-weight:bold;background-color:yellow !important;text-align:center">
+                        BOOKING
+                    </th>
+                    <th style="width:10%;font-size:24px;font-weight:bold;background-color:yellow !important;text-align:center">
+                        LOADING
+                    </th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var row in (IList<Web.Portal.Model.Models.VCT>)ViewData["listVCTScaleOne"])
+                {
+
+                    <tr>
+
+                        <td style="font-size:24px;font-weight:bold;text-align:right" align="right">@Html.DisplayTextFor(model => row.LABS_AWB)</td>
+                        <td style="font-size:24px;font-weight:bold" align="center">@Html.Raw(row.LABS_CREATED_AT.Value.ToString("dd/MM/yy HH:mm"))</td>
+                        <td style="font-size:24px;font-weight:bold" align="center">@Html.DisplayTextFor(model => row.BOOKING_FLIGHT)</td>
+                        <td style="font-size:24px;font-weight:bold" align="center">@Html.Raw(row.LABS_RECIEVED + "/" + row.LABS_QUANTITY_BOOKED)</td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+    </div>
+    <div class="col-md-6">
+        <table class="table table-striped table-bordered table-advance table-hover dt-responsive" id="tbl-checker">
+            <thead>
+                <tr style="">
+
+                    <th colspan="4" style="width:10%;background-color:chartreuse !important;text-align:center">
+                        CÂN 2
+                    </th>
+
+                </tr>
+                <tr style="">
+
+                   <th style="width:10%;font-size:24px;font-weight:bold;background-color:chartreuse !important;text-align:center">
+                        AWB
+                    </th>
+                    <th style="width:10%;font-size:24px;font-weight:bold;background-color:chartreuse !important;text-align:center">
+                        SỐ KIỆN
+                    </th>
+                    <th style="width:10%;font-size:24px;font-weight:bold;background-color:chartreuse !important;text-align:center">
+                        BOOKING
+                    </th>
+                    <th style="width:10%;font-size:24px;font-weight:bold;background-color:chartreuse !important;text-align:center">
+                        LOADING
+                    </th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var row in (IList<Web.Portal.Model.Models.VCT>)ViewData["listVCTScaleSecond"])
+                {
+
+                    <tr style="font-size:20px">
+
+                        <td style="height:50px;font-size:20px;font-size:24px;font-weight:bold" align="center">@Html.DisplayTextFor(model => row.LABS_AWB)</td>
+                        <td style="font-size:24px;font-weight:bold" align="center">@Html.Raw(row.LABS_CREATED_AT.Value.ToString("dd/MM/yy HH:mm"))</td>
+                        <td style="font-size:24px;font-weight:bold" align="center">@Html.DisplayTextFor(model => row.BOOKING_FLIGHT)</td>
+                        <td style="font-size:24px;font-weight:bold" align="center">@Html.Raw(row.LABS_RECIEVED + "/" + row.LABS_QUANTITY_BOOKED)</td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+    </div>
+</div>
+

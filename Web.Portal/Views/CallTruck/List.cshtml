@@ -1,0 +1,67 @@
+﻿@{
+    Layout = null;
+    int rowIndex = 0;
+}
+<table id="tbl-hawb" class="table table-striped table-bordered table-advance table-hover">
+    <thead>
+        <tr>
+            <th style="width:3%;text-align:center">
+                STT
+            </th>
+            <th style="width:10%;text-align:center">
+                Biển số xe
+            </th>
+            <th style="width:10%;text-align:center">
+                AWB
+            </th>
+
+            <th style="width:10%;text-align:center">
+                TG Đăng ký
+            </th>
+            <th style="width:10%;text-align:center">
+                NHÂN VIÊN ĐK
+            </th>
+            <th style="width:10%;text-align:center">
+                FLIGHT
+            </th>
+            <th style="width:10%;text-align:center">
+                NOTE
+            </th>
+
+
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var row in (IList<Web.Portal.Model.tblDangKyGoiXe>)ViewData["listTruck"])
+        {
+            rowIndex += 1;
+
+            <tr>
+                <td  align="center">@rowIndex</td>
+
+                <td  align="center">@Html.Raw(row.BienSoXe)</td>
+
+                <td align="center">
+                    @Html.DisplayTextFor(model => row.LoHang)
+                </td>
+                <td  align="center">
+                    @Html.Raw(row.ThoiGianDangKy.HasValue ? row.ThoiGianDangKy.Value.ToString("dd-MM-yy HH:mm") : "")
+                </td>
+                <td  align="center">@Html.Raw(row.UserName)</td>
+                <td  align="center">@Html.Raw(row.Remark)</td>
+                <td  align="center">@Html.Raw(row.GhiChu)</td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+
+
+    egovutil.CreateTableSort("#tbl-hawb", [[0, "asc"]], [
+
+                { "orderable": false, "targets": 0 }
+    ], true);
+</script>

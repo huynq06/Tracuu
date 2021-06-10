@@ -1,0 +1,81 @@
+﻿
+@{
+    
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet">
+            <div class="portlet-title">
+                <div class="caption caption-md">
+                    <span class="caption-subject font-blue-madison bold uppercase">BÁO CÁO CẤP SỐ</span>
+                </div>
+                <div class="actions">
+                    <a href="javascript:;" data-id="02" class="btn btn-circle btn-danger btn-export-log">
+                        <i class="fa fa-download"></i> Xuất danh sách
+                    </a>
+
+                    <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="row">
+                    <div class="form-group form-md-line-input">
+                        <div class="col-md-2 col-xs-12">
+
+                            <div class="input-group">
+
+                                <input class="form-control form-control-inline  date-picker" id="date" value="@Html.Raw(DateTime.Now.ToString("dd/MM/yyyy"))" placeholder="Ngày cấp sô" maxlength="20" data-date-format="dd/mm/yyyy" />
+                                <div class="form-control-focus"> </div>
+                                <span class="help-block">Tìm theo ngày</span>
+                                <span class="input-group-btn">
+                                    <button id="btn-search-log" class="btn btn-success" type="button"><i class="fa fa-search"></i></button>
+                                </span>
+
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="content-list-result">
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+
+
+
+        </div>
+    </div>
+
+</div>
+<script>
+    var capsoAction = {
+        search: function () {
+            egovutil.getContent("#content-list-result", "/capso/listlog?date="+$("#date").val()
+                                                                    );
+        }
+    }
+    $('.date-picker').datepicker({
+        rtl: App.isRTL(),
+        orientation: "left",
+        autoclose: true
+    });
+    $(".btn-export-log").click(function () {
+        window.location.href = "/capso/export?date=" + $("#date").val()
+    });
+    // sitaAction.search();
+    $("#btn-search-log").click(function () { capsoAction.search(); })
+
+</script>

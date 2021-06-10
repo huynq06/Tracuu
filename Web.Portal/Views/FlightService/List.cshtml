@@ -1,0 +1,113 @@
+﻿@{
+    Layout = null;
+}
+
+@model Web.Portal.Model.Models.FlightServiceConfig
+    <div  style="margin-top:50px">
+        <table class="table table-striped table-bordered table-advance table-hover dt-responsive" id="tbl-invoice">
+            <thead>
+
+                <tr>
+
+                    <th style="width:10%;height:40px;text-align:center;font-size:40px;font-weight:bold;background-color:#A8CBDA;padding-bottom:0px" colspan="9">
+                        FLIGHT CONTROL
+                    </th>
+
+
+
+                </tr>
+                <tr>
+                    <th style="width:10%;height:40px;text-align:center;font-size:24px;font-weight:bold;background-color:#A8CBDA;padding-bottom:0px" colspan="9">
+                        ALSC CARGO TERMINAL
+                    </th>
+                </tr>
+                <tr>
+                    <th style="width:10%;height:80px;text-align:center;font-size:24px;font-weight:bold;background-color:#F0D8B7;padding-bottom:20px" colspan="2">
+                        TTL B/U POSITION
+                    </th>
+                    <th style="width:10%;height:80px;text-align:center;font-size:24px;font-weight:bold;background-color:#FFFFFF;padding-bottom:20px" colspan="2">
+                        @Model.Position
+                    </th>
+                    <th style="width:10%;height:80px;text-align:center;font-size:24px;font-weight:bold;background-color:#F0D8B7;padding-bottom:20px" colspan="4">
+                        FINISH TIME/1ULD
+                    </th>
+                    <th style="width:10%;height:80px;text-align:center;font-size:24px;font-weight:bold;background-color:#FFFFFF;padding-bottom:20px" colspan="4">
+                        @Model.FinishTimePerUld
+                    </th>
+                </tr>
+                <tr>
+                    <th style="width:10%;height:80px;text-align:center;font-size:24px;font-weight:bold;background-color:#6CAAEC;padding-bottom:20px" rowspan="2">
+                        FLIGHT
+                    </th>
+                    <th style="width:10%;height:80px;text-align:center;font-size:24px;font-weight:bold;background-color:#6CAAEC;padding-bottom:20px" rowspan="2">
+                        DATE
+                    </th>
+                    <th style="width:10%;height:80px;text-align:center;font-size:24px;font-weight:bold;background-color:#6CAAEC;padding-bottom:20px" colspan="2">
+                        FINISH TIME
+                    </th>
+                    <th style="width:10%;height:80px;text-align:center;font-size:24px;font-weight:bold;background-color:#6CAAEC;padding-bottom:20px" rowspan="2">
+                        TTL ULD
+                    </th>
+                    <th style="width:10%;height:80px;text-align:center;font-size:24px;font-weight:bold;background-color:#6CAAEC;padding-bottom:20px" rowspan="2">
+                        REMAIN ULD
+                    </th>
+                    <th style="width:10%;height:80px;text-align:center;font-size:24px;font-weight:bold;background-color:#6CAAEC;padding-bottom:20px" colspan="2">
+                        TIME LINE
+                    </th>
+                    <th style="width:10%;height:80px;text-align:center;font-size:24px;font-weight:bold;background-color:#6CAAEC;padding-bottom:20px" rowspan="2">
+                        REMARK
+                    </th>
+                </tr>
+                <tr>
+                    <th style="width:10%;height:80px;text-align:center;font-size:24px;font-weight:bold;background-color:#6CAAEC;padding-bottom:20px">
+                        SLA
+                    </th>
+                    <th style="width:10%;height:80px;text-align:center;font-size:24px;font-weight:bold;background-color:#6CAAEC;padding-bottom:20px">
+                        REMAIN TIME
+                    </th>
+                    <th style="width:10%;height:80px;text-align:center;font-size:24px;font-weight:bold;background-color:#6CAAEC;padding-bottom:20px">
+                        NEED POSITION
+                    </th>
+                    <th style="width:10%;height:80px;text-align:center;font-size:24px;font-weight:bold;background-color:#6CAAEC;padding-bottom:20px">
+                        MAN POWER
+                    </th>
+
+                </tr>
+
+
+            </thead>
+            <tbody>
+                @foreach (var row in (IList<Web.Portal.Common.ViewModel.FlightFlupViewModel>)ViewData["FlightList"])
+            {
+
+                    <tr>
+                        <td style="width:10%;height:80px;text-align:center;font-size:24px;font-weight:bold;background-color:#F0D8B7;padding-bottom:20px">@Html.Raw(row.FLightNumber)</td>
+
+                        <td style="width:10%;height:80px;text-align:center;font-size:24px;font-weight:bold;background-color:#F0D8B7;padding-bottom:20px">@Html.Raw(row.ETD.ToString("HH:mm dd/MMM"))</td>
+
+                        <td style="width:10%;height:80px;text-align:center;font-size:24px;font-weight:bold;background-color:#F0D8B7;padding-bottom:20px">@Html.Raw(row.SLA.Value.ToString("HH:mm"))</td>
+                        <td style="width:10%;height:80px;text-align:center;font-size:24px;font-weight:bold;background-color:#F0D8B7;padding-bottom:20px">@Html.Raw(row.RemainTime)</td>
+                        <td style="width:10%;height:80px;text-align:center;font-size:24px;font-weight:bold;background-color:#F0D8B7;padding-bottom:20px">@Html.Raw(row.TotalULD)</td>
+                        <td style="width:10%;height:80px;text-align:center;font-size:24px;font-weight:bold;background-color:#F0D8B7;padding-bottom:20px">@Html.Raw(row.RemainULD)</td>
+                        <td style="width:10%;height:80px;text-align:center;font-size:24px;font-weight:bold;background-color:#F0D8B7;padding-bottom:20px">@Html.Raw(row.NeedPosition)</td>
+                        <td style="width:10%;height:80px;text-align:center;font-size:24px;font-weight:bold;background-color:#F0D8B7;padding-bottom:20px">@Html.Raw(row.ManPower)</td>
+                        <td style="width:10%;height:80px;text-align:center;font-size:24px;font-weight:bold;background-color:#F0D8B7;padding-bottom:20px">@Html.Raw(row.Remark)</td>
+                    </tr>
+                }
+                <tr>
+                    <td style="width:10%;height:80px;text-align:center;font-size:24px;font-weight:bold;background-color:#F0D8B7;padding-bottom:20px">Tổng</td>
+
+                    <td style="width:10%;height:80px;text-align:center;font-size:24px;font-weight:bold;background-color:#F0D8B7;padding-bottom:20px"></td>
+
+                    <td style="width:10%;height:80px;text-align:center;font-size:24px;font-weight:bold;background-color:#F0D8B7;padding-bottom:20px"></td>
+                    <td style="width:10%;height:80px;text-align:center;font-size:24px;font-weight:bold;background-color:#F0D8B7;padding-bottom:20px"></td>
+                    <td style="width:10%;height:80px;text-align:center;font-size:24px;font-weight:bold;background-color:#F0D8B7;padding-bottom:20px">@ViewBag.TotalSumULD </td>
+                    <td style="width:10%;height:80px;text-align:center;font-size:24px;font-weight:bold;background-color:#F0D8B7;padding-bottom:20px">@ViewBag.TotalSumRemainULD</td>
+                    <td style="width:10%;height:80px;text-align:center;font-size:24px;font-weight:bold;background-color:#F0D8B7;padding-bottom:20px">@ViewBag.TotalSumNeedPostion</td>
+                    <td style="width:10%;height:80px;text-align:center;font-size:24px;font-weight:bold;background-color:#F0D8B7;padding-bottom:20px">@ViewBag.TotalSumMan</td>
+                    <td style="width:10%;height:80px;text-align:center;font-size:24px;font-weight:bold;background-color:#F0D8B7;padding-bottom:20px"></td>
+                </tr>
+            </tbody>
+
+        </table>
+    </div>

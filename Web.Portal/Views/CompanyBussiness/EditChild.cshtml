@@ -1,0 +1,304 @@
+﻿@{
+    Layout = null;
+    Web.Portal.Layer.CompanyChild companyChild = (Web.Portal.Layer.CompanyChild)ViewData["companyChild"];
+    string hasCheck = "";
+    string fromDate = "";
+    string toDate = "";
+    string description = "";
+
+   
+}
+
+@model Web.Portal.Layer.CompanyBussiness
+<form class="form-horizontal" id="frmAction">
+
+    <input type="hidden" name="keyValue" value="@Html.DisplayFor(model=>model.CompanyId)" />
+    <input type="hidden" name="parentId" value="@ViewBag.ParentId"/>
+    <input type="hidden" name="cmdChildId" value="@Html.Raw(companyChild.CompanyChildId)"/>
+    <input type="hidden" name="CMD" value="@ViewBag.CMD" />
+    <div class="form-body">
+       
+        <div class="form-group form-md-line-input">
+            <div class="tabbable-line">
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a href="#tab_1_1" data-toggle="tab">BÊN ĐƯỢC ỦY QUYỀN</a>
+                    </li>
+                    <li>
+                        <a href="#tab_1_2" data-toggle="tab">ẢNH ĐÍNH KÈM</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane fade active in" id="tab_1_1">
+                        <div class="form-group form-md-line-input">
+                            <label class="col-md-3 control-label" for="frmAction">
+                                <b>Chọn bên được ủy quyền:</b>
+                            </label>
+                            <div class="col-md-9">
+                                <select class="form-control  bs-select" name="SelectChild" id="SelectChild" data-live-search="true" data-size="8">
+                                    <option value="0">Có thể chọn bên ủy quyền</option>
+                                    @foreach (var item in (IList<Web.Portal.Layer.CompanyBussiness>)ViewData["CompanyBussinessList"])
+                                    {
+                                        <option value="@Html.DisplayTextFor(model => item.CompanyId)">@Html.DisplayTextFor(model => item.Name)</option>
+                                    }
+                                </select>
+
+                            </div>
+
+
+                        </div>
+                        <div class="form-group form-md-line-input">
+                            <label class="col-md-3 control-label" for="frmAction">
+                                <b>BÊN ĐƯỢC ỦY QUYỀN:</b>
+                            </label>
+                            <div class="col-md-9">
+                                <input class="form-control" placeholder="Bên được ủy quyền" style="text-transform:uppercase" value="@Html.Raw(Model.Name)" name="ChildName" id="ChildName" />
+                                <div class="form-control-focus"> </div>
+                                <span class="help-block">Nhập bên được ủy quyền</span>
+                            </div>
+
+
+                        </div>
+                        <div class="form-group form-md-line-input">
+                            <label class="col-md-3 control-label" for="frmAction">
+                                <b>ĐỊA CHỈ:</b>
+
+                            </label>
+                            <div class="col-md-9">
+                                <input class="form-control" placeholder="Địa chỉ bên được ủy quyền" style="text-transform:uppercase" value="@Html.Raw(Model.Address)" name="ChildAddress" id="ChildAddress" />
+                                <div class="form-control-focus"> </div>
+                                <span class="help-block">Nhập địa chỉ bên được ủy quyền</span>
+                            </div>
+                        </div>
+                        <div class="form-group form-md-line-input">
+                            <label class="col-md-3 control-label" for="frmAction">
+                                <b>SỐ CMND:</b>
+
+                            </label>
+                            <div class="col-md-9">
+                                <input class="form-control" placeholder="Số CMND bên được ủy quyền" style="text-transform:uppercase" value="@Html.Raw(Model.IdNo)" name="IdNo" id="IdNo" />
+                                <div class="form-control-focus"> </div>
+                                <span class="help-block">Nhập số CMND bên được ủy quyền</span>
+                            </div>
+                        </div>
+                        <div class="form-group form-md-line-input">
+                            <label class="col-md-3 control-label" for="frmAction">
+                                <b>LOẠI CÔNG VĂN:</b>
+
+                            </label>
+                            <div class="col-md-3">
+                                <input class="form-control form-control-inline " style="text-transform:uppercase" placeholder="Loại ủy quyền" value="@Html.Raw(companyChild.TypeDoc)" name="TypeDoc" id="TypeDoc" />
+                                <div class="form-control-focus"> </div>
+                                <span class="help-block">Nhập loại công văn</span>
+                            </div>
+                            <label class="col-md-3 control-label" for="frmAction">
+                                <b>NỘI DUNG ỦY QUYỀN:</b>
+
+                            </label>
+                            <div class="col-md-3">
+                                <input class="form-control" placeholder="Nội dung ủy quyền" style="text-transform:uppercase" value="@Html.Raw(companyChild.Description)" name="Description" />
+                                <div class="form-control-focus"> </div>
+                                <span class="help-block">Nội dung ủy quyền</span>
+                            </div>
+
+                        </div>
+                        <div class="form-group form-md-line-input">
+                            <div class="col-md-12">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <td>MÃ</td>
+                                            <td>LOẠI CÔNG VĂN</td>
+                                            <td>NỘI DUNG CHI TIẾT</td>
+                                            <td>TỪ NGÀY</td>
+                                            <td>ĐẾN NGÀY</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in (IList<Web.Portal.Layer.CompanyChild_Authority>)ViewData["CompanyChild_AuthorityList"])
+                                        {
+                                            if (item.HasCheck == true)
+                                            {
+
+
+                                                hasCheck = "checked";
+                                                fromDate = item.FromDate.ToString("dd/MM/yyyy");
+                                                toDate = item.ToDate.ToString("dd/MM/yyyy");
+                                                description = item.Description;
+                                            }
+                                            else
+                                            {
+                                                hasCheck = "";
+                                                fromDate = "";
+                                                toDate = "";
+                                                description = "";
+
+                                            }
+                                        <tr>
+                                            <td class="ma_MucLuc" id="ma_@Html.DisplayTextFor(model => item.AuthorityTypeId)">
+                                                @Html.DisplayTextFor(model => item.TableContentOrder)
+                                            </td>
+                                            <td>
+                                                <input class="form-check-input check_loaiUyQuyen" type="checkbox" value="@Html.DisplayTextFor(model => item.AuthorityTypeId)" name="check_LoaiCongVan" id="check_@Html.DisplayTextFor(model => item.AuthorityTypeId)" @hasCheck>
+                                                <label class="form-check-label" for="check_@Html.DisplayTextFor(model => item.AuthorityTypeId)">
+                                                    @Html.DisplayTextFor(model => item.AuthorityType)
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <input class="form-control form-control-inline " style="text-transform:uppercase" placeholder="Nội dung ủy quyền" value="@description" name="noiDung_@Html.DisplayTextFor(model => item.AuthorityTypeId)" id="noiDung_@Html.DisplayTextFor(model => item.AuthorityTypeId)" />
+                                            </td>
+                                            <td>
+                                                <input class="form-control form-control-inline date-picker" value="@fromDate" name="tuNgay_@Html.DisplayTextFor(model => item.AuthorityTypeId)" id="tuNgay_@Html.DisplayTextFor(model => item.AuthorityTypeId)" placeholder="Từ ngày" data-date-format="dd/mm/yyyy">
+                                            </td>
+                                            <td>
+                                                <input class="form-control form-control-inline date-picker" value="@toDate" name="denNgay_@Html.DisplayTextFor(model => item.AuthorityTypeId)" id="denNgay_@Html.DisplayTextFor(model => item.AuthorityTypeId)" placeholder="Đến ngày" data-date-format="dd/mm/yyyy">
+                                            </td>
+                                        </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="tab-pane fade " id="tab_1_2">
+                        <div class="form-group form-md-line-input">
+                            <div class="col-md-12">
+
+                                <div class="kv-avatar center-block">
+                                    <div id="fileAlbum">
+
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="text-center">
+        <button type="submit" class="btn btn-success" id="btnSave"><i class="fa fa-floppy-o"></i> Lưu thông tin</button>
+        <button type="reset" class="btn btn-success"><i class="fa fa-refresh"></i> Làm mới</button>
+    </div>
+
+
+
+    <!-- /.box-footer -->
+</form>
+<script>
+    var timMucLucAction = {
+        tim: function () {
+            if ($('input[name="check_LoaiCongVan"]:checked').length > 0) {
+                
+                if ($("input[name=CMD]").val() == "ADD") {
+                    // lấy mã Company child id
+                    var parentId = $("#frmAction").find("input[name=parentId]").val();
+                    var childName = $("#ChildName").val();
+                    $(".ma_MucLuc").empty();
+                    $.ajax({
+                        url: "/companybussiness/GetMaMucLucByParentId",
+                        data: JSON.stringify({
+                            "parentId": parentId, "childName": childName}),
+                        dataType: "json",
+                        type: "POST",
+                        contentType: "application/json; charset=utf-8",
+                        success: function (d) {
+
+
+                            $(d.data).each(function (index, item) {
+                                $("#ma_" + item.AuthorityTypeId).text(item.TableContentOrder);
+                            })
+                        },
+
+                        error: function (request, status, error) {
+                            console.log(request.responseText, status, error);
+                        }
+                    }).done(function () {
+
+                    });
+                }
+                if ($("input[name=CMD]").val() == "UPDATE") {
+                    // lấy mã Company child id
+                    var companyChildId = $("#frmAction").find("input[name=cmdChildId]").val();
+                    //$(".ma_MucLuc").empty();
+                    $.ajax({
+                        url: "/companybussiness/GetMaMucLucByCompanyChildId",
+                        data: JSON.stringify({ "companyChildId": companyChildId }),
+                        dataType: "json",
+                        type: "POST",
+                        contentType: "application/json; charset=utf-8",
+                        success: function (d) {
+
+
+                            $(d.data).each(function (index, item) {
+                                $("#ma_" + item.AuthorityTypeId).text(item.TableContentOrder);
+                            })
+                        },
+
+                        error: function (request, status, error) {
+                            console.log(request.responseText, status, error);
+                        }
+                    }).done(function () {
+
+                    });
+                }
+            }
+
+        }
+    }
+
+    $('.date-picker').datepicker({
+        format: "dd/mm/yyyy",
+        isRTL: App.isRTL(),
+        orientation: "left",
+        autoclose: true
+    });
+    egovutil.createUploadFile("fileAlbum", "/companybussiness/attachs/@Html.DisplayFor(model=>companyChild.CompanyChildId)", "delFileAlbum");
+
+    var message = {
+        ChildName: {
+            required: "Tên bên được ủy quyền không được trống"
+        }
+
+    };
+    var rule = {
+        ChildName: { required: true }
+
+    };
+    $('.bs-select').selectpicker({
+        iconBase: 'fa',
+        tickIcon: 'fa-check'
+    });
+    egovutil.submitCallBack("#frmAction", rule, message, "/companybussiness/actionchild", timMucLucAction.tim);
+    
+    function delFileAlbum(key) {
+        egovutil.ajaxCallUrl("/companybussiness/deletefile/" + key, "");
+    }
+
+    $("#SelectChild").change(function () {
+        $.ajax({
+            url: "/companybussiness/getbysearch?id=" + $("#SelectChild").val(),
+
+            dataType: "json",
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+
+                $("#ChildName").val(data.Name);
+                $("#ChildAddress").val(data.Address);
+                $("#IdNo").val(data.IdNo);
+            }
+        });
+    });
+</script>
+

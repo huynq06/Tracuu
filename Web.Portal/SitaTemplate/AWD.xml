@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<AWD>
+<FSU12>
+FSU/12
+{MAWB}{ORI}{AWB_DEST}/{PW_BILL}
+AWD/{FLIGHTDATE}/{FLT_DEST}/{PW_GOODS}/{CONSIGNEE}
+</FSU12>
+</AWD> 

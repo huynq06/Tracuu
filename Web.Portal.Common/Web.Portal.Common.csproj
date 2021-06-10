@@ -1,0 +1,145 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{5C197C4A-B16B-401C-848B-AC5106844A37}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Web.Portal.Common</RootNamespace>
+    <AssemblyName>Web.Portal.Common</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ApiViewModel\AwbExpDetailViewModel.cs" />
+    <Compile Include="ApiViewModel\CargoExpStatus.cs" />
+    <Compile Include="ApiViewModel\CargoStatus.cs" />
+    <Compile Include="ApiViewModel\CustomDetailViewModel.cs" />
+    <Compile Include="ApiViewModel\CustomFormViewModel.cs" />
+    <Compile Include="ApiViewModel\DKXDViewModel.cs" />
+    <Compile Include="ApiViewModel\FFMViewModel.cs" />
+    <Compile Include="ApiViewModel\FHLViewModel.cs" />
+    <Compile Include="ApiViewModel\FlightImp.cs" />
+    <Compile Include="ApiViewModel\FSUViewModel.cs" />
+    <Compile Include="ApiViewModel\FWBViewModel.cs" />
+    <Compile Include="ApiViewModel\GenaralExp.cs" />
+    <Compile Include="ApiViewModel\GeneralImp.cs" />
+    <Compile Include="ApiViewModel\GetInViewModel.cs" />
+    <Compile Include="ApiViewModel\GetOutViewModel.cs" />
+    <Compile Include="ApiViewModel\HawbInFlightViewModel.cs" />
+    <Compile Include="ApiViewModel\KVGSViewModel.cs" />
+    <Compile Include="ApiViewModel\LocationDetailViewModel.cs" />
+    <Compile Include="ApiViewModel\MessageViewModel.cs" />
+    <Compile Include="ApiViewModel\NOAViewModel.cs" />
+    <Compile Include="ApiViewModel\ResultExp.cs" />
+    <Compile Include="ApiViewModel\ResultFlightExp.cs" />
+    <Compile Include="ApiViewModel\ResultFlightImp.cs" />
+    <Compile Include="ApiViewModel\ResultImp.cs" />
+    <Compile Include="ApiViewModel\TruckApiViewModel.cs" />
+    <Compile Include="ApiViewModel\VCTViewModel.cs" />
+    <Compile Include="ChartDictionary.cs" />
+    <Compile Include="CommonConstants.cs" />
+    <Compile Include="ConvertNumber.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModel\AWBByULDViewModel.cs" />
+    <Compile Include="ViewModel\AwbDetailViewModel.cs" />
+    <Compile Include="ViewModel\AWBPlanOnFlightViewModel.cs" />
+    <Compile Include="ViewModel\ChartCategory.cs" />
+    <Compile Include="ViewModel\ChartDataSet.cs" />
+    <Compile Include="ViewModel\ChartItem.cs" />
+    <Compile Include="ViewModel\ConditionViewModel.cs" />
+    <Compile Include="ViewModel\ContViewModel.cs" />
+    <Compile Include="ViewModel\DataViewModel.cs" />
+    <Compile Include="ViewModel\DeliveryViewModel.cs" />
+    <Compile Include="ViewModel\DirectorReportViewModel.cs" />
+    <Compile Include="ViewModel\eInvoiceViewModel\Account.cs" />
+    <Compile Include="ViewModel\eInvoiceViewModel\adj.cs" />
+    <Compile Include="ViewModel\eInvoiceViewModel\inv.cs" />
+    <Compile Include="ViewModel\eInvoiceViewModel\InvoiceApiViewModel.cs" />
+    <Compile Include="ViewModel\eInvoiceViewModel\InvoiceCancel.cs" />
+    <Compile Include="ViewModel\eInvoiceViewModel\InvoiceDetailViewModel.cs" />
+    <Compile Include="ViewModel\eInvoiceViewModel\InvoiceFields.cs" />
+    <Compile Include="ViewModel\eInvoiceViewModel\InvoiceViewModel.cs" />
+    <Compile Include="ViewModel\eInvoiceViewModel\item.cs" />
+    <Compile Include="ViewModel\eInvoiceViewModel\OrderDetailViewModel.cs" />
+    <Compile Include="ViewModel\EmailViewModel.cs" />
+    <Compile Include="ViewModel\fieldJson.cs" />
+    <Compile Include="ViewModel\fieldValue.cs" />
+    <Compile Include="ViewModel\FlightDetailViewModel.cs" />
+    <Compile Include="ViewModel\FlightFlupViewModel.cs" />
+    <Compile Include="ViewModel\FlightNumberViewModel.cs" />
+    <Compile Include="ViewModel\FlightViewModel.cs" />
+    <Compile Include="ViewModel\FLUPViewModel.cs" />
+    <Compile Include="ViewModel\GetInAlsxViewModel.cs" />
+    <Compile Include="ViewModel\HandlingReportViewModel.cs" />
+    <Compile Include="ViewModel\HawbInAwbViewModel.cs" />
+    <Compile Include="ViewModel\IadrInvoiceViewModel.cs" />
+    <Compile Include="ViewModel\InvoiceDetailAwbViewModel.cs" />
+    <Compile Include="ViewModel\IssueApiViewModel.cs" />
+    <Compile Include="ViewModel\IssueDataViewModel.cs" />
+    <Compile Include="ViewModel\IssueDetailViewModel.cs" />
+    <Compile Include="ViewModel\IssueViewModel.cs" />
+    <Compile Include="ViewModel\LocationViewModel.cs" />
+    <Compile Include="ViewModel\Prad_Pre_AdviceViewModel.cs" />
+    <Compile Include="ViewModel\PrintTicket.cs" />
+    <Compile Include="ViewModel\PXKViewModel.cs" />
+    <Compile Include="ViewModel\RemainStatisticViewModel.cs" />
+    <Compile Include="ViewModel\ResultViewModel.cs" />
+    <Compile Include="ViewModel\TicketStatusViewModel.cs" />
+    <Compile Include="ViewModel\TicketViewModel.cs" />
+    <Compile Include="ViewModel\UldByFlightViewModel.cs" />
+    <Compile Include="ViewModel\ULDReceiveViewModel.cs" />
+    <Compile Include="ViewModel\ULDViewModel.cs" />
+    <Compile Include="ViewModel\VCTConfirmViewModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ViewModel\eInvoiceViewModel\InvoiceJson.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Web.Portal.Layer\Web.Portal.Layer.csproj">
+      <Project>{c2d105cd-79f6-4989-a9f0-b2a3879f7d2a}</Project>
+      <Name>Web.Portal.Layer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Web.Portal.Model\Web.Portal.Model.csproj">
+      <Project>{fec95e4d-70ec-4e85-8da7-ec39059629d6}</Project>
+      <Name>Web.Portal.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

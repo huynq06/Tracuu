@@ -1,0 +1,55 @@
+﻿
+@{
+    Layout = null;
+}
+@model Web.Portal.Model.Models.ALSC_VCT_TO_DLV_BY_XML
+<div id="content-pxk">
+    <form class="form-horizontal" id="frmAction">
+        <input type="hidden" name="keyValue" value="@Html.DisplayFor(model=>model.ID)" />
+        <div class="form-body">
+            <div class="form-group form-md-line-input">
+                <label class="col-md-3 control-label" for="frmAction">
+                    <b>VCT:</b>
+                    <span class="required">*</span>
+                </label>
+                <div class="col-md-9">
+                    <input class="form-control form-control-inline input txtName" id="vctNo" placeholder="Barcode VCT" maxlength="256" data-id="@Html.DisplayTextFor(model=>model.VCT_NO)" value="@Html.DisplayTextFor(model=>model.VCT_NO)" name="vct" />
+                    <div class="form-control-focus"> </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-success" id="btnSave"><i class="fa fa-floppy-o"></i> Lưu thông tin</button>
+            <button type="reset" class="btn btn-success"><i class="fa fa-refresh"></i> Làm mới</button>
+        </div>
+        <!-- /.box-footer -->
+    </form>
+</div>
+<script>
+    $("#vctNo").focus();
+        var dlgAction = {
+            search: function () {
+                egovutil.getContent("#content-pxk", "/vct/edit/");
+                $("#vctNo").focus();
+            },
+            refresh: function () {
+                setTimeout(function () {
+                    $("#vctNo").val('');
+                    $("#vctNo").focus()
+                }
+               , 500);
+            
+            }
+        }
+
+        $(document).keypress(function (e) {
+            if (e.charCode == 32) {
+                dlgAction.search();
+
+            }
+        });
+        var message = {};
+        var rule = {};
+        egovutil.submitCallBack("#frmAction", rule, message, "/dlvVct/action", dlgAction.refresh);
+</script>

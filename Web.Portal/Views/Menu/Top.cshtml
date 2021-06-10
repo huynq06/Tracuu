@@ -1,0 +1,48 @@
+﻿@{
+    Layout = null;
+}
+
+<div class="top-menu">
+    <ul class="nav navbar-nav pull-right">
+        <!-- BEGIN NOTIFICATION DROPDOWN -->
+        <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
+        <!-- END NOTIFICATION DROPDOWN -->
+
+        <li class="dropdown dropdown-user">
+            <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                <img alt="" class="img-circle" src="@string.Format(Web.Portal.Utils.Constants.AVATAR_URL, (string.IsNullOrEmpty(@ViewBag.MemberCurrent.Avatar) ? "user.png" : @ViewBag.MemberCurrent.Avatar))" />
+                <span class="username username-hide-on-mobile">
+                    @ViewBag.MemberCurrent.FullName
+                </span>
+                <i class="fa fa-angle-down"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-default">
+                <li>
+                    <a href="#">
+                        <i class="icon-user"></i> Tài khoản
+                    </a>
+                </li>
+                <li>
+                    <a class="change-password" href="#">
+                        <i class="icon-lock"></i> Thay đổi mật khẩu
+                    </a>
+                </li>
+
+                <li class="divider">
+                </li>
+
+                <li>
+                    <a href="/logout">
+                        <i class="icon-key"></i> Log Out
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+    </ul>
+</div>
+<script>
+    $(".change-password").click(function () {
+        egovutil.dialog("Thay đổi mật khẩu", "", "/password/change", "");
+    });
+</script>

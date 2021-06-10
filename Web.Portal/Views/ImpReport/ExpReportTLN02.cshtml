@@ -1,0 +1,111 @@
+﻿
+@{
+    Layout = null;
+    int PageCurrent = 0;
+    string[] columns = (string[])ViewData["column"];
+    System.Data.DataTable tableReport = ((System.Data.DataTable)ViewData["DataList"]);
+    double sumTotal = 0;
+}
+<div class="page-logo" style="margin-top: -15px;margin-bottom:50px;">
+    <a href="#">
+        <img src="http://tracuu.alsc.com.vn/logo/logoNew.png"  style="width:40%;height:100px" alt="logo">
+    </a>
+</div>
+<div style="margin-top:170px;">
+    <p style="text-align:center;font-family:'Times New Roman';color:white;font-size:15pt;font-weight:bold;text-transform:uppercase">
+        @ViewBag.Des
+    </p>
+    <p style="text-align:center;font-family:'Times New Roman';font-size:13pt;font-weight:bold;text-transform:uppercase">
+
+    </p>
+    <p style="text-align:center;font-family:'Times New Roman';font-size:13pt;font-weight:bold;text-transform:uppercase">
+
+    </p>
+</div>
+<div style="margin-top:170px;">
+    <p style="text-align:center;font-family:'Times New Roman';;color:white;font-size:15pt;font-weight:bold;text-transform:uppercase">
+        @ViewBag.Des
+    </p>
+    <p style="text-align:center;font-family:'Times New Roman';font-size:13pt;font-weight:bold;text-transform:uppercase">
+
+    </p>
+    <p style="text-align:center;font-family:'Times New Roman';font-size:13pt;font-weight:bold;text-transform:uppercase">
+       
+    </p>
+</div>
+<div style="margin-top:170px;">
+    <p style="text-align:center;font-family:'Times New Roman';font-size:15pt;font-weight:bold;text-transform:uppercase">
+        @ViewBag.Des
+    </p>
+    <p style="text-align:center;font-family:'Times New Roman';font-size:13pt;font-weight:bold;text-transform:uppercase">
+        @ViewBag.Date
+    </p>
+</div>
+
+
+
+
+<table border="1" id="tbl-report">
+    <thead>
+        <tr>
+            <th class="all" style="width:3%"></th>
+            <th style="width:15%">CHUYẾN BAY</th>
+            <th style="width:15%">SL MAWB</th>
+            <th style="width:15%">SL HAWB</th>
+            <th style="width:15%">SỐ KIỆN HÀNG HÓA</th>
+            <th style="width:15%">TRỌNG LƯỢNG HÀNG HÓA</th>
+            <th style="width:15%">SỐ KIỆN BƯU ĐIỆN</th>
+            <th style="width:15%">TRỌNG LƯỢNG BƯU ĐIỆN</th>
+            <th style="width:15%">TỔNG SỐ KIỆN</th>
+            <th style="width:15%">TỔNG TRỌNG LƯỢNG</th>
+            <th style="width:15%">TỔNG LÔ HÀNG</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (int i = 0; i < tableReport.Rows.Count; i++)
+        {
+            PageCurrent += 1;
+
+            <tr>
+                <td>@PageCurrent</td>
+                @foreach (var rs in columns)
+                {
+                    <td>@Html.Raw(tableReport.Rows[i][rs])</td>
+                }
+
+
+            </tr>
+        
+        }
+        <tr>
+            <td style="font-size:11pt;text-align:center;color:red">Tổng</td>
+            <td></td>
+            @for (int j = 1; j < columns.ToList().Count; j++)
+            {
+                double sum = 0;
+                for (int i = 0; i < tableReport.Rows.Count; i++)
+                {
+                    sum += double.Parse(string.IsNullOrEmpty(tableReport.Rows[i][j].ToString()) ? "0" : tableReport.Rows[i][j].ToString());
+                }
+                <td style="font-size:11pt;text-align:center;color:red">@Math.Round(sum, 2)</td>
+            }
+           
+        </tr>
+
+    </tbody>
+
+</table>
+<p style="text-align:center;font-family:'Times New Roman';font-size:13pt;font-weight:bold;text-transform:uppercase">
+
+</p>
+<div style="margin-top:200px;padding-top:50px;">
+    <table style="width:100%;" border="0">
+        <tr style="font-family:'Times New Roman';font-size:12pt;font-weight:bold;text-transform:uppercase">
+            <td colspan="3" align="center"><strong>Người lập báo cáo</strong></td>
+            <td colspan="6"></td>
+            <td align="center"><strong>Người kiểm soát</strong></td>
+        </tr>
+    </table>
+
+</div>
+

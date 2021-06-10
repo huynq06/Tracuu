@@ -1,0 +1,41 @@
+﻿@{
+    Layout = null;
+    int PageCurrent =0;
+
+}
+<p style="text-align: center; font-size: 20pt; font-family: 'Times New Roman'">DANH SÁCH ĐĂNG KÝ KINH DOANH</p>
+<p style="text-align: left; font-size: 15pt; font-family: 'Times New Roman'"><b>Tổng số: @ViewBag.TotalRecord</b></p>
+
+
+<table border="1" style="width:100%;font-family:'Times New Roman';font-size:14pt;">
+    <thead>
+        <tr>
+            <th class="all" style="width:3%;background-color:yellow !important;text-align:center"></th>           
+            <th style="width:10%;background-color:yellow !important;text-align:center">MÃ SỐ</th>
+            <th style="width:20%;background-color:yellow !important;text-align:center">TÊN VIẾT TẮT</th>
+            <th style="width:40%;background-color:yellow !important;text-align:center">TÊN DOANH NGHIỆP</th>
+            <th style="width:20%;background-color:yellow !important;text-align:center">NGƯỜI ĐẠI DIỆN</th>
+
+        </tr>
+
+
+    </thead>
+    <tbody>
+        @foreach (var row in (IList<Web.Portal.Layer.CUSTOMER_REGISTER>)ViewData["CUSTOMERREGISTERLIST"])
+        {
+            PageCurrent += 1;
+
+            <tr>
+                <td>@PageCurrent</td>
+                
+                <td><a href="#" data-id="@Html.Raw(row.CUSID)" class="edit-record">@Html.DisplayTextFor(model => row.CUSID)</a></td>
+                <td><a href="#" data-id="@Html.Raw(row.CUSID)" class="edit-record">@Html.DisplayTextFor(model => row.INFOR)</a></td>
+                <td><a href="#" data-id="@Html.Raw(row.CUSID)" class="edit-record">@Html.DisplayTextFor(model => row.REMARK)</a></td>
+                <td><a href="#" data-id="@Html.Raw(row.CUSID)" class="edit-record">@Html.DisplayTextFor(model => row.REMARK1)</a></td>
+
+
+            </tr>
+        }
+    </tbody>
+
+</table>

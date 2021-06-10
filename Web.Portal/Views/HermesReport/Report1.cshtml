@@ -1,0 +1,102 @@
+﻿
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet">
+            <div class="portlet-title">
+                <div class="caption caption-md">
+                    <span class="caption-subject font-blue-madison bold uppercase">REPORT1</span>
+                </div>
+                <div class="actions">
+                    <a href="javascript:;" data-id="02" class="btn btn-circle btn-danger btn-export">
+                        <i class="fa fa-download"></i> Xuất thông tin
+                    </a>
+
+                    <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="row">
+                    <div class="form-group form-md-line-input">
+                        <div class="col-md-2 col-xs-3">
+                            <input class="form-control form-control-inline  date-picker" id="fda" value="@Html.Raw(DateTime.Now.ToString("dd/MM/yyyy"))" placeholder="Từ ngày" maxlength="20" data-date-format="dd/mm/yyyy" />
+                            <div class="form-control-focus"> </div>
+                            <span class="help-block">Từ ngày</span>
+                        </div>
+                        <div class="col-md-2 col-xs-12">
+
+                            <div class="input-group">
+
+                                <input class="form-control form-control-inline  date-picker" id="tda" value="@Html.Raw(DateTime.Now.ToString("dd/MM/yyyy"))" placeholder="Đến ngày" maxlength="20" data-date-format="dd/mm/yyyy" />
+                                <div class="form-control-focus"> </div>
+                                <span class="help-block">Tìm theo ngày</span>
+                                <span class="input-group-btn">
+                                    <button id="btn-search-sita" class="btn btn-success" type="button"><i class="fa fa-search"></i></button>
+                                </span>
+
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="content-list-result">
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+
+
+
+        </div>
+    </div>
+
+</div>
+<script>
+    var invoiceAction = {
+        search: function () {
+            egovutil.getContent("#content-list-result", "/hermesreport/list/Report1?"
+                                                                    + "FromDate=" + $("#fda").val()
+                                                                    + "&ToDate=" + $("#tda").val()
+                                                                    + "&Page=1"
+                                                                    + "&PageSize=50"
+
+                                                                    );
+        }
+    }
+    $('.date-picker').datepicker({
+        rtl: App.isRTL(),
+        orientation: "left",
+        autoclose: true
+    });
+
+
+    $('.bs-select').selectpicker({
+        iconBase: 'fa',
+        tickIcon: 'fa-check'
+    });
+    $(".btn-export").click(function () {
+        window.location.href="/hermesreport/export/Report1?fn=EXReport1&FromDate=" + $("#fda").val()
+                                                                    + "&ToDate=" + $("#tda").val()
+             + "&Page=1"
+                                                                    + "&PageSize=50"
+    });
+
+    // sitaAction.search();
+    $("#btn-search-sita").click(function () {
+       invoiceAction.search();
+
+    })
+
+</script>

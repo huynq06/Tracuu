@@ -1,0 +1,521 @@
+﻿@{
+    Layout = null;
+
+}
+
+<ul class="page-sidebar-menu  page-header-fixed" data-keep-expanded="true" data-auto-scroll="true" data-slide-speed="200">
+    <li class="nav-item">
+        <a href="javascript:;" class="nav-link nav-toggle">
+            <i class="icon-plane "></i>
+            <span class="title">Tra cứ lịch bay</span>
+            <span class="arrow "></span>
+        </a>
+        <ul class="sub-menu">
+            <li class="nav-item ">
+                <a href="/home" data-url="/home">
+                    <i class="icon-arrow-right "></i>
+                    <span class="title">Lịch bay hàng nhập</span>
+                </a>
+
+            </li>
+            <li class="nav-item">
+                <a href="/flightexp" data-url="/flightexp">
+                    <i class="icon-arrow-right "></i>
+                    <span class="title">Lịch bay hàng xuất</span>
+                </a>
+            </li>
+
+
+
+        </ul>
+
+    </li>
+    @*<li class="nav-item start active open">
+        <a class="log-page" data-url="/flight">
+            <i class="fa fa-clock-o"></i>
+            <span class="title">Tra cứu lịch bay</span>
+            <span class="selected"></span>
+
+        </a>
+
+    </li>*@
+    <li class="nav-item" style="@Html.Raw(ViewBag.CheckView == "true"? "" : "display:none")">
+        <a href="javascript:;" class="nav-link nav-toggle">
+            <i class="fa fa-truck"></i>
+            <span class="title">Tra cứu hàng nhập</span>
+            <span class="arrow "></span>
+        </a>
+        <ul class="sub-menu">
+            <li class="nav-item ">
+                <a class="log-page" data-url="/impawb">
+                    <i class="fa fa-search"></i>
+                    <span class="title">Tra cứu hàng nhập</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="log-page" data-url="/HawbManagement">
+                    <i class="icon-grid"></i>
+                    <span class="title">Quản lý hàng nhanh</span>
+                </a>
+            </li>
+          
+            <li class="nav-item">
+                <a class="log-page" data-url="/pxk">
+                    <i class="icon-paper-plane"></i>
+                    <span class="title">Quản lý PXK</span>
+                </a>
+            </li>
+        </ul>
+       
+
+    </li>
+    <li class="nav-item" style="@Html.Raw(ViewBag.CheckView == "true"? "" : "display:none")">
+        <a href="javascript:;" class="nav-link nav-toggle">
+            <i class="fa fa-truck"></i>
+            <span class="title">Tra cứu hàng xuất</span>
+            <span class="arrow "></span>
+        </a>
+        <ul class="sub-menu">
+            <li class="nav-item ">
+                <a class="log-page" data-url="/expawb">
+                    <i class="icon-grid"></i>
+                    <span class="title">Tra cứu hàng xuất</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="log-page" data-url="/invoice/exp">
+                    <i class="icon-grid"></i>
+                    <span class="title">Báo cáo thanh toán</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="log-page" data-url="/AlsxExpReport">
+                    <i class="icon-grid"></i>
+                    <span class="title">Bảng kê Alsx</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="log-page" data-url="/invoice/expp">
+                    <i class="icon-grid"></i>
+                    <span class="title">Báo cáo thanh toán bằng thẻ</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="log-page" data-url="/Issuemanagement">
+                    <i class="icon-grid"></i>
+                    <span class="title">Quản lý Issue</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="log-page" data-url="/CallTruck">
+                    <i class="icon-grid"></i>
+                    <span class="title">Quản lý Gọi Xe</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="log-page" data-url="/FLUP">
+                    <i class="icon-grid"></i>
+                    <span class="title">Quản lý Chuyến bay</span>
+                </a>
+            </li>
+
+        </ul>
+
+    </li>
+    <li class="nav-item" style="@Html.Raw(ViewBag.CheckView == "true"? "" : "display:none")">
+        <a href="javascript:;" class="nav-link nav-toggle">
+            <i class="fa fa-money"></i>
+            <span class="title">Hóa đơn điện tử</span>
+            <span class="arrow "></span>
+        </a>
+        <ul class="sub-menu">
+            <li class="nav-item ">
+                <a class="log-page" data-url="/EInvoice">
+                    <i class="icon-arrow-right "></i>
+                    <span class="title">Hóa đơn điện tử hàng nhập</span>
+                </a>
+
+            </li>
+            <li class="nav-item">
+                <a class="log-page" data-url="/EInvoiceExport">
+                    <i class="icon-arrow-right "></i>
+                    <span class="title">Hóa đơn điện tử hàng xuất</span>
+                </a>
+            </li>
+
+
+
+        </ul>
+
+    </li>
+    <li class="nav-item" style="@Html.Raw(ViewBag.CheckView == "true"? "" : "display:none")">
+        <a href="javascript:;" class="nav-link nav-toggle">
+            <i class="fa fa-edit"></i>
+            <span class="title">TRA CỨU VẬN ĐƠN</span>
+            <span class="arrow "></span>
+        </a>
+        <ul class="sub-menu">
+            <li class="nav-item">
+                <a class="log-page" data-url="/awbdetail">
+                    <i class="icon-book-open"></i>
+                    <span class="title">VẬN ĐƠN HÀNG NHẬP</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="log-page" data-url="/awbexportdetail">
+                    <i class="icon-arrow-right "></i>
+                    <span class="title">VẬN ĐƠN HÀNG XUẤT</span>
+                </a>
+            </li>
+
+
+
+        </ul>
+
+    </li>
+    <li class="nav-item">
+        <a href="javascript:;" class="nav-link nav-toggle">
+            <i class="fa fa-mail-forward"></i>
+            <span class="title">KHO KÉO DÀI</span>
+            <span class="arrow "></span>
+        </a>
+        <ul class="sub-menu">
+          
+            <li class="nav-item ">
+                <a class="log-page" data-url="/CheckGetInAlsx">
+                    <i class="icon-arrow-right "></i>
+                    <span class="title">Danh sách hàng xuất</span>
+                </a>
+            </li>
+            <li class="nav-item ">
+                <a class="log-page" data-url="/AlsxExpAwbDetail">
+                    <i class="icon-arrow-right "></i>
+                    <span class="title">Tra cứu hàng xuất</span>
+                </a>
+            </li>
+            <li class="nav-item ">
+                <a class="log-page" data-url="/AlsxImpAwb">
+                    <i class="icon-arrow-right "></i>
+                    <span class="title">Tra cứu hàng nhập</span>
+                </a>
+            </li>
+            @*<li class="nav-item ">
+                    <a class="log-page" data-url="/ScanTicket/In">
+                        <i class="icon-arrow-right "></i>
+                        <span class="title">KSVR</span>
+                    </a>
+                </li>*@
+
+        </ul>
+
+    </li>
+    <li class="nav-item" style="@Html.Raw(ViewBag.CheckView == "true"? "" : "display:none")">
+        <a href="javascript:;" class="nav-link nav-toggle">
+            <i class="fa fa-edit"></i>
+            <span class="title">KIỂM SOÁT</span>
+            <span class="arrow "></span>
+        </a>
+        <ul class="sub-menu">
+            <li class="nav-item">
+                <a class="log-page" data-url="/kscb">
+                    <i class="icon-pencil"></i>
+                    <span class="title">KS CB</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="log-page" data-url="/DlvVct">
+                    <i class="icon-barcode"></i>
+                    <span class="title">DLV XML</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="log-page" data-url="/Issuemanagement">
+                    <i class="icon-note"></i>
+                    <span class="title">KS VCT</span>
+                </a>
+            </li>
+            @*<li class="nav-item">
+                <a class="log-page" data-url="/CapSo">
+                    <i class="icon-note"></i>
+                    <span class="title">KS CẤP SỐ</span>
+                </a>
+            </li>*@
+            <li class="nav-item ">
+                <a class="log-page" data-url="/CheckGetInAlsx">
+                    <i class="icon-arrow-right "></i>
+                    <span class="title">KS Hải quan</span>
+                </a>
+            </li>
+
+        </ul>
+
+    </li>
+    <li class="nav-item" style="@Html.Raw(ViewBag.CheckView == "true"? "" : "display:none")">
+        <a href="javascript:;" class="nav-link nav-toggle">
+            <i class="fa fa-info-circle "></i>
+            <span class="title">Thông tin</span>
+            <span class="arrow "></span>
+        </a>
+        <ul class="sub-menu">
+            <li class="nav-item">
+                <a class="log-page" data-url="/companybussiness">
+                    <i class="icon-arrow-right "></i>
+                    <span class="title">Thông tin ủy quyền</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="log-page" data-url="/customerregister">
+                    <i class="icon-arrow-right "></i>
+                    <span class="title">Đăng ký kinh doanh</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="log-page" href="/Ticket">
+                    <i class="icon-arrow-right "></i>
+                    <span class="title">Quản Lý Ticket</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="log-page" data-url="/CallTruck">
+                    <i class="icon-arrow-right "></i>
+                    <span class="title">Quản Lý gọi xe</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="log-page" data-url="/CallTruck/InOut">
+                    <i class="icon-arrow-right "></i>
+                    <span class="title">Quản lý vào ra</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="log-page" data-url="/ScanQrCode">
+                    <i class="icon-arrow-right "></i>
+                    <span class="title">Quản lý Scan QR Code</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="log-page" data-url="/FlupFlight">
+                    <i class="icon-arrow-right "></i>
+                    <span class="title">Quản lý chuyến bay</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="log-page" data-url="/Issuemanagement/AWBConfirm">
+                    <i class="icon-arrow-right "></i>
+                    <span class="title">Quản lý chứng từ</span>
+                </a>
+            </li>
+            @*<li class="nav-item">
+                <a class="log-page" data-url="/capso/log">
+                    <i class="icon-arrow-right "></i>
+                    <span class="title">Báo cáo cấp số</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="log-page" data-url="/kscb/export">
+                    <i class="icon-arrow-right "></i>
+                    <span class="title">Báo cáo KSCB</span>
+                </a>
+
+            </li>*@
+            @*<li class="nav-item">
+                <a class="log-page" data-url="/exportReport">
+                    <i class="icon-arrow-right "></i>
+                    <span class="title">Báo cáo Hàng xuất</span>
+                </a>
+
+            </li>*@
+
+
+        </ul>
+
+    </li>
+    <li class="nav-item" style="@Html.Raw(ViewBag.CheckView == "true"? "" : "display:none")">
+        <a href="javascript:;" class="nav-link nav-toggle">
+            <i class="fa fa-envelope"></i>
+            <span class="title">Thống kê điện</span>
+            <span class="arrow "></span>
+        </a>
+        <ul class="sub-menu">
+            <li class="nav-item ">
+                <a class="log-page" data-url="/sita">
+                    <i class="icon-arrow-right "></i>
+                    <span class="title">Thống kê điện FSU</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="log-page" data-url="/gensita">
+                    <i class="icon-arrow-right "></i>
+                    <span class="title">Xuất điện văn</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="log-page" data-url="/damage">
+                    <i class="icon-arrow-right "></i>
+                    <span class="title">Điện bất thường</span>
+                </a>
+            </li>
+            <li class="nav-item ">
+                <a class="log-page" data-url="/cargospecial">
+                    <i class="icon-arrow-right "></i>
+                    <span class="title">Hàng đặc biệt</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="log-page" data-url="/message">
+                    <i class="icon-arrow-right "></i>
+                    <span class="title">Kiểm soát báo hàng</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="log-page" data-url="/sita/exp">
+                    <i class="icon-arrow-right "></i>
+                    <span class="title">Thống kê điện RCS</span>
+                </a>
+            </li>
+            <li class="nav-item ">
+                <a class="log-page" data-url="/inout">
+                    <i class="icon-arrow-right "></i>
+                    <span class="title">Thông tin vào ra</span>
+                </a>
+            </li>
+           
+            <li class="nav-item ">
+                <a class="canteen" id="canteen" href="http://canteen.alsc.com.vn:9898/" target="_blank">
+                    <i class="icon-arrow-right "></i>
+                    <span class="title">Quản lý xuất ăn</span>
+                </a>
+            </li>
+            <li class="nav-item ">
+                <a class="canteen" id="canteen" href="http://canteen.alsc.com.vn:9898/" target="_blank">
+                    <i class="icon-arrow-right "></i>
+                    <span class="title">Metabase</span>
+                </a>
+            </li>
+            
+
+        </ul>
+
+    </li>
+    <li class="nav-item">
+        <a href="javascript:;" class="nav-link nav-toggle" style="@Html.Raw(ViewBag.CheckView == "true"? "" : "display:none")">
+            <i class="fa fa-line-chart"></i>
+            <span class="title">Báo cáo</span>
+            <span class="arrow "></span>
+        </a>
+        <ul class="sub-menu">
+            <li class="nav-item ">
+                <a class="log-page" data-url="/DirectorReport">
+                    <i class="icon-arrow-right "></i>
+                    <span class="title">Ban Giám Đốc</span>
+                </a>
+            </li>
+            <li class="nav-item ">
+                <a class="log-page" data-url="/exportReport">
+                    <i class="icon-arrow-right "></i>
+                    <span class="title">Xuất</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="log-page" data-url="/impReport">
+                    <i class="icon-arrow-right "></i>
+                    <span class="title">Nhập</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="log-page" data-url="/HandlingReport">
+                    <i class="icon-arrow-right "></i>
+                    <span class="title">Handling</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="log-page" data-url="/BusinessReport">
+                    <i class="icon-arrow-right "></i>
+                    <span class="title">Kinh doanh</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="log-page" data-url="/AccountantReport">
+                    <i class="icon-arrow-right "></i>
+                    <span class="title">Kế toán</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="log-page" data-url="/HrReport">
+                    <i class="icon-arrow-right "></i>
+                    <span class="title">Nhân sự</span>
+                </a>
+            </li>
+        </ul>
+
+    </li>
+    <li class="nav-item " style="@Html.Raw(ViewBag.CheckView == "true"? "" : "display:none")">
+        <a href="javascript:;" class="nav-link nav-toggle">
+            <i class="icon-list "></i>
+            <span class="title">Quản trị</span>
+            <span class="arrow "></span>
+        </a>
+        <ul class="sub-menu">
+            <li class="nav-item ">
+                <a class="log-page" data-url="/member">
+                    <i class="icon-arrow-right "></i>
+                    <span class="title">Quản lý thành viên</span>
+                </a>
+
+            </li>
+            @*<li class="nav-item">
+                <a class="log-page" data-url="/organization">
+                    <i class="icon-arrow-right "></i>
+                    <span class="title">Phòng ban</span>
+                </a>
+            </li>*@
+            <li class="nav-item">
+                <a class="log-page" data-url="/Email">
+                    <i class="icon-envelope"></i>
+                    <span class="title">Quản lý Email</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="log-page" data-url="kscb/soptime">
+                    <i class="icon-arrow-right "></i>
+                    <span class="title">SOP TIME</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="log-page" data-url="kscb/warningtime">
+                    <i class="icon-arrow-right "></i>
+                    <span class="title">Warning Time</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="log-page" data-url="/holiday">
+                    <i class="icon-arrow-right "></i>
+                    <span class="title">Holiday</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="log-page" data-url="/holiday/IndexConfig">
+                    <i class="icon-arrow-right "></i>
+                    <span class="title">Location</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="log-page" data-url="/PrintManagement">
+                    <i class="icon-arrow-right "></i>
+                    <span class="title">Máy In</span>
+                </a>
+            </li>
+        </ul>
+    </li>
+</ul>
+<script>
+    $(".nav-item a").on("click", function () {
+
+        $(".nav-item.active").removeClass("active")
+        $(this).parent().addClass("active");
+    });
+
+    $(".log-page").click(function () {
+        egovutil.loadUrlMain($(this).attr("data-url"));
+    });
+</script>

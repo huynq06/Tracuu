@@ -1,0 +1,55 @@
+﻿@{
+    Layout = null;
+    IList<Web.Portal.Layer.Ticket> TicketList = (IList<Web.Portal.Layer.Ticket>)ViewData["TicketList"];
+    IList<Web.Portal.Layer.CapSoLog> CapSoLogList = (IList<Web.Portal.Layer.CapSoLog>)ViewData["CapSoLogList"];
+   }
+ <table class="table table-striped table-bordered table-advance table-hover dt-responsive" id="tbl-flight">
+            <thead>
+                <tr>                    
+                    <th style="width:15%;font-size:16px;background-color:yellow !important;text-align:center">
+                        SỐ ĐƯỢC CẤP
+                    </th>
+                    <th style="width:20%;font-size:16px;background-color:yellow !important;text-align:center">
+                        MAWB
+                    </th>
+                    <th style="width:25%;font-size:16px;background-color:yellow !important;text-align:center">
+                        HAWB
+                    </th>
+                    <th style="width:15%;font-size:16px;background-color:yellow !important;text-align:center">
+                        GIỜ CẤP
+                    </th>
+                    <th style="width:15%;font-size:16px;background-color:yellow !important;text-align:center">
+                        GIỜ BẤM GỌI
+                    </th> 
+                    <th style="width:15%;font-size:16px;background-color:yellow !important;text-align:center">
+                        NHÂN VIÊN
+                    </th>                   
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var row in (IList<Web.Portal.Layer.Ticket>)TicketList)
+                {
+                    var rowList = CapSoLogList.Where(x => x.ID.Trim().Equals(row.ID.Trim())).ToList();
+                    <tr class="bg-red">
+                        <td style="font-size:12px;color:white;font-weight:bold" @Html.Raw(rowList.Count>1?"rowspan='"+rowList.Count+"'":"")>@Html.Raw(row.ID)</td>                       
+                        <td style="font-size:12px;color:white;font-weight:bold">@Html.Raw(rowList.Count>0?rowList[0].MAWB:string.Empty)</td>
+                        <td style="font-size:12px;color:white;font-weight:bold">@Html.Raw(rowList.Count > 0 ? rowList[0].HAWB : string.Empty)</td>
+                        <td style="font-size:12px;color:white;font-weight:bold" @Html.Raw(rowList.Count>1? "rowspan='" + rowList.Count+"'":"")>@Html.Raw(row.TicketTime.HasValue?row.TicketTime.Value.ToString("HH:mm"):string.Empty)</td>
+                        <td style="font-size:12px;color:white;font-weight:bold" @Html.Raw(rowList.Count>1? "rowspan='" + rowList.Count+"'":"")>@Html.Raw(row.ReadTime.HasValue ? row.ReadTime.Value.ToString("HH:mm") : string.Empty)</td>                        
+                        <td style="font-size:12px;color:white;font-weight:bold" @Html.Raw(rowList.Count > 1 ? "rowspan='" + rowList.Count + "'" : "")></td>
+                    </tr>
+                    for (int i=1;i<rowList.Count;i++)
+                    {
+                        <tr class="bg-red">                            
+                            <td style="font-size:12px;color:white;font-weight:bold">@Html.Raw(rowList[i].MAWB)</td>
+                            <td style="font-size:12px;color:white;font-weight:bold">@Html.Raw(rowList[i].HAWB) </td>                          
+                        </tr>
+
+                    }
+                }
+            </tbody>
+
+        </table>
+
+
+

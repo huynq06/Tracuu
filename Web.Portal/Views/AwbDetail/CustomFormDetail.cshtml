@@ -1,0 +1,48 @@
+﻿
+@{
+    Layout = null;
+    int PageCurrent = 0;
+}
+@*<div>
+    <span class="caption-subject font-blue-madison bold">- Giao cho:  @ViewBag.ConsigneeName</span>
+    <span class="caption-subject font-blue-madison bold">- Địa chỉ:  @ViewBag.ConsigneeAdd</span>
+</div>*@
+<div id="content-invoice">
+
+    <table class="table table-striped table-bordered table-advance table-hover dt-responsive">
+        <thead>
+            <tr>
+                <th class="all" style="width:3%"></th>
+                <th style="width:10%">
+                    PXK
+                </th>
+                <th style="width:10%">
+                    Ngày tạo
+                </th>
+                <th style="width:10%">
+                    Người làm thủ tục
+                </th>
+                <th style="width:10%">
+                    Giấy tờ tùy thân
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var row in (IList<Web.Portal.Common.ApiViewModel.CustomFormViewModel>)ViewData["listPXK"])
+            {
+                PageCurrent += 1;
+
+                <tr>
+                    <td>@PageCurrent</td>
+                    <td><a href="#" class="btn edit-hawb  btn-xs">@Html.DisplayTextFor(model => row.PXKNo)</a></td>
+                    <td><a href="#" class="btn edit-hawb  btn-xs">@Html.Raw(row.Created)</a></td>
+                    <td><a href="#" class="btn edit-hawb  btn-xs">@Html.Raw(row.Shipper.Split(':')[1].Split('-')[0].Trim())</a></td>
+                    <td><a href="#" class="btn edit-hawb  btn-xs">@Html.Raw(row.Shipper.Split(':')[2].Trim())</a></td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+
+
+</div>

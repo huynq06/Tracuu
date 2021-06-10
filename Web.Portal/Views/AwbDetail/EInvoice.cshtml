@@ -1,0 +1,170 @@
+﻿
+@{
+    Layout = null;
+    int PageCurrent = 0;
+    List<Web.Portal.Common.ViewModel.InvoiceDetailAwbViewModel> listInvoiceDetail = (List<Web.Portal.Common.ViewModel.InvoiceDetailAwbViewModel>)ViewData["InvoiceDetails"];
+}
+<div>
+    <span class="caption-subject font-blue-madison bold uppercase">@ViewBag.GetIn</span>
+</div>
+<table class="table table-striped table-bordered table-advance table-hover dt-responsive" id="tbl-invoice">
+    <thead>
+        <tr>
+            <th class="all" style="width:3%"></th>
+            <th style="width:10%"></th>
+            <th style="width:10%">
+                LOẠI
+            </th>
+            <th style="width:10%">
+                NGÀY
+            </th>
+            <th style="width:10%">
+                NUMBER
+            </th>
+            <th style="width:10%">
+                KHÁCH HÀNG
+            </th>
+            <th style="width:10%">
+                NHÂN VIÊN
+            </th>
+            <th style="width:15%">
+                AMOUNT NOT VAT
+            </th>
+            @*<th style="width:5%">
+            VAT%
+        </th>*@
+
+            <th style="width:10%">
+                AMOUNT VAT
+            </th>
+            <th style="width:15%">
+                AMOUNT TOTAL
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var row in (IList<Web.Portal.Model.Models.HermesInvoice>)ViewData["listInvoice"])
+            {
+                PageCurrent += 1;
+
+            <tr>
+                <td>@PageCurrent</td>
+                <td>
+                    <div class="btn-group">
+                        <button class="btn green btn-sm btn-outline  dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                            <i class="fa fa-angle-down"></i>
+                        </button>
+                        <ul class="dropdown-menu pull-right" style="padding-right:55px">
+                            @*<li>
+                                <a href="javascript:;" title="Xem chi tiết" class="invoice_detail btn btn-xs" data-id="@Html.DisplayFor(model => row.InvoiceIsn)">
+                                    <i class="fa fa-search">Xem chi tiết</i>
+                                </a>
+                            </li>*@
+                            <li>
+                                <a title="Hóa đơn giấy" class="btn-doc btn btn-xs" data-doc="@Html.DisplayFor(model => row.InvoiceLink)" data-id="@Html.DisplayFor(model => row.InvoiceIsn)">
+                                    <i class="fa fa-paperclip">Hóa đơn giấy</i>
+                                </a>
+                            </li>
+                            @*<li>
+                                <a title="XUẤT LẠI HÓA ĐƠN" class="einvoice_replace btn btn-xs @Html.Raw(row.InvoiceStatus==3? "" : "disabled")" data-id="@Html.DisplayFor(model => row.InvoiceIsn)">
+                                    <i class="fa fa-cloud-download">Xuất lại HĐ</i>
+                                </a>
+                            </li>*@
+                            @*<li>
+                                <a title="Edit" class="einvoice_edit btn btn-xs @Html.Raw(row.InvoiceStatus!=0 ? "disabled" : "")" data-id="@Html.DisplayFor(model => row.InvoiceIsn)">
+                                    <i class="fa fa-edit">SỬA</i>
+                                </a>
+                            </li>*@
+                            @*<li>
+                                <a title="Cancel" class="einvoice_cancel btn btn-xs" data-id="@Html.DisplayFor(model => row.InvoiceIsn)">
+                                    <i class="fa fa-trash">HỦY</i>
+                                </a>
+                            </li>*@
+                            <li>
+                                <a title="Edit" class="einvoice_print btn btn-xs  @Html.Raw(row.InvoiceStatus==1 ? "disabled" : "")" data-id="@Html.DisplayFor(model => row.InvoiceIsn)">
+                                    <i class="fa fa-print">IN LẠI</i>
+                                </a>
+                            </li>
+                            @*<li>
+                                <a title="Edit" class="einvoice_checkError btn btn-xs @Html.Raw(row.InvoiceStatus!=0 ? "disabled" : "")" data-id="@Html.DisplayFor(model => row.InvoiceIsn)">
+                                    <i class="fa fa-info-circle">KIỂM TRA LỖI</i>
+                                </a>
+                            </li>*@
+                            <li>
+                                <a title="Edit" href="@Html.Raw(row.EInvoiceSearchLink)" target="_blank" class="btn btn-xs  @Html.Raw(row.InvoiceStatus==1 ? "disabled" : "")" data-id="@Html.DisplayFor(model => row.InvoiceIsn)">
+                                    <i class="fa fa-link">Link HDDT</i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </td>
+                <td>HÓA ĐƠN</td>
+                <td><a href="#" class="btn edit-hawb  btn-xs">@Html.DisplayTextFor(model => row.InvoiceDate)</a></td>
+                <td><a href="#" class="btn edit-hawb  btn-xs">@Html.Raw(row.Sequence.Value.ToString().PadLeft(8,'0'))</a></td>
+                <td><a href="#" class="btn edit-hawb  btn-xs">@Html.DisplayTextFor(model => row.KundName)</a></td>
+                <td><a href="#" class="btn edit-hawb  btn-xs">@Html.DisplayTextFor(model => row.PersonName)</a></td>
+                <td><a href="#" class="btn edit-hawb  btn-xs">@Html.Raw(row.InvoiceTotalNoVatAmount.ToString("N2"))</a></td>
+                @*<td><a href="#" class="btn edit-hawb  btn-xs">@Html.Raw(row.Payment == "CAST" ? "TM" : "CK")</a></td>*@
+                <td><a href="#" class="btn edit-hawb  btn-xs">@Html.Raw(row.InvoiceTotalVatAmount.ToString("N2"))</a></td>
+                <td><a href="#" class="btn edit-hawb  btn-xs">@Html.Raw(row.InvoiceTotalAmount.ToString("N2"))</a></td>
+                @*<td><a href="#" class="btn edit-hawb  btn-xs">@Html.Raw(row.Payment.Trim().Equals("BANK TFR") ? "BANK TRF" : "")</a></td>*@
+                @*<td>
+                    <table id="tbl-organization" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th style="width:5%">
+                                    Dịch vụ
+                                </th>
+                                <th style="width:30%">
+                                    Thành tiền
+                                </th>
+                                <th style="width:30%">
+                                    VAT
+                                </th>
+                                <th style="width:30%">
+                                    TỔNG TIỀN
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var rowxl in listInvoiceDetail.Where(c => c.InvoiceIsn == row.InvoiceIsn).ToList())
+                            {
+                                <tr>
+                                    <td style="width:5%"><a href="#" class="btn  btn-xs">@Html.DisplayTextFor(model => rowxl.Des)</a></td>
+                                    <td style="width:30%">
+                                        <a class="btn  btn-xs">@Html.DisplayTextFor(model => rowxl.TotalAmount)</a>
+                                    </td>
+                                    <td style="width:30%">
+                                        <a class="btn  btn-xs ">@Html.DisplayTextFor(model => rowxl.TotalVatAmount)</a>
+                                    </td>
+                                    <td style="width:30%">
+                                        <a class="btn  btn-xs ">@Html.DisplayTextFor(model => rowxl.TotalAmountReturn)</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                </td>*@
+
+            </tr>
+        }
+    </tbody>
+
+</table>
+<script>
+    $(".btn-doc").click(function () {
+        window.open("/einvoice/OpenDoc?link=" + $(this).data('doc') + "&invoiceins=" + $(this).data('id'));
+    });
+    $(".einvoice_print").click(function () {
+        window.open("/einvoice/Reprint?invoiceins=" + $(this).data('id'));
+        // window.location.href = "/einvoice/OpenDoc?link=" + $(this).data('doc')
+    });
+        egovutil.CreateTableSort("#tbl-invoice", [[0, "asc"]], [
+
+        {
+
+            "orderable": false, "targets": [0, 0]
+        }
+        ], false);
+</script>

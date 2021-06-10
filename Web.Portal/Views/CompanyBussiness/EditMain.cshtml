@@ -1,0 +1,101 @@
+﻿@{
+    Layout = null;
+}@model Web.Portal.Layer.CompanyBussiness
+<form class="form-horizontal" id="frmAction">
+
+    <input type="hidden" name="keyValue" value="@Html.DisplayFor(model=>model.CompanyId)" />
+    <input type="hidden" name="CMD" value="@ViewBag.CMD" />
+    <div class="form-body">
+        <div class="form-group form-md-line-input">
+
+            <label class="col-md-2 control-label" for="frmAction">
+                <b>Mã Ủy Quyền:</b>
+                <span class="required">*</span>
+            </label>
+            <div class="col-md-5">
+                <input class="form-control" placeholder="Mã Ủy Quyền" style="text-transform:uppercase" maxlength="50" value="@Html.DisplayTextFor(model=>model.Code)" name="Code" id="Code" />
+                <div class="form-control-focus"> </div>
+                <span class="help-block">Nhập mã ủy quyền</span>
+            </div>
+
+            <label class="col-md-2 control-label" for="frmAction">
+                <b>YEAR:</b>
+                <span class="required">*</span>
+            </label>
+            <div class="col-md-3">
+                <select class="form-control  bs-select" name="Year" data-live-search="true" data-size="8">
+
+                    @for (int i = 2018; i < 2050; i++)
+                    {
+                        <option value="@Html.DisplayTextFor(model=>i)" @Html.Raw(i == Model.Year ? "Selected" : "")>@Html.DisplayTextFor(model => i)</option>
+                    }
+
+                </select>
+                <div class="form-control-focus"> </div>
+
+            </div>
+        </div>
+        <div class="form-group form-md-line-input">
+            <label class="col-md-2 control-label" for="frmAction">
+                <b>Bên ủy quyền:</b>
+                <span class="required">*</span>
+            </label>
+            <div class="col-md-10">
+                <input class="form-control" placeholder="Bên ủy quyền" style="text-transform:uppercase" value="@Html.DisplayTextFor(model=>model.Name)" name="Name" />
+                <div class="form-control-focus"> </div>
+                <span class="help-block">Nhập bên ủy quyền</span>
+            </div>
+
+
+        </div>
+        <div class="form-group form-md-line-input">
+            <label class="col-md-2 control-label" for="frmAction">
+                <b>Địa chỉ:</b>
+                <span class="required">*</span>
+            </label>
+            <div class="col-md-10">
+                <input class="form-control" placeholder="Địa chỉ bên ủy quyền" style="text-transform:uppercase" value="@Html.DisplayTextFor(model=>model.Address)" name="Address" id="Address" />
+                <div class="form-control-focus"> </div>
+                <span class="help-block">Nhập địa chỉ bên ủy quyền</span>
+            </div>
+        </div>
+   
+    </div>
+
+
+
+    <div class="text-center">
+        <button type="submit" class="btn btn-success" id="btnSave"><i class="fa fa-floppy-o"></i> Lưu thông tin</button>
+        <button type="reset" class="btn btn-success"><i class="fa fa-refresh"></i> Làm mới</button>
+    </div>
+
+
+
+    <!-- /.box-footer -->
+</form>
+<script>
+    var message = {
+        Code: {
+            required: "Mã số ủy quyền không được trống"
+        },
+        Name: {
+            required: "Bên ủy quyền không được trống"
+        }
+
+    };
+    var rule = {
+        Code: { required: true },
+        Name: { required: true }
+
+    };
+    $('.bs-select').selectpicker({
+        iconBase: 'fa',
+        tickIcon: 'fa-check'
+    });
+    egovutil.submit("#frmAction", rule, message, "/companybussiness/actionmain");
+
+    
+
+
+</script>
+

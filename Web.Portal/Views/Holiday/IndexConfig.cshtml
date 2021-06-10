@@ -1,0 +1,207 @@
+﻿@{
+    Layout = null;
+}
+@*@section footerJS{
+    <script src="/Style/assets/global/plugins/jquery-nestable/jquery.nestable.js" type="text/javascript"></script>
+    <script src="@Url.Content("~/Script/pos-client.js")"></script>
+    <script src="@Url.Content("~/Script/common.js")"></script>
+
+}*@
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet">
+            <div class="portlet-title">
+                <div class="caption caption-md">
+                    <span class="caption-subject font-blue-madison bold uppercase">Cấu hình vị trí </span>
+                </div>
+                <div class="actions">
+                    <a href="javascript:;" data-id="02" class="btn btn-circle btn-danger btn-export-log">
+                        <i class="fa fa-download"></i> Xuất danh sách
+                    </a>
+                    <a href="javascript:;" class="btn btn-default btn-sm btn-add-item">
+                        <i class="fa fa-plus"></i> Thêm mới
+                    </a>
+                    <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                @*<div class="row">
+                    <div class="form-group form-md-line-input">
+                        <div class="col-md-2 col-xs-12">
+                            <div class="input-group">
+
+                                <input class="form-control form-control-inline input txtName" placeholder="Chuyến bay" maxlength="256" id="fno" />
+                                <div class="form-control-focus"> </div>
+                                <span class="help-block">Ký hiệu</span>
+                                <span class="input-group-btn">
+                                    <button id="btn-search-sita" class="btn btn-success" bind-event-click="isPaidOveride()" type="button"><i class="fa fa-search"></i></button>
+                                </span>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>*@
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="content-list-result">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script>
+
+    var configAction = {
+        search: function () {
+            egovutil.getContent("#content-list-result", "/holiday/ListConfig"
+                                                                    );
+        },
+        downloadInvoice: function (id) {
+            console.log('da chay vao day ' +id);
+        }
+    }
+    configAction.search();
+  //  configAction.downloadInvoice(7);
+    $(document).bind("keydown", function (event) {
+        //var barcode = "";
+        //var order = that.initTabActive();
+
+
+        //F1 : Thanh toán
+        if (event.which == 112) {
+            event.preventDefault();
+            event.keyCode = 0;
+            $("#fno").focus().select();
+
+        }
+        //F2 :
+        if (event.which == 113) {
+            event.preventDefault();
+            event.keyCode = 0;
+            isPaidOveride();
+            return;
+
+        }
+        //F3 : Đặt hàng
+        if (event.which == 114) {
+            event.preventDefault();
+            event.keyCode = 0;
+            $(".search-input").focus().select();
+            return;
+        }
+        //F4 :Tìm kiếm khách hàng
+        if (event.which == 115) {
+            event.preventDefault();
+            event.keyCode = 0;
+            that.closeCustomer();
+
+            if (order.edit_order == true) {
+                return;
+            }
+            Bindings.refreshImmediately();
+            $(".search-customer").focus().select();
+            return;
+        }
+        //F6: Chiet khau
+        if (event.which == 117) {
+            event.preventDefault();
+            event.keyCode = 0;
+            if (that.isTotalOrderDiscountDisable()) {
+                that.showDiscountOrder($(".discount-order"));
+                Bindings.refreshImmediately();
+            } else {
+
+                $(".order-discount-value").focus().select();
+            }
+            return;
+        }
+        //F7: Nhap tien khach dua
+        if (event.which == 118) {
+            event.preventDefault();
+            event.keyCode = 0;
+            that.showPaymentOrder();
+            return;
+        }
+
+
+        else if (event.which == 120) {
+            event.preventDefault();
+            event.keyCode = 0;
+            that.addLineDifItem();
+            return;
+        }
+            //Left - Right arrow
+        else if (event.which == 37 || event.which == 39) {
+            //$rootScope.$broadcast('move-arrow', event.which);
+            return;
+        }
+        else if ((event.which || event.keyCode) == 116) {
+            event.preventDefault();
+            event.keyCode = 0;
+            that.updateOrderDataBase();
+        }
+        if (event.which == 27) {
+
+            if ($(".modal-zalo-success").length > 0 || $(".alert-modal").length > 0 || $(".modal-zalo-waiting").length > 0) {
+                event.preventDefault();
+                event.keyCode = 0;
+                that.deleteActiveOrder();
+                that.setIndexOrders();
+                that.setTabOrderActive();
+                return;
+            }
+
+        }
+            //F10: Quét mã vạch
+        else if (event.which == 121) {
+            event.preventDefault();
+            event.keyCode = 0;
+            if (that.scaner == "normal") {
+                if (order.tenant_setting.allow_product_serial) {
+                    that.setScaner('serial');
+                }
+                else if (order.tenant_setting.integrated_scales) {
+                    that.setScaner('scale');
+                }
+            }
+            else if (that.scaner == "serial") {
+                if (order.tenant_setting.integrated_scales) {
+                    that.setScaner('scale');
+                }
+                else
+                    that.setScaner('normal');
+            }
+            else if (that.scaner == "scale") {
+                that.setScaner('normal');
+            }
+            return;
+        }
+    });
+    function isPaidOveride() {
+        console.log($.formatNumber(1232323003434, { format: "#,##0.###", locale: "en" }))
+    }
+    //hermesAction.search();
+    $(".btn-add-item").click(function () {
+        egovutil.dialog("THÊM MỚI NGÀY LỄ", "large", "/holiday/edit/", "hermesAction.search()");
+    });
+    $('.date-picker').datepicker({
+        rtl: App.isRTL(),
+        orientation: "left",
+        autoclose: true
+    });
+
+    $('.bs-select').selectpicker({
+        iconBase: 'fa',
+        tickIcon: 'fa-check'
+    });
+
+    // sitaAction.search();
+    //$("#btn-search-sita").click(function () { hermesAction.search(); })
+
+</script>

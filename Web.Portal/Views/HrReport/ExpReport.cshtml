@@ -1,0 +1,137 @@
+﻿
+@{
+    Layout = null;
+    int PageCurrent = 0;
+    string[] columns = (string[])ViewData["column"];
+    System.Data.DataTable tableReport = ((System.Data.DataTable)ViewData["DataList"]);
+    double sumTotalCarton = 0;
+    double sumTotalSkid = 0;
+    double[] listResult = new double[30];
+}
+<p style="text-align:center;font-family:'Times New Roman';font-size:15pt;font-weight:bold;text-transform:uppercase">
+    @ViewBag.Des
+</p>
+<input type="hidden" name="keyValue" id="reportId" value="@ViewBag.ID" />
+
+<table class="table table-striped table-bordered table-advance table-hover dt-responsive" border="1" id="tbl-report">
+    <thead>
+        <tr>
+            <th rowspan="2" style="width:10%;background-color:darkseagreen !important;text-align:center">
+                STT
+            </th>
+            <th rowspan="2" style="width:10%;background-color:darkseagreen !important;text-align:center">
+                Ngày
+            </th>
+
+            <th colspan="3" style="width:10%;background-color:darkseagreen !important;text-align:center">
+                KE
+            </th>
+            <th colspan="3" style="width:10%;background-color:darkseagreen !important;text-align:center">
+                EK
+            </th>
+            <th colspan="3" style="width:10%;background-color:darkseagreen !important;text-align:center">
+                CX
+            </th>
+            <th colspan="3" style="width:10%;background-color:darkseagreen !important;text-align:center">
+                JL
+            </th>
+            <th colspan="3" style="width:10%;background-color:darkseagreen !important;text-align:center">
+                UPS
+            </th>
+            <th colspan="3" style="width:10%;background-color:darkseagreen !important;text-align:center">
+                ET
+            </th>
+        
+            <th colspan="3" style="width:10%;background-color:darkseagreen !important;text-align:center">
+                VZ
+            </th>
+            <th colspan="3" style="width:10%;background-color:darkseagreen !important;text-align:center">
+                KHÁC
+            </th>
+        
+            <th colspan="3" style="width:10%;background-color:darkseagreen !important;text-align:center">
+                TỔNG CỘNG
+            </th>
+        </tr>
+        <tr>
+            @for (int j = 1; j < columns.ToList().Count; j++)
+            {
+                <th style="width:10%;background-color:darkseagreen !important;text-align:center">@Html.Raw(columns[j].ToString().Substring(2)) </th>
+
+            }
+            <th style="width:10%;background-color:darkseagreen !important;text-align:center">Tổng CARTON</th>
+            <th style="width:10%;background-color:darkseagreen !important;text-align:center">Tổng SKID</th>
+            <th style="width:10%;background-color:darkseagreen !important;text-align:center">TỔNG</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (int i = 0; i < tableReport.Rows.Count; i++)
+        {
+
+
+            PageCurrent += 1;
+            double totalCarton = 0;
+            double totalSkid = 0;
+            <tr>
+                <td>@PageCurrent</td>
+                @for (int j = 0; j < columns.ToList().Count; j++)
+                {
+                    <td>@Html.Raw(tableReport.Rows[i][j])</td>
+                    if (j == 1 || j == 4 || j == 7 || j == 10 || j==13 || j == 16 || j ==19 || j ==22 || j == 25)
+                    {
+                        totalCarton += double.Parse(string.IsNullOrEmpty(tableReport.Rows[i][j].ToString()) ? "0" : tableReport.Rows[i][j].ToString());
+
+                    }
+                    if (j == 2 || j == 5 || j == 8 || j == 11 || j == 14 || j ==17 || j == 20 || j ==23 || j ==26)
+                    {
+                        totalSkid += double.Parse(string.IsNullOrEmpty(tableReport.Rows[i][j].ToString()) ? "0" : tableReport.Rows[i][j].ToString());
+
+                    }
+                }
+                @{sumTotalCarton += totalCarton; sumTotalSkid += totalSkid;}
+                <td style="color:red">@Math.Round(totalCarton,2).ToString("N2")</td>
+                <td style="color:red">@Math.Round(totalSkid,2).ToString("N2")</td>
+                <td style="color:red">@Math.Round(totalCarton + totalSkid,2).ToString("N2")</td>
+            </tr>
+                    }
+        <tr>
+            <td>Tổng</td>
+            <td></td>
+            @for (int j = 1; j < columns.ToList().Count; j++)
+            {
+                double sum = 0;
+                for (int i = 0; i < tableReport.Rows.Count; i++)
+                {
+                    sum += double.Parse(string.IsNullOrEmpty(tableReport.Rows[i][j].ToString()) ? "0" : tableReport.Rows[i][j].ToString());
+                }
+                listResult[j] = sum;
+                if (j == 3 || j == 6 || j == 9 || j == 12 || j == 15 || j == 18 || j==21 || j == 24 || j == 27)
+                {
+                    double result = Math.Round((listResult[j - 1] + listResult[j - 2]), 2);
+                    <td style="color:red">@result.ToString("N2")</td>
+                }
+                else
+                {
+                    <td style="color:red">@sum.ToString("N2")</td>
+                }
+            }
+            <td style="color:red">@Math.Round(sumTotalCarton,2).ToString("N2")</td>
+            <td style="color:red">@Math.Round(sumTotalSkid, 2).ToString("N2")</td>
+            <td style="color:red">@Math.Round(sumTotalCarton + sumTotalSkid,2).ToString("N2")</td>
+
+        </tr>
+
+    </tbody>
+
+</table>
+
+<script>
+
+    egovutil.CreateTableSort("#tbl-report", [[0, "asc"]], [
+
+        {
+
+            "orderable": true, "targets": [0, 0]
+        }
+        ], true);
+</script>

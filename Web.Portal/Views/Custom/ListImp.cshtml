@@ -1,0 +1,52 @@
+﻿@{
+    Layout = null;
+}
+@model Web.Portal.Layer.ReportImp
+<table class="table table-striped table-bordered table-advance table-hover dt-responsive">
+    <thead>
+        <tr style="background-color:yellow;color:black;font-weight:bold">
+            <th class="all" style="background-color:yellow !important;width:10%;text-align:center" rowspan="2">ĐƠN VỊ BÁO CÁO</th>
+            <th style="background-color:yellow !important;width:40%;text-align:center" colspan="2" > 
+                SỐ LƯỢNG HÀNG HÓA KHAI BÁO TRÊN MANIFEST DỰ KIẾN
+            </th>
+            <th style="background-color:yellow !important;width:25%;text-align:center" colspan="2">
+                SỐ LƯỢNG HÀNG HÓA ĐÃ HẠ VÀO KHO BÃI
+            </th>
+            <th style="background-color:yellow !important;width:25%;text-align:center" colspan="2">
+                SỐ LƯỢNG HÀNG HÓA ĐƯA RA KHỎI KHO BÃI
+            </th>
+
+        </tr>
+        <tr style="background-color:yellow;color:black;font-weight:bold">
+            <th style="background-color:yellow !important;text-align:center">SỐ LƯỢNG CONTAINER</th>
+            <th style="background-color:yellow !important;text-align:center">SỐ LƯỢNG HÀNG RỜI(KG)</th>
+            <th style="background-color:yellow !important;text-align:center">SỐ LƯỢNG CONTAINER</th>
+            <th style="background-color:yellow !important;text-align:center">SỐ LƯỢNG HÀNG RỜI(KG)</th>
+            <th style="background-color:yellow !important;text-align:center">SỐ LƯỢNG CONTAINER</th>
+            <th style="background-color:yellow !important;text-align:center">SỐ LƯỢNG HÀNG RỜI(KG)</th>
+        </tr>
+        <tr style="background-color:yellow;color:black;font-weight:bold">
+            <th style="background-color:yellow !important;text-align:center">(1)</th>
+            <th style="background-color:yellow !important;text-align:center">(2)</th>
+            <th style="background-color:yellow !important;text-align:center">(3)</th>
+            <th style="background-color:yellow !important;text-align:center">(4)</th>
+            <th style="background-color:yellow !important;text-align:center">(5)</th>
+            <th style="background-color:yellow !important;text-align:center">(6)</th>
+            <th style="background-color:yellow !important;text-align:center">(7)</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td style="text-align:center">ALSC</td>
+            <td style="text-align:center"></td>
+            <td style="text-align:center">@Html.DisplayTextFor(model=>model.WeightExpected)</td>
+            <td style="text-align:center"></td>
+            <td style="text-align:center">@Html.DisplayTextFor(model => model.WeightReceived)</td>
+            <td style="text-align:center"></td>
+            <td style="text-align:center">@Html.DisplayTextFor(model=>model.WeightDelivery)</td>
+        </tr>
+    </tbody>
+
+</table>
+
+

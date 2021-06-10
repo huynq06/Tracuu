@@ -1,0 +1,106 @@
+﻿@{
+    Layout = null;
+
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet">
+            <div class="portlet-title">
+                <div class="caption caption-md">
+                    <span class="caption-subject font-blue-madison bold uppercase">Danh sách thành viên</span>
+                </div>
+
+                <div class="actions">
+
+                    <a href="javascript:;" class="btn btn-default btn-sm btn-add-item">
+                        <i class="fa fa-plus"></i> Thêm mới
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+
+                <div class="form-group form-md-line-input">
+                    <table id="tbl-thanhvien" class="table table-striped table-bordered table-advance table-hover">
+                        <thead>
+                            <tr>
+                                <th style="width:5%">
+                                    STT
+                                </th>
+                                <th style="width:15%">
+                                    Mã thành viên
+                                </th>
+                                <th style="width:15%">
+                                    Tên đăng nhập
+                                </th>
+                                <th style="width:20%">
+                                    Tên đầy đủ
+                                </th>
+                                <th style="width:15%">
+                                    Chức vụ
+                                </th>
+                                <th style="width:15%">
+                                    Email
+                                </th>
+                                <th>
+
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var row in (IList<Web.Portal.Sercurity.Member>)ViewData["MemberList"])
+                            {
+
+
+                                <tr>
+                                    <td><a href="#" data-id="@Html.DisplayFor(model=>row.MemberId)" class="btn  btn-xs sqs-member-edit">@Html.Raw(Web.Portal.Utils.Constants.GetActive(row.Active))</a></td>
+                                    <td>
+                                        <a href="#" data-id="@Html.DisplayFor(model => row.MemberId)" class="btn  btn-xs sqs-member-edit">@Html.DisplayTextFor(model => row.Code)</a>
+                                    </td>
+                                    <td>
+                                        <a href="#" data-id="@Html.DisplayFor(model => row.MemberId)" class="btn  btn-xs sqs-member-edit">@Html.DisplayTextFor(model => row.UserName)</a>
+                                    </td>
+                                    <td>
+                                        <a href="#" data-id="@Html.DisplayFor(model => row.MemberId)" class="btn  btn-xs sqs-member-edit">@Html.DisplayTextFor(model => row.FullName)</a>
+                                    </td>
+                                    <td>
+                                        <a href="#" data-id="@Html.DisplayFor(model => row.MemberId)" class="btn  btn-xs sqs-member-edit">@Html.DisplayTextFor(model => row.Rank)</a>
+                                    </td>
+                                    <td>
+                                        <a href="#" data-id="@Html.DisplayFor(model => row.MemberId)" class="btn  btn-xs sqs-member-edit">@Html.DisplayTextFor(model => row.Email)</a>
+                                    </td>
+                                    <td>
+                                        <a href="#" data-id="@Html.DisplayFor(model => row.MemberId)" class="btn  btn-xs sqs-member-edit">
+                                            <i class="fa fa-edit"></i> Sửa
+                                        </a>
+                                        <a href="#" data-id="@Html.DisplayFor(model => row.MemberId)" class="btn  btn-xs sqs-member-delete">
+                                            <i class="fa fa fa-trash-o"></i> Xóa
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(".btn-add-item").click(function () {
+        egovutil.dialog("Thêm mới thành viên", "large", "/member/register/0", "egovutil.loadUrlMain('/member')");
+    });
+    $(".sqs-member-edit").click(function () {
+        egovutil.dialog("Sửa thông tin thành viên", "large", "/member/register/" + $(this).attr("data-id"), "egovutil.loadUrlMain('/member')");
+    });
+    $(".sqs-member-delete").click(function () {
+        egovutil.dlgConfirmAction("Xóa thông tin thành viên", "Bạn muốn xóa thông tin thành viên", "/member/delete/" + $(this).attr("data-id"), "egovutil.loadUrlMain('/member')");
+    });
+    egovutil.CreateTableSort("#tbl-thanhvien", [[0, "asc"]], [
+
+                { "orderable": false, "targets": 6 }
+    ], true);
+
+</script>

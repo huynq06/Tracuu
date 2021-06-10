@@ -1,0 +1,52 @@
+﻿
+@{
+    Layout = null;
+}
+@model Web.Portal.Common.ApiViewModel.CustomDetailViewModel
+<div id="content-invoice">
+
+    <table class="table table-striped table-bordered table-advance table-hover dt-responsive">
+        <thead>
+            <tr>
+                <th class="all" style="width:3%"></th>
+                <th style="width:10%">
+                    TRẠNG THÁI
+                </th>
+                <th style="width:10%">
+                    NGÀY GIỜ
+                </th>
+                <th style="width:10%">
+                    TRẠNG THÁI
+                </th>
+               
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td><a href="#" class="btn edit-hawb  btn-xs">Get In</a></td>
+                <td><a href="#" class="btn edit-hawb  btn-xs"></a>@Model.GetIn.Created</td>
+                <td style="width:10%;padding-top:19px;" align="center"><div class="btn-group green"><i style="font-size:30px; @Html.Raw(Model.GetIn.GetInstatus==1? "color:#00b33c":"color:red")" class="fa @Html.Raw(Model.GetIn.GetInstatus==1? "green fa-check-circle-o": "red fa-close")"></i></div> </td>
+                
+            </tr>
+           
+            <tr>
+                <td>2</td>
+                <td><a href="#" class="btn edit-hawb  btn-xs">Khu vực giám sát</a></td>
+                <td><a href="#" class="btn edit-hawb  btn-xs"></a>@Model.Kvgs.Created</td>
+                <td style="width:10%;padding-top:19px;" align="center"><div class="btn-group green"><i style="font-size:30px; @Html.Raw(Model.Kvgs.KVGSstatus==1? "color:#00b33c":"color:red")" class="fa @Html.Raw(Model.Kvgs.KVGSstatus==1? "green fa-check-circle-o": "red fa-close")"></i></div> </td>
+                
+            </tr>
+            <tr>
+                <td>3</td>
+                <td><a href="#" class="btn edit-hawb  btn-xs">Get Out</a></td>
+                <td><a href="#" class="btn edit-hawb  btn-xs"></a>@Model.GetOut.Created</td>
+                <td style="width:10%;padding-top:19px;" align="center"><div class="btn-group green"><i style="font-size:30px; @Html.Raw(Model.GetOut.GetInstatus==1? "color:#00b33c":"color:red")" class="fa @Html.Raw(Model.GetOut.GetInstatus==1? "green fa-check-circle-o": "red fa-close")"></i></div> </td>
+            </tr>
+
+        </tbody>
+
+    </table>
+
+
+</div>

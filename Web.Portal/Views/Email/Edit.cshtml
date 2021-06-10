@@ -1,0 +1,196 @@
+﻿
+@{
+    Layout = null;
+}
+@model Web.Portal.Model.Models.IADR_INVOICE_EMAIL
+<style>
+    element.style {
+        width: 80px;
+    }
+
+    #ui-id-1 {
+        width: 100px;
+    }
+
+    .ui-autocomplete ui-front ui-menu ui-widget ui-widget-content {
+        width: 100px;
+    }
+
+    .ui-autocomplete {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        z-index: 10051;
+        float: left;
+        display: none;
+        min-width: 120px;
+        min-width: 160px;
+        padding: 4px 0;
+        margin: 0 0 10px 25px;
+        list-style: none;
+        background-color: #ffffff;
+        border-color: #ccc;
+        border-color: rgba(0, 0, 0, 0.2);
+        border-style: solid;
+        border-width: 1px;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        border-radius: 5px;
+        -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        -webkit-background-clip: padding-box;
+        -moz-background-clip: padding;
+        background-clip: padding-box;
+        *border-right-width: 2px;
+        *border-bottom-width: 2px;
+    }
+
+    .ui-menu-item > a.ui-corner-all {
+        display: block;
+        padding: 3px 15px;
+        clear: both;
+        font-weight: normal;
+        line-height: 18px;
+        color: #555555;
+        white-space: nowrap;
+        text-decoration: none;
+    }
+
+    .ui-state-hover, .ui-state-active {
+        color: #ffffff;
+        text-decoration: none;
+        background-color: #0088cc;
+        border-radius: 0px;
+        -webkit-border-radius: 0px;
+        -moz-border-radius: 0px;
+        background-image: none;
+    }
+</style>
+<div id="content-uld">
+    <form class="form-horizontal" id="frmAction">
+
+        <input type="hidden" name="keyValue" id="txtEmailID" value="@Html.DisplayFor(model=>model.ID)" />
+        
+        <div class="form-body">
+            <div class="form-group form-md-line-input">
+                <label class="col-md-2 control-label" for="frmAction">
+                    <b>TÊN CÔNG TY:</b>
+                    <span class="required">*</span>.
+                </label>
+                <div class="col-md-8">
+                    <input class="form-control form-control-inline" id="barCode" placeholder="Nhập tên cty" value="@Html.DisplayFor(model=>model.NAME)" name="name" />
+                    <div class="form-control-focus"> </div>
+                    <span class="help-block">CÔNG TY</span>
+                </div>
+            </div>
+        </div>
+        
+        
+        <div class="form-group form-md-line-input">
+
+            <label class="col-md-2 control-label" for="frmAction">
+                <b>Email:</b>
+
+            </label>
+            <div class="col-md-10">
+                <textarea rows="2" cols="10" class="form-control" placeholder="Email ngăn cách nhau bởi dấu ';'" name="email">@Html.Raw(Model.EMAIL)</textarea>
+                <div class="form-control-focus"> </div>
+                <span class="help-block">Nhập Email</span>
+            </div>
+        </div>
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-success" id="btnSave"><i class="fa fa-floppy-o"></i> Lưu thông tin</button>
+            <button type="reset" id="reset" class="btn btn-success"><i class="fa fa-refresh"></i> Làm mới</button>
+        </div>
+
+
+
+
+        <!-- /.box-footer -->
+    </form>
+</div>
+<script>
+    //var dlgAction = {
+    //    search: function () {
+    //        egovutil.getContent("#content-uld", "/kscb/flightasign/" + $('#txtFlightID').val());
+    //    }
+    //}
+
+    $('.bs-select').selectpicker({
+        iconBase: 'fa',
+        tickIcon: 'fa-check'
+    });
+    //$("#reset").click(function () {
+    //    dlgAction.search();
+    //});
+
+    var message = {
+        locationID: {
+            required: "Vị Trí Không được trống"
+        },
+        uld_typeID:
+        {
+            required: "Loại ULD không được trống"
+        },
+        barCode:
+        {
+            required: "Vui lòng nhập Barcode"
+        }
+    };
+    var rule = {
+        locationID: { required: true },
+        uld_typeID: { required: true },
+        barCode: { required: true },
+    };
+
+    egovutil.submit("#frmAction", rule, message, "/Email/action");
+    var common = {
+        init: function () {
+            common.registerEvents();
+        },
+        registerEvents: function () {
+            //var flightID = $('#txtFlightID').val();
+
+
+            $("#barCode").autocomplete({
+                minLength: 0,
+
+                source: function (request, response) {
+                    var data = {
+                        keyword: request.term,
+                        //ID: flightID
+                    }
+                    $.ajax({
+                        url: "/Email/GetListULDByName",
+                        dataType: "json",
+                        data: {
+                            dataViewModel: JSON.stringify(data)
+                        },
+                        success: function (res) {
+                            console.log(res.data);
+                            response(res.data);
+                        }
+                    });
+                },
+                focus: function (event, ui) {
+                    $("#barCode").val(ui.item.label);
+                    return false;
+                },
+                select: function (event, ui) {
+                    $("#barCode").val(ui.item.label);
+                    return false;
+                }
+            }).autocomplete("instance")._renderItem = function (ul, item) {
+                console.log(item.label);
+                return $("<li style='float:left;width:50%;height:50px;color:red;list-style: none;border-bottom: 1px black;'>")
+        .append("<a style='height:200px'>" + item.label + "</a>")
+        .appendTo(ul);
+            };
+
+        }
+    }
+    common.init();
+
+</script>

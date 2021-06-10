@@ -1,0 +1,126 @@
+﻿@{
+    Layout = null;
+ 
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet">
+            <div class="portlet-title">
+                <div class="caption caption-md">
+                    <span class="caption-subject font-blue-madison bold uppercase">Danh sách AWB</span>
+                </div>
+
+                @*<div class="actions">
+
+                    <a href="javascript:;" class="btn btn-default btn-sm btn-add-item">
+                        <i class="fa fa-plus"></i> Thêm mới
+                    </a>
+                </div>*@
+            </div>
+            <div class="portlet-body">
+                <div class="row">
+                    <div class="form-group form-md-line-input">
+                        <div class="form-group form-md-line-input">
+                            @*<label class="col-md-1 control-label" for="frmAction"><b>Tình trạng</b></label>*@
+                            <div class="md-radio-inline col-md-10">
+                                <div class="md-radio has-warning">
+                                    <input id="awbWaiting" name="tinhTrang" value="1" class="md-radiobtn" type="radio" checked>
+                                    <label for="awbWaiting">
+                                        <span></span>
+                                        <span class="check"></span>
+                                        <span class="box"></span> Danh sách chờ
+                                    </label>
+                                </div>
+                                <div class="md-radio has-error">
+                                    <input id="awbDim" name="tinhTrang" value="2" class="md-radiobtn" type="radio">
+                                    <label for="awbDim">
+                                        <span></span>
+                                        <span class="check"></span>
+                                        <span class="box"></span> Ds đủ ĐK cân
+                                    </label>
+                                </div>
+                                <div class="md-radio has-success">
+                                    <input id="awbScale1" name="tinhTrang" value="3" class="md-radiobtn" type="radio">
+                                    <label for="awbScale1">
+                                        <span class="inc"></span>
+                                        <span class="check"></span>
+                                        <span class="box"></span> Danh sách Cân 1
+                                    </label>
+                                </div>
+                                <div class="md-radio has-info">
+                                    <input id="awbScale2" name="tinhTrang" value="4" class="md-radiobtn" type="radio">
+                                    <label for="awbScale2">
+                                        <span class="inc"></span>
+                                        <span class="check"></span>
+                                        <span class="box"></span> Danh sách Cân 2
+                                    </label>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="row">
+                    <div class="col-md-12 col-sm-12">
+                        <div id="content-list-result">
+
+                        </div>
+                    </div>
+
+
+                </div>
+              
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    var Action = {
+        setValueInput: function () {
+
+            $('.input-sm').attr('placeholder', 'phím tắt F1')
+        },
+    }
+  
+    var refreshIntervalId;
+    var hermesAction = {
+        searchWaiting: function () {
+
+            egovutil.getContentCallBack("#content-list-result", "/IssueManagement/list/0", Action.setValueInput);
+        },
+        searchDim: function () {
+
+            egovutil.getContentCallBack("#content-list-result", "/IssueManagement/list/1", Action.setValueInput);
+        },
+        searchScaleOne: function () {
+
+            egovutil.getContentCallBack("#content-list-result", "/IssueManagement/list/2", Action.setValueInput);
+        },
+        searchScaleSecond: function () {
+
+            egovutil.getContentCallBack("#content-list-result", "/IssueManagement/list/3", Action.setValueInput);
+        },
+        
+    }
+    hermesAction.searchWaiting();
+    $('input[type=radio][name=tinhTrang]').change(function () {
+        if (this.id == 'awbWaiting') {
+            egovutil.getContentCallBack("#content-list-result", "/IssueManagement/list/0", Action.setValueInput);
+        }
+        if (this.id == 'awbDim') {
+            egovutil.getContentCallBack("#content-list-result", "/IssueManagement/list/1", Action.setValueInput);
+        }
+        else if (this.id == 'awbScale1') {
+            egovutil.getContentCallBack("#content-list-result", "/IssueManagement/list/2", Action.setValueInput);
+        }
+        else {
+            egovutil.getContentCallBack("#content-list-result", "/IssueManagement/list/3", Action.setValueInput);
+        }
+    });
+
+</script>

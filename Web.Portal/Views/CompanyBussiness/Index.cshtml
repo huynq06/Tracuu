@@ -1,0 +1,162 @@
+﻿
+@{
+    Layout = null;
+
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet">
+            <div class="portlet-title">
+                <div class="caption caption-md">
+                    <span class="caption-subject font-blue-madison bold uppercase">QUẢN LÝ THÔNG TIN ỦY QUYỀN</span>
+                </div>
+                <div class="actions">
+                    <a href="javascript:;" class="btn btn-circle btn-danger btn-add">
+                        <i class="fa fa-plus"></i>Thêm mới thông tin ủy quyền
+                    </a>
+                    <a href="javascript:;" class="btn btn-circle btn-danger btn-syn">
+                        <i class="fa fa-plus"></i>Đồng bộ dữ liệu
+                    </a>
+                    <a href="javascript:;" data-id="02" class="btn btn-circle btn-danger btn-export">
+                        <i class="fa fa-download"></i> Xuất thông tin
+                    </a>
+                    <a href="javascript:;" data-id="02" class="btn btn-circle btn-danger btn-tablecontent">
+                        <i class="fa fa-book"></i> Xem mục lục
+                    </a>
+                    <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="row">
+                    <div class="form-group form-md-line-input">
+                        <div class="col-md-2 col-xs-12">
+                            <select class="form-control  bs-select" id="sr_year" data-live-search="true" data-size="8">
+
+                                @for (int i = 2018; i < 2050; i++)
+                                {
+                                    <option value="@Html.DisplayTextFor(model=>i)" @Html.Raw(i == DateTime.Now.Year ? "Selected" : "")>@Html.DisplayTextFor(model => i)</option>
+                                }
+                               
+                            </select>
+                            <div class="form-control-focus"> </div>
+                            <span class="help-block">Năm</span>
+                        </div>
+                        <div class="col-md-2 col-xs-12">
+                            <input class="form-control form-control-inline" id="sr_code" value="" placeholder="Mã ủy quyền" />
+                            <div class="form-control-focus"> </div>
+                            <span class="help-block">Tìm theo mã ủy quyền</span>
+
+                        </div>
+                        <div class="col-md-3 col-xs-12">
+                            <input class="form-control form-control-inline" id="sr_name" value="" placeholder="Tên bên ủy quyền" />
+                            <div class="form-control-focus"> </div>
+                            <span class="help-block">Tìm theo tên bên ủy quyền</span>
+
+
+                        </div>
+
+
+                        <div class="col-md-2 col-xs-12">
+                            <input class="form-control form-control-inline" id="sr_namechild" value="" placeholder="Tên bên được ủy quyền" />
+                            <div class="form-control-focus"> </div>
+                            <span class="help-block">Tìm theo tên bên được ủy quyền</span>
+
+
+                        </div>
+
+
+                        <div class="col-md-3 col-xs-12">
+
+                            <div class="input-group">
+
+                                <input class="form-control form-control-inline" id="sr_idno" value="" placeholder="Số CMND" />
+                                <div class="form-control-focus"> </div>
+                                <span class="help-block">Tìm theo số CMND</span>
+                                <span class="input-group-btn">
+                                    <button id="btn-search" class="btn btn-success" type="button"><i class="fa fa-search"></i></button>
+                                </span>
+
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="content-list-result">
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+
+
+
+        </div>
+    </div>
+
+</div>
+<script>
+    var companyBussinessAction = {
+        search: function () {
+            egovutil.getContent("#content-list-result", "/companybussiness/list?year="+$("#sr_year").val()
+                                                                   + "&code=" + findAndReplace($("#sr_code").val(), "&", "CCCCCCCCC")
+                                                                    + "&name=" + findAndReplace($("#sr_name").val(), "&", "CCCCCCCCC")
+                                                                    + "&namechild=" + findAndReplace($("#sr_namechild").val(), "&", "CCCCCCCCC")
+                                                                    + "&idno=" + findAndReplace($("#sr_idno").val(), "&", "CCCCCCCCC")
+
+                                                                    );
+        }
+    }
+    $('.date-picker').datepicker({
+        rtl: App.isRTL(),
+        orientation: "left",
+        autoclose: true
+    });
+    $(".btn-export").click(function () {
+        window.location.href = "/companybussiness/export?year=" + $("#sr_year").val()
+                                                                    + "&code=" +findAndReplace( $("#sr_code").val(),"&","CCCCCCCCC")
+                                                                    + "&name=" + findAndReplace($("#sr_name").val(), "&", "CCCCCCCCC")
+                                                                    + "&namechild=" + findAndReplace($("#sr_namechild").val(), "&", "CCCCCCCCC")
+                                                                    + "&idno=" + findAndReplace($("#sr_idno").val(), "&", "CCCCCCCCC")
+    });
+
+    $('.bs-select').selectpicker({
+        iconBase: 'fa',
+        tickIcon: 'fa-check'
+    });
+    $(".btn-add").click(function () {
+        egovutil.dialog("Thêm mới thông tin ủy quyền", "large", "/companybussiness/edit?cmd=ADD&year="+$("#sr_year").val(), "companyBussinessAction.search()");
+    });
+    $(".btn-tablecontent").click(function () {
+        egovutil.dialog("Thông tin mục lục", "large", "/companybussiness/muclucuyquyen?year=" + $("#sr_year").val() + "&AuthorityTypeId=" + "1", "");
+    });
+    //btn-tablecontent
+    $(".btn-syn").click(function () {
+        egovutil.dialog("Đồng bộ dữ liệu", "normal", "/companybussiness/nextyear", "companyBussinessAction.search()");
+    });
+    // sitaAction.search();
+    $("#btn-search").click(function () { companyBussinessAction.search(); })
+    function findAndReplace(string, target, replacement) {
+
+        var i = 0, length = string.length;
+
+        for (i; i < length; i++) {
+
+            string = string.replace(target, replacement);
+
+        }
+
+        return string;
+
+    }
+</script>

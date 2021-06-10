@@ -1,0 +1,159 @@
+﻿@{
+    Layout = null;
+
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet">
+            <div class="portlet-title">
+                <div class="caption caption-md">
+                    <span class="caption-subject font-blue-madison bold uppercase">THÔNG TIN VẬN ĐƠN HÀNG XUẤT</span>
+                    <div>
+                        <span class="caption-subject font-blue-madison bold uppercase">@ViewBag.SoTien</span>
+                    </div>
+                </div>
+                <div class="actions">
+                    <a href="javascript:;" data-id="02" class="btn btn-circle btn-danger btn-export-log">
+                        <i class="fa fa-download"></i> Xuất danh sách
+                    </a>
+                    @*<a href="javascript:;" class="btn btn-default btn-sm btn-add-item">
+                            <i class="fa fa-plus"></i> Thêm mới
+                        </a>*@
+                    <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="row">
+                    <div class="form-group form-md-line-input">
+                        <div class="col-md-2 col-xs-3">
+                            <div class="input-group">
+                                <input class="form-control form-control-inline input txtName" placeholder="SỐ MAWB" maxlength="12" id="awb" />
+                                <div class="form-control-focus"> </div>
+                                <span class="help-block">SỐ MAWB</span>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-success btn-search-sita" style="display:block" type="button"><i class="fa fa-search"></i></button>
+                                </span>
+                            </div>
+                            </div>
+                        @*<div class="col-md-2 col-xs-12">
+                            <div class="input-group">
+                                <input class="form-control form-control-inline input txtName" placeholder="SỐ HAWB" maxlength="15" id="hawb" />
+                                <div class="form-control-focus"> </div>
+                                <span class="help-block">SỐ HAWB</span>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-success btn-search-sita" style="display:block" type="button"><i class="fa fa-search"></i></button>
+                                </span>
+                            </div>
+
+
+                        </div>*@
+                        <div class="col-md-2 col-xs-12" id="search-sdd" style="display:none">
+                            <div class="input-group">
+                                <input class="form-control form-control-inline input txtName" placeholder="SỐ ĐỊNH DANH" maxlength="15" id="sdd" />
+                                <div class="form-control-focus"> </div>
+                                <span class="help-block">SỐ ĐỊNH DANH</span>
+
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-2 col-xs-12" id="search-stk" style="display:none">
+                            <div class="input-group">
+                                <input class="form-control form-control-inline input txtName" placeholder="SỐ TỜ KHAI" maxlength="15" id="stk" />
+                                <div class="form-control-focus"> </div>
+                                <span class="help-block">SỐ TỜ KHAI</span>
+
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-2 col-xs-12" id="search-vct" style="display:none">
+                            <div class="input-group">
+                                <input class="form-control form-control-inline input txtName" placeholder="SỐ VCT" maxlength="15" id="vct" />
+                                <div class="form-control-focus"> </div>
+                                <span class="help-block">SỐ VCT</span>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-success btn-search-sita" style="display:none" type="button"><i class="fa fa-search"></i></button>
+                                </span>
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-2 col-xs-12" style="padding-top:14px">
+                            <a id="advance-search">
+                                <div id="arrow-advance" style="display:block">
+                                    <i class="fa fa-angle-down "></i>
+                                    <span>Tìm kiếm nâng cao</span>
+                                </div>
+                                <div id="arrow-base" style="display:none">
+                                    <i class="fa fa-angle-up"></i>
+                                    <span>Tìm kiếm cơ bản</span>
+                                </div>
+
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="margin-top:10px">
+                    <div class="col-md-12">
+                        <div id="content-list-result">
+
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+
+
+
+
+        </div>
+    </div>
+
+</div>
+<script>
+    var hermesAction = {
+        search: function () {
+            egovutil.getContent("#content-list-result", "/AwbExportDetail/list?awb=" + $("#awb").val()
+                    + "&hawb=" + $("#hawb").val() + "&vct=" + $("#vct").val() + "&sdd=" + $("#sdd").val() + "&stk=" + $("#stk").val()
+                                                                    );
+        }
+    }
+    //hermesAction.search();
+    //$(".btn-add-item").click(function () {
+    //    egovutil.dialog("THÊM MỚI HÀNG NHANH", "large", "/HawbManagement/edit/", "hermesAction.search()");
+    //});
+    $('.date-picker').datepicker({
+        rtl: App.isRTL(),
+        orientation: "left",
+        autoclose: true
+    });
+    $(".btn-export-log").click(function () {
+        window.location.href = "/HawbManagement/export?fno=" + $("#fno").val()
+                                                                    + "&ata=" + $("#ata").val()
+    });
+
+    $("#advance-search").click(function () {
+        //$("#search-pxk").toggle();
+        $("#search-sdd").toggle();
+        $("#search-stk").toggle();
+        $("#search-vct").toggle();
+        $(".btn-search-sita").toggle();
+        $("#arrow-advance").toggle();
+        $("#arrow-base").toggle();
+    });
+
+    $('.bs-select').selectpicker({
+        iconBase: 'fa',
+        tickIcon: 'fa-check'
+    });
+
+    // sitaAction.search();
+    $(".btn-search-sita").click(function () { hermesAction.search(); })
+
+</script>

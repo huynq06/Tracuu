@@ -1,0 +1,80 @@
+﻿@{
+    Layout = null;
+
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet">
+            <div class="portlet-title">
+                <div class="caption caption-md">
+                    <span class="caption-subject font-blue-madison bold uppercase">Thống kê ULD hàng xuất</span>
+                </div>
+                <div class="actions">
+                    <a href="javascript:;" data-id="02" class="btn btn-circle btn-danger btn-export-log">
+                        <i class="fa fa-download"></i> Xuất thông tin
+                    </a>
+                    <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="row">
+                    <div class="form-group form-md-line-input">
+                    
+
+                    </div>
+
+                    <div class="form-group form-md-line-input">
+                        <div class="col-md-12">
+
+                            <div class="kv-avatar center-block">
+                                <div id="fileImport">
+
+                                </div>
+
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group form-md-line-input">
+
+                        <div id="content-list-result">
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+
+
+
+
+            </div>
+
+
+
+
+
+        </div>
+    </div>
+
+</div>
+<script>
+   
+    $(".btn-export-log").click(function () {
+        window.location.href = "/expawb/exportuld?file=" + $("#fileImportattach").val()
+
+
+
+    });
+    egovutil.createUploadFile("fileImport", "", "");
+
+   
+
+</script>

@@ -1,0 +1,74 @@
+﻿
+@{
+    Layout = null;
+}
+@model Web.Portal.Model.Models.FLUP
+<form class="form-horizontal" id="frmAction">
+    <input type="hidden" name="keyValue" value="@Html.DisplayFor(model=>model.FLUP_INT_NUMBER)" />
+    <div class="form-body">
+        <div class="form-group form-md-line-input">
+            <label class="col-md-3 control-label" for="frmAction">
+                <b>CHUYẾN BAY:</b>
+                <span class="required">*</span>
+            </label>
+            <div class="col-md-3">
+                <input class="form-control form-control-inline input txtName" placeholder="Chuyến bay" maxlength="256" data-id="@Html.DisplayTextFor(model=>model.FLUP_INT_NUMBER)" value="@Html.DisplayTextFor(model=>model.FLUP_FLIGHT_NO_LVG)" name="flight" />
+                <div class="form-control-focus"> </div>
+                <span class="help-block">NHẬP CHUYẾN BAY</span>
+            </div>
+            <label class="col-md-3 control-label" for="frmAction">
+                <b>SỐ HIỆU:</b>
+                <span class="required">*</span>
+            </label>
+            <div class="col-md-3">
+                <input class="form-control form-control-inline input txtName" placeholder="Chuyến bay" maxlength="256" data-id="@Html.DisplayTextFor(model=>model.FLUP_INT_NUMBER)" value="@Html.DisplayTextFor(model=>model.FLUP_FLIGHT_NO)" name="code" />
+                <div class="form-control-focus"> </div>
+                <span class="help-block">NHẬP SỐ HIỆU</span>
+            </div>
+        </div>
+        <div class="form-group form-md-line-input">
+         
+            <label class="col-md-3 control-label" for="frmAction">
+                <b>STD:</b>
+                <span class="required">*</span>
+            </label>
+            <div class="col-md-3">
+                <input class="form-control form-control-inline date-picker" value="@Html.Raw(Model.FLUP_SCHEDULED_DATE.ToString("dd/MM/yyyy HH:mm"))" id="std" placeholder="STD" maxlength="20" name="std" />
+                <div class="form-control-focus"> </div>
+                <span class="help-block">STD</span>
+            </div>
+            <label class="col-md-3 control-label" for="frmAction">
+                <b>ATD:</b>
+                <span class="required">*</span>
+            </label>
+            <div class="col-md-3">
+                <input class="form-control form-control-inline input txtName" placeholder="Type" maxlength="256" data-id="@Html.DisplayTextFor(model=>model.FLUP_INT_NUMBER)" id="atd" value="@Html.DisplayTextFor(model=>model.FLUP_ACTUAL_DATE)" name="atd" />
+                <div class="form-control-focus"> </div>
+                <span class="help-block">Nhập ATD</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center">
+        <button type="submit" class="btn btn-success" id="btnSave"><i class="fa fa-floppy-o"></i> Lưu thông tin</button>
+        <button type="reset" class="btn btn-success"><i class="fa fa-refresh"></i> Làm mới</button>
+    </div>
+    <!-- /.box-footer -->
+</form>
+<script>
+    $(".form_datetime").datetimepicker({
+        autoclose: true,
+        isRTL: App.isRTL(),
+        format: "dd/mm/yyyy  hh:ii",
+        pickerPosition: (App.isRTL() ? "bottom-right" : "bottom-left")
+    });
+
+    $('.bs-select').selectpicker({
+        iconBase: 'fa',
+        tickIcon: 'fa-check'
+    });
+    var message = {};
+    var rule = {};
+    egovutil.submit("#frmAction", rule, message, "/Flup/action");
+
+</script>

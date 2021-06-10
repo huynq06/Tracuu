@@ -1,0 +1,66 @@
+﻿
+@{
+    Layout = null;
+}
+@model Web.Portal.Model.Models.VCT
+<form class="form-horizontal" id="frmAction">
+
+    <input type="hidden" name="keyValue" value="@Html.DisplayFor(model=>model.ID)" />
+    <div class="form-body">
+        <div class="form-group form-md-line-input">
+            <label class="col-md-3 control-label" for="frmAction">
+                <b>AWB:</b>
+                <span class="required">*</span>
+            </label>
+            <div class="col-md-9">
+                <input class="form-control form-control-inline input txtName" placeholder="Tên hãng" maxlength="256" data-id="@Html.DisplayTextFor(model=>model.LABS_AWB)" value="@Html.DisplayTextFor(model=>model.LABS_AWB)" name="awb" />
+                <div class="form-control-focus"> </div>
+                <span class="help-block">NHẬP TÊN HÃNG</span>
+            </div>
+        </div>
+
+        <div class="form-group form-md-line-input">
+            <label class="col-md-3 control-label" for="frmAction">
+                <b>Số kiện:</b>
+                <span class="required">*</span>
+            </label>
+            <div class="col-md-3">
+                <input id="customerEmail" class="form-control form-control-inline" placeholder="Nhập Type P/C" maxlength="256" value="@Html.DisplayTextFor(model=>model.LABS_QUANTITY_BOOKED)" name="pieces" />
+                <div class="form-control-focus"> </div>
+                @*<span class="help-block">Nhập Tiêu Đề SEO</span>*@
+            </div>
+            <label class="col-md-3 control-label" for="frmAction">
+                <b>Booking:</b>
+                @*<span class="required">*</span>*@
+            </label>
+            <div class="col-md-3">
+                <input id="customerEmail" class="form-control form-control-inline" placeholder="Aircraft Type" maxlength="256" value="@Html.DisplayTextFor(model=>model.BOOKING_FLIGHT)" name="booking" />
+                <div class="form-control-focus"> </div>
+                @*<span class="help-block">Nhập Tiêu Đề SEO</span>*@
+            </div>
+        </div>
+
+        @*<div class="form-group form-md-line-input">
+            <label class="col-md-3 control-label" for="frmAction">
+                <b>SOP(m):</b>
+                <span class="required">*</span>
+            </label>
+            <div class="col-md-3">
+                <input class="form-control form-control-inline" placeholder="SDT" maxlength="50" value="@Html.DisplayTextFor(model=>model.SopTime)" name="sop" />
+                <div class="form-control-focus"> </div>
+            </div>
+        </div>*@
+    </div>
+
+    <div class="text-center">
+        <button type="submit" class="btn btn-success" id="btnSave"><i class="fa fa-floppy-o"></i> Lưu thông tin</button>
+        <button type="reset" class="btn btn-success"><i class="fa fa-refresh"></i> Làm mới</button>
+    </div>
+    <!-- /.box-footer -->
+</form>
+<script>
+    var message = {};
+    var rule = {};
+    egovutil.submit("#frmAction", rule, message, "/issuemanagement/action");
+
+</script>

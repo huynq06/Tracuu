@@ -1,0 +1,130 @@
+﻿@*@{
+    Layout = null;
+
+}*@
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet">
+            <div class="portlet-title">
+                <div class="caption caption-md">
+                    <span class="caption-subject font-blue-madison bold uppercase">XUẤT MẪU ĐIỆN VĂN</span>
+                </div>
+                <div class="actions">
+                    <a href="javascript:;"  class="btn btn-circle btn-danger btn-sita-gen">
+                        <i class="fa fa-download"></i> Xuất điện văn
+                    </a>                   
+
+                    <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="row">
+                    <div class="form-group form-md-line-input">                        
+                        <div class="col-md-2 col-xs-3">
+                            <select class="form-control  bs-select" id="cd" data-live-search="true" data-size="8">
+                                <option value="ALL"></option>
+                                @foreach (var item in (IList<string>)ViewData["CODE"])
+                                {
+                                    <option value="@Html.DisplayTextFor(model=>item)">@Html.DisplayTextFor(model => item)</option>
+                                }
+                            </select>
+                            <div class="form-control-focus"> </div>
+                            <span class="help-block">Ký hiệu</span>
+                        </div>
+                        <div class="col-md-2 col-xs-9">
+                            <select class="form-control  bs-select" id="fno" data-live-search="true" data-size="8">
+                                <option value="ALL"></option>
+                                @foreach (var item in (IList<string>)ViewData["CODE"])
+                                {
+                                    <option value="@Html.DisplayTextFor(model=>item)">@Html.DisplayTextFor(model => item)</option>
+                                }
+                            </select>
+                            <div class="form-control-focus"> </div>
+                            <span class="help-block">Tìm theo số hiệu</span>
+                        </div>
+                        <div class="col-md-2 col-xs-12">
+
+                            <input class="form-control form-control-inline date-picker" value="@Html.Raw(DateTime.Now.ToString("dd/MM/yyyy"))" id="fda" placeholder="Từ ngày" maxlength="20" data-date-format="dd/mm/yyyy" />
+                            <div class="form-control-focus"> </div>
+                            <span class="help-block">Tìm theo từ ngày</span>
+
+                        </div>                      
+                         <div class="col-md-4 col-xs-12">
+                            <div class="input-group">
+                                <input class="form-control uppercase" id="mawb" placeholder="MAWB" maxlength="30" />
+                                <div class="form-control-focus"> </div>
+                                <span class="help-block">Vui lòng nhập số MAWB cần tìm</span>
+                                <span class="input-group-btn">
+                                    <button id="btn-search" class="btn btn-success" type="button"><i class="fa fa-search"></i></button>
+                                </span>
+
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="row">
+                    <div class="form-group form-md-line-input">
+
+                        <div id="content-list-result">
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+
+
+
+        </div>
+    </div>
+
+</div>
+<script>
+    var sitaAction = {
+        search: function () {
+            egovutil.getContent("#content-list-result", "/gensita/list?cd=" + $("#cd").val()
+                                                                    + "&fno=" + $("#fno").val()
+                                                                    + "&fda=" + $("#fda").val()
+                                                                    + "&tda=" + $("#fda").val() + "&hawb=" + $("#hawb").val()
+                                                                    + "&mawb=" + $("#mawb").val()
+
+                                                                    );
+        },
+        changeCode: function () {
+            egovutil.getContentCallBack("#fno", "/gensita/getno/" + $("#cd").val(), "$('#fno').selectpicker('refresh');");
+        }
+    }
+    $('.date-picker').datepicker({
+        rtl: App.isRTL(),
+        orientation: "left",
+        autoclose: true
+    });
+    $("#cd").change(function () {
+        hermesAction.changeCode();
+    });
+    $('.bs-select').selectpicker({
+        iconBase: 'fa',
+        tickIcon: 'fa-check'
+    });
+    sitaAction.changeCode();    
+    // sitaAction.search();
+    $("#btn-search").click(function () { sitaAction.search(); })
+    $(".btn-sita-gen").click(function () {
+        var chkVals = $('.ident_id:checkbox:checked').map(function () {
+            return this.value;
+        }).get();
+        if (chkVals.join(",") == "")
+            egovutil.MessageToast("error", "Thông báo", "Vui lòng chọn thông tin vận đơn!");
+        else
+            egovutil.dialog("Xuất thông tin điện văn", "large", "/gensita/edit?id=" + chkVals.join(","), "");
+    })
+</script>

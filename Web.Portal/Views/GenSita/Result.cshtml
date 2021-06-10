@@ -1,0 +1,10 @@
+﻿@{
+    Layout = null;
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-body">
+<textarea rows="15" cols="20" class="form-control">@foreach(var item in (List<string>)ViewData["ListSita"]){@Html.Raw(item);}</textarea>
+        </div>
+    </div>
+</div>

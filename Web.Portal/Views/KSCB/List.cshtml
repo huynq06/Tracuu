@@ -1,0 +1,154 @@
+﻿@{
+    Layout = null;
+    List<Web.Portal.Common.ViewModel.FlightViewModel> listFlightViewModel = (List<Web.Portal.Common.ViewModel.FlightViewModel>)ViewData["ListFlightViewModel"];
+
+}
+<div class="col-lg-12 col-sm-12">
+    @*<div class='col-md-12 col-xs-12 margin-top-10'>
+        <label class='control-label uppercase'><b>Danh sach chuyen bay:</b></label>
+    </div>*@
+    
+    <table class="table table-striped table-bordered table-advance table-hover dt-responsive">
+        <thead>
+            <tr style="">
+                <th style="width:10%">
+
+                </th>
+                <th style="width:20%;font-size:16px;background-color:yellow !important;text-align:center">
+                    SỐ HIỆU CHUYẾN BAY
+                </th>
+                <th style="width:10%;font-size:16px;background-color:yellow !important;text-align:center">
+                    HẠ CÁNH
+                </th>
+                <th style="width:10%;font-size:16px;background-color:yellow !important;text-align:center">
+                    TRẠNG THÁI
+                </th>
+                <th style="width:10%;font-size:16px;background-color:yellow !important;text-align:center">
+                    TỔNG ULD
+                </th>
+                <th style="width:10%;font-size:16px;background-color:yellow !important;text-align:center">
+                    ULD ĐANG XL
+                </th>
+                <th style="width:10%;font-size:16px;background-color:yellow !important;text-align:center">
+                    ULD REMAIN
+                </th>
+                <th style="width:10%;font-size:16px;background-color:yellow !important;text-align:center">
+                    ULD FINISH
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var row in (IList<Web.Portal.Model.Models.Flight>)ViewData["ListFlight"])
+            {
+                foreach (var rowxl in listFlightViewModel.Where(c => c.FlightID == row.FlightID))
+                {
+                    <tr>
+                        <td>
+
+                            <div class="btn-group">
+                                <button class="btn green btn-sm btn-outline  dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                    <i class="fa fa-angle-down"></i>
+                                </button>
+                                <ul class="dropdown-menu pull-right" style="left:0px">
+                                    <li>
+                                        <a href="javascript:;" data-id="@Html.DisplayFor(model => row.ID)" class="flight-finish btn btn-xs @Html.Raw(row.Status == false ? "" : "disabled")" style="margin-right:45px !important">
+                                            <i class="fa fa-close"></i> Đóng chuyến
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:;" data-id="@Html.DisplayFor(model => row.ID)" class="flight-reload btn btn-xs @Html.Raw(row.Status == false ? "" : "disabled")">
+                                            <i class="fa fa-refresh"></i> Reload From Hermes
+                                        </a>
+                                    </li>
+
+                                    @*<li>
+                        <a href="javascript:;" data-id="@Html.DisplayFor(model => row.ID)" class="sqs-soghinhan-comment">
+                            <i class="fa fa-comment"></i> Comment
+                        </a>
+                    </li>*@
+
+
+                                </ul>
+                            </div>
+
+
+
+                        </td>
+                        <td style="font-size:14px"><a href="#" data-flight="@Html.DisplayFor(model=>row.FlightID)" class="btn btn-xs flight-asign">@Html.DisplayTextFor(model => row.FlightNumber)</a></td>
+                        <td style="font-size:14px"><a href="#" data-flight="@Html.DisplayFor(model=>row.FlightID)" class="btn btn-xs flight-asign">@Html.Raw(row.LandedDate.HasValue ? row.LandedDate.Value.ToString("dd/MM/yyyy HH:mm") : string.Empty)</a></td>
+                        <td style="font-size:14px"><a href="#" data-flight="@Html.DisplayFor(model=>row.FlightID)" class="btn btn-xs flight-asign" style="text-align:center">@Html.Raw(row.Status == false ? "OPEN" : "CLOSE")</a> </td>
+                        <td style="font-size:14px"><a href="#" data-flight="@Html.DisplayFor(model=>row.FlightID)" class="btn btn-xs flight-asign" style="text-align:center">@Html.DisplayTextFor(model => rowxl.ULDTotal)</a> </td>
+                        <td style="font-size:14px"><a href="#" data-flight="@Html.DisplayFor(model=>row.FlightID)" class="btn btn-xs flight-asign" style="text-align:center">@Html.DisplayTextFor(model => rowxl.ULDProcessing)</a> </td>
+                        <td style="font-size:14px"><a href="#" data-flight="@Html.DisplayFor(model=>row.FlightID)" class="btn btn-xs flight-asign" style="text-align:center">@Html.DisplayTextFor(model => rowxl.ULDRemain)</a> </td>
+                        <td style="font-size:14px"><a href="#" data-flight="@Html.DisplayFor(model=>row.FlightID)" class="btn btn-xs flight-asign" style="text-align:center">@Html.DisplayTextFor(model => rowxl.ULDFinish)</a> </td>
+                    </tr>
+                }
+
+            }
+        </tbody>
+    </table>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet">
+            <div class="portlet-title" style="border-bottom-color:#808080">
+                <div class="caption caption-md">
+                    <span class="caption-subject font-blue-madison bold uppercase">DANH SACH LOCATION</span>
+                </div>
+                </div>
+            <div class="portlet-body">
+                @*<div class="row">
+                    <div class="form-group form-md-line-input">
+                        <div class="col-md-3 col-xs-6" style="padding-left:0px !important;padding-bottom:10px !important">
+                            <input class="form-control form-control-inline" id="codepr" placeholder="MÃ ULD" style="padding:5px" />
+                        </div>
+                        <div class="col-md-3 col-xs-6" style="padding-left:0px !important;padding-bottom:10px !important">
+                            <a href="javascript:;" class="btn btn-primary btn-info" id="refresh" >
+                                <i class="fa fa-refresh"></i> LÀM MỚI
+                            </a>
+                        </div>
+
+                        </div>
+
+
+                    </div>*@
+                <div class="row">
+                    <div class="col-md-3 col-xs-12">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="content-listLocation-result">
+                        </div>
+                    </div>
+                    </div>
+
+            </div>
+            </div>
+        </div>
+ </div>
+                
+ <script>
+     var locationAction = {
+         search: function () {
+             egovutil.getContent("#content-listLocation-result", "/kscb/LocationList?" + "fda=" + $("#fda").val()
+                                                                    + "&tda=" + $("#tda").val());
+         }
+     }
+     locationAction.search();
+     $(".flight-asign").click(function () {
+         egovutil.dialog("Điều phối ULD", "large", "/kscb/flightasign/" + $(this).data('flight'), "flightAction.search()");
+     });
+     $(".flight-finish").click(function () {
+         egovutil.dlgConfirmAction("Hoàn thành khai thác Chuyến bay", "Bạn có muốn đóng chuyến bay này? ", "/kscb/finishFlight/" + $(this).attr('data-id'), " flightAction.search()");
+     });
+     $(".flight-reload").click(function () {
+         egovutil.dlgConfirmAction("RELOAD Chuyến Bay Từ Hermes", "Bạn có Reload chuyến bay này? ", "/kscb/ReloadFlight/" + $(this).attr('data-id'), " flightAction.search()");
+     });
+   
+
+</script>               
+
+
+              
+
