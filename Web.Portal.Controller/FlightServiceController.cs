@@ -39,7 +39,10 @@ namespace Web.Portal.Controller
             {
                 FlightFlupViewModel flight = new FlightFlupViewModel();
                 FlightConfig flightConfig = _flightConfigService.GetType(item.FLightNumber.Substring(0, 2), item.FlightType.Substring(0, 1));
-                flight.SLA = item.ETD.AddMinutes(-flightConfig.FinalLoad.Value);
+                if(flightConfig!=null)
+                    flight.SLA = item.ETD.AddMinutes(-120);
+                else
+                    flight.SLA = item.ETD.AddMinutes(-flightConfig.FinalLoad.Value);
                 int remainMinute = 0;
                 if (DateTime.Compare(flight.SLA.Value, DateTime.Now) > 0)
                {
