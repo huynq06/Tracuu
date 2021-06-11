@@ -49,24 +49,29 @@ namespace Web.Portal.Utils
             string output = "";
             switch (input)
             {
-
-                case "Found AWB":
-                    output = "FDAW";
+                case "WEIGHT/PIECE NUMBER ON FWB/FHL DIFF WZ AWB SHOWN":
+                    output = "WEIGHT/PIECE NUMBER ON FWB/FHL DIFF WZ AWB SHOWN";
                     break;
-                case "Missing AWB":
-                    output = "MSAW";
+                case "CNEE ON FHL/FWB DIFF WZ AWB SHOWN":
+                    output = "CNEE ON FHL/FWB DIFF WZ AWB SHOWN";
                     break;
-                case "No HAWB attached":
-                    output = "NO HAWB";
+                case "WRONG HAWB NBR ON FHL":
+                    output = "WRONG HAWB NBR ON FHL";
                     break;
-                case "Manual missing cargo":
-                    output = "MSCA";
+                case "NO FHL/FWB MSG":
+                    output = "NO FHL/FWB MSG";
                     break;
-                case "Manual found cargo":
-                    output = "MSCA";
+                case "WRONG DEST ON AWB":
+                    output = "WRONG DEST ON AWB";
                     break;
-                case "Consignee does not exist or is not contactable":
+                case "WRONG DEST ON FWB/FHL":
+                    output = "WRONG DEST ON FWB/FHL";
+                    break;
+                case "CNEE INFO UNCLEAR":
                     output = "CNEE INFO UNCLEAR";
+                    break;
+                case "NO HAWB  ATTACHED":
+                    output = "NO HAWB  ATTACHED";
                     break;
                 default:
                     output = "OTHER";

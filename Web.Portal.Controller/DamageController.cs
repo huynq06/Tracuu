@@ -252,7 +252,8 @@ namespace Web.Portal.Controller
                     }
                     else
                     {
-                        item.Remarks = new SHCUtils().ChechCODE(item.Remarks.Replace("Moved to Service Recovery manually", "").Trim());
+                        item.Remarks = item.Remarks.Replace("Moved to Service Recovery manually", "").Trim();
+                        //item.Remarks = new SHCUtils().ChechCODE(item.Remarks.Replace("Moved to Service Recovery manually", "").Trim());
                     }
                     imAwbsCheck.Add(item);
                 }

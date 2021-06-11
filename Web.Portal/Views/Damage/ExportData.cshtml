@@ -89,10 +89,10 @@
                 <td style="font-size:14px;font-weight:bold"> CARTON</td>         
                 <td style="font-size:14px;font-weight:bold">@Html.Raw(row.ORGIN + "/" + row.DEST) </td>
                 <td style="font-size:14px;font-weight:bold">@Html.Raw(row.FlightNo + "/" + row.FlightDate.Value.ToString("ddMMM").ToUpper()) </td>
-                <td style="font-size:14px;font-weight:bold">@Html.DisplayTextFor(model => row.Remarks) </td>
+                <td style="font-size:14px;font-weight:bold">@Html.Raw(row.Remarks.Equals("DMGD") ? row.Remarks : "OTHER") </td>
                 <td style="font-size:14px;font-weight:bold"> @Html.Raw(row.Remarks.Equals("DMGD") ? row.PiecesIrr.ToString() : "")</td>
                 <td style="font-size:14px;font-weight:bold"> @Html.Raw(row.Remarks.Equals("DMGD") ? row.WeightIrr.ToString() : "")</td>
-                <td style="font-size:14px;font-weight:bold">@Html.Raw(row.Remarks.Equals("DMGD") ? row.Msg : row.LAGI_REMARK) </td>
+                <td style="font-size:14px;font-weight:bold">@Html.Raw(row.Remarks.Equals("DMGD") ? row.Msg : row.Remarks) </td>
                 <td style="font-size:14px;font-weight:bold">@Html.Raw(string.Empty)</td>
             </tr>
         }
