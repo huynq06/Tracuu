@@ -45,24 +45,24 @@ namespace Web.Portal.Controller
         }
         public ActionResult InOut()
         {
-           
+
             return View();
         }
         public void ShowData()
         {
             int vitri = int.Parse(Request["location"].Trim());
             fromDate = string.IsNullOrEmpty(Request["fda"]) ? fromDate : Web.Portal.Utils.Format.ConvertDate(Request["fda"]);
-             toDate = string.IsNullOrEmpty(Request["tda"]) ? toDate.Value.AddDays(1) : Web.Portal.Utils.Format.ConvertDate(Request["tda"]).Value.AddDays(1);
+            toDate = string.IsNullOrEmpty(Request["tda"]) ? toDate.Value.AddDays(1) : Web.Portal.Utils.Format.ConvertDate(Request["tda"]).Value.AddDays(1);
             //    dateCheck = string.IsNullOrEmpty(Request["date"]) ? dateCheck : Web.Portal.Utils.Format.ConvertDate(Request["date"]);
             List<tblDangKyGoiXe> listTrucks = _dkgxService.GetVihicle(fromDate, toDate, vitri).ToList();
             ViewData["listTruck"] = listTrucks;
             ViewBag.TitleReport = "BÁO CÁO ĐIỀU XE TẦNG " + vitri + " TỪ NGÀY " + fromDate.Value.ToString("dd/MM/yyyy") + " ĐẾN NGÀY " + toDate.Value.ToString("dd/MM/yyyy");
         }
-        public void ShowDataList(int ticketType,int exportType)
+        public void ShowDataList(int ticketType, int exportType)
         {
             string location = "GATEIN_T1";
             int vitri = int.Parse(Request["location"].Trim());
-          
+
             fromDate = string.IsNullOrEmpty(Request["fda"]) ? fromDate : Web.Portal.Utils.Format.ConvertDate(Request["fda"]);
             toDate = fromDate.Value.AddDays(1);
             if (vitri == 2)
@@ -70,13 +70,14 @@ namespace Web.Portal.Controller
                 location = "GATEIN_T2";
             }
             List<TicketStatusViewModel> listTicketViewModel = new List<TicketStatusViewModel>();
-            if (ticketType==1 )
+            List<TicketStatusViewModel> listTicketViewModelFinal = new List<TicketStatusViewModel>();
+            if (ticketType == 1)
             {
                 List<tblDangKyVaoRa> listTrucks = _dkvrService.GetVihicle(fromDate, toDate, vitri).ToList();
-                
+
                 List<tblTicketStatus> listCheckIn = _ticketService.GetVihicleCheckIn(fromDate, toDate, location).ToList();
                 List<tblTicketStatus> listCheckOut = _ticketService.GetVihicleCheckOut(fromDate, toDate, "GATEOUT").ToList();
-                if(exportType ==1)
+                if (exportType == 1)
                 {
                     listTicketViewModel = (from ticket in listTrucks
                                            join checkin in listCheckIn on ticket.SyncID equals checkin.TicketUID.ToString() into mma
@@ -100,6 +101,14 @@ namespace Web.Portal.Controller
                                                Location = location
                                            }).ToList();
                     ViewBag.TitleReport = "BÁO CÁO XE VÀO RA TẦNG " + vitri + " NGÀY " + fromDate.Value.ToString("dd/MM/yyyy");
+                    foreach (var item in listTicketViewModel)
+                    {
+                        TicketStatusViewModel ticketViewModel = listTicketViewModelFinal.FirstOrDefault(c => c.TicketID == item.TicketID);
+                        if (ticketViewModel == null)
+                        {
+                            listTicketViewModelFinal.Add(item);
+                        }
+                    }
                 }
                 else
                 {
@@ -120,21 +129,29 @@ namespace Web.Portal.Controller
                                                BarieIn = Utils.TimeUtils.GetTime(ticket.NgayGioVao.Value, ticket.NgayGioVaoThuc),
                                                BarieOut = Utils.TimeUtils.GetTime(ticket.NgayGioVao.Value, ticket.NgayGioRa),
                                                CheckOut = checkout == null ? "" : Utils.TimeUtils.GetTime(ticket.NgayGioVao.Value, checkout.ActionDateTime),
-                                               WaitingTime = checkin != null  ? (int)Math.Round((checkin.ActionDateTime - ticket.NgayGioVao.Value).TotalMinutes, 0) : 1000,
-                                               SLA = checkin != null? Utils.TimeUtils.CheckCondition(checkin.ActionDateTime, ticket.NgayGioVao.Value, vitri) : "N/A",
+                                               WaitingTime = checkin != null ? (int)Math.Round((checkin.ActionDateTime - ticket.NgayGioVao.Value).TotalMinutes, 0) : 1000,
+                                               SLA = checkin != null ? Utils.TimeUtils.CheckCondition(checkin.ActionDateTime, ticket.NgayGioVao.Value, vitri) : "N/A",
                                                Location = location
                                            }).ToList();
+                    foreach (var item in listTicketViewModel)
+                    {
+                        TicketStatusViewModel ticketViewModel = listTicketViewModelFinal.FirstOrDefault(c => c.TicketID == item.TicketID);
+                        if (ticketViewModel == null)
+                        {
+                            listTicketViewModelFinal.Add(item);
+                        }
+                    }
                     ViewBag.TitleReport = "BÁO CÁO SCAN QRCODE TẦNG " + vitri + " NGÀY " + fromDate.Value.ToString("dd/MM/yyyy");
                 }
-              
 
-              
-                int total = listTicketViewModel.Count;
-                int notCheckIn = listTicketViewModel.Where(c => c.CheckIn == "").Count();
-                int notCheckOut = listTicketViewModel.Where(c => c.CheckOut == "").Count();
+
+
+                int total = listTicketViewModelFinal.Count;
+                int notCheckIn = listTicketViewModelFinal.Where(c => c.CheckIn == "").Count();
+                int notCheckOut = listTicketViewModelFinal.Where(c => c.CheckOut == "").Count();
                 double percentCheckIn = Math.Round((double)(notCheckIn * 100 / total));
                 double percentCheckOut = Math.Round((double)(notCheckOut * 100 / total));
-                int ok = listTicketViewModel.Where(c => c.SLA == "ĐẠT").Count();
+                int ok = listTicketViewModelFinal.Where(c => c.SLA == "ĐẠT").Count();
                 double percentOK = Math.Round((double)(ok * 100 / total));
                 ViewBag.Total = total;
                 ViewBag.NotCheckIn = notCheckIn;
@@ -143,7 +160,7 @@ namespace Web.Portal.Controller
                 ViewBag.PercentChecIn = percentCheckIn.ToString() + "%";
                 ViewBag.PercentChecOut = percentCheckOut.ToString() + "%";
                 ViewBag.PercentOK = percentOK.ToString() + "%";
-                ViewData["listTruck"] = listTicketViewModel.OrderBy(c => c.ID).ToList();
+                ViewData["listTruck"] = listTicketViewModelFinal.OrderBy(c => c.ID).ToList();
             }
             else
             {
@@ -155,7 +172,7 @@ namespace Web.Portal.Controller
                     List<tblTicketStatus> listTicketFilter = listTrucks.Where(c => c.TicketUID == item).ToList();
                     foreach (var obj in listTicketFilter)
                     {
-                       // ticketMonthly.BSX = obj.BienSoXe;
+                        // ticketMonthly.BSX = obj.BienSoXe;
                         if (obj.ActionCode.Trim() == "CHECK_IN")
                         {
                             ticketMonthly.CheckIn = obj.ActionDateTime.ToString("HH:mm");
@@ -176,7 +193,7 @@ namespace Web.Portal.Controller
                 ViewBag.Total = total;
                 ViewData["listTruck"] = listTicketViewModel.OrderBy(c => c.ID).ToList();
             }
-           
+
         }
         [DocumentExport("EXCEL", "BAO CAO GOI XE")]
         public ActionResult Export()
@@ -188,8 +205,8 @@ namespace Web.Portal.Controller
         public ActionResult ExportList()
         {
             int ticketType = int.Parse(Request["ticket"].Trim());
-            ShowDataList(ticketType,1);
-            if(ticketType==2)
+            ShowDataList(ticketType, 1);
+            if (ticketType == 2)
             {
                 return View("~/Views/CallTruck/ExportListMonthly.cshtml");
             }
@@ -209,14 +226,14 @@ namespace Web.Portal.Controller
         public ActionResult ListInOut()
         {
             int ticketType = int.Parse(Request["ticket"].Trim());
-            ShowDataList(ticketType,1);
+            ShowDataList(ticketType, 1);
             if (ticketType == 2)
             {
                 return View("~/Views/CallTruck/ListInOutMonthly.cshtml");
             }
             return View();
         }
-      
+
         public ActionResult Print()
         {
             return View();
