@@ -154,8 +154,8 @@
                 <td style="font-size:14px;font-weight:bold"> @Html.DisplayTextFor(model => row.WeightReceived)</td>
                 <td style="font-size:14px;font-weight:bold">@Html.DisplayTextFor(model => row.ORGIN) </td>
                 <td style="font-size:14px;font-weight:bold">@Html.DisplayTextFor(model => row.DEST) </td>
-                <td style="font-size:14px;font-weight:bold">@Html.Raw(!row.Remarks.Equals("DMGD") ? Web.Portal.Utils.Constants.GetMissingSR(row.Remarks) : string.Empty) </td>
-                <td style="font-size:14px;font-weight:bold">@Html.Raw(row.Remarks.Equals("DMGD") ? row.Remarks : string.Empty)</td>
+                <td style="font-size:14px;font-weight:bold">@Html.Raw(row.Remarks) </td>
+                <td style="font-size:14px;font-weight:bold">@Html.Raw(row.LAGI_REMARK.Equals("DMGD") ? row.LAGI_REMARK : string.Empty)</td>
             </tr>
         }
     </tbody>

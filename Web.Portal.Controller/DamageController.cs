@@ -89,31 +89,42 @@ namespace Web.Portal.Controller
             
             foreach (var im in imps)
             {
-                im.Remarks = "DMGD";
+                im.LAGI_REMARK = "DMGD";
                 impAwbs.Add(im);
             }
-
-            impAwbs.AddRange(new DataAccess.ImpAWBAccess().GetCustomByStatus(page,
+            List<Layer.ImpAWB> impAwbsDocument = new DataAccess.ImpAWBAccess().GetCustomByStatus(page,
                                                                                   Int32.MaxValue,
                                                                                   cd, no,
                                                                                   fromDate,
                                                                                   toDate, "MOVED TO SERVICE RECOVERY",
-                                                                                  ref total, ref totalPices, ref totalWeight));
+                                                                                  ref total, ref totalPices, ref totalWeight).ToList();
+            impAwbs.AddRange(impAwbsDocument);
 
             List<Layer.ImpAWB> impAwbMiss = new List<Layer.ImpAWB>();
             foreach(var item in impAwbsFlight)
             {
+                
                 var em = impAwbs.FirstOrDefault(x => x.ID == item.ID);
                 if(em!=null && impAwbMiss.Count(x=>x.AWB.Trim().Equals(em.AWB))==0)
                 {
-                    item.Remarks = em.Remarks;                    
-                    item.HAWB = string.Join(System.Environment.NewLine, impAwbsFlight.Where(x => x.AWB.Equals(item.AWB) && !string.IsNullOrEmpty(item.HAWB.Trim()) && impAwbs.Count(y=>y.ID==x.ID)>0).Select(x => x.HAWB).ToArray());
-                    Layer.ImpHAWB impH = new DataAccess.ImpHAWBAccess().GetMAWB(item.Prefix+item.AWB.Trim());
-                    item.QuantityReceived = impH.QuantityReceived;
-                    item.WeightReceived = impH.WeightReceived;
-                    item.QuantityExpected = impH.QuantityExpected;
-                    item.WeightExpected = impH.WeightExpected;
-                    impAwbMiss.Add(item);
+                    
+                        item.LAGI_REMARK = em.LAGI_REMARK;
+                        List<Layer.ImpAWB> HawbRemark = impAwbs.Where(x => x.AWB.Equals(item.AWB) && x.Remarks.Contains("Moved to Service Recovery") && !x.Remarks.Contains("Moved to Service Recovery by the Handheld")).ToList();
+                        string remark = "";
+                        foreach(var obj in HawbRemark)
+                        {
+                            remark += obj.Remarks.Replace("Moved to Service Recovery manually", "").Trim() + ";";
+                        }
+                        item.Remarks = remark;
+                        item.HAWB = string.Join(System.Environment.NewLine, impAwbsFlight.Where(x => x.AWB.Equals(item.AWB) && !string.IsNullOrEmpty(item.HAWB.Trim()) && impAwbs.Count(y => y.ID == x.ID) > 0).Select(x => x.HAWB).ToArray());
+                        Layer.ImpHAWB impH = new DataAccess.ImpHAWBAccess().GetMAWB(item.Prefix + item.AWB.Trim());
+                        item.QuantityReceived = impH.QuantityReceived;
+                        item.WeightReceived = impH.WeightReceived;
+                        item.QuantityExpected = impH.QuantityExpected;
+                        item.WeightExpected = impH.WeightExpected;
+                        impAwbMiss.Add(item);
+                    
+                 
                 }
             }
 
