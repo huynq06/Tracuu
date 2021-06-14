@@ -69,9 +69,9 @@ namespace Web.Portal.DataAccess
         public IList<Layer.ImpSita> GetAll(string cd,string fno,string mawb,DateTime?fromDate,DateTime?toDate)
         {
             IList<Layer.ImpSita> impSitas = new List<Layer.ImpSita>();
-            string sql = "select * from REPORT.IMP_DAILY_AWB where (PREFIX||SERIAL_NO='"+mawb+ "' or '"+mawb+"'='ALL') and (AIRLINE='"+cd+"' or 'ALL'='"+cd+"')"
-                      + " and (FLIGHT_NO='"+fno+"' or 'ALL'='"+fno+ "') and RECEIVED_STATUS=1 "
-                      + ((fromDate.HasValue && toDate.HasValue)? "and  (ATA_DATE>=to_Date('"+fromDate.Value.ToString("yyyy-MM-dd")+ "','YYYY-MM-DD') and ATA_DATE<=to_Date('" + toDate.Value.ToString("yyyy-MM-dd") + "','YYYY-MM-DD'))" : string.Empty);
+            string sql = "select distinct * from REPORT.IMP_DAILY_AWB where (PREFIX||SERIAL_NO='" + mawb+ "' or '"+mawb+"'='ALL') and (AIRLINE='"+cd+"' or 'ALL'='"+cd+"')"
+                      + " and (FLIGHT_NO='"+fno+"' or 'ALL'='"+fno+ "') "
+                      + ((fromDate.HasValue && toDate.HasValue)? "and  (SCHEDULE_DATE>=to_Date('" + fromDate.Value.ToString("yyyy-MM-dd")+ "','YYYY-MM-DD') and SCHEDULE_DATE<=to_Date('" + toDate.Value.ToString("yyyy-MM-dd") + "','YYYY-MM-DD'))" : string.Empty);
             using (OracleDataReader reader = GetScriptOracleDataReader(sql))
             {
                 while (reader.Read())
@@ -85,7 +85,7 @@ namespace Web.Portal.DataAccess
         public IList<Layer.ImpSita> GetAllIn(string id)
         {
             IList<Layer.ImpSita> impSitas = new List<Layer.ImpSita>();
-            string sql = "select * from REPORT.IMP_DAILY_AWB where MAWB_IDENT in (" + id+ ") and RECEIVED_STATUS=1";
+            string sql = "select distinct * from REPORT.IMP_DAILY_AWB where MAWB_IDENT in (" + id+ ") and RECEIVED_STATUS=0";
             using (OracleDataReader reader = GetScriptOracleDataReader(sql))
             {
                 while (reader.Read())

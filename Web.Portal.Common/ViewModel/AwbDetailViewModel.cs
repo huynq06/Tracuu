@@ -32,6 +32,7 @@ namespace Web.Portal.Common.ViewModel
         public string StatusDelivered { set; get; }
         public int Status { set; get; }
         public bool ChecHawb { set; get; }
+        public string LAGI_TSO { set; get; }
      
           //<th style = "width:10%" >
           //      CONSIGNEE

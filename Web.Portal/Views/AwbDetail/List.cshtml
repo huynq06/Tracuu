@@ -94,8 +94,11 @@
                     <a href="#" class="btn  btn-xs sqs-member-edit">@Html.Raw(row.Weight)</a>
                 </td>
                 <td>
-                    <a href="#" class="btn  btn-xs sqs-member-edit">@Html.Raw((rowIndex == 1 && string.IsNullOrEmpty(row.Hawb.Trim())) ? row.Lagi_Identity.Substring(row.Lagi_Identity.Length - 6) : "")</a>
+                    <a href="#" class="btn  btn-xs sqs-member-edit">@Html.Raw(row.LAGI_TSO)</a>
                 </td>
+                @*<td>
+                    <a href="#" class="btn  btn-xs sqs-member-edit">@Html.Raw((rowIndex == 1 && string.IsNullOrEmpty(row.Hawb.Trim())) ? row.Lagi_Identity.Substring(row.Lagi_Identity.Length - 6) : "")</a>
+                </td>*@
                 @if (ViewBag.CheckMaster && rowIndex == 1)
                 {
                     <td></td>

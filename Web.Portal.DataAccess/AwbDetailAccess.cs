@@ -35,6 +35,7 @@ namespace Web.Portal.DataAccess
             awb.Remark = Convert.ToString(GetValueField(reader, "REMARK", string.Empty));
             awb.StatusDelivered = Convert.ToString(GetValueField(reader, "STATUS_DELIVERED", "0"));
             awb.Lagi_Master_Identity = Convert.ToString(GetValueField(reader, "LAGI_MASTER", "0"));
+            awb.LAGI_TSO = Convert.ToString(GetValueField(reader, "LAGI_TSO", "0"));
             return awb;
         }
         public AwbDetailViewModel GetAwbDetailByLagiIdentity(string lagiIdent)
@@ -105,6 +106,7 @@ namespace Web.Portal.DataAccess
       "lagi.lagi_quantity_delivered as PIECES_DELIVERED, " +
       "lagi.lagi_weight_received as WEIGHT, " +
       "lagi.lagi_awb_origin as AWB_ORG, " +
+       "lagi.lagi_tso as LAGI_TSO, " +
                              "lagi.lagi_awb_dest as AWB_DEST, " +
                              "lagi.lagi_shipper_name as SHIPPER, " +
                              "lagi.lagi_shipper_address as SHIPPERADDR, " +
