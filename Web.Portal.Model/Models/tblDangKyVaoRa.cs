@@ -26,6 +26,6 @@ namespace Web.Portal.Model.Models
         public string HoVaTen { set; get; }
         public string CMND { set; get; }
         public int LoaiXe { set; get; }
-
+        public int LoaiVe { set; get; }
     }
 }

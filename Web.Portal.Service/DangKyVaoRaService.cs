@@ -53,7 +53,7 @@ namespace Web.Portal.Service
 
         public IEnumerable<tblDangKyVaoRa> GetVihicle(DateTime? fda, DateTime? tda, int location)
         {
-            return _dkvrRepository.GetMulti(c => c.Floor == location && c.NgayGioVao.Value >= fda && c.NgayGioVao.Value <= tda && c.LoaiXe != 2);
+            return _dkvrRepository.GetMulti(c => c.Floor == location && c.NgayGioVao.Value >= fda && c.NgayGioVao.Value <= tda && c.LoaiXe != 2 && c.LoaiVe != 0);
         }
 
         public IEnumerable<tblDangKyVaoRa> GetVihicleByDate(DateTime? da, int location)
