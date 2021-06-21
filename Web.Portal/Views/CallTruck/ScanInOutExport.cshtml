@@ -6,7 +6,8 @@
     @ViewBag.TitleReport
 </p>
 <p style="text-align:left;font-family:'Times New Roman';font-size:15pt;font-weight:bold">
-    <span>TỔNG SỐ XE:</span> <span style="color:red">@ViewBag.Total</span><br>
+    <span>TỔNG SỐ XE VÉ NGÀY:</span> <span style="color:red">@ViewBag.Total</span><br>
+    <span>TỔNG SỐ XE VÉ THÁNG:</span> <span style="color:red">@ViewBag.TotalMonthly</span><br>
     <span>SỐ XE KHÔNG CÓ CHECK IN:</span> <span style="color:red">@ViewBag.NotCheckIn</span>- <span>Tỉ lệ :</span> <span style="color:red">@ViewBag.PercentChecIn</span><br>
     <span>SỐ XE KHÔNG CÓ CHECK OUT:</span> <span style="color:red">@ViewBag.NotCheckOut</span>- <span>Tỉ lệ :</span> <span style="color:red">@ViewBag.PercentChecOut</span><br>
     <span>SỐ XE ĐẠT SLA:</span> <span style="color:red">@ViewBag.OK</span>- <span>Tỉ lệ :</span> <span style="color:red">@ViewBag.PercentOK</span><br>
@@ -25,6 +26,9 @@
             </th>
             <th style="width:10%;text-align:center">
                 LOẠI XE
+            </th>
+            <th style="width:10%;text-align:center">
+                LOẠI VÉ
             </th>
             <th style="width:10%;text-align:center">
                 VỊ TRÍ
@@ -64,10 +68,11 @@
 
                 <td align="center">@Html.Raw(row.BSX)</td>
                 <td align="center">@Html.Raw(row.LoaiXe)</td>
+                <td align="center">@Html.Raw(row.LoaiVe)</td>
                 <td align="center">@Html.Raw(row.Location == "GATEIN_T2" ? "Tầng 2" : "Tầng 1")</td>
 
                 <td align="center">
-                    @Html.Raw(row.Created.ToString("HH:mm"))
+                    @Html.Raw(row.LoaiVe == "VÉ THÁNG" ? "" : row.Created.ToString("HH:mm"))
                 </td>
                 <td align="center">
                     @Html.Raw(row.CheckIn)

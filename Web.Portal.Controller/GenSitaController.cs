@@ -66,9 +66,17 @@ namespace Web.Portal.Controller
             string mawb = string.IsNullOrEmpty(Request["mawb"]) ? "ALL" : Request["mawb"].Trim(); 
             fromDate = string.IsNullOrEmpty(Request["fda"]) ? DateTime.Now : Utils.Format.ConvertDate(Request["fda"]);
             toDate = string.IsNullOrEmpty(Request["tda"]) ? DateTime.Now : Utils.Format.ConvertDate(Request["tda"]);
-            IList<Web.Portal.Layer.ImpSita> SitaList = new DataAccess.ImpSitaAccess().GetAll(cd,fno,mawb,fromDate,toDate);            
-            ViewData["ImpSitaLists"] = SitaList;
-            ViewBag.Total = SitaList.Count;
+            IList<Web.Portal.Layer.ImpSita> SitaList = new DataAccess.ImpSitaAccess().GetAll(cd,fno,mawb,fromDate,toDate);
+            IList<Web.Portal.Layer.ImpSita> SitaListReal = new List<Web.Portal.Layer.ImpSita>();
+            foreach(var item in SitaList)
+            {
+                if(SitaListReal.Count(c=>c.LAGI_INDENT_NO==item.LAGI_INDENT_NO) == 0)
+                {
+                    SitaListReal.Add(item);
+                }
+            }
+            ViewData["ImpSitaLists"] = SitaListReal;
+            ViewBag.Total = SitaListReal.Count;
 
             return View();
         }

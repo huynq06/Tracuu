@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EInvoiceApiController.cs" />
+    <Compile Include="FlightDetailApiController.cs" />
     <Compile Include="FlightExpApiController.cs" />
     <Compile Include="FlightImpApiController.cs" />
     <Compile Include="ImportApiController.cs" />

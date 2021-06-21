@@ -70,6 +70,7 @@ namespace Web.Portal.Controller
                 location = "GATEIN_T2";
             }
             List<TicketStatusViewModel> listTicketViewModel = new List<TicketStatusViewModel>();
+            List<TicketStatusViewModel> listTicketViewModelMonthly = new List<TicketStatusViewModel>();
             List<TicketStatusViewModel> listTicketViewModelFinal = new List<TicketStatusViewModel>();
             if (ticketType == 1)
             {
@@ -143,8 +144,38 @@ namespace Web.Portal.Controller
                     }
                     ViewBag.TitleReport = "BÁO CÁO SCAN QRCODE TẦNG " + vitri + " NGÀY " + fromDate.Value.ToString("dd/MM/yyyy");
                 }
-
-
+                #region vethang
+                IEnumerable<Guid> listGuid = _ticketService.GetListTicketMonthy(fromDate, toDate, location);
+                List<tblTicketStatus> listTrucksMonthly = _ticketService.GetVihicleMonthly(fromDate, toDate, location).ToList();
+                foreach (var item in listGuid)
+                {
+                    TicketStatusViewModel ticketMonthly = new TicketStatusViewModel();
+                    List<tblTicketStatus> listTicketFilter = listTrucksMonthly.Where(c => c.TicketUID == item).ToList();
+                    foreach (var obj in listTicketFilter)
+                    {
+                        // ticketMonthly.BSX = obj.BienSoXe;
+                        if (obj.ActionCode.Trim() == "CHECK_IN")
+                        {
+                            ticketMonthly.Created = obj.ActionDateTime;
+                            ticketMonthly.CheckIn = obj.ActionDateTime.ToString("HH:mm");
+                        }
+                        if (obj.ActionCode.Trim() == "CHECK_OUT")
+                        {
+                            ticketMonthly.CheckOut = obj.ActionDateTime.ToString("HH:mm");
+                        }
+                    }
+                 
+                    ticketMonthly.LoaiVe = "VÉ THÁNG";
+                    ticketMonthly.LoaiXe = "Ô TÔ";
+                    ticketMonthly.TicketID = listTicketFilter[0].TicketUID;
+                    ticketMonthly.Location = location;
+                    ticketMonthly.BSX = listTicketFilter.ToList()[0].BienSoXe;
+                    listTicketViewModelMonthly.Add(ticketMonthly);
+                }
+                int totalMonthly = listTicketViewModelMonthly.Count;
+                ViewBag.TotalMonthly = totalMonthly;
+                #endregion
+             
 
                 int total = listTicketViewModelFinal.Count;
                 int notCheckIn = listTicketViewModelFinal.Where(c => c.CheckIn == "").Count();
@@ -160,16 +191,17 @@ namespace Web.Portal.Controller
                 ViewBag.PercentChecIn = percentCheckIn.ToString() + "%";
                 ViewBag.PercentChecOut = percentCheckOut.ToString() + "%";
                 ViewBag.PercentOK = percentOK.ToString() + "%";
-                ViewData["listTruck"] = listTicketViewModelFinal.OrderBy(c => c.ID).ToList();
+                listTicketViewModelFinal.AddRange(listTicketViewModelMonthly);
+                ViewData["listTruck"] = listTicketViewModelFinal.OrderBy(c => c.Created).ToList();
             }
             else
             {
                 IEnumerable<Guid> listGuid = _ticketService.GetListTicketMonthy(fromDate, toDate, location);
-                List<tblTicketStatus> listTrucks = _ticketService.GetVihicleMonthly(fromDate, toDate, location).ToList();
+                List<tblTicketStatus> listTrucksMonthly = _ticketService.GetVihicleMonthly(fromDate, toDate, location).ToList();
                 foreach (var item in listGuid)
                 {
                     TicketStatusViewModel ticketMonthly = new TicketStatusViewModel();
-                    List<tblTicketStatus> listTicketFilter = listTrucks.Where(c => c.TicketUID == item).ToList();
+                    List<tblTicketStatus> listTicketFilter = listTrucksMonthly.Where(c => c.TicketUID == item).ToList();
                     foreach (var obj in listTicketFilter)
                     {
                         // ticketMonthly.BSX = obj.BienSoXe;
@@ -187,11 +219,11 @@ namespace Web.Portal.Controller
                     ticketMonthly.TicketID = listTicketFilter[0].TicketUID;
                     ticketMonthly.Location = location;
                     ticketMonthly.BSX = listTicketFilter.ToList()[0].BienSoXe;
-                    listTicketViewModel.Add(ticketMonthly);
+                    listTicketViewModelMonthly.Add(ticketMonthly);
                 }
-                int total = listTicketViewModel.Count;
-                ViewBag.Total = total;
-                ViewData["listTruck"] = listTicketViewModel.OrderBy(c => c.ID).ToList();
+                int totalMonthly = listTicketViewModelMonthly.Count;
+                ViewBag.Total = totalMonthly;
+                ViewData["listTruck"] = listTicketViewModelMonthly.OrderBy(c => c.ID).ToList();
             }
 
         }

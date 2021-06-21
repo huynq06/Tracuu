@@ -5,11 +5,11 @@
 
 <ul class="page-sidebar-menu  page-header-fixed" data-keep-expanded="true" data-auto-scroll="true" data-slide-speed="200">
 
-    <li class="heading" style="background-color:#d64635">
+    <li class="heading" >
        
         <h3 class="uppercase" style="color:white!important"> HÀNG NHẬP</h3>
     </li>
-    <li class="nav-item">
+    <li class="nav-item" >
         <a href="javascript:;" class="nav-link nav-toggle">
             <i class="fas fa-search"></i>
             <span class="title">TRA CỨU</span>
@@ -29,7 +29,7 @@
                     <span class="title">VẬN ĐƠN</span>
                 </a>
             </li>
-            <li class="nav-item ">
+            <li class="nav-item " style="@Html.Raw(ViewBag.CheckView == "true"? "" : "display:none")">
                 <a class="log-page" data-url="/EInvoice">
                     <i class="fas fa-money-bill-alt"></i>
                     <span class="title">HÓA ĐƠN ĐIỆN TỬ</span>
@@ -41,7 +41,7 @@
         </ul>
 
     </li>
-    <li class="nav-item">
+    <li class="nav-item" style="@Html.Raw(ViewBag.CheckView == "true"? "" : "display:none")">
         <a href="javascript:;" class="nav-link nav-toggle">
             <i class="fas fa-tools "></i>
             <span class="title">TOOLS</span>
@@ -95,7 +95,7 @@
         </ul>
 
     </li>
-    <li class="heading" style="background-color:#d64635">
+    <li class="heading" >
         <h3 class="uppercase" style="color:white!important"> HÀNG XUẤT</h3>
     </li>
     <li class="nav-item">
@@ -118,7 +118,7 @@
                     <span class="title">VẬN ĐƠN</span>
                 </a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" style="@Html.Raw(ViewBag.CheckView == "true"? "" : "display:none")">
                 <a class="log-page" data-url="/EInvoiceExport">
                     <i class="fas fa-money-bill-alt"></i>
                     <span class="title">HÓA ĐƠN ĐIỆN TỬ</span>
@@ -129,7 +129,7 @@
         </ul>
 
     </li>
-    <li class="nav-item">
+    <li class="nav-item" style="@Html.Raw(ViewBag.CheckView == "true"? "" : "display:none")">
         <a href="javascript:;" class="nav-link nav-toggle">
             <i class="fas fa-tools "></i>
             <span class="title">TOOLS</span>
@@ -163,10 +163,10 @@
         </ul>
 
     </li>
-    <li class="heading" style="background-color:#d64635">
+    <li class="heading" style="@Html.Raw(ViewBag.CheckHQ == "true"? "display:none" : "")">
         <h3 class="uppercase" style="color:white!important">THÔNG TIN CHUNG</h3>
     </li>
-    <li class="nav-item">
+    <li class="nav-item" style="@Html.Raw(ViewBag.CheckView == "true"? "" : "display:none")">
         <a href="javascript:;" class="nav-link nav-toggle">
             <i class="fa fa-truck "></i>
             <span class="title">QUẢN LÝ XE</span>
@@ -202,7 +202,7 @@
         </ul>
 
     </li>
-    <li class="nav-item">
+    <li class="nav-item" style="@Html.Raw(ViewBag.CheckHQ == "true"? "display:none" : "")">
         <a href="javascript:;" class="nav-link nav-toggle">
             <i class="fa fa-university"></i>
             <span class="title">KHO KÉO DÀI</span>
@@ -290,7 +290,7 @@
         </ul>
 
     </li>
-    <li class="heading" style="background-color:#d64635">
+    <li class="heading" style="@Html.Raw(ViewBag.CheckHQ == "true"? "display:none" : "")">
         <h3 class="uppercase" style="color:white!important">QUẢN TRỊ &amp; CẤU HÌNH</h3>
     </li>
     <li class="nav-item " style="@Html.Raw(ViewBag.CheckView == "true"? "" : "display:none")">

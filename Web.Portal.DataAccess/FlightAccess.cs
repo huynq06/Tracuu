@@ -12,7 +12,7 @@ namespace Web.Portal.DataAccess
         private Web.Portal.Layer.Flight GetProperties(OracleDataReader reader)
         {
             Web.Portal.Layer.Flight objFlight = new Web.Portal.Layer.Flight();
-
+            objFlight.FlightID = Convert.ToString(GetValueField(reader, "FLUI_ID", string.Empty));
             objFlight.Code = Convert.ToString(GetValueField(reader, "Code", string.Empty));
             objFlight.FlightNo = Convert.ToString(GetValueField(reader, "FlightNo", string.Empty));
             objFlight.ScheDate = Convert.ToDateTime(GetValueDateTimeField(reader, "ScheDate", objFlight.ScheDate));

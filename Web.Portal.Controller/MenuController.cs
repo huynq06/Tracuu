@@ -15,8 +15,12 @@ namespace Web.Portal.Controller
             {
                 ViewBag.CheckView = "true";
             }
+            if (WebMatrix.WebData.WebSecurity.CurrentUserName == "hqgs")
+            {
+                ViewBag.CheckHQ = "true";
+            }
 
-                return View();
+            return View();
         }
 
         public ActionResult Top()
