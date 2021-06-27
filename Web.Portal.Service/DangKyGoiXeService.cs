@@ -15,6 +15,7 @@ namespace Web.Portal.Service
         IEnumerable<tblDangKyGoiXe> GetByDate(DateTime? dt);
         IEnumerable<tblDangKyGoiXe> GetVihicle(DateTime? fda,DateTime? tda,int location);
         List<tblDangKyGoiXe> GetListTruckAllow(int count);
+        tblDangKyGoiXe GetByBSX(string BSX,DateTime? dateCheck,DateTime? createDate,DateTime? ScanDate,int type);
         List<tblDangKyGoiXe> GetListTruckLimit(int count);
         List<tblDangKyGoiXe> GetListTruckFloor1(int count);
         List<tblDangKyGoiXe> GetListTruckFloorToCheck();
@@ -30,6 +31,65 @@ namespace Web.Portal.Service
             this._dkgxRepository = dkgxRepository;
             this._unitOfWork = unitOfWork;
         }
+
+        public tblDangKyGoiXe GetByBSX(string BSX, DateTime? dt,DateTime? CreatedDate,DateTime? ScanDate,int type)
+        {
+            tblDangKyGoiXe xe;
+            List<tblDangKyGoiXe> listCheck = _dkgxRepository.GetMulti(c => c.ThoiGianDangKy.Value.Day == CreatedDate.Value.Day && c.ThoiGianDangKy.Value.Month == CreatedDate.Value.Month && c.ThoiGianDangKy.Value.Year == CreatedDate.Value.Year && c.BienSoXe == BSX).ToList();
+            if(type == 1)
+            {
+                List<tblDangKyGoiXe> listFilter = new List<tblDangKyGoiXe>();
+                if (listCheck.Count > 0)
+                {
+                    if (listCheck.Count == 1)
+                    {
+                        xe = listCheck[0];
+                    }
+                    else
+                    {
+                        foreach (var item in listCheck)
+                        {
+                            tblDangKyGoiXe obj = new tblDangKyGoiXe();
+                            item.LoaiHang = Math.Abs((int)Math.Round((dt.Value - item.ThoiGianDangKy.Value).TotalMinutes, 0));
+                            listFilter.Add(item);
+                        }
+                        xe = listFilter.OrderBy(c => c.LoaiHang).First();
+                    }
+                   
+                }
+                else
+                {
+                    xe = null;
+                }
+            }
+            else
+            {
+                List<tblDangKyGoiXe> listFilter = new List<tblDangKyGoiXe>();
+                if (listCheck.Count > 0)
+                {
+                    if (listCheck.Count == 1)
+                    {
+                        xe = listCheck[0];
+                    }
+                    foreach (var item in listCheck)
+                    {
+                        tblDangKyGoiXe obj = new tblDangKyGoiXe();
+                        
+                        item.LoaiHang = ScanDate.HasValue? Math.Abs((int)Math.Round(( ScanDate.Value - item.ThoiGianDangKy.Value).TotalMinutes, 0)) : 0;
+                        listFilter.Add(item);
+                    }
+                    xe = listFilter.OrderBy(c => c.LoaiHang).First();
+                }
+                else
+                {
+                    xe = null;
+                }
+            }
+            
+
+            return xe;
+        }
+
         public IEnumerable<tblDangKyGoiXe> GetByDate(DateTime? dt)
         {
            

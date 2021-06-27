@@ -167,7 +167,7 @@ namespace Web.Portal.DataAccess
             string sql = " select distinct "+
                    "lagi.lagi_ident_no as ID, " +
 "lagi.lagi_mawb_prefix || lagi.lagi_mawb_no as MAWB, " +
-"lagi.lagi_hawb as HAWB_NO, " +
+"lagi.lagi_hawb as HAWB, " +
 "lagi.lagi_quantity_received as PIECES_EXPECTED, " +
 "lagi.lagi_weight_received as WEIGHT_EXPECTED, " +
 "sum(j.pieces_received) as PIECES_RECEIVED, " +

@@ -72,6 +72,7 @@ namespace Web.Portal.Controller
             List<TicketStatusViewModel> listTicketViewModel = new List<TicketStatusViewModel>();
             List<TicketStatusViewModel> listTicketViewModelMonthly = new List<TicketStatusViewModel>();
             List<TicketStatusViewModel> listTicketViewModelFinal = new List<TicketStatusViewModel>();
+            #region ticketType1
             if (ticketType == 1)
             {
                 List<tblDangKyVaoRa> listTrucks = _dkvrService.GetVihicle(fromDate, toDate, vitri).ToList();
@@ -99,6 +100,7 @@ namespace Web.Portal.Controller
                                                CheckOut = checkout == null ? "" : Utils.TimeUtils.GetTime(ticket.NgayGioVao.Value, checkout.ActionDateTime),
                                                WaitingTime = ticket.NgayGioVaoThuc.HasValue ? (int)Math.Round((ticket.NgayGioVaoThuc.Value - ticket.NgayGioVao.Value).TotalMinutes, 0) : 1000,
                                                SLA = Utils.TimeUtils.CheckConditionInOut(ticket.NgayGioVaoThuc, ticket.NgayGioVao.Value, vitri),
+                                               ServedTime = (checkin == null || checkout == null) ? "N/A" : Utils.TimeUtils.CheckServedTime(checkin.ActionDateTime, checkout.ActionDateTime),
                                                Location = location
                                            }).ToList();
                     ViewBag.TitleReport = "BÁO CÁO XE VÀO RA TẦNG " + vitri + " NGÀY " + fromDate.Value.ToString("dd/MM/yyyy");
@@ -111,6 +113,8 @@ namespace Web.Portal.Controller
                         }
                     }
                 }
+                #endregion
+                #region ticketType 2
                 else
                 {
                     listTicketViewModel = (from ticket in listTrucks
@@ -126,12 +130,15 @@ namespace Web.Portal.Controller
                                                Created = ticket.NgayGioVao.Value,
                                                LoaiXe = ticket.LoaiXe == 2 ? "XE MÁY" : "ÔTÔ",
                                                LoaiVe = "VÉ NGÀY",
+                                               TimeCheckIn= checkin == null ? new DateTime() : checkin.ActionDateTime,
+                                               TimeCheckOut = checkout == null ? new DateTime() : checkout.ActionDateTime,
                                                CheckIn = checkin == null ? "" : Utils.TimeUtils.GetTime(ticket.NgayGioVao.Value, checkin.ActionDateTime),
                                                BarieIn = Utils.TimeUtils.GetTime(ticket.NgayGioVao.Value, ticket.NgayGioVaoThuc),
                                                BarieOut = Utils.TimeUtils.GetTime(ticket.NgayGioVao.Value, ticket.NgayGioRa),
                                                CheckOut = checkout == null ? "" : Utils.TimeUtils.GetTime(ticket.NgayGioVao.Value, checkout.ActionDateTime),
                                                WaitingTime = checkin != null ? (int)Math.Round((checkin.ActionDateTime - ticket.NgayGioVao.Value).TotalMinutes, 0) : 1000,
                                                SLA = checkin != null ? Utils.TimeUtils.CheckCondition(checkin.ActionDateTime, ticket.NgayGioVao.Value, vitri) : "N/A",
+                                               ServedTime = (checkin == null || checkout == null) ? "N/A" : Utils.TimeUtils.CheckServedTime(checkin.ActionDateTime, checkout.ActionDateTime),
                                                Location = location
                                            }).ToList();
                     foreach (var item in listTicketViewModel)
@@ -144,6 +151,8 @@ namespace Web.Portal.Controller
                     }
                     ViewBag.TitleReport = "BÁO CÁO SCAN QRCODE TẦNG " + vitri + " NGÀY " + fromDate.Value.ToString("dd/MM/yyyy");
                 }
+                #endregion
+
                 #region vethang
                 IEnumerable<Guid> listGuid = _ticketService.GetListTicketMonthy(fromDate, toDate, location);
                 List<tblTicketStatus> listTrucksMonthly = _ticketService.GetVihicleMonthly(fromDate, toDate, location).ToList();
@@ -154,17 +163,19 @@ namespace Web.Portal.Controller
                     foreach (var obj in listTicketFilter)
                     {
                         // ticketMonthly.BSX = obj.BienSoXe;
-                        if (obj.ActionCode.Trim() == "CHECK_IN")
+                        if (obj.ActionCode.Trim() == "CHECK_IN" && (obj.ActionValue.Trim()== "GATEIN_T1" || obj.ActionValue.Trim() == "GATEIN_T2"))
                         {
                             ticketMonthly.Created = obj.ActionDateTime;
                             ticketMonthly.CheckIn = obj.ActionDateTime.ToString("HH:mm");
+                            ticketMonthly.CheckInMonthly = obj.ActionDateTime;
                         }
-                        if (obj.ActionCode.Trim() == "CHECK_OUT")
+                        if (obj.ActionCode.Trim() == "CHECK_OUT" && obj.ActionValue.Trim() == "GATEOUT")
                         {
                             ticketMonthly.CheckOut = obj.ActionDateTime.ToString("HH:mm");
+                            ticketMonthly.CheckOutMonthly = obj.ActionDateTime;
                         }
                     }
-                 
+                    ticketMonthly.ServedTime = (!ticketMonthly.CheckInMonthly.HasValue || !ticketMonthly.CheckOutMonthly.HasValue) ? "N/A" : Utils.TimeUtils.CheckServedTime(ticketMonthly.CheckInMonthly, ticketMonthly.CheckOutMonthly);
                     ticketMonthly.LoaiVe = "VÉ THÁNG";
                     ticketMonthly.LoaiXe = "Ô TÔ";
                     ticketMonthly.TicketID = listTicketFilter[0].TicketUID;
@@ -192,6 +203,52 @@ namespace Web.Portal.Controller
                 ViewBag.PercentChecOut = percentCheckOut.ToString() + "%";
                 ViewBag.PercentOK = percentOK.ToString() + "%";
                 listTicketViewModelFinal.AddRange(listTicketViewModelMonthly);
+                foreach(var item in listTicketViewModelFinal)
+                {
+                    tblDangKyGoiXe goixe = item.LoaiVe == "VÉ NGÀY"? _dkgxService.GetByBSX(item.BSX, item.Created, fromDate,item.TimeCheckIn,1) : _dkgxService.GetByBSX(item.BSX, item.Created, fromDate, item.CheckInMonthly, 2);
+                    if(goixe != null)
+                    { item.TimeCallTruck = goixe.ThoiGianDangKy; }
+                    else
+                    item.TimeCallTruck = null;
+                    // tinh lai SLA
+                    if(item.LoaiVe == "VÉ NGÀY")
+                    {
+                        if(!item.TimeCallTruck.HasValue)
+                        {
+                            item.WaitingTime = item.TimeCheckIn.HasValue ? (int)Math.Round((item.TimeCheckIn.Value - item.Created).TotalMinutes, 0) : 1000;
+                            item.SLA = item.TimeCheckIn.HasValue ? Utils.TimeUtils.CheckCondition(item.TimeCheckIn.Value,item.Created, vitri) : "N/A";
+                        }
+                        else
+                        {
+                            if(item.Created > item.TimeCallTruck)
+                            {
+                                item.WaitingTime = item.TimeCheckIn.HasValue ? (int)Math.Round((item.TimeCheckIn.Value - item.Created).TotalMinutes, 0) : 1000;
+                                item.SLA = item.TimeCheckIn.HasValue ? Utils.TimeUtils.CheckCondition(item.TimeCheckIn.Value, item.Created, vitri) : "N/A";
+                            }
+                            else
+                            {
+                                item.WaitingTime = item.TimeCheckIn.HasValue ? (int)Math.Round((item.TimeCheckIn.Value - item.TimeCallTruck.Value).TotalMinutes, 0) : 1000;
+                                item.SLA = item.TimeCheckIn.HasValue ? Utils.TimeUtils.CheckCondition(item.TimeCheckIn.Value, item.TimeCallTruck.Value, vitri) : "N/A";
+                            }
+                                
+
+                        }
+                    }
+                    else
+                    {
+                        if (!item.TimeCallTruck.HasValue)
+                        {
+                            item.WaitingTime = 1000;
+                            item.SLA = "N/A";
+                        }
+                        else
+                        {
+                            item.WaitingTime = item.CheckInMonthly.HasValue ? (int)Math.Round((item.CheckInMonthly.Value - item.TimeCallTruck.Value).TotalMinutes, 0) : 1000;
+                            item.SLA = item.CheckInMonthly.HasValue ? Utils.TimeUtils.CheckCondition(item.CheckInMonthly.Value, item.TimeCallTruck.Value, vitri) : "N/A";
+                        }
+                            
+                    }
+                }
                 ViewData["listTruck"] = listTicketViewModelFinal.OrderBy(c => c.Created).ToList();
             }
             else

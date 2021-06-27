@@ -74,7 +74,7 @@ namespace Web.Portal.Service
 
         public IEnumerable<tblTicketStatus> GetVihicleCheckIn(DateTime? fda, DateTime? tda, string location)
         {
-            return _statusRepository.GetMulti(c => c.ActionValue != "GATEOUT" && c.TicketCreatedAt.Value >= fda && c.TicketCreatedAt.Value <= tda && c.ActionStatus.Value == 1);
+            return _statusRepository.GetMulti(c =>c.ActionCode== "CHECK_IN" &&  (c.ActionValue == "GATEIN_T1" || c.ActionValue == "GATEIN_T2") && c.TicketCreatedAt.Value >= fda && c.TicketCreatedAt.Value <= tda && c.ActionStatus.Value == 1);
         }
 
         public IEnumerable<tblTicketStatus> GetVihicleCheckInByDate(DateTime? fda, string location)

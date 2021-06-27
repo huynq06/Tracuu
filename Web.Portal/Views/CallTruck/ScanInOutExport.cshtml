@@ -34,6 +34,9 @@
                 VỊ TRÍ
             </th>
             <th style="width:10%;text-align:center">
+                ĐĂNG KÝ
+            </th>
+            <th style="width:10%;text-align:center">
                 MUA VÉ
             </th>
 
@@ -50,9 +53,12 @@
                 CHỜ(phút)
             </th>
             <th style="width:10%;text-align:center">
+                TG PHỤC VỤ(phút)
+            </th>
+            <th style="width:10%;text-align:center">
                 SLA
             </th>
-
+           
 
 
         </tr>
@@ -70,7 +76,9 @@
                 <td align="center">@Html.Raw(row.LoaiXe)</td>
                 <td align="center">@Html.Raw(row.LoaiVe)</td>
                 <td align="center">@Html.Raw(row.Location == "GATEIN_T2" ? "Tầng 2" : "Tầng 1")</td>
-
+                <td align="center">
+                    @Html.Raw(row.TimeCallTruck.HasValue ?  row.TimeCallTruck.Value.ToString("HH:mm"): "")
+                </td>
                 <td align="center">
                     @Html.Raw(row.LoaiVe == "VÉ THÁNG" ? "" : row.Created.ToString("HH:mm"))
                 </td>
@@ -84,10 +92,13 @@
                
 
                 <td align="center">@Html.Raw(row.WaitingTime == 1000 ? "N/A" : row.WaitingTime.ToString())</td>
+                <td align="center">
+                    @Html.Raw(row.ServedTime)
+                </td>
+
                 <td align="center">@Html.Raw(Web.Portal.Utils.Constants.GetStatusTruck(row.SLA))</td>
 
-
-
+               
 
             </tr>
         }
