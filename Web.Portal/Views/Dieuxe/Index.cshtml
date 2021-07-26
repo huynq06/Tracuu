@@ -33,29 +33,43 @@
             </div>
             <div class="portlet-body">
                 <div class="row">
-                    <div class="form-group form-md-line-input">
+                   
                         <div class="form-group form-md-line-input">
                             <div class="md-radio-inline col-md-10">
-                                <div class="md-radio has-warning">
-                                    <input id="ttWaiting" name="tinhTrang" value="1" class="md-radiobtn" type="radio" checked>
-                                    <label for="ttWaiting">
-                                        <span></span>
-                                        <span class="check"></span>
-                                        <span class="box"></span>Tầng 1
-                                    </label>
+                                <div class="input-group" style="padding-left:20px !important">
+                                    <div class="md-radio has-warning">
+                                        <input id="ttWaiting" name="tinhTrang" value="1" class="md-radiobtn" type="radio" checked>
+                                        <label for="ttWaiting">
+                                            <span></span>
+                                            <span class="check"></span>
+                                            <span class="box"></span>Tầng 1
+                                        </label>
+                                    </div>
+                                    <div class="md-radio has-success">
+                                        <input id="ttNow" name="tinhTrang" value="2" class="md-radiobtn" type="radio">
+                                        <label for="ttNow">
+                                            <span class="inc"></span>
+                                            <span class="check"></span>
+                                            <span class="box"></span> Tầng 2
+                                        </label>
+                                    </div>
+                                    <div class="md-radio has-info">
+                                        <input id="ttAlsx" name="tinhTrang" value="3" class="md-radiobtn" type="radio">
+                                        <label for="ttAlsx">
+                                            <span class="inc"></span>
+                                            <span class="check"></span>
+                                            <span class="box"></span> ALSX
+                                        </label>
+                                    </div>
+                                   
+                                        <button id="btn-search-sita" class="btn btn-success" type="button"><i class="fa fa-refresh"> Làm mới</i></button>
+                                    
+
+
                                 </div>
-                                <div class="md-radio has-success">
-                                    <input id="ttNow" name="tinhTrang" value="2" class="md-radiobtn" type="radio" >
-                                    <label for="ttNow">
-                                        <span class="inc"></span>
-                                        <span class="check"></span>
-                                        <span class="box"></span> Tầng 2
-                                    </label>
                                 </div>
-                                
-                            </div>
                         </div>
-                        </div>
+                     
 
 
                 </div>
@@ -87,11 +101,7 @@
             $('.input-sm').attr('placeholder', 'NHẬP BSX')
         },
     }
-   // var i = $("#content-list-result input")
-   //// selectedTextarea = $('input')[0];
-   // i.placeholder = "Nhập BSX";
-   // console.log($('.input-sm').attr);
-   // $('.input-sm').attr('placeholder', 'NHẬP BSX');
+    var type = 1;
     var refreshIntervalId;
     var hermesAction = {
         searchWaiting: function () {
@@ -101,6 +111,9 @@
         searchNow: function () {
             egovutil.getContentCallBack("#content-list-result", "/Dieuxe/list/2", Action.setValueInput);
                                                                   
+        },
+        searchAlsx: function () {
+            egovutil.getContentCallBack("#content-list-result", "/Dieuxe/list/3", Action.setValueInput);
         }
     }
     hermesAction.searchWaiting();
@@ -126,21 +139,35 @@
                20000)
 
     // sitaAction.search();
-    $("#btn-search-sita").click(function () { hermesAction.search(); })
+    $("#btn-search-sita").click(function () {
+        if (type == 1) { hermesAction.searchWaiting();}
+        if (type == 2) { hermesAction.searchNow(); }
+        if (type == 3) { hermesAction.searchAlsx(); }
+    })
 
     $('input[type=radio][name=tinhTrang]').change(function () {
         if (this.id == 'ttWaiting') {
+            type = 1;
             egovutil.getContentCallBack("#content-list-result", "/Dieuxe/list/1", Action.setValueInput);
             clearInterval(refreshIntervalId);
             refreshIntervalId = setInterval(hermesAction.searchWaiting,
             10000)
         }
         else if (this.id == 'ttNow') {
+            type = 2;
             egovutil.getContentCallBack("#content-list-result", "/Dieuxe/list/2", Action.setValueInput);
             clearInterval(refreshIntervalId);
             refreshIntervalId =    setInterval(hermesAction.searchNow,
               10000)
                                   
+        }
+        else
+        {
+            type = 3;
+            egovutil.getContentCallBack("#content-list-result", "/Dieuxe/list/3", Action.setValueInput);
+            clearInterval(refreshIntervalId);
+            refreshIntervalId = setInterval(hermesAction.searchAlsx,
+              10000)
         }
     });
 </script>

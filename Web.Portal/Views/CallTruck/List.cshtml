@@ -14,20 +14,18 @@
             <th style="width:10%;text-align:center">
                 AWB
             </th>
-            <th style="width:10%;text-align:center">
-                SDT
-            </th>
+
             <th style="width:10%;text-align:center">
                 TG Đăng ký
             </th>
             <th style="width:10%;text-align:center">
-                NHÂN VIÊN ĐK
+                Trạng Thái
+            </th>
+            <th style="width:10%;text-align:center">
+                NV Đăng ký
             </th>
             <th style="width:10%;text-align:center">
                 FLIGHT
-            </th>
-            <th style="width:10%;text-align:center">
-                NOTE
             </th>
 
 
@@ -40,21 +38,21 @@
             rowIndex += 1;
 
             <tr>
-                <td  align="center">@rowIndex</td>
+                <td align="center">@rowIndex</td>
 
-                <td  align="center">@Html.Raw(row.BienSoXe)</td>
+                <td align="center">@Html.Raw(row.BienSoXe)</td>
 
                 <td align="center">
                     @Html.DisplayTextFor(model => row.LoHang)
                 </td>
-                <td align="center">@Html.Raw(row.DienThoai)</td>
-
-                <td  align="center">
+                <td align="center">
                     @Html.Raw(row.ThoiGianDangKy.HasValue ? row.ThoiGianDangKy.Value.ToString("dd-MM-yy HH:mm") : "")
                 </td>
-                <td  align="center">@Html.Raw(row.UserName)</td>
-                <td  align="center">@Html.Raw(row.Remark)</td>
-                <td  align="center">@Html.Raw(row.GhiChu)</td>
+                <td align="center">
+                    @Html.Raw(row.TruckStatus >= 2 ? "ĐÃ VÀO" : "CHƯA VÀO")
+                </td>
+                <td align="center">@Html.Raw(row.UserName)</td>
+                <td align="center">@Html.Raw(row.Remark)</td>
 
             </tr>
         }

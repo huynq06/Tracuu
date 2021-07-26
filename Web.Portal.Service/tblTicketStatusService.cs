@@ -15,15 +15,18 @@ namespace Web.Portal.Service
         IEnumerable<tblTicketStatus> GetAll();
         tblTicketStatus GetByTicketID(Guid ticketID);
         void Update(tblTicketStatus ticket);
+        void Insert(tblTicketStatus ticket);
         IEnumerable<tblTicketStatus> GetVihicle(DateTime? fda, DateTime? tda, string location);
         IEnumerable<tblTicketStatus> GetVihicleMonthly(DateTime? fda, DateTime? tda, string location);
         IEnumerable<tblTicketStatus> GetVihicleCheckIn(DateTime? fda, DateTime? tda, string location);
         IEnumerable<tblTicketStatus> GetVihicleCheckInByDate(DateTime? fda, string location);
         IEnumerable<tblTicketStatus> GetVihicleCheckOut(DateTime? fda, DateTime? tda, string location);
         IEnumerable<tblTicketStatus> GetVihicleCheckOutByDate(DateTime? fda, string location);
+
+        IEnumerable<tblTicketStatus> GetVihicleCheckInDockT2();
         IEnumerable<Guid> GetListTicket(DateTime? fda, DateTime? tda, string location);
         IEnumerable<Guid> GetListTicketMonthy(DateTime? fda, DateTime? tda, string location);
-        IEnumerable<tblTicketStatus> GetListTicketMonthyCheckIn();
+        IEnumerable<tblTicketStatus> GetListTicketMonthyCheckIn(DateTime dateCheck);
         void Save();
     }
     public class tblTicketStatusService : ItblTicketStatusService
@@ -56,14 +59,16 @@ namespace Web.Portal.Service
             return _statusRepository.GetMulti(c => c.ActionValue == location && c.ActionDateTime >= fda && c.ActionDateTime <= tda && c.ActionStatus.Value == 1 && c.TicketType==2).Select(c => c.TicketUID).Distinct();
         }
 
-        public IEnumerable<tblTicketStatus> GetListTicketMonthyCheckIn()
+        public IEnumerable<tblTicketStatus> GetListTicketMonthyCheckIn(DateTime dateCheck)
         {
-            return _statusRepository.GetMulti(c => c.ActionDateTime.Day == DateTime.Now.Day && c.ActionDateTime.Month == DateTime.Now.Month && c.ActionDateTime.Year == DateTime.Now.Year && c.ActionStatus == 1).Select(c => new tblTicketStatus()
+            return _statusRepository.GetMulti(c => c.ActionDateTime >= dateCheck && c.ActionStatus == 1).Select(c => new tblTicketStatus()
             {
                 TicketUID = c.TicketUID,
                 ActionCode = c.ActionCode,
                 ActionValue = c.ActionValue,
                 BienSoXe = c.BienSoXe,
+                TicketType = c.TicketType,
+                ActionDateTime = c.ActionDateTime
             }).Distinct().ToList();
         }
 
@@ -80,6 +85,12 @@ namespace Web.Portal.Service
         public IEnumerable<tblTicketStatus> GetVihicleCheckInByDate(DateTime? fda, string location)
         {
             return _statusRepository.GetMulti(c => c.ActionValue != "GATEOUT" && c.TicketCreatedAt.Value >= fda && c.TicketCreatedAt.Value <= fda && c.ActionStatus.Value == 1);
+        }
+
+        public IEnumerable<tblTicketStatus> GetVihicleCheckInDockT2()
+        {
+            return _statusRepository.GetMulti(c => c.ActionValue == "CHECK_IN_DOCK" && c.ActionValue.Contains("DOCK_T2") && (c.ActionDateTime.Day == DateTime.Now.Day || c.ActionDateTime.Day == DateTime.Now.Day - 1) && (c.ActionDateTime.Month == DateTime.Now.Month || c.ActionDateTime.Month == DateTime.Now.Month - 1)
+            && c.ActionDateTime.Year == DateTime.Now.Year && c.ActionStatus == 1);
         }
 
         public IEnumerable<tblTicketStatus> GetVihicleCheckOut(DateTime? fda, string location)
@@ -111,7 +122,10 @@ namespace Web.Portal.Service
         {
             _unitOfWork.CommitPXK();
         }
-
+        public void Insert(tblTicketStatus ticket)
+        {
+            _statusRepository.Add(ticket);
+        }
         public void Update(tblTicketStatus ticket)
         {
             _statusRepository.Update(ticket);

@@ -46,6 +46,7 @@
     <Compile Include="ApiViewModel\CustomDetailViewModel.cs" />
     <Compile Include="ApiViewModel\CustomFormViewModel.cs" />
     <Compile Include="ApiViewModel\DKXDViewModel.cs" />
+    <Compile Include="ApiViewModel\ExportQuantity.cs" />
     <Compile Include="ApiViewModel\FFMViewModel.cs" />
     <Compile Include="ApiViewModel\FHLViewModel.cs" />
     <Compile Include="ApiViewModel\FlightImp.cs" />
@@ -56,14 +57,17 @@
     <Compile Include="ApiViewModel\GetInViewModel.cs" />
     <Compile Include="ApiViewModel\GetOutViewModel.cs" />
     <Compile Include="ApiViewModel\HawbInFlightViewModel.cs" />
+    <Compile Include="ApiViewModel\ImportQuantity.cs" />
     <Compile Include="ApiViewModel\KVGSViewModel.cs" />
     <Compile Include="ApiViewModel\LocationDetailViewModel.cs" />
     <Compile Include="ApiViewModel\MessageViewModel.cs" />
     <Compile Include="ApiViewModel\NOAViewModel.cs" />
+    <Compile Include="ApiViewModel\QuantityReportChart.cs" />
     <Compile Include="ApiViewModel\ResultExp.cs" />
     <Compile Include="ApiViewModel\ResultFlightExp.cs" />
     <Compile Include="ApiViewModel\ResultFlightImp.cs" />
     <Compile Include="ApiViewModel\ResultImp.cs" />
+    <Compile Include="ApiViewModel\TickValue.cs" />
     <Compile Include="ApiViewModel\TruckApiViewModel.cs" />
     <Compile Include="ApiViewModel\VCTViewModel.cs" />
     <Compile Include="ChartDictionary.cs" />
@@ -81,6 +85,7 @@
     <Compile Include="ViewModel\DataViewModel.cs" />
     <Compile Include="ViewModel\DeliveryViewModel.cs" />
     <Compile Include="ViewModel\DirectorReportViewModel.cs" />
+    <Compile Include="ViewModel\DockImpViewModel.cs" />
     <Compile Include="ViewModel\eInvoiceViewModel\Account.cs" />
     <Compile Include="ViewModel\eInvoiceViewModel\adj.cs" />
     <Compile Include="ViewModel\eInvoiceViewModel\inv.cs" />

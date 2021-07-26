@@ -105,7 +105,7 @@ namespace Web.Portal.Service
        
         public List<tblDangKyGoiXe> GetListTruckFloor1(int count)
         {
-            return _dkgxRepository.GetMulti(c => c.TrangThai == 0 && c.ViTri == 2 && c.ThoiGianDangKy.Value.Day == DateTime.Now.Day && c.ThoiGianDangKy.Value.Month == DateTime.Now.Month && c.ThoiGianDangKy.Value.Year == DateTime.Now.Year).OrderByDescending(c => c.SortValue).ThenByDescending(c => c.ThoiGianDangKy).Take(count).ToList();
+            return _dkgxRepository.GetMulti(c => c.TrangThai == 0 && c.ViTri == 1 && c.ThoiGianDangKy.Value.Day == DateTime.Now.Day && c.ThoiGianDangKy.Value.Month == DateTime.Now.Month && c.ThoiGianDangKy.Value.Year == DateTime.Now.Year).OrderByDescending(c => c.SortValue).ThenByDescending(c => c.ThoiGianDangKy).Take(count).ToList();
         }
 
         public List<tblDangKyGoiXe> GetListTruckFloorToCheck()
@@ -120,7 +120,10 @@ namespace Web.Portal.Service
 
         public IEnumerable<tblDangKyGoiXe> GetVihicle(DateTime? fda, DateTime? tda, int location)
         {
-            return _dkgxRepository.GetMulti(c => c.ViTri == location && c.ThoiGianDangKy.Value >= fda && c.ThoiGianDangKy.Value <= tda);
+            if(location == 0)
+                return _dkgxRepository.GetMulti(c=>c.ThoiGianDangKy.Value >= fda && c.ThoiGianDangKy.Value <= tda);
+            else
+             return _dkgxRepository.GetMulti(c => c.ViTri == location && c.ThoiGianDangKy.Value >= fda && c.ThoiGianDangKy.Value <= tda);
         }
 
         public void Save()

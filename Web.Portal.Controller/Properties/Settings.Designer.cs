@@ -32,5 +32,15 @@ namespace Web.Portal.Controller.Properties {
                 return ((string)(this["Web_Portal_Controller_vn_cinvoice_api_ALSService"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://wsfly1.viagsnoibai.com/als.asmx")]
+        public string Web_Portal_Controller_com_viagsnoibai_wsfly1_ALS {
+            get {
+                return ((string)(this["Web_Portal_Controller_com_viagsnoibai_wsfly1_ALS"]));
+            }
+        }
     }
 }

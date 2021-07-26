@@ -1,0 +1,12 @@
+﻿<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:tem="http://tempuri.org/">
+   <soap:Header/>
+   <soap:Body>
+      <tem:getLichBay_Di>
+         <!--Optional:-->
+         <tem:NgayBay>{0}</tem:NgayBay>
+         <tem:U_ID>{1}</tem:U_ID> <!--Zero or more repetitions:-->
+         <tem:U_Key>{2}</tem:U_Key>
+         
+      </tem:getLichBay_Di>
+   </soap:Body>
+</soap:Envelope>

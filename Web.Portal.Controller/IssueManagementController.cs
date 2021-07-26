@@ -101,7 +101,7 @@ namespace Web.Portal.Controller
             //int value = int.Parse(Request["value"]);
             var vct = _iVctService.GetByID(id.Value);
             vct.LOCATION = 2;
-            vct.AWB_STATUS = 1;
+            vct.AWB_STATUS = 2;
             vct.LABS_PROCESS_AT = DateTime.Now;
             _iVctService.Update(vct);
             _iVctService.Save();
@@ -117,7 +117,7 @@ namespace Web.Portal.Controller
             //int value = int.Parse(Request["value"]);
             var vct = _iVctService.GetByID(id.Value);
             vct.LOCATION = 2;
-            vct.AWB_STATUS = 1;
+            vct.AWB_STATUS = 2;
             vct.LABS_PROCESS_AT = DateTime.Now;
             _iVctService.Update(vct);
             _iVctService.Save();

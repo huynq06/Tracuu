@@ -5,55 +5,55 @@
 }
 <div class='col-md-12 col-xs-12 margin-top-10'>
     <b style="text-align:right;font-size:20px">
-        <span style="color:#006b99">TỔNG SỐ XE ĐANG Ở TẦNG 1:</span> <span style="color:red">@ViewBag.TruckFloor1 </span>
+        <span style="color:black">TỔNG SỐ XE ĐANG Ở TẦNG 1:</span> <span style="color:red">@ViewBag.TruckFloor1 </span>
     </b>
 </div>
 <div class='col-md-12 col-xs-12 margin-top-10'>
     <b style="text-align:right;font-size:20px">
-        <span style="color:#006b99">TỔNG SỐ XE ĐANG Ở TẦNG 2:</span> <span style="color:red">@ViewBag.TruckFloor2 </span> 
+        <span style="color:black">TỔNG SỐ XE ĐANG Ở TẦNG 2:</span> <span style="color:red">@ViewBag.TruckFloor2 </span> 
     </b>
 </div>
 <table id="tbl-hawb" class="table table-striped table-bordered table-advance table-hover">
     <thead>
         <tr>
-            <th style="width:3%;background-color:chartreuse !important">
+            <th style="width:3%;background-color:black !important;color:white">
                 STT
             </th>
-            <th style="width:10%;background-color:chartreuse !important">
+            @*<th style="width:10%;background-color:chartreuse !important">
                 ID
-            </th>
-            <th style="width:10%;text-align:center;background-color:chartreuse !important">
+            </th>*@
+            <th style="width:10%;text-align:center;background-color:black !important;color:white">
                 BIỂN SỐ XE
             </th>
-            <th style="width:10%;text-align:center;background-color:chartreuse !important">
+            <th style="width:10%;text-align:center;background-color:black !important;color:white">
                 LOẠI XE
             </th>
-            <th style="width:10%;text-align:center;background-color:chartreuse !important">
+            <th style="width:10%;text-align:center;background-color:black !important;color:white">
                 VỊ TRÍ
             </th>
-            <th style="width:10%;text-align:center;background-color:chartreuse !important">
+            <th style="width:10%;text-align:center;background-color:black !important;color:white">
                 THỜI GIAN VÀO
             </th>
 
         </tr>
     </thead>
     <tbody>
-        @foreach (var row in (IList<Web.Portal.Common.ViewModel.TicketStatusViewModel>)ViewData["listTruck"])
+        @foreach (var row in (IList<Web.Portal.Model.Models.tblTicketStatus>)ViewData["listTruck"])
         {
             rowIndex += 1;
 
             <tr>
-                <td>@rowIndex</td>
-                <td style="text-align:center">@Html.Raw(row.TicketID)</td>
-                <td style="text-align:center">@Html.Raw(row.BSX)</td>
-                <td style="text-align:center">
-                    @Html.Raw(row.LoaiVe)
+                <td style="width:3%;text-align:center;background-color:#525151 !important;color:white">@rowIndex</td>
+                @*<td style="text-align:center">@Html.Raw(row.TicketUID)</td>*@
+                <td data-ID="@Html.DisplayFor(model => row.TicketUID)" style="width:10%;text-align:center;background-color:#525151 !important;color:white">@Html.Raw(row.BienSoXe)</td>
+                <td data-ID="@Html.DisplayFor(model => row.TicketUID)" style="width:10%;text-align:center;background-color:#525151 !important;color:white">
+                    @Html.Raw(row.TicketType==1? "VÉ NGÀY" : "VÉ THÁNG")
                 </td>
-                <td style="text-align:center">
-                    @Html.DisplayTextFor(model => row.Location)
+                <td style="width:10%;text-align:center;background-color:#525151 !important;color:white">
+                    @Html.DisplayTextFor(model => row.ActionValue)
                 </td>
-                <td style="text-align:center">
-                    @Html.Raw(row.CheckIn)
+                <td style="width:10%;text-align:center;background-color:#525151 !important;color:white">
+                    @Html.Raw(row.ActionDateTime)
                 </td>
             </tr>
         }

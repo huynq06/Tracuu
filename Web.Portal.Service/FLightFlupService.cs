@@ -42,7 +42,7 @@ namespace Web.Portal.Service
 
         public IEnumerable<FLightFlup> GetByDate(DateTime fdt, DateTime tdt)
         {
-            return _flightRepository.GetMulti(c => c.STD.Year >= fdt.Year & c.STD.Year <= tdt.Year & c.STD.Month >= fdt.Month & c.STD.Month <= tdt.Month & c.STD.Day >= fdt.Day & c.STD.Day <= tdt.Day && c.FlightStatus==0);
+            return _flightRepository.GetMulti(c => c.STD.Year >= fdt.Year && c.STD.Year <= tdt.Year && c.STD.Month >= fdt.Month && c.STD.Month <= tdt.Month && c.STD.Day >= fdt.Day && c.STD.Day <= tdt.Day && c.FlightStatus==0);
         }
 
         public FLightFlup GetByFlightID(string id)

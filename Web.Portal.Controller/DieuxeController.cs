@@ -31,9 +31,20 @@ namespace Web.Portal.Controller
             //string flightNo = string.IsNullOrEmpty(Request["fno"]) ? "" : Request["fno"].Trim();
             //ata = string.IsNullOrEmpty(Request["ata"]) ? ata : Web.Portal.Utils.Format.ConvertDate(Request["ata"]);
             var listTruck = _callTruckService.GetByFloor(id);
+            var listTruckCount = _callTruckService.GetAll();
             ViewData["listTruck"] = listTruck;
-            ViewBag.EmptySpaceFloor2 = listTruck[0].SpaceEmptyFloor2;
-            ViewBag.EmptySpaceFloor1 = listTruck[0].SpaceEmptyFloor1;
+            ViewBag.EmptySpaceFloor2 = listTruckCount.Count > 0 ? listTruckCount[0].SpaceEmptyFloor2 : 0;
+            ViewBag.EmptySpaceFloor1 = listTruckCount.Count > 0 ? listTruckCount[0].SpaceEmptyFloor1 : 0;
+            ViewBag.Total = listTruck.Count;
+            ViewBag.ID = id.ToString();
+            return View();
+        }
+        public ActionResult Floor1()
+        {
+            //string flightNo = string.IsNullOrEmpty(Request["fno"]) ? "" : Request["fno"].Trim();
+            //ata = string.IsNullOrEmpty(Request["ata"]) ? ata : Web.Portal.Utils.Format.ConvertDate(Request["ata"]);
+            var listTruck = _dkgxService.GetListTruckFloor1(50);
+            ViewData["listTruck"] = listTruck;
             ViewBag.Total = listTruck.Count;
             return View();
         }

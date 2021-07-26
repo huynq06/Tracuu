@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="getLichBay_Den">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="NgayBay" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="U_ID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="U_Key" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getLichBay_DenResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getLichBay_DenResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:any minOccurs="0" maxOccurs="unbounded" namespace="http://www.w3.org/2001/XMLSchema" processContents="lax" />
+                  <s:any minOccurs="1" namespace="urn:schemas-microsoft-com:xml-diffgram-v1" processContents="lax" />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getLichBay_Di">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="NgayBay" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="U_ID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="U_Key" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getLichBay_DiResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getLichBay_DiResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:any minOccurs="0" maxOccurs="unbounded" namespace="http://www.w3.org/2001/XMLSchema" processContents="lax" />
+                  <s:any minOccurs="1" namespace="urn:schemas-microsoft-com:xml-diffgram-v1" processContents="lax" />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getCPM">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="NgayBay" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ChuyenBay" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="U_ID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="U_Key" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getCPMResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getCPMResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:any minOccurs="0" maxOccurs="unbounded" namespace="http://www.w3.org/2001/XMLSchema" processContents="lax" />
+                  <s:any minOccurs="1" namespace="urn:schemas-microsoft-com:xml-diffgram-v1" processContents="lax" />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="getLichBay_DenSoapIn">
+    <wsdl:part name="parameters" element="tns:getLichBay_Den" />
+  </wsdl:message>
+  <wsdl:message name="getLichBay_DenSoapOut">
+    <wsdl:part name="parameters" element="tns:getLichBay_DenResponse" />
+  </wsdl:message>
+  <wsdl:message name="getLichBay_DiSoapIn">
+    <wsdl:part name="parameters" element="tns:getLichBay_Di" />
+  </wsdl:message>
+  <wsdl:message name="getLichBay_DiSoapOut">
+    <wsdl:part name="parameters" element="tns:getLichBay_DiResponse" />
+  </wsdl:message>
+  <wsdl:message name="getCPMSoapIn">
+    <wsdl:part name="parameters" element="tns:getCPM" />
+  </wsdl:message>
+  <wsdl:message name="getCPMSoapOut">
+    <wsdl:part name="parameters" element="tns:getCPMResponse" />
+  </wsdl:message>
+  <wsdl:portType name="ALSSoap">
+    <wsdl:operation name="getLichBay_Den">
+      <wsdl:input message="tns:getLichBay_DenSoapIn" />
+      <wsdl:output message="tns:getLichBay_DenSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getLichBay_Di">
+      <wsdl:input message="tns:getLichBay_DiSoapIn" />
+      <wsdl:output message="tns:getLichBay_DiSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getCPM">
+      <wsdl:input message="tns:getCPMSoapIn" />
+      <wsdl:output message="tns:getCPMSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ALSSoap" type="tns:ALSSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="getLichBay_Den">
+      <soap:operation soapAction="http://tempuri.org/getLichBay_Den" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getLichBay_Di">
+      <soap:operation soapAction="http://tempuri.org/getLichBay_Di" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getCPM">
+      <soap:operation soapAction="http://tempuri.org/getCPM" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="ALSSoap12" type="tns:ALSSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="getLichBay_Den">
+      <soap12:operation soapAction="http://tempuri.org/getLichBay_Den" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getLichBay_Di">
+      <soap12:operation soapAction="http://tempuri.org/getLichBay_Di" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getCPM">
+      <soap12:operation soapAction="http://tempuri.org/getCPM" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ALS">
+    <wsdl:port name="ALSSoap" binding="tns:ALSSoap">
+      <soap:address location="http://wsfly1.viagsnoibai.com/als.asmx" />
+    </wsdl:port>
+    <wsdl:port name="ALSSoap12" binding="tns:ALSSoap12">
+      <soap12:address location="http://wsfly1.viagsnoibai.com/als.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

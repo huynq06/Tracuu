@@ -20,6 +20,8 @@ namespace Web.Portal.Controller
     [Web.Portal.Sercurity.AuthorizedBase(Roles = "ADMIN,KHAITHAC,MEMBER,HAIQUAN,KHOKEODAI,CUSTOMER,XEMUYQUYEN")]
     public class CallTruckController : BaseController
     {
+        string[] dockListImp = { "DOCK_T2_D01", "DOCK_T2_D02", "DOCK_T2_D03", "DOCK_T2_D04", "DOCK_T2_D05", "DOCK_T2_D06", "DOCK_T2_D07", "DOCK_T2_D08", "DOCK_T2_D09", "DOCK_T2_D10", "DOCK_T2_KHAC" };
+        string[] dockListExp = { "DOCK_T1_D05", "DOCK_T1_D06", "DOCK_T1_D07", "DOCK_T1_D08", "DOCK_T1_D09", "DOCK_T1_D10", "DOCK_T1_D11", "DOCK_T1_D12", "DOCK_T1_D13", "DOCK_T1_KHAC" };
         IDangKyGoiXeService _dkgxService;
         IDangKyVaoRaService _dkvrService;
         ILocationConfigService _locationService;
@@ -51,12 +53,28 @@ namespace Web.Portal.Controller
         public void ShowData()
         {
             int vitri = int.Parse(Request["location"].Trim());
+            string location = vitri == 3 ? "ALSX" : "TẦNG " + vitri;
             fromDate = string.IsNullOrEmpty(Request["fda"]) ? fromDate : Web.Portal.Utils.Format.ConvertDate(Request["fda"]);
             toDate = string.IsNullOrEmpty(Request["tda"]) ? toDate.Value.AddDays(1) : Web.Portal.Utils.Format.ConvertDate(Request["tda"]).Value.AddDays(1);
             //    dateCheck = string.IsNullOrEmpty(Request["date"]) ? dateCheck : Web.Portal.Utils.Format.ConvertDate(Request["date"]);
             List<tblDangKyGoiXe> listTrucks = _dkgxService.GetVihicle(fromDate, toDate, vitri).ToList();
             ViewData["listTruck"] = listTrucks;
-            ViewBag.TitleReport = "BÁO CÁO ĐIỀU XE TẦNG " + vitri + " TỪ NGÀY " + fromDate.Value.ToString("dd/MM/yyyy") + " ĐẾN NGÀY " + toDate.Value.ToString("dd/MM/yyyy");
+            DateTime dateCheck = DateTime.Now.AddHours(-12);
+            List<tblTicketStatus> listCheckIn = _ticketService.GetListTicketMonthyCheckIn(dateCheck).ToList();
+            foreach (var item in listTrucks)
+            {
+                if (item.TruckStatus == 1 && !item.SynID.HasValue)
+                {
+                    var checkTruck = listCheckIn.FirstOrDefault(c => c.BienSoXe == item.BienSoXe);
+                    if (checkTruck != null)
+                    {
+                        item.TruckStatus = 3;
+                    }
+                    //kta xem xe da vao chua
+
+                }
+            }
+            ViewBag.TitleReport = "BÁO CÁO ĐIỀU XE " + location + " TỪ NGÀY " + fromDate.Value.ToString("dd/MM/yyyy") + " ĐẾN NGÀY " + toDate.Value.ToString("dd/MM/yyyy");
         }
         public void ShowDataList()
         {
@@ -192,6 +210,85 @@ namespace Web.Portal.Controller
             ShowData();
             return View();
         }
-        
+
+        public ActionResult IndexDockImp()
+        {
+            return View();
+        }
+        public ActionResult DockImpList()
+        {
+            foreach(var item in dockListImp)
+            {
+
+            }
+            return View();
+        }
+
+        public ActionResult Truck()
+        {
+            return View();
+        }
+        public ActionResult TruckIndoorList()
+        {
+            int id = int.Parse(Request["location"].Trim());
+
+            List<TicketStatusViewModel> listTicket = new List<TicketStatusViewModel>();
+            List<TicketStatusViewModel> listTicketMonthly = new List<TicketStatusViewModel>();
+            //List<tblDangKyVaoRa> listTruck = _dkvrService.GetTruckIndoor();
+            string location = "GATEIN_T1";
+            if (id == 2)
+            {
+                location = "GATEIN_T2";
+            }
+            DateTime dateCheck = DateTime.Now.AddHours(-12);
+            //listTicket = listTicketViewModel.Where(c => c.CheckOut == "").ToList();
+            List<tblTicketStatus> listCheckIn = _ticketService.GetListTicketMonthyCheckIn(dateCheck).ToList();
+            List<tblTicketStatus> listTruckCheckIn = listCheckIn.Where(c => c.ActionValue == location).ToList();
+            
+            if (listTruckCheckIn.Count > 0)
+            {
+                for (int i = listTruckCheckIn.Count - 1; i >= 0; i--)
+                {
+                    string bsx = listCheckIn[i].TicketUID.ToString();
+                    if (listCheckIn.Where(c => c.TicketUID == listTruckCheckIn[i].TicketUID && c.ActionValue == "GATEOUT").Count() > 0)
+                    {
+                        listTruckCheckIn.RemoveAt(i);
+                    }
+                }
+            }
+           
+            ViewBag.Total = listTruckCheckIn.Count;
+            ViewData["listTruck"] = listTruckCheckIn;
+            return View();
+        }
+        public ActionResult CheckOut(Guid id)
+        {
+            var truck = _ticketService.GetByTicketID(id);
+            tblTicketStatus ticket = new tblTicketStatus();
+            ticket.TicketUID = id;
+            ticket.TicketCreatedAt = truck.TicketCreatedAt;
+            ticket.ActionCode = "CHECK_OUT";
+            ticket.ActionValue = "GATEOUT";
+            ticket.ActionDateTime = DateTime.Now;
+            ticket.ActionMessage = "CHECK OUT MANUAL";
+            ticket.BienSoXe= truck.BienSoXe;
+            ticket.ActionStatus = 1;
+            ticket.TicketType = truck.TicketType;
+            _ticketService.Insert(ticket);
+            _ticketService.Save();
+            string message = string.Empty;
+            string messageType = Utils.DisplayMessage.TypeSuccess;
+
+            message = "ĐÃ CHECK OUT XE RA KHỎI KHO!";
+            return Json(new { Type = messageType, Message = message, Title = "Thông báo" }, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult Delete(int id)
+        {
+            string message = string.Empty;
+            string messageType = Utils.DisplayMessage.TypeSuccess;
+          
+            message = "Đã xóa thông tin ngày lễ thành công!";
+            return Json(new { Type = messageType, Message = message, Title = "Thông báo" }, JsonRequestBehavior.AllowGet);
+        }
     }
 }

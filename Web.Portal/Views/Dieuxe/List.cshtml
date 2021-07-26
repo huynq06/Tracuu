@@ -22,10 +22,10 @@
                                 </th>
 
                                 <th style="width:10%;font-size:24px;font-weight:bold;background-color:yellow !important;text-align:center">
-                                    Tầng
+                                    Vị Trí
                                 </th>
                                 <th style="width:10%;font-size:24px;font-weight:bold;background-color:yellow !important;text-align:center">
-                                    TG Đăng ký
+                                    @Html.Raw(ViewBag.ID=="1"? "Thời Gian Gọi" : "Thời Gian Đăng Ký")
                                 </th>
 
 
@@ -85,10 +85,11 @@
                                @Html.DisplayTextFor(model => row.SoCMND)
                             </td>*@
                                     <td style="font-size:24px;font-weight:bold" align="center">
-                                        @Html.DisplayTextFor(model => row.Floor)
+                                        @Html.DisplayTextFor(model => row.Dock)
                                     </td>
                                     <td style="font-size:24px;font-weight:bold" align="center">
-                                        @Html.Raw(row.Created.HasValue ? row.Created.Value.ToString("dd-MM-yy HH:mm") : "")
+                                        @Html.Raw(row.Created.Value.ToString("dd/MM--- HH:mm"))
+                                        @*@Html.Raw(ViewBag.ID =="2"? row.Created.Value.ToString("dd:MM HH:mm") : row.TimeCalled.Value.ToString("dd:MM HH:mm"))*@
                                     </td>
 
                                 </tr>
