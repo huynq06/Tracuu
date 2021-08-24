@@ -21,6 +21,13 @@ namespace Web.Portal.Common.ViewModel
         public string SLA { set; get; }
         public string LoaiXe { set; get; }
         public string LoaiVe { set; get; }
+        public string ServedTime { set; get; }
+        public DateTime? CheckInMonthly { set; get; }
+        public DateTime? CheckOutMonthly { set; get; }
+        public DateTime? TimeCallTruck { set; get; }
+        public DateTime? TimeCheckIn { set; get; }
+        public DateTime? TimeCheckOut { set; get; }
+        public string AWB { set; get; }
 
     }
 }

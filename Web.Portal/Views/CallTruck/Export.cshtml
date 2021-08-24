@@ -22,15 +22,14 @@
                 TG Đăng ký
             </th>
             <th style="width:10%;text-align:center">
+                Trạng Thái
+            </th>
+            <th style="width:10%;text-align:center">
                 NHÂN VIÊN ĐK
             </th>
             <th style="width:10%;text-align:center">
                 FLIGHT
             </th>
-            <th style="width:10%;text-align:center">
-                NOTE
-            </th>
-
 
 
         </tr>
@@ -51,9 +50,11 @@
                 <td align="center">
                     @Html.Raw(row.ThoiGianDangKy.HasValue ? row.ThoiGianDangKy.Value.ToString("dd-MM-yy HH:mm") : "")
                 </td>
+                <td align="center">
+                    @Html.Raw(row.TruckStatus >= 2 ? "ĐÃ VÀO" : "CHƯA VÀO")
+                </td>
                 <td align="center">@Html.Raw(row.UserName)</td>
                 <td align="center">@Html.Raw(row.Remark)</td>
-                <td align="center">@Html.Raw(row.GhiChu)</td>
 
             </tr>
         }

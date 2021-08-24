@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using System.Security;
 namespace Web.Portal.Controller
 {
+    [Web.Portal.Sercurity.AuthorizedBase(Roles = "ADMIN,KTN")]
     public class MessageController:BaseController
     {
         private DateTime? fromDate;

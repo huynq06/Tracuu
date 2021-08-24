@@ -25,6 +25,8 @@ namespace Web.Portal.Data
         public DbSet<CallTruck> CallTrucks { set; get; }
         public DbSet<tblMission> tblMissions { set; get; }
         public DbSet<tblTicketStatus> tblTicketStatuss { set; get; }
+        public DbSet<tblUser> tblUsers { set; get; }
+        public DbSet<TruckAwb> TruckAwbs { set; get; }
         public static PXKControlDBContext Create()
         {
             return new PXKControlDBContext();

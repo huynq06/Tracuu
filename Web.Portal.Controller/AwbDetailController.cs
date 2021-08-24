@@ -16,7 +16,7 @@ using System.IO;
 
 namespace Web.Portal.Controller
 {
-  
+    [Web.Portal.Sercurity.AuthorizedBase(Roles = "ADMIN,KHAITHAC,KHOKEODAI,KTN,HAIQUAN")]
     public class AwbDetailController : BaseController
     {
         ILagiService _lagiService;

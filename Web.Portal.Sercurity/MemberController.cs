@@ -7,6 +7,7 @@ using System.Web.Mvc;
 
 namespace Web.Portal.Sercurity
 {
+    [Web.Portal.Sercurity.AuthorizedBase(Roles ="ADMIN")]
     public class MemberController : SercurityController
     {
         Web.Portal.Sercurity.MemberAccess memberContext = new MemberAccess();

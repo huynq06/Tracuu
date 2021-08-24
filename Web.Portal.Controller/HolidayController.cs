@@ -12,8 +12,11 @@ using System.Web.Script.Serialization;
 using MoralesLarios.Linq;
 using Web.Portal.Common.ApiViewModel;
 using Web.Portal.Utils;
+using System.Threading.Tasks;
+
 namespace Web.Portal.Controller
 {
+    [Web.Portal.Sercurity.AuthorizedBase(Roles = "ADMIN")]
     public class HolidayController : BaseController
     {
         private DateTime? ata;
@@ -26,21 +29,26 @@ namespace Web.Portal.Controller
         }
         public ActionResult Index()
         {
+           
+         //   string result = task.Result;
             //string message = "hello";
             //string forward = "";
             //string zalo = "";
             //bool send = false;
             //string contact = "";
-            
+
             //    send = ZaloUtils.SendZalo("0977119533", message, ref zalo, ref forward);
-            
+
             //string lagi_ident = "9853821";
             //List<HawbInFlightViewModel> listInvoice = new DataAccess.HawbInFlightAccess().GetListHawbInFlight(lagi_ident).ToList();
             return View();
         }
         public ActionResult List()
         {
-            
+            //string url = Server.MapPath("/SitaTemplate/temFligtRequest.xml");
+            //Task<string> task = Task.Run<String>(async () => await Utils.FlightRequest.Command(url));
+            //string result = task.Result;
+           // string result = Utils.FlightRequest.CommandTest(url);
             //string flightNo = string.IsNullOrEmpty(Request["fno"]) ? "" : Request["fno"].Trim();
             //ata = string.IsNullOrEmpty(Request["ata"]) ? ata : Web.Portal.Utils.Format.ConvertDate(Request["ata"]);
             var listHoliday = _holidayService.GetAll().ToList();

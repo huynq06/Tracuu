@@ -96,6 +96,7 @@
     <Compile Include="ConvertNumber.cs" />
     <Compile Include="DisplayMessage.cs" />
     <Compile Include="ErpRequest.cs" />
+    <Compile Include="FlightRequest.cs" />
     <Compile Include="Format.cs" />
     <Compile Include="HttpRequest.cs" />
     <Compile Include="Log.cs" />

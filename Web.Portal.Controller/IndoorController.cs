@@ -21,10 +21,12 @@ namespace Web.Portal.Controller
     {
         IDangKyVaoRaService _dkvrService;
         ItblTicketStatusService _ticketService;
-        public IndoorController(IDangKyVaoRaService dkvrService, ItblTicketStatusService ticketService)
+        IDangKyGoiXeService _dkgxService;
+        public IndoorController(IDangKyVaoRaService dkvrService, ItblTicketStatusService ticketService, IDangKyGoiXeService dkgxService)
         {
             this._dkvrService = dkvrService;
             this._ticketService = ticketService;
+            this._dkgxService = dkgxService;
         }
         public ActionResult Index()
         {
@@ -41,51 +43,59 @@ namespace Web.Portal.Controller
             {
                 location = "GATEIN_T2";
             }
-         
+            DateTime dateCheck = DateTime.Now.AddHours(-12);
             //listTicket = listTicketViewModel.Where(c => c.CheckOut == "").ToList();
-            List<tblTicketStatus> listCheckIn = _ticketService.GetListTicketMonthyCheckIn().ToList();
-            List<tblTicketStatus> listTruckMonthlyCheckIn = listCheckIn.Where(c => c.ActionValue != "GATEOUT").ToList();
-            List<tblTicketStatus> listToRemove = new List<tblTicketStatus>();
-            foreach (var item in listTruckMonthlyCheckIn)
+            List<tblTicketStatus> listCheckIn = _ticketService.GetListTicketMonthyCheckIn(dateCheck).ToList();
+            List<tblTicketStatus> listTruckMonthlyCheckInT2 = listCheckIn.Where(c => c.ActionValue == "GATEIN_T2").ToList();
+            int countTruckMonthlyCheckInT2 = listTruckMonthlyCheckInT2.Count();
+            if (countTruckMonthlyCheckInT2 > 0)
             {
-                if (listCheckIn.Where(c => c.TicketUID == item.TicketUID && c.ActionValue == "GATEOUT").Count() > 0)
+                for (int i = listTruckMonthlyCheckInT2.Count - 1; i >= 0; i--)
                 {
-                    item.ActionCode = "CHECK_OUT";
+                    string bsx = listTruckMonthlyCheckInT2[i].TicketUID.ToString();
+                    if (listCheckIn.Where(c => c.TicketUID == listTruckMonthlyCheckInT2[i].TicketUID && c.ActionValue == "GATEOUT").Count() > 0)
+                    {
+                        listTruckMonthlyCheckInT2.RemoveAt(i);
+                    }
+                    else
+                    {
+                        var goixe = _dkgxService.GetBySynID(listTruckMonthlyCheckInT2[i].TicketUID);
+                        if(goixe!=null)
+                        {
+                            listTruckMonthlyCheckInT2[i].Note = goixe.SoCMND;
+                            listTruckMonthlyCheckInT2[i].TrongTai = goixe.TenLaiXe;
+                        }
+                        else
+                        {
+                            listTruckMonthlyCheckInT2[i].Note = "";
+                            listTruckMonthlyCheckInT2[i].TrongTai = "";
+                        }
+                       
+                    }
                 }
             }
-            listTruckMonthlyCheckIn = listTruckMonthlyCheckIn.Where(c => c.ActionCode == "CHECK_IN").ToList();
-            //listTruckMonthlyCheckIn.RemoveAll(listToRemove);
-            foreach (var item in listTruckMonthlyCheckIn)
+            List<tblTicketStatus> listTruckMonthlyCheckInT1 = listCheckIn.Where(c => c.ActionValue == "GATEIN_T1").ToList();
+            int countTruckMonthlyCheckInT1 = listTruckMonthlyCheckInT1.Count();
+            if (countTruckMonthlyCheckInT1 > 0)
             {
-                tblTicketStatus ticketStatus = _ticketService.GetByTicketID(item.TicketUID);
-                TicketStatusViewModel obj = new TicketStatusViewModel();
-                if(item.ActionValue== "GATEIN_T1")
+                for (int i = listTruckMonthlyCheckInT1.Count - 1; i >= 0; i--)
                 {
-                    obj.Location = "1";
+                    // some code
+                    // safePendingList.RemoveAt(i);
+                    if (listCheckIn.Where(c => c.TicketUID == listTruckMonthlyCheckInT1[i].TicketUID && c.ActionValue == "GATEOUT").Count() > 0)
+                    {
+                        listTruckMonthlyCheckInT1.RemoveAt(i);
+                    }
+                    
                 }
-                else
-                {
-                    obj.Location = "2";
-                }
-                if(ticketStatus.TicketType==2)
-                {
-                    obj.LoaiVe = "VÉ THÁNG";
-                }
-                else
-                {
-                    obj.LoaiVe = "VÉ NGÀY";
-                }
-                obj.BSX = item.BienSoXe;
-                obj.CheckIn = ticketStatus.ActionDateTime.ToString("dd/MM/yyyy HH:mm");
-                obj.TicketID = item.TicketUID;
-                listTicketMonthly.Add(obj);
             }
-            listTicket.AddRange(listTicketMonthly);
-            int countTruckFloor1 = listTicket.Where(c => c.Location == "1").Count();
-            int countTruckFloor2 = listTicket.Where(c => c.Location == "2").Count();
+               
+            listTruckMonthlyCheckInT2.AddRange(listTruckMonthlyCheckInT1);
+            int countTruckFloor1 = listTruckMonthlyCheckInT2.Where(c => c.ActionValue == "GATEIN_T1").Count();
+            int countTruckFloor2 = listTruckMonthlyCheckInT2.Where(c => c.ActionValue == "GATEIN_T2").Count();
             ViewBag.TruckFloor1 = countTruckFloor1;
             ViewBag.TruckFloor2 = countTruckFloor2;
-            ViewData["listTruck"] = listTicket.Where(c=>c.Location == id.ToString()).ToList();
+            ViewData["listTruck"] = listTruckMonthlyCheckInT2.Where(c=>c.ActionValue == location).OrderBy(c=>c.ActionDateTime).ToList();
             return View();
         }
     }

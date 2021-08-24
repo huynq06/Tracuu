@@ -14,6 +14,7 @@ using Web.Portal.Common.ApiViewModel;
 using System.IO;
 namespace Web.Portal.Controller
 {
+    [Web.Portal.Sercurity.AuthorizedBase(Roles = "ADMIN,KHAITHAC,KHOKEODAI,CUSTOMER,XEMUYQUYEN,KTN,KTX,HAIQUAN")]
     public class AlsxExpReportController : BaseController
     {
         IEXP_AWBService _expService;

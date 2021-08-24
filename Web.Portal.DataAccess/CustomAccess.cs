@@ -43,7 +43,7 @@ namespace Web.Portal.DataAccess
         public GetOutViewModel GetOutCheck(string awb, string hawb)
         {
             string sql = "select cargo.Created as CREATED from  customservice.cargo_out cargo " +
-            "where (cargo.tequip_housebilloflading = '" + hawb + "' or '" + hawb + "'='ALL') and cargo.tequip_masterbilloflading = '" + awb + "'";
+            "where cargo.status = 1 and (cargo.tequip_housebilloflading = '" + hawb + "' or '" + hawb + "'='ALL') and cargo.tequip_masterbilloflading = '" + awb + "'";
             GetOutViewModel getOut = new GetOutViewModel();
             using (OracleDataReader reader = GetScriptOracleDataReader(sql))
             {

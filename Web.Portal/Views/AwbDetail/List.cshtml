@@ -25,7 +25,7 @@
                 CÂN
             </th>
             <th style="width:10%">
-                RANDOM CODE
+                TSO
             </th>
             <th tyle="width:10%">
                 TÌNH TRẠNG
@@ -85,7 +85,7 @@
                     <a href="/AwbDetail/HawbDetail?lagi_ident=@row.Lagi_Identity&mawb=@row.Mawb&hawb=@row.Hawb" target="_blank" class="btn  btn-xs sqs-member-edit">@Html.Raw(row.Mawb)</a>
                 </td>
                 <td>
-                    <a href="#" class="btn  btn-xs sqs-member-edit">@Html.Raw(row.Hawb)</a>
+                  @Html.Raw(row.Hawb)
                 </td>
                 <td>
                     <a href="#" class="btn  btn-xs sqs-member-edit">@Html.Raw(row.Pieces_Expected)</a>
@@ -94,8 +94,11 @@
                     <a href="#" class="btn  btn-xs sqs-member-edit">@Html.Raw(row.Weight)</a>
                 </td>
                 <td>
-                    <a href="#" class="btn  btn-xs sqs-member-edit">@Html.Raw((rowIndex == 1 && string.IsNullOrEmpty(row.Hawb.Trim())) ? row.Lagi_Identity.Substring(row.Lagi_Identity.Length - 6) : "")</a>
+                    <a href="#" class="btn  btn-xs sqs-member-edit">@Html.Raw(row.LAGI_TSO)</a>
                 </td>
+                @*<td>
+                    <a href="#" class="btn  btn-xs sqs-member-edit">@Html.Raw((rowIndex == 1 && string.IsNullOrEmpty(row.Hawb.Trim())) ? row.Lagi_Identity.Substring(row.Lagi_Identity.Length - 6) : "")</a>
+                </td>*@
                 @if (ViewBag.CheckMaster && rowIndex == 1)
                 {
                     <td></td>

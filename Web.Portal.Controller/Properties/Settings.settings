@@ -5,5 +5,8 @@
     <Setting Name="Web_Portal_Controller_vn_cinvoice_api_ALSService" Type="(Web Service URL)" Scope="Application">
       <Value Profile="(Default)">http://api.cinvoice.vn/service/iv_v/ALSService.asmx</Value>
     </Setting>
+    <Setting Name="Web_Portal_Controller_com_viagsnoibai_wsfly1_ALS" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://wsfly1.viagsnoibai.com/als.asmx</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

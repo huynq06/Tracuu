@@ -16,6 +16,7 @@ using System.IO;
 
 namespace Web.Portal.Controller
 {
+    [Web.Portal.Sercurity.AuthorizedBase(Roles = "ADMIN,KHAITHAC,KHOKEODAI,CUSTOMER,XEMUYQUYEN,KTN,KTX,HAIQUAN")]
     public class AlsxImpAwbController : BaseController
     {
         IIMP_AWBServiceService _impService;

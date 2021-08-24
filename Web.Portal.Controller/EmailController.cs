@@ -16,6 +16,7 @@ using System.IO;
 
 namespace Web.Portal.Controller
 {
+    [Web.Portal.Sercurity.AuthorizedBase(Roles = "ADMIN,KTX,KTN")]
     public class EmailController : BaseController
     {
         IIADR_INVOICE_ADDRESSESService _iadrAddService;

@@ -179,7 +179,7 @@ namespace Web.Portal.Controller
             }
             ViewBag.Number = warning;
             ViewBag.Flight = NotifiFlightID;
-            List<tblMission> missionCheck1 = _missionService.GetByDate(ata.Value.Date).ToList();
+            List<tblMission> missionCheck1 = _missionService.GetListByDate(ata.Value.Date).ToList();
             ViewData["checkerList1"] = missionCheck1;
             return View();
         }

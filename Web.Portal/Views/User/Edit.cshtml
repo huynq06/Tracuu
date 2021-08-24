@@ -1,0 +1,85 @@
+﻿
+@{
+    Layout = null;
+}
+@model Web.Portal.Model.Models.tblUser
+<form class="form-horizontal" id="frmAction">
+    <input type="hidden" name="keyValue" value="@Html.DisplayFor(model=>model.ID)" />
+    <div class="form-body">
+        <div class="form-group form-md-line-input">
+            <label class="col-md-3 control-label" for="frmAction">
+                <b>Họ Tên:</b>
+                <span class="required">*</span>
+            </label>
+            <div class="col-md-3">
+                <input class="form-control form-control-inline input txtName" placeholder="Họ Tên" maxlength="256" value="@Html.DisplayTextFor(model=>model.Name)" name="name" />
+                <div class="form-control-focus"> </div>
+                <span class="help-block">NHẬP HỌ TÊN</span>
+            </div>
+            <label class="col-md-3 control-label" for="frmAction">
+                <b>TÊN ĐĂNG NHẬP:</b>
+                <span class="required">*</span>
+            </label>
+            <div class="col-md-3">
+                <input class="form-control form-control-inline input txtName" placeholder="Tên đăng nhập" maxlength="256" value="@Html.DisplayTextFor(model=>model.Logins)" name="login" />
+                <div class="form-control-focus"> </div>
+                <span class="help-block">NHẬP TÊN ĐĂNG NHẬP</span>
+            </div>
+            <label class="col-md-3 control-label" for="frmAction">
+                <b>PASS:</b>
+                <span class="required">*</span>
+            </label>
+            <div class="col-md-3">
+                <input class="form-control form-control-inline input txtName" placeholder="mật khẩu" maxlength="256" value="@Html.DisplayTextFor(model=>model.Passwords)" name="pass" />
+                <div class="form-control-focus"> </div>
+                <span class="help-block">PASSWORD</span>
+            </div>
+            <label class="col-md-3 control-label" for="frmAction">
+                <b>LEVEL:</b>
+                <span class="required">*</span>
+            </label>
+            <div class="col-md-3">
+                <input class="form-control form-control-inline input txtName" placeholder="level" maxlength="256" value="@Html.DisplayTextFor(model=>model.Levels)" name="level" />
+                <div class="form-control-focus"> </div>
+                <span class="help-block">NHẬP LEVEL</span>
+            </div>
+            <label class="col-md-3 control-label" for="frmAction">
+                <b>MÔ TẢ:</b>
+                <span class="required">*</span>
+            </label>
+            <div class="col-md-3">
+                <input class="form-control form-control-inline input txtName" placeholder="mô tả" maxlength="256" value="@Html.DisplayTextFor(model=>model.Description)" name="des" />
+                <div class="form-control-focus"> </div>
+                <span class="help-block">NHẬP MÔ TẢ</span>
+            </div>
+        </div>
+
+
+        
+
+    </div>
+
+    <div class="text-center">
+        <button type="submit" class="btn btn-success" id="btnSave"><i class="fa fa-floppy-o"></i> Lưu thông tin</button>
+        <button type="reset" class="btn btn-success"><i class="fa fa-refresh"></i> Làm mới</button>
+    </div>
+    <!-- /.box-footer -->
+</form>
+<script>
+    $('.date-picker').datepicker({
+        rtl: App.isRTL(),
+        orientation: "left",
+        autoclose: true
+    });
+    var hermesAction = {
+        search: function () {
+            egovutil.getContent("#content-list-result", "/User/list"
+                                                                    );
+        }
+    }
+
+    var message = {};
+    var rule = {};
+    egovutil.submitCallBack("#frmAction", rule, message, "/user/action", hermesAction.search());
+  
+</script>

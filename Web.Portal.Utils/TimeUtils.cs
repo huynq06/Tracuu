@@ -150,5 +150,11 @@ namespace Web.Portal.Utils
             } 
             return outPut;
         }
+        public static string CheckServedTime(DateTime? checkIn,DateTime? checkOut)
+        {
+            int minute = (int)Math.Round((checkOut.Value - checkIn.Value).TotalMinutes);
+            string result = minute.ToString();
+            return result;
+        }
     }
 }

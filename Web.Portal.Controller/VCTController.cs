@@ -11,7 +11,6 @@ using Web.Portal.DataAccess;
 
 namespace Web.Portal.Controller
 {
-    //[Web.Portal.Sercurity.AuthorizedBase(Roles = "ADMIN,KHAITHAC")]
     public class VCTController : GuestController
     {
         IVCTService _iVctService;

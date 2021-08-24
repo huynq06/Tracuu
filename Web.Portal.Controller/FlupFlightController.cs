@@ -15,6 +15,8 @@ namespace Web.Portal.Controller
     {
         IFLightFlupService _flightService;
         IFlightServiceConfigService _flightConfigService;
+        DateTime? fda;
+        DateTime? tda;
         public FlupFlightController(IFLightFlupService flightService, IFlightServiceConfigService flightConfigService)
         {
             this._flightService = flightService;
@@ -40,6 +42,8 @@ namespace Web.Portal.Controller
         }
         public ActionResult List()
         {
+            fda =  Web.Portal.Utils.Format.ConvertDate(Request["fda"]);
+            tda = Web.Portal.Utils.Format.ConvertDate(Request["tda"]);
             List<FlightServiceConfig> listFlightService = _flightConfigService.GetAll().ToList();
             List<FLightFlup> listFlight = _flightService.GetByOperationDays().ToList();
             int count = listFlight.Count;

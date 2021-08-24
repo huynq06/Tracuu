@@ -21,6 +21,7 @@ using System.Net.Http;
 using System.Threading;
 namespace Web.Portal.Controller
 {
+    [Web.Portal.Sercurity.AuthorizedBase(Roles = "ADMIN,KTN")]
     public class DlvVctController : BaseController
     {
         private DateTime? ata;

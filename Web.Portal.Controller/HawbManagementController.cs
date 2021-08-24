@@ -13,6 +13,7 @@ using MoralesLarios.Linq;
 
 namespace Web.Portal.Controller
 {
+    [Web.Portal.Sercurity.AuthorizedBase(Roles = "ADMIN,KTN")]
     public class HawbManagementController : BaseController
     {
         private DateTime? ata;

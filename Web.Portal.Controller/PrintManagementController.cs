@@ -23,7 +23,7 @@ using System.Threading;
 
 namespace Web.Portal.Controller
 {
-    [Web.Portal.Sercurity.AuthorizedBase(Roles = "ADMIN,KHAITHAC")]
+    [Web.Portal.Sercurity.AuthorizedBase(Roles = "ADMIN")]
     public class PrintManagementController : BaseController
     {
         IPrintConfigService _iPrintConfigService;

@@ -42,7 +42,7 @@
                                         <span class="box"></span> Tầng 2
                                     </label>
                                 </div>
-
+                                <button id="btn-search-sita" class="btn btn-success" type="button"><i class="fa fa-refresh"> Làm mới</i></button>
                             </div>
                         </div>
                     </div>
@@ -77,6 +77,7 @@
             $('.input-sm').attr('placeholder', 'NHẬP BSX')
         },
     }
+    var type = 1;
     var hermesAction = {
         searchWaiting: function () {
 
@@ -88,23 +89,32 @@
         }
     }
     hermesAction.searchWaiting();
+
+    $("#btn-search-sita").click(function () {
+        if (type == 1) { hermesAction.searchWaiting(); }
+        if (type == 2) { hermesAction.searchNow(); }
+        
+    })
+    refreshIntervalId = setInterval(hermesAction.searchWaiting,
+             20000)
+
     $('input[type=radio][name=tinhTrang]').change(function () {
         if (this.id == 'ttWaiting') {
+            type = 1;
             egovutil.getContentCallBack("#content-list-result", "/Indoor/list/1", Action.setValueInput);
             clearInterval(refreshIntervalId);
-            //refreshIntervalId = setInterval(hermesAction.searchWaiting,
-            //10000)
+            refreshIntervalId = setInterval(hermesAction.searchWaiting,
+            10000)
         }
         else if (this.id == 'ttNow') {
+            type = 2;
             egovutil.getContentCallBack("#content-list-result", "/Indoor/list/2", Action.setValueInput);
             clearInterval(refreshIntervalId);
-            //refreshIntervalId = setInterval(hermesAction.searchNow,
-            //  10000)
+            refreshIntervalId = setInterval(hermesAction.searchNow,
+              10000)
 
         }
     });
-    //refreshIntervalId = setInterval(hermesAction.searchWaiting,
-    //         20000)
 
 
 </script>

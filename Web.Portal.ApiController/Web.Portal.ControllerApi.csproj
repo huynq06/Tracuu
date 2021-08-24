@@ -53,11 +53,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EInvoiceApiController.cs" />
+    <Compile Include="FlightDetailApiController.cs" />
     <Compile Include="FlightExpApiController.cs" />
     <Compile Include="FlightImpApiController.cs" />
+    <Compile Include="ImpAwbApiController.cs" />
     <Compile Include="ImportApiController.cs" />
     <Compile Include="IssueApiController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReportQuantityApiController.cs" />
     <Compile Include="SearchExportAwbApiController.cs" />
     <Compile Include="SearchImportAwbApiController.cs" />
     <Compile Include="TicketApiController.cs" />

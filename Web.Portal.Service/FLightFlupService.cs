@@ -42,7 +42,7 @@ namespace Web.Portal.Service
 
         public IEnumerable<FLightFlup> GetByDate(DateTime fdt, DateTime tdt)
         {
-            return _flightRepository.GetMulti(c => c.STD.Year >= fdt.Year & c.STD.Year <= tdt.Year & c.STD.Month >= fdt.Month & c.STD.Month <= tdt.Month & c.STD.Day >= fdt.Day & c.STD.Day <= tdt.Day && c.FlightStatus==0);
+            return _flightRepository.GetMulti(c => c.STD.Year >= fdt.Year && c.STD.Year <= tdt.Year && c.STD.Month >= fdt.Month && c.STD.Month <= tdt.Month && c.STD.Day >= fdt.Day && c.STD.Day <= tdt.Day && c.FlightStatus==0);
         }
 
         public FLightFlup GetByFlightID(string id)
@@ -68,7 +68,7 @@ namespace Web.Portal.Service
             else
             {
                 DateTime start = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day , 8, 0, 0); //10 o'clock
-                DateTime end = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day + 1, 8, 0, 0);
+                DateTime end = start.AddHours(24);
                 return _flightRepository.GetMulti(c => c.ETD > start && c.ETD <= end && c.FlightStatus == 0 && c.FlightDeleted == 0);
             }
         }

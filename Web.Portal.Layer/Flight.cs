@@ -8,6 +8,7 @@ namespace Web.Portal.Layer
 {
    public class Flight
     {
+        public string FlightID { set; get; }
         public string Code { get; set; }
         public string FlightNo { get; set; }
         public DateTime? ScheDate { get; set; }

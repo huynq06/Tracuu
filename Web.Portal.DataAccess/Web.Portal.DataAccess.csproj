@@ -39,6 +39,8 @@
     </Reference>
     <Reference Include="Oracle.DataAccess, Version=2.112.1.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\bin\2.12\Oracle.DataAccess.dll</HintPath>
       <HintPath>..\..\..\bin\2.12\Oracle.DataAccess.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
@@ -111,6 +113,7 @@
     <Compile Include="MessageHermesAccess.cs" />
     <Compile Include="Prad_Pre_Advice_Access.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QuantityDataAccess.cs" />
     <Compile Include="QUEUEAWBAccess.cs" />
     <Compile Include="ReportAccess.cs" />
     <Compile Include="ReportImpAccess.cs" />

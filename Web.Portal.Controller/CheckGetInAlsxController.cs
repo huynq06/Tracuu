@@ -17,6 +17,7 @@ using Web.Portal.Model;
 
 namespace Web.Portal.Controller
 {
+    [Web.Portal.Sercurity.AuthorizedBase(Roles = "ADMIN,KHAITHAC,KHOKEODAI,CUSTOMER,XEMUYQUYEN,KTN,KTX")]
     public class CheckGetInAlsxController : BaseController
     {
         public ActionResult Index()

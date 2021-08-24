@@ -21,6 +21,7 @@ namespace Web.Portal.Common.ViewModel
         public int Pieces_Expected { set; get; }
         public int Pieces_Delivered { set; get; }
         public string Weight { set; get; }
+        public string Weight_Expected { set; get; }
         public string GoodsName { set; get; }
         public string Consignee { set; get; }
         public string ConsigneeAdd { set; get; }
@@ -32,18 +33,12 @@ namespace Web.Portal.Common.ViewModel
         public string StatusDelivered { set; get; }
         public int Status { set; get; }
         public bool ChecHawb { set; get; }
-     
-          //<th style = "width:10%" >
-          //      CONSIGNEE
-          //  </ th >
-          //  < th style="width:10%">
-          //      CONSIGN ADDR
-          //  </th>
-          //  <th style = "width:10%" >
-          //      SHIPPER
-          //  </ th >
-          //  < th style= "width:10%" >
-          //      SHIPPER ADDR
-          //  </th>
+        public string LAGI_TSO { set; get; }
+        public int Status_Goods { set; get; }
+        public int Status_PXK { set; get; }
+        public int Check_Received { set; get; }
+    
+
+
     }
 }

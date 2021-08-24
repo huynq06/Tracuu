@@ -24,6 +24,8 @@ namespace Web.Portal.Model.Models
         public Nullable<int> SpaceEmptyFloor2 { get; set; }
         public Nullable<int> SortValue { get; set; }
         public Nullable<System.DateTime> Created { get; set; }
-       
+        public Nullable<System.DateTime> TimeCalled { get; set; }
+        public string Dock { get; set; }
+
     }
 }

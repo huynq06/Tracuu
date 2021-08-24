@@ -31,6 +31,9 @@ namespace Web.Portal.Model
         public string Remark { set; get; }
         public string UserName { set; get; }
         public string Note { set; get; }
+        public DateTime? GioGoi { set; get; }
+        public Guid? SynID { set; get; }
+        public int TruckStatus { set; get; }
 
     }
 }

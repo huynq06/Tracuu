@@ -7887,9 +7887,9 @@
     <Content Include="Views\ScanQrCode\Export.cshtml" />
     <Content Include="Views\Ticket\ProcessPrintFeeTest.cshtml" />
     <Content Include="Views\Ticket\ProcessPrintTruck.cshtml" />
-    <Content Include="Views\FLUP\Edit.cshtml" />
-    <Content Include="Views\FLUP\Index.cshtml" />
-    <Content Include="Views\FLUP\List.cshtml" />
+    <Content Include="Views\FLUP\EditFlup.cshtml" />
+    <Content Include="Views\FLUP\IndexFlup.cshtml" />
+    <Content Include="Views\FLUP\ListFlup.cshtml" />
     <Content Include="Views\Menu\Index.cshtml" />
     <Content Include="Views\FlupFlight\EditConfig.cshtml" />
     <Content Include="Views\FlightService\Index.cshtml" />
@@ -7956,6 +7956,19 @@
     <Content Include="Views\CallTruck\ExportListScanQr.cshtml" />
     <Content Include="Views\CallTruck\ScanInOutExport.cshtml" />
     <Content Include="Views\ExportReport\ExpReportHermes05.cshtml" />
+    <Content Include="Views\PhanCa\Index.cshtml" />
+    <Content Include="Views\PhanCa\List.cshtml" />
+    <Content Include="Views\PhanCa\Edit.cshtml" />
+    <Content Include="Views\PhanCa\Import.cshtml" />
+    <Content Include="Views\FLUP\Index.cshtml" />
+    <Content Include="Views\FLUP\List.cshtml" />
+    <Content Include="Views\FLUP\Edit.cshtml" />
+    <Content Include="Views\Dieuxe\Floor1.cshtml" />
+    <Content Include="Views\CallTruck\Truck.cshtml" />
+    <Content Include="Views\CallTruck\TruckIndoorList.cshtml" />
+    <Content Include="Views\User\Edit.cshtml" />
+    <Content Include="Views\User\Index.cshtml" />
+    <Content Include="Views\User\List.cshtml" />
     <None Include="Web References\com.cmcsoft.hoadon\DefaultService.disco" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

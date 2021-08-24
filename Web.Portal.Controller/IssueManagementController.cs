@@ -7,10 +7,10 @@ using Web.Portal.Common.ViewModel;
 using Web.Portal.Service;
 using Web.Portal.Model.Models;
 using Web.Portal.DataAccess;
-using Web.Portal.Common.ViewModel;
 
 namespace Web.Portal.Controller
 {
+    [Web.Portal.Sercurity.AuthorizedBase(Roles = "ADMIN,KTX")]
     public class IssueManagementController : BaseController
     {
         IIssueService _issueService;
@@ -68,7 +68,7 @@ namespace Web.Portal.Controller
         {
             int? id = int.Parse(Request["id"]);
             var vct = _iVctService.GetByID(id.Value);
-            vct.AWB_STATUS = 0;
+            vct.AWB_STATUS -= 1;
             vct.LABS_DIM_AT = null;
             _iVctService.Update(vct);
             _iVctService.Save();
@@ -101,7 +101,7 @@ namespace Web.Portal.Controller
             //int value = int.Parse(Request["value"]);
             var vct = _iVctService.GetByID(id.Value);
             vct.LOCATION = 2;
-            vct.AWB_STATUS = 1;
+            vct.AWB_STATUS = 2;
             vct.LABS_PROCESS_AT = DateTime.Now;
             _iVctService.Update(vct);
             _iVctService.Save();
@@ -117,7 +117,7 @@ namespace Web.Portal.Controller
             //int value = int.Parse(Request["value"]);
             var vct = _iVctService.GetByID(id.Value);
             vct.LOCATION = 2;
-            vct.AWB_STATUS = 1;
+            vct.AWB_STATUS = 2;
             vct.LABS_PROCESS_AT = DateTime.Now;
             _iVctService.Update(vct);
             _iVctService.Save();

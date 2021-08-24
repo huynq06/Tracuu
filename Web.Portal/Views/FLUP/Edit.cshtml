@@ -2,9 +2,9 @@
 @{
     Layout = null;
 }
-@model Web.Portal.Model.Models.FLUP
+@model Web.Portal.Model.Models.FLightFlup
 <form class="form-horizontal" id="frmAction">
-    <input type="hidden" name="keyValue" value="@Html.DisplayFor(model=>model.FLUP_INT_NUMBER)" />
+    <input type="hidden" name="keyValue" value="@Html.DisplayFor(model=>model.ID)" />
     <div class="form-body">
         <div class="form-group form-md-line-input">
             <label class="col-md-3 control-label" for="frmAction">
@@ -12,39 +12,18 @@
                 <span class="required">*</span>
             </label>
             <div class="col-md-3">
-                <input class="form-control form-control-inline input txtName" placeholder="Chuyến bay" maxlength="256" data-id="@Html.DisplayTextFor(model=>model.FLUP_INT_NUMBER)" value="@Html.DisplayTextFor(model=>model.FLUP_FLIGHT_NO_LVG)" name="flight" />
+                <input class="form-control form-control-inline input txtName" placeholder="Chuyến bay" maxlength="256" data-id="@Html.DisplayTextFor(model=>model.FlightID)" value="@Html.DisplayTextFor(model=>model.FLightNumber)" name="flight" />
                 <div class="form-control-focus"> </div>
                 <span class="help-block">NHẬP CHUYẾN BAY</span>
             </div>
             <label class="col-md-3 control-label" for="frmAction">
-                <b>SỐ HIỆU:</b>
+                <b>LAT:</b>
                 <span class="required">*</span>
             </label>
             <div class="col-md-3">
-                <input class="form-control form-control-inline input txtName" placeholder="Chuyến bay" maxlength="256" data-id="@Html.DisplayTextFor(model=>model.FLUP_INT_NUMBER)" value="@Html.DisplayTextFor(model=>model.FLUP_FLIGHT_NO)" name="code" />
+                <input class="form-control form-control-inline form_datetime" value="@Html.Raw(Model.LAT.HasValue? Model.LAT.Value.ToString("dd/MM/yyyy HH:mm"):"")" id="std" placeholder="LAT" maxlength="20" name="lat" />
                 <div class="form-control-focus"> </div>
-                <span class="help-block">NHẬP SỐ HIỆU</span>
-            </div>
-        </div>
-        <div class="form-group form-md-line-input">
-         
-            <label class="col-md-3 control-label" for="frmAction">
-                <b>STD:</b>
-                <span class="required">*</span>
-            </label>
-            <div class="col-md-3">
-                <input class="form-control form-control-inline date-picker" value="@Html.Raw(Model.FLUP_SCHEDULED_DATE.ToString("dd/MM/yyyy HH:mm"))" id="std" placeholder="STD" maxlength="20" name="std" />
-                <div class="form-control-focus"> </div>
-                <span class="help-block">STD</span>
-            </div>
-            <label class="col-md-3 control-label" for="frmAction">
-                <b>ATD:</b>
-                <span class="required">*</span>
-            </label>
-            <div class="col-md-3">
-                <input class="form-control form-control-inline input txtName" placeholder="Type" maxlength="256" data-id="@Html.DisplayTextFor(model=>model.FLUP_INT_NUMBER)" id="atd" value="@Html.DisplayTextFor(model=>model.FLUP_ACTUAL_DATE)" name="atd" />
-                <div class="form-control-focus"> </div>
-                <span class="help-block">Nhập ATD</span>
+                <span class="help-block">LAT</span>
             </div>
         </div>
     </div>

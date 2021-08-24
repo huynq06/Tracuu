@@ -24,5 +24,7 @@ namespace Web.Portal.Model.Models
         [MaxLength(255)]
         public string ActionMessage { get; set; }
         public int TicketType { set; get;}
+        public string Note { set; get; }
+        public string TrongTai { set; get; }
     }
 }

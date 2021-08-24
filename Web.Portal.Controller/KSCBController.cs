@@ -18,7 +18,7 @@ using System.Text;
 
 namespace Web.Portal.Controller
 {
-    [Web.Portal.Sercurity.AuthorizedBase(Roles = "ADMIN,KHAITHAC")]
+    [Web.Portal.Sercurity.AuthorizedBase(Roles = "ADMIN,KTN")]
     public class KSCBController : BaseController
     {
         IFlightService _flightService;
@@ -593,11 +593,13 @@ namespace Web.Portal.Controller
             return Json(new { Type = messageType, Message = message, Title = "Thông báo" }, JsonRequestBehavior.AllowGet);
         }
         //xu ly SOP
+        [Web.Portal.Sercurity.AuthorizedBase(Roles = "ADMIN")]
         public ActionResult SopTime()
         {
             ViewData["ConfigSopList"] = _flightConfigService.GetAll().ToList();
             return View();
         }
+        [Web.Portal.Sercurity.AuthorizedBase(Roles = "ADMIN")]
         public ActionResult Edit(int? id)
         {
             var flightConfig = new FlightConfig();
@@ -605,6 +607,7 @@ namespace Web.Portal.Controller
                 flightConfig = _flightConfigService.GetById(id.Value);
             return View(flightConfig);
         }
+        [Web.Portal.Sercurity.AuthorizedBase(Roles = "ADMIN")]
         [ValidateInput(false)]
         public ActionResult ActionSop(FormCollection formRequest)
         {
@@ -672,11 +675,13 @@ namespace Web.Portal.Controller
             }
         }
         //xu ly Warning Time
+        [Web.Portal.Sercurity.AuthorizedBase(Roles = "ADMIN")]
         public ActionResult WarningTime()
         {
             ViewData["UldTypeList"] = _uld_TypeService.GetAll().ToList();
             return View();
         }
+        [Web.Portal.Sercurity.AuthorizedBase(Roles = "ADMIN")]
         public ActionResult EditWarningTime(int? id)
         {
             var uld_type = new ULD_TYPE();
@@ -684,6 +689,7 @@ namespace Web.Portal.Controller
                 uld_type = _uld_TypeService.GetById(id.Value);
             return View(uld_type);
         }
+        [Web.Portal.Sercurity.AuthorizedBase(Roles = "ADMIN")]
         public ActionResult ActionWarning(FormCollection formRequest)
         {
             try

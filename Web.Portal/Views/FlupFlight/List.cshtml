@@ -59,18 +59,18 @@
             <th style="width:10%">
                 CHUYẾN BAY
             </th>
-          
+
             <th style="width:15%">
                 ETD
             </th>
             <th style="width:10%">
-               TOTAL ULD
+                TOTAL ULD
             </th>
-          
+
             <th style="width:10%">
                 ACTION
             </th>
-           
+
 
         </tr>
     </thead>
@@ -79,16 +79,16 @@
             {
                 PageCurrent += 1;
 
-            <tr>
-                <td>@PageCurrent</td>
-                <td><a href="#" data-id="@Html.Raw(row.FlightID)" class="edit-flight  ">@Html.DisplayTextFor(model => row.FLightNumber)</a></td>
-              
-                <td><a href="#" data-id="@Html.Raw(row.FlightID)" class="edit-flight  ">@Html.Raw(row.ETD.ToString("dd/MM/yyyy HH:mm"))</a></td>
-              
-                <td><a href="#" data-id="@Html.Raw(row.FlightID)" class="edit-flight  ">@Html.DisplayTextFor(model => row.TotalULD)</a></td>
-              
-                <td><a href="#" data-id="@Html.DisplayFor(model => row.ID)" class="btn  btn-xs flight-edit"><div class="btn-group green"><i style="font-size:30px;" class="fa fa-edit"></i></div> </a></td>
-            </tr>
+        <tr>
+            <td>@PageCurrent</td>
+            <td><a href="#" data-id="@Html.Raw(row.FlightID)" class="edit-flight  ">@Html.DisplayTextFor(model => row.FLightNumber)</a></td>
+
+            <td><a href="#" data-id="@Html.Raw(row.FlightID)" class="edit-flight  ">@Html.Raw(row.ETD.ToString("dd/MM/yyyy HH:mm"))</a></td>
+
+            <td><a href="#" data-id="@Html.Raw(row.FlightID)" class="edit-flight  ">@Html.DisplayTextFor(model => row.TotalULD)</a></td>
+
+            <td><a href="#" data-id="@Html.DisplayFor(model => row.ID)" class="btn  btn-xs flight-edit"><div class="btn-group green"><i style="font-size:30px;" class="fa fa-edit"></i></div> </a></td>
+        </tr>
         }
     </tbody>
 
