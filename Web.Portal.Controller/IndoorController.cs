@@ -21,10 +21,12 @@ namespace Web.Portal.Controller
     {
         IDangKyVaoRaService _dkvrService;
         ItblTicketStatusService _ticketService;
-        public IndoorController(IDangKyVaoRaService dkvrService, ItblTicketStatusService ticketService)
+        IDangKyGoiXeService _dkgxService;
+        public IndoorController(IDangKyVaoRaService dkvrService, ItblTicketStatusService ticketService, IDangKyGoiXeService dkgxService)
         {
             this._dkvrService = dkvrService;
             this._ticketService = ticketService;
+            this._dkgxService = dkgxService;
         }
         public ActionResult Index()
         {
@@ -55,6 +57,21 @@ namespace Web.Portal.Controller
                     {
                         listTruckMonthlyCheckInT2.RemoveAt(i);
                     }
+                    else
+                    {
+                        var goixe = _dkgxService.GetBySynID(listTruckMonthlyCheckInT2[i].TicketUID);
+                        if(goixe!=null)
+                        {
+                            listTruckMonthlyCheckInT2[i].Note = goixe.SoCMND;
+                            listTruckMonthlyCheckInT2[i].TrongTai = goixe.TenLaiXe;
+                        }
+                        else
+                        {
+                            listTruckMonthlyCheckInT2[i].Note = "";
+                            listTruckMonthlyCheckInT2[i].TrongTai = "";
+                        }
+                       
+                    }
                 }
             }
             List<tblTicketStatus> listTruckMonthlyCheckInT1 = listCheckIn.Where(c => c.ActionValue == "GATEIN_T1").ToList();
@@ -69,6 +86,7 @@ namespace Web.Portal.Controller
                     {
                         listTruckMonthlyCheckInT1.RemoveAt(i);
                     }
+                    
                 }
             }
                
@@ -77,7 +95,7 @@ namespace Web.Portal.Controller
             int countTruckFloor2 = listTruckMonthlyCheckInT2.Where(c => c.ActionValue == "GATEIN_T2").Count();
             ViewBag.TruckFloor1 = countTruckFloor1;
             ViewBag.TruckFloor2 = countTruckFloor2;
-            ViewData["listTruck"] = listTruckMonthlyCheckInT2.Where(c=>c.ActionValue == location).ToList();
+            ViewData["listTruck"] = listTruckMonthlyCheckInT2.Where(c=>c.ActionValue == location).OrderBy(c=>c.ActionDateTime).ToList();
             return View();
         }
     }

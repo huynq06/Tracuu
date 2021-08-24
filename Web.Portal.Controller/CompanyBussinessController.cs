@@ -7,7 +7,7 @@ using System.Web.Mvc;
 
 namespace Web.Portal.Controller
 {
-    [Web.Portal.Sercurity.AuthorizedBase(Roles = "ADMIN,KHAITHAC,XEMUYQUYEN")]
+    [Web.Portal.Sercurity.AuthorizedBase(Roles = "ADMIN,KTN,XEMUYQUYEN")]
     public class CompanyBussinessController : BaseController
     {
         public ActionResult Index()

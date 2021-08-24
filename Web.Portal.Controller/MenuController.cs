@@ -11,7 +11,9 @@ namespace Web.Portal.Controller
     {
         public ActionResult Index()
         {
-            if(WebMatrix.WebData.WebSecurity.CurrentUserName == "admin" || WebMatrix.WebData.WebSecurity.CurrentUserName == "annb" || WebMatrix.WebData.WebSecurity.CurrentUserName == "khaithacxuat" || WebMatrix.WebData.WebSecurity.CurrentUserName == "ktx.view")
+            if(WebMatrix.WebData.WebSecurity.CurrentUserName != "alsb" && WebMatrix.WebData.WebSecurity.CurrentUserName != "alse"
+                && WebMatrix.WebData.WebSecurity.CurrentUserName != "alst" && WebMatrix.WebData.WebSecurity.CurrentUserName != "alsw"
+                && WebMatrix.WebData.WebSecurity.CurrentUserName != "asg" && WebMatrix.WebData.WebSecurity.CurrentUserName != "clc")
             {
                 ViewBag.CheckView = "true";
             }

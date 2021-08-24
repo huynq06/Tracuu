@@ -1,0 +1,167 @@
+Message SND 2021/07/31 16:27:37
+Recipient List:
+From                  	127 	HANAIXH	001024
+To                    	STX 	HKGVICX	
+To                    	STX 	HANFFCX	
+
+Message Text:
+FSU/6
+160-32748715PDXHAN/T6K2175.0
+RCF/CX2743/31JUL2327/HAN/P4K1450.0//A2145
+
+
+-------------------------------------------------------------------------------
+Message SND 2021/07/31 16:26:37
+Recipient List:
+From                  	127 	HANAIXH	001024
+To                    	STX 	HKGVICX	
+To                    	STX 	HANFFCX	
+
+Message Text:
+FSU/6
+160-63188801HKGHAN/T27K202.0
+RCF/CX2743/31JUL2326/HAN/T27K202.0//A2145
+
+
+-------------------------------------------------------------------------------
+Message SND 2021/07/31 16:25:37
+Recipient List:
+From                  	127 	HANAIXH	001024
+To                    	STX 	HKGVICX	
+To                    	STX 	HANFFCX	
+
+Message Text:
+FSU/6
+160-62068731TLVHAN/T18K292.0
+RCF/CX2743/31JUL2325/HAN/T18K292.0//A2145
+
+
+-------------------------------------------------------------------------------
+Message SND 2021/07/31 16:25:37
+Recipient List:
+From                  	127 	HANAIXH	001024
+To                    	STX 	HKGVICX	
+To                    	STX 	HANFFCX	
+
+Message Text:
+FSU/6
+160-63946886MNLHAN/T4K17.0
+RCF/CX2743/31JUL2325/HAN/T4K17.0//A2145
+
+
+-------------------------------------------------------------------------------
+Message SND 2021/07/31 16:22:36
+Recipient List:
+From                  	127 	HANAIXH	001024
+To                    	STX 	HKGVICX	
+To                    	STX 	HANFFCX	
+
+Message Text:
+FSU/6
+160-61962611MNLHAN/T5K31.0
+RCF/CX2743/31JUL2321/HAN/T5K31.0//A2145
+
+
+-------------------------------------------------------------------------------
+Message SND 2021/07/31 16:21:36
+Recipient List:
+From                  	127 	HANAIXH	001024
+To                    	STX 	HKGVICX	
+To                    	STX 	HANFFCX	
+
+Message Text:
+FSU/6
+160-63469825HKGHAN/T3K252.0
+RCF/CX2743/31JUL2320/HAN/T3K252.0//A2145
+
+
+-------------------------------------------------------------------------------
+Message SND 2021/07/31 16:21:36
+Recipient List:
+From                  	127 	HANAIXH	001024
+To                    	STX 	HKGVICX	
+To                    	STX 	HANFFCX	
+
+Message Text:
+FSU/6
+160-63924243BOMHAN/T6K48.0
+RCF/CX2743/31JUL2321/HAN/T6K48.0//A2145
+
+
+-------------------------------------------------------------------------------
+Message SND 2021/07/31 16:16:33
+Recipient List:
+From                  	127 	HANAIXH	001024
+To                    	STX 	HKGVICX	
+To                    	STX 	HANFFCX	
+
+Message Text:
+FSU/6
+160-64057641CMBHAN/T133K2291.0
+RCF/CX2743/31JUL2315/HAN/T133K2291.0//A2145
+
+
+-------------------------------------------------------------------------------
+Message SND 2021/07/31 16:09:32
+Recipient List:
+From                  	127 	HANAIXH	001024
+To                    	STX 	HKGVICX	
+To                    	STX 	HANFFCX	
+
+Message Text:
+FSU/6
+160-63924943BOMHAN/T71K1612.1
+RCF/CX2743/31JUL2300/HAN/T71K1612.1//A2145
+
+
+-------------------------------------------------------------------------------
+Message SND 2021/07/31 15:56:31
+Recipient List:
+From                  	127 	HANAIXH	001024
+To                    	STX 	HKGVICX	
+To                    	STX 	HANFFCX	
+
+Message Text:
+FSU/6
+160-30852684BREHAN/T1K117.0
+RCF/CX2743/31JUL2247/HAN/T1K117.0//A2145
+
+
+-------------------------------------------------------------------------------
+Message SND 2021/07/31 15:51:30
+Recipient List:
+From                  	127 	HANAIXH	001024
+To                    	STX 	HKGVICX	
+To                    	STX 	HANFFCX	
+
+Message Text:
+FSU/6
+160-34411101BOMHAN/T268K1686.5
+RCF/CX2743/31JUL2248/HAN/T268K1686.5//A2145
+
+
+-------------------------------------------------------------------------------
+Message SND 2021/07/31 15:49:30
+Recipient List:
+From                  	127 	HANAIXH	001024
+To                    	STX 	HKGVICX	
+To                    	STX 	HANFFCX	
+
+Message Text:
+FSU/6
+160-62450161PEKHAN/T3K50.0
+RCF/CX2743/31JUL2249/HAN/T3K50.0//A2145
+
+
+-------------------------------------------------------------------------------
+Message SND 2021/07/31 15:42:30
+Recipient List:
+From                  	127 	HANAIXH	001024
+To                    	STX 	HKGVICX	
+To                    	STX 	HANFFCX	
+
+Message Text:
+FSU/6
+160-60318661ATLHAN/T162K661.0
+RCF/CX2743/31JUL2240/HAN/T162K661.0//A2145
+

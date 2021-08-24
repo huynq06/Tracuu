@@ -13,6 +13,7 @@ namespace Web.Portal.Service
     public interface IDangKyGoiXeService
     {
         IEnumerable<tblDangKyGoiXe> GetByDate(DateTime? dt);
+        tblDangKyGoiXe GetBySynID(Guid guid);
         IEnumerable<tblDangKyGoiXe> GetVihicle(DateTime? fda,DateTime? tda,int location);
         List<tblDangKyGoiXe> GetListTruckAllow(int count);
         tblDangKyGoiXe GetByBSX(string BSX,DateTime? dateCheck,DateTime? createDate,DateTime? ScanDate,int type);
@@ -96,6 +97,11 @@ namespace Web.Portal.Service
                 return _dkgxRepository.GetMulti(c => c.ThoiGianDangKy.Value.Day == dt.Value.Day && c.ThoiGianDangKy.Value.Month == dt.Value.Month && c.ThoiGianDangKy.Value.Year == dt.Value.Year && c.DienThoai == "EXPORT");
            
            
+        }
+
+        public tblDangKyGoiXe GetBySynID(Guid guid)
+        {
+            return _dkgxRepository.GetSingleByCondition(c => c.SynID == guid);
         }
 
         public List<tblDangKyGoiXe> GetListTruckAllow(int count)

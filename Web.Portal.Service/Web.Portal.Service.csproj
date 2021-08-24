@@ -84,6 +84,8 @@
     <Compile Include="tblMissionService.cs" />
     <Compile Include="tblTicketService.cs" />
     <Compile Include="tblTicketStatusService.cs" />
+    <Compile Include="tblUserService.cs" />
+    <Compile Include="TruckAwbService.cs" />
     <Compile Include="ULDByFlightService.cs" />
     <Compile Include="ULD_TYPEService.cs" />
     <Compile Include="VCTService.cs" />

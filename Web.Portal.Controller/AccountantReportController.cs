@@ -12,6 +12,7 @@ using System.Xml.Linq;
 
 namespace Web.Portal.Controller
 {
+    [Web.Portal.Sercurity.AuthorizedBase(Roles = "ADMIN,REPORT")]
     public class AccountantReportController : BaseController
     {
         IALSC_H5_ERP_ZINT_CHECKService _zintService;

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 namespace Web.Portal.Controller
 {
-    [Web.Portal.Sercurity.AuthorizedBase(Roles = "ADMIN,KHAITHAC")]
+    [Web.Portal.Sercurity.AuthorizedBase(Roles = "ADMIN,KTN")]
     public class SitaController: BaseController
     {
         private DateTime? fromDate;

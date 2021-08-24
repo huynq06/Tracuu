@@ -10,6 +10,7 @@ using Web.Portal.DataAccess;
 
 namespace Web.Portal.Controller
 {
+    [Web.Portal.Sercurity.AuthorizedBase(Roles = "ADMIN,KTX")]
     public class FLUPController : BaseController
     {
         private DateTime? fromDate;

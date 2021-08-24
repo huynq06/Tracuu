@@ -17,6 +17,7 @@ using System.IO;
 
 namespace Web.Portal.Controller
 {
+    [Web.Portal.Sercurity.AuthorizedBase(Roles = "ADMIN,KHAITHAC,KHOKEODAI,CUSTOMER,XEMUYQUYEN,KTN,KTX,HAIQUAN")]
     public class AlsxExpAwbDetailController : BaseController
     {
         ILabService _labService;

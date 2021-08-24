@@ -8,6 +8,7 @@ using Web.Portal.Common.ViewModel;
 using Web.Portal.Common;
 namespace Web.Portal.Controller
 {
+    [Web.Portal.Sercurity.AuthorizedBase(Roles = "ADMIN,REPORT")]
     public class DirectorReportController : BaseController
     {
         string sql = "";

@@ -13,6 +13,7 @@ using Web.Portal.Upload;
 
 namespace Web.Portal.Controller
 {
+    [Web.Portal.Sercurity.AuthorizedBase(Roles = "ADMIN,KTN")]
     public class PhanCaController : BaseController
     {
         ItblMissionService _missionService;

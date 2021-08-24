@@ -84,6 +84,8 @@
     <Compile Include="Models\tblDangKyGoiXe.cs" />
     <Compile Include="Models\tblDangKyVaoRa.cs" />
     <Compile Include="Models\tblTicketStatus.cs" />
+    <Compile Include="Models\tblUser.cs" />
+    <Compile Include="Models\TruckAwb.cs" />
     <Compile Include="Models\ULDByFlight.cs" />
     <Compile Include="Models\ULD_TYPE.cs" />
     <Compile Include="Models\VCT.cs" />

@@ -8,7 +8,7 @@ using Web.Portal.Common.ViewModel;
 using Web.Portal.DataAccess;
 namespace Web.Portal.Controller
 {
-    [Web.Portal.Sercurity.AuthorizedBase(Roles = "ADMIN,KHAITHAC")]
+    [Web.Portal.Sercurity.AuthorizedBase(Roles = "ADMIN,KTN")]
     public class ImpReportController : BaseController
     {
         string sql = "";
@@ -277,7 +277,7 @@ namespace Web.Portal.Controller
             string sqlComplete = string.Format(sql, prRequest);
             if (id == "TLN06")
             {
-                sqlComplete = string.Format(sql, int.Parse(Request["Total"])-1);
+                sqlComplete = string.Format(sql, int.Parse(Request["Total"]));
             }
             System.Data.DataTable table = reportAccess.GetData(sqlComplete).Tables[0];
             if (id == "TLN05")

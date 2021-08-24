@@ -7,7 +7,7 @@ using System.Web.Mvc;
 
 namespace Web.Portal.Controller
 {
-    [Web.Portal.Sercurity.AuthorizedBase(Roles = "ADMIN,KHAITHAC")]
+    [Web.Portal.Sercurity.AuthorizedBase(Roles = "ADMIN,REPORT")]
     public class HrReportController : BaseController
     {
         string sql = "";

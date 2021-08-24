@@ -10,6 +10,7 @@ using Web.Portal.DataAccess;
 using Web.Portal.Utils;
 namespace Web.Portal.Controller
 {
+    [Web.Portal.Sercurity.AuthorizedBase(Roles = "ADMIN,KTX")]
     public class FlightServiceController : GuestController
     {
         IFLightFlupService _flightService;

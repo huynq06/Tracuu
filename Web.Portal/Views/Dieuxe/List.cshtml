@@ -25,7 +25,7 @@
                                     Vị Trí
                                 </th>
                                 <th style="width:10%;font-size:24px;font-weight:bold;background-color:yellow !important;text-align:center">
-                                    @Html.Raw(ViewBag.ID=="1"? "Thời Gian Gọi" : "Thời Gian Đăng Ký")
+                                    Thời Gian Gọi
                                 </th>
 
 
@@ -88,7 +88,7 @@
                                         @Html.DisplayTextFor(model => row.Dock)
                                     </td>
                                     <td style="font-size:24px;font-weight:bold" align="center">
-                                        @Html.Raw(row.Created.Value.ToString("dd/MM--- HH:mm"))
+                                        @Html.Raw(row.TimeCalled.HasValue? row.TimeCalled.Value.ToString("dd/MM---HH:mm") : row.Created.Value.ToString("dd/MM---HH:mm"))
                                         @*@Html.Raw(ViewBag.ID =="2"? row.Created.Value.ToString("dd:MM HH:mm") : row.TimeCalled.Value.ToString("dd:MM HH:mm"))*@
                                     </td>
 
@@ -151,7 +151,7 @@
     //    $('input').attr('id', 'test');
     //    $('.input-sm').attr('id', 'test');
     //});
-    $('.input-sm').attr('placeholder', 'NHẬP BSX');
+    //$('.input-sm').attr('placeholder', 'NHẬP BSX');
     $(".edit-hawb").click(function () {
         egovutil.dialog("SƯA THÔNG TIN HÀNG NHANH", "large", "/HawbManagement/edit/" + $(this).attr("data-id"), "hermesAction.search();");
     });

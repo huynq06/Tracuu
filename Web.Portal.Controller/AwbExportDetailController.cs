@@ -17,7 +17,7 @@ using System.IO;
 
 namespace Web.Portal.Controller
 {
-  
+    [Web.Portal.Sercurity.AuthorizedBase(Roles = "ADMIN,KHAITHAC,KHOKEODAI,KTX,")]
     public class AwbExportDetailController : BaseController
     {
         ILabService _labService;

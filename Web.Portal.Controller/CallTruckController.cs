@@ -25,15 +25,18 @@ namespace Web.Portal.Controller
         IDangKyGoiXeService _dkgxService;
         IDangKyVaoRaService _dkvrService;
         ILocationConfigService _locationService;
+        ITruckAwbService _truckService;
         ItblTicketStatusService _ticketService;
         private DateTime? fromDate;
         private DateTime? toDate;
-        public CallTruckController(IDangKyGoiXeService dkgxService, IDangKyVaoRaService dkvrService, ILocationConfigService locationService, ItblTicketStatusService ticketService)
+        public CallTruckController(IDangKyGoiXeService dkgxService, IDangKyVaoRaService dkvrService, 
+            ILocationConfigService locationService, ItblTicketStatusService ticketService, ITruckAwbService truckService)
         {
             this._dkgxService = dkgxService;
             this._dkvrService = dkvrService;
             this._locationService = locationService;
             this._ticketService = ticketService;
+            this._truckService = truckService;
         }
         public ActionResult Index()
         {
@@ -73,6 +76,22 @@ namespace Web.Portal.Controller
                     //kta xem xe da vao chua
 
                 }
+                if(vitri!=2)
+                {
+                    string awb = "";
+                    string remark = "";
+                    List<TruckAwb> listAwb = _truckService.GetByTruckID(item.ID).ToList();
+                    if (listAwb.Count > 0)
+                    {
+                        foreach (var obj in listAwb)
+                        {
+                            awb += obj.AWB + "--" + obj.Quantity + "/" + obj.TotalQuantity + " kiện;";
+                            remark += obj.Booking + ";";
+                        }
+                    }
+                    item.LoHang = awb;
+                    item.Remark = remark;
+                }
             }
             ViewBag.TitleReport = "BÁO CÁO ĐIỀU XE " + location + " TỪ NGÀY " + fromDate.Value.ToString("dd/MM/yyyy") + " ĐẾN NGÀY " + toDate.Value.ToString("dd/MM/yyyy");
         }
@@ -80,9 +99,10 @@ namespace Web.Portal.Controller
         {
             string location = "GATEIN_T1";
             int vitri = int.Parse(Request["location"].Trim());
-
+           
             fromDate = string.IsNullOrEmpty(Request["fda"]) ? fromDate : Web.Portal.Utils.Format.ConvertDate(Request["fda"]);
-            toDate = fromDate.Value.AddDays(1);
+            var nextDay = fromDate.Value.AddDays(1);
+           toDate = fromDate.Value.AddDays(2);
             if (vitri == 2)
             {
                 location = "GATEIN_T2";
@@ -90,101 +110,125 @@ namespace Web.Portal.Controller
             List<TicketStatusViewModel> listTicketViewModel = new List<TicketStatusViewModel>();
             List<TicketStatusViewModel> listTicketViewModelMonthly = new List<TicketStatusViewModel>();
             List<TicketStatusViewModel> listTicketViewModelFinal = new List<TicketStatusViewModel>();
-     
-           
-                List<tblDangKyVaoRa> listTrucks = _dkvrService.GetVihicle(fromDate, toDate, vitri).ToList();
 
-                List<tblTicketStatus> listCheckIn = _ticketService.GetVihicleCheckIn(fromDate, toDate, location).ToList();
-                List<tblTicketStatus> listCheckOut = _ticketService.GetVihicleCheckOut(fromDate, toDate, "GATEOUT").ToList();
-             
+
+            List<tblDangKyVaoRa> listTrucks = _dkvrService.GetVihicle(fromDate, nextDay, vitri).ToList();
+
+            List<tblTicketStatus> listCheckIn = _ticketService.GetVihicleCheckIn(fromDate, nextDay, location).ToList();
+            List<tblTicketStatus> listCheckOut = _ticketService.GetVihicleCheckOut(fromDate, toDate, "GATEOUT").ToList();
+
+
+            listTicketViewModel = (from ticket in listTrucks
+                                   join checkin in listCheckIn on ticket.SyncID equals checkin.TicketUID.ToString() into mma
+                                   from checkin in mma.DefaultIfEmpty()
+                                   join checkout in listCheckOut on ticket.SyncID equals checkout.TicketUID.ToString() into pma
+                                   from checkout in pma.DefaultIfEmpty()
+                                   select new TicketStatusViewModel
+                                   {
+                                       ID = (int)ticket.ID,
+                                       BSX = ticket.BienSoXe,
+                                       TicketID = Guid.Parse(ticket.SyncID),
+                                       Created = ticket.NgayGioVao.Value,
+                                       LoaiXe = ticket.LoaiXe == 2 ? "XE MÁY" : "ÔTÔ",
+                                       LoaiVe = "VÉ NGÀY",
+
+                                       CheckIn = checkin == null ? "" : Utils.TimeUtils.GetTime(ticket.NgayGioVao.Value, checkin.ActionDateTime),
+                                       BarieIn = Utils.TimeUtils.GetTime(ticket.NgayGioVao.Value, ticket.NgayGioVaoThuc),
+                                       BarieOut = Utils.TimeUtils.GetTime(ticket.NgayGioVao.Value, ticket.NgayGioRa),
+                                       CheckOut = checkout == null ? "" : Utils.TimeUtils.GetTime(ticket.NgayGioVao.Value, checkout.ActionDateTime),
+
+                                       Location = location
+                                   }).ToList();
+            foreach (var item in listTicketViewModel)
+            {
+                TicketStatusViewModel ticketViewModel = listTicketViewModelFinal.FirstOrDefault(c => c.TicketID == item.TicketID);
+                if (ticketViewModel == null)
+                {
+                    listTicketViewModelFinal.Add(item);
+                }
+            }
+            ViewBag.TitleReport = "BÁO CÁO SCAN QRCODE TẦNG " + vitri + " NGÀY " + fromDate.Value.ToString("dd/MM/yyyy");
+
+
+
+            #region vethang
+            IEnumerable<Guid> listGuid = _ticketService.GetListTicketMonthy(fromDate, nextDay, location);
+            List<tblTicketStatus> listTrucksMonthly = _ticketService.GetVihicleMonthly(fromDate, toDate, location).ToList();
+            foreach (var item in listGuid)
+            {
                
-                    listTicketViewModel = (from ticket in listTrucks
-                                           join checkin in listCheckIn on ticket.SyncID equals checkin.TicketUID.ToString() into mma
-                                           from checkin in mma.DefaultIfEmpty()
-                                           join checkout in listCheckOut on ticket.SyncID equals checkout.TicketUID.ToString() into pma
-                                           from checkout in pma.DefaultIfEmpty()
-                                           select new TicketStatusViewModel
-                                           {
-                                               ID = (int)ticket.ID,
-                                               BSX = ticket.BienSoXe,
-                                               TicketID = Guid.Parse(ticket.SyncID),
-                                               Created = ticket.NgayGioVao.Value,
-                                               LoaiXe = ticket.LoaiXe == 2 ? "XE MÁY" : "ÔTÔ",
-                                               LoaiVe = "VÉ NGÀY",
-                                             
-                                               CheckIn = checkin == null ? "" : Utils.TimeUtils.GetTime(ticket.NgayGioVao.Value, checkin.ActionDateTime),
-                                               BarieIn = Utils.TimeUtils.GetTime(ticket.NgayGioVao.Value, ticket.NgayGioVaoThuc),
-                                               BarieOut = Utils.TimeUtils.GetTime(ticket.NgayGioVao.Value, ticket.NgayGioRa),
-                                               CheckOut = checkout == null ? "" : Utils.TimeUtils.GetTime(ticket.NgayGioVao.Value, checkout.ActionDateTime),
-                                            
-                                               Location = location
-                                           }).ToList();
-                    foreach (var item in listTicketViewModel)
-                    {
-                        TicketStatusViewModel ticketViewModel = listTicketViewModelFinal.FirstOrDefault(c => c.TicketID == item.TicketID);
-                        if (ticketViewModel == null)
-                        {
-                            listTicketViewModelFinal.Add(item);
-                        }
-                    }
-                    ViewBag.TitleReport = "BÁO CÁO SCAN QRCODE TẦNG " + vitri + " NGÀY " + fromDate.Value.ToString("dd/MM/yyyy");
-                
-         
-
-                #region vethang
-                IEnumerable<Guid> listGuid = _ticketService.GetListTicketMonthy(fromDate, toDate, location);
-                List<tblTicketStatus> listTrucksMonthly = _ticketService.GetVihicleMonthly(fromDate, toDate, location).ToList();
-                foreach (var item in listGuid)
+                List<tblTicketStatus> listTicketFilterCheckIn = listTrucksMonthly.Where(c => c.TicketUID == item && c.ActionValue==location).ToList();
+                foreach (var obj in listTicketFilterCheckIn)
                 {
                     TicketStatusViewModel ticketMonthly = new TicketStatusViewModel();
-                    List<tblTicketStatus> listTicketFilter = listTrucksMonthly.Where(c => c.TicketUID == item).ToList();
-                    foreach (var obj in listTicketFilter)
-                    {
-                        // ticketMonthly.BSX = obj.BienSoXe;
-                        if (obj.ActionCode.Trim() == "CHECK_IN" && (obj.ActionValue.Trim() == "GATEIN_T1" || obj.ActionValue.Trim() == "GATEIN_T2"))
-                        {
-                            ticketMonthly.Created = obj.ActionDateTime;
-                            ticketMonthly.CheckIn = obj.ActionDateTime.ToString("HH:mm");
-                           
-                        }
-                        if (obj.ActionCode.Trim() == "CHECK_OUT" && obj.ActionValue.Trim() == "GATEOUT")
-                        {
-                            ticketMonthly.CheckOut = obj.ActionDateTime.ToString("HH:mm");
-                          
-                        }
-                    }
-                
                     ticketMonthly.LoaiVe = "VÉ THÁNG";
                     ticketMonthly.LoaiXe = "Ô TÔ";
-                    ticketMonthly.TicketID = listTicketFilter[0].TicketUID;
+                    ticketMonthly.TicketID = listTicketFilterCheckIn[0].TicketUID;
                     ticketMonthly.Location = location;
-                    ticketMonthly.BSX = listTicketFilter.ToList()[0].BienSoXe;
+                    ticketMonthly.BSX = listTicketFilterCheckIn.ToList()[0].BienSoXe;
                     listTicketViewModelMonthly.Add(ticketMonthly);
+                    ticketMonthly.Created = obj.ActionDateTime;
+                    ticketMonthly.CheckIn = obj.ActionDateTime.ToString("HH:mm");
+                    //kiem tra check out
+                    List<tblTicketStatus> listTicketFilterCheckOut = listTrucksMonthly.Where(c => c.TicketUID == item && c.ActionValue == "GATEOUT").OrderBy(c=>c.ActionDateTime).ToList();
+                    if(listTicketFilterCheckOut.Count > 0)
+                    {
+                        foreach (var ticket in listTicketFilterCheckOut)
+                        {
+                            if (ticket.ActionDateTime > obj.ActionDateTime)
+                            {
+                                ticketMonthly.CheckOut = ticket.ActionDateTime.ToString("HH:mm");
+                                break;
+                            }
+                        }
+                    }
+                   
+                    //
+                    // ticketMonthly.BSX = obj.BienSoXe;
+                    //if (obj.ActionCode.Trim() == "CHECK_IN" && (obj.ActionValue.Trim() == "GATEIN_T1" || obj.ActionValue.Trim() == "GATEIN_T2"))
+                    //{
+                    //    ticketMonthly.Created = obj.ActionDateTime;
+                    //    ticketMonthly.CheckIn = obj.ActionDateTime.ToString("HH:mm");
+
+                    //}
+                    //if (obj.ActionCode.Trim() == "CHECK_OUT" && obj.ActionValue.Trim() == "GATEOUT")
+                    //{
+                    //    ticketMonthly.CheckOut = obj.ActionDateTime.ToString("HH:mm");
+
+                    //}
                 }
-                int totalMonthly = listTicketViewModelMonthly.Count;
-                ViewBag.TotalMonthly = totalMonthly;
-                #endregion
 
 
-                int total = listTicketViewModelFinal.Count;
-                int notCheckIn = listTicketViewModelFinal.Where(c => c.CheckIn == "").Count();
-                int notCheckOut = listTicketViewModelFinal.Where(c => c.CheckOut == "").Count();
-                double percentCheckIn = Math.Round((double)(notCheckIn * 100 / total));
-                double percentCheckOut = Math.Round((double)(notCheckOut * 100 / total));
-            
-                ViewBag.Total = total;
-                ViewBag.NotCheckIn = notCheckIn;
-                ViewBag.NotCheckOut = notCheckOut;
-          
-                ViewBag.PercentChecIn = percentCheckIn.ToString() + "%";
-                ViewBag.PercentChecOut = percentCheckOut.ToString() + "%";
-           
-                listTicketViewModelFinal.AddRange(listTicketViewModelMonthly);
-            
-                ViewData["listTruck"] = listTicketViewModelFinal.OrderBy(c => c.Created).ToList();
-            
-            
+            }
+            int totalMonthly = listTicketViewModelMonthly.Count;
+            ViewBag.TotalMonthly = totalMonthly;
+            #endregion
 
+
+            int total = listTicketViewModelFinal.Count;
+            int notCheckIn = listTicketViewModelFinal.Where(c => c.CheckIn == "").Count();
+            int notCheckOut = listTicketViewModelFinal.Where(c => c.CheckOut == "").Count();
+            //string percentCheckIn = (notCheckIn / total).ToString("0.00%");/* Math.Round((double)(notCheckIn * 100 / total),4);*/
+            //string percentCheckOut = (notCheckOut / total).ToString("0.00%"); /*Math.Round((double)(notCheckOut * 100 / total),4);*/
+
+            ViewBag.Total = total;
+            ViewBag.NotCheckIn = notCheckIn;
+            ViewBag.NotCheckOut = notCheckOut;
+
+            ViewBag.PercentChecIn = DisplayPercentage((double)notCheckIn / total);
+            ViewBag.PercentChecOut = DisplayPercentage((double)notCheckOut / total); ;
+
+            listTicketViewModelFinal.AddRange(listTicketViewModelMonthly);
+
+            ViewData["listTruck"] = listTicketViewModelFinal.OrderBy(c => c.Created).ToList();
+
+
+
+        }
+        static string DisplayPercentage(double ratio)
+        {
+            string percentage = string.Format("{0:0.0%}", ratio);
+            return percentage;
         }
         public ActionResult ScanInOutList()
         {

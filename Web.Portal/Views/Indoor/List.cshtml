@@ -19,14 +19,18 @@
             <th style="width:3%;background-color:black !important;color:white">
                 STT
             </th>
-            @*<th style="width:10%;background-color:chartreuse !important">
-                ID
-            </th>*@
+        
             <th style="width:10%;text-align:center;background-color:black !important;color:white">
                 BIỂN SỐ XE
             </th>
             <th style="width:10%;text-align:center;background-color:black !important;color:white">
                 LOẠI XE
+            </th>
+            <th style="width:10%;text-align:center;background-color:black !important;color:white">
+                AWB
+            </th>
+            <th style="width:10%;text-align:center;background-color:black !important;color:white">
+                LÁI XE
             </th>
             <th style="width:10%;text-align:center;background-color:black !important;color:white">
                 VỊ TRÍ
@@ -48,6 +52,12 @@
                 <td data-ID="@Html.DisplayFor(model => row.TicketUID)" style="width:10%;text-align:center;background-color:#525151 !important;color:white">@Html.Raw(row.BienSoXe)</td>
                 <td data-ID="@Html.DisplayFor(model => row.TicketUID)" style="width:10%;text-align:center;background-color:#525151 !important;color:white">
                     @Html.Raw(row.TicketType==1? "VÉ NGÀY" : "VÉ THÁNG")
+                </td>
+                <td style="width:10%;text-align:center;background-color:#525151 !important;color:white">
+                    @Html.DisplayTextFor(model => row.Note)
+                </td>
+                <td style="width:10%;text-align:center;background-color:#525151 !important;color:white">
+                    @Html.DisplayTextFor(model => row.TrongTai)
                 </td>
                 <td style="width:10%;text-align:center;background-color:#525151 !important;color:white">
                     @Html.DisplayTextFor(model => row.ActionValue)

@@ -7966,6 +7966,9 @@
     <Content Include="Views\Dieuxe\Floor1.cshtml" />
     <Content Include="Views\CallTruck\Truck.cshtml" />
     <Content Include="Views\CallTruck\TruckIndoorList.cshtml" />
+    <Content Include="Views\User\Edit.cshtml" />
+    <Content Include="Views\User\Index.cshtml" />
+    <Content Include="Views\User\List.cshtml" />
     <None Include="Web References\com.cmcsoft.hoadon\DefaultService.disco" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

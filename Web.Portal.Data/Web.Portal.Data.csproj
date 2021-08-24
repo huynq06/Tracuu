@@ -131,6 +131,8 @@
     <Compile Include="Repositories\tblMissionRepository.cs" />
     <Compile Include="Repositories\tblTicketRepository.cs" />
     <Compile Include="Repositories\tblTicketStatusRepository.cs" />
+    <Compile Include="Repositories\tblUserRepository.cs" />
+    <Compile Include="Repositories\TruckAwbRepository.cs" />
     <Compile Include="Repositories\ULDByFlightRepository.cs" />
     <Compile Include="Repositories\ULD_TYPERepository.cs" />
     <Compile Include="Repositories\VCTRepository.cs" />

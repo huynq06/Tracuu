@@ -27,6 +27,7 @@ namespace Web.Portal.Common.ViewModel
         public DateTime? TimeCallTruck { set; get; }
         public DateTime? TimeCheckIn { set; get; }
         public DateTime? TimeCheckOut { set; get; }
+        public string AWB { set; get; }
 
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 namespace Web.Portal.Controller
 {
-    [Web.Portal.Sercurity.AuthorizedBase(Roles = "ADMIN,KHAITHAC")]
+    [Web.Portal.Sercurity.AuthorizedBase(Roles = "ADMIN,KTX")]
     public class ExportReportController : BaseController
     {
         string sql = "";

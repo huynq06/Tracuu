@@ -16,6 +16,7 @@ using System.Threading.Tasks;
 
 namespace Web.Portal.Controller
 {
+    [Web.Portal.Sercurity.AuthorizedBase(Roles = "ADMIN")]
     public class HolidayController : BaseController
     {
         private DateTime? ata;
