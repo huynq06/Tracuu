@@ -17,7 +17,12 @@
             <th style="width:10%;text-align:center">
                 AWB
             </th>
-
+            <th style="width:10%;text-align:center">
+                CMT
+            </th>
+            <th style="width:10%;text-align:center">
+                Tên LX
+            </th>
             <th style="width:10%;text-align:center">
                 TG Đăng ký
             </th>
@@ -25,7 +30,7 @@
                 Trạng Thái
             </th>
             <th style="width:10%;text-align:center">
-                NHÂN VIÊN ĐK
+                NV Đăng ký
             </th>
             <th style="width:10%;text-align:center">
                 FLIGHT
@@ -46,6 +51,12 @@
 
                 <td align="center">
                     @Html.DisplayTextFor(model => row.LoHang)
+                </td>
+                <td align="center">
+                    @Html.DisplayTextFor(model => row.SoCMND)
+                </td>
+                <td align="center">
+                    @Html.DisplayTextFor(model => row.TenLaiXe)
                 </td>
                 <td align="center">
                     @Html.Raw(row.ThoiGianDangKy.HasValue ? row.ThoiGianDangKy.Value.ToString("dd-MM-yy HH:mm") : "")
