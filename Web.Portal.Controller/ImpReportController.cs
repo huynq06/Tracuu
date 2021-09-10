@@ -277,7 +277,7 @@ namespace Web.Portal.Controller
             string sqlComplete = string.Format(sql, prRequest);
             if (id == "TLN06")
             {
-                sqlComplete = string.Format(sql, int.Parse(Request["Total"]));
+                sqlComplete = string.Format(sql, int.Parse(Request["Total"]) - 1);
             }
             System.Data.DataTable table = reportAccess.GetData(sqlComplete).Tables[0];
             if (id == "TLN05")

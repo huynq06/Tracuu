@@ -69,7 +69,7 @@ namespace Web.Portal.Controller
                 vct.VCT_NO = Utils.Format.GetNullString(formRequest["vct"]).ToUpper().Trim();
                 if (keyValue == 0)
                 {
-                    if (vct.VCT_NO.Trim().Length != 14)
+                    if (vct.VCT_NO.Trim().Length != 14 || !vct.VCT_NO.StartsWith("300") || !vct.VCT_NO.Trim().All(char.IsDigit))
                     { 
                         message = "SAI ĐỊNH DẠNG VCT";
                         messageType = Utils.DisplayMessage.TypeError;

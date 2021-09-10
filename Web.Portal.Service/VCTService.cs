@@ -58,13 +58,17 @@ namespace Web.Portal.Service
             else
             {
                 if (id == 0)
-                    return _vctRepository.GetMulti(c => (c.LABS_CREATED_AT.Value.Day == DateTime.Now.Day || c.LABS_CREATED_AT.Value.Day == DateTime.Now.Day - 1) && c.LABS_CREATED_AT.Value.Month == DateTime.Now.Month && c.LABS_CREATED_AT.Value.Year == DateTime.Now.Year && c.AWB_STATUS == 0).OrderBy(c => c.LABS_CREATED_AT);
+                    return _vctRepository.GetMulti(c => (c.LABS_CREATED_AT.Value.Day == DateTime.Now.Day || c.LABS_CREATED_AT.Value.Day == DateTime.Now.Day - 1) && (c.LABS_CREATED_AT.Value.Month == DateTime.Now.Month || c.LABS_CREATED_AT.Value.Month == DateTime.Now.Month -1 ) 
+                    && (c.LABS_CREATED_AT.Value.Year  == DateTime.Now.Year || c.LABS_CREATED_AT.Value.Year == DateTime.Now.Year-1) && c.AWB_STATUS == 0).OrderBy(c => c.LABS_CREATED_AT);
                 else if (id == 1)
-                    return _vctRepository.GetMulti(c => (c.LABS_CREATED_AT.Value.Day == DateTime.Now.Day || c.LABS_CREATED_AT.Value.Day == DateTime.Now.Day - 1) && c.LABS_CREATED_AT.Value.Month == DateTime.Now.Month && c.LABS_CREATED_AT.Value.Year == DateTime.Now.Year && c.AWB_STATUS == 1).OrderBy(c => c.LABS_DIM_AT);
+                    return _vctRepository.GetMulti(c => (c.LABS_CREATED_AT.Value.Day == DateTime.Now.Day || c.LABS_CREATED_AT.Value.Day == DateTime.Now.Day - 1) && (c.LABS_CREATED_AT.Value.Month == DateTime.Now.Month || c.LABS_CREATED_AT.Value.Month == DateTime.Now.Month - 1)
+                    && (c.LABS_CREATED_AT.Value.Year == DateTime.Now.Year || c.LABS_CREATED_AT.Value.Year == DateTime.Now.Year - 1) && c.AWB_STATUS == 1).OrderBy(c => c.LABS_DIM_AT);
                 else if (id == 2)
-                    return _vctRepository.GetMulti(c => (c.LABS_CREATED_AT.Value.Day == DateTime.Now.Day || c.LABS_CREATED_AT.Value.Day == DateTime.Now.Day - 1) && c.LABS_CREATED_AT.Value.Month == DateTime.Now.Month && c.LABS_CREATED_AT.Value.Year == DateTime.Now.Year && c.AWB_STATUS == 2 && c.LOCATION == 1).OrderBy(c => c.LABS_DIM_AT);
+                    return _vctRepository.GetMulti(c => (c.LABS_CREATED_AT.Value.Day == DateTime.Now.Day || c.LABS_CREATED_AT.Value.Day == DateTime.Now.Day - 1) && (c.LABS_CREATED_AT.Value.Month == DateTime.Now.Month || c.LABS_CREATED_AT.Value.Month == DateTime.Now.Month - 1)
+                    && (c.LABS_CREATED_AT.Value.Year == DateTime.Now.Year || c.LABS_CREATED_AT.Value.Year == DateTime.Now.Year - 1) && c.AWB_STATUS == 2 && c.LOCATION == 1).OrderBy(c => c.LABS_DIM_AT);
                 else
-                    return _vctRepository.GetMulti(c => (c.LABS_CREATED_AT.Value.Day == DateTime.Now.Day || c.LABS_CREATED_AT.Value.Day == DateTime.Now.Day - 1) && c.LABS_CREATED_AT.Value.Month == DateTime.Now.Month && c.LABS_CREATED_AT.Value.Year == DateTime.Now.Year && c.AWB_STATUS == 2 && c.LOCATION == 2).OrderBy(c => c.LABS_DIM_AT);
+                    return _vctRepository.GetMulti(c => (c.LABS_CREATED_AT.Value.Day == DateTime.Now.Day || c.LABS_CREATED_AT.Value.Day == DateTime.Now.Day - 1) && (c.LABS_CREATED_AT.Value.Month == DateTime.Now.Month || c.LABS_CREATED_AT.Value.Month == DateTime.Now.Month - 1)
+                    && (c.LABS_CREATED_AT.Value.Year == DateTime.Now.Year || c.LABS_CREATED_AT.Value.Year == DateTime.Now.Year - 1) && c.AWB_STATUS == 2 && c.LOCATION == 2).OrderBy(c => c.LABS_DIM_AT);
             }
           
         }

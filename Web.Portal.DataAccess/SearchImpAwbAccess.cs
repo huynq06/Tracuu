@@ -67,7 +67,7 @@ namespace Web.Portal.DataAccess
       //    "and t2.lagi_deleted = 0 ) " +
       //   "AND l.lagi_hawb = ' ' ) " +
       "AND lagi.lagi_deleted = 0 " +
-     "AND((lagi.LAGI_MAWB_PREFIX || lagi.LAGI_MAWB_NO) = '" + input + "' or lagi.LAGI_HAWB = '" + input + "')";
+     "AND((lagi.lagi_mawb_prefix || ltrim(to_char(lagi.lagi_mawb_no, '00000000'))) = '" + input + "' or lagi.LAGI_HAWB = '" + input + "')";
             List<GeneralImp> listawb = new List<GeneralImp>();
             using (OracleDataReader reader = GetScriptOracleDataReader(sql))
             {
