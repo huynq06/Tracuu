@@ -808,5 +808,42 @@ namespace Web.Portal.Controller
             return string.Empty;
         }
 
+
+        public ActionResult PrintGroupNo()
+        {
+            return View();
+        }
+        public ActionResult PrintGroupNoProcess(int prefix,int length,int start,int count)
+        {
+            long startNumber = long.Parse(prefix.ToString() + start.ToString().PadLeft((length - prefix.ToString().Length), '0'));
+            long endNumber = startNumber + count;
+            List<GroupQrCodeViewModel> listGroup = new List<GroupQrCodeViewModel>();
+            for( long i= startNumber;i<endNumber;i++)
+            {
+                GroupQrCodeViewModel group = new GroupQrCodeViewModel();
+                group.GroupNo = i.ToString();
+                QRCodeGenerator qrGenerator = new QRCodeGenerator();
+                QRCodeData data = qrGenerator.CreateQrCode(i.ToString(), QRCodeGenerator.ECCLevel.Q);
+                QRCode qrCode = new QRCode(data);
+
+                System.Web.UI.WebControls.Image imgBarCode = new System.Web.UI.WebControls.Image();
+                imgBarCode.Height = 50;
+                imgBarCode.Width = 50;
+                using (Bitmap bitMap = qrCode.GetGraphic(5))
+                {
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        bitMap.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                        byte[] byteImage = ms.ToArray();
+                        imgBarCode.ImageUrl = "data:image/png;base64," + Convert.ToBase64String(byteImage);
+                    }
+                    group.Img = imgBarCode.ImageUrl;
+                }
+                listGroup.Add(group);
+            }
+            ViewData["listPrint"] = listGroup;
+            return View();
+        }
+
     }
 }

@@ -99,12 +99,14 @@
     <Compile Include="ViewModel\EmailViewModel.cs" />
     <Compile Include="ViewModel\fieldJson.cs" />
     <Compile Include="ViewModel\fieldValue.cs" />
+    <Compile Include="ViewModel\FindLawbAwbExportViewModel.cs" />
     <Compile Include="ViewModel\FlightDetailViewModel.cs" />
     <Compile Include="ViewModel\FlightFlupViewModel.cs" />
     <Compile Include="ViewModel\FlightNumberViewModel.cs" />
     <Compile Include="ViewModel\FlightViewModel.cs" />
     <Compile Include="ViewModel\FLUPViewModel.cs" />
     <Compile Include="ViewModel\GetInAlsxViewModel.cs" />
+    <Compile Include="ViewModel\GroupQrCodeViewModel.cs" />
     <Compile Include="ViewModel\HandlingReportViewModel.cs" />
     <Compile Include="ViewModel\HawbInAwbViewModel.cs" />
     <Compile Include="ViewModel\IadrInvoiceViewModel.cs" />
@@ -113,6 +115,7 @@
     <Compile Include="ViewModel\IssueDataViewModel.cs" />
     <Compile Include="ViewModel\IssueDetailViewModel.cs" />
     <Compile Include="ViewModel\IssueViewModel.cs" />
+    <Compile Include="ViewModel\LabsAutoCompleteViewModel.cs" />
     <Compile Include="ViewModel\LocationViewModel.cs" />
     <Compile Include="ViewModel\Prad_Pre_AdviceViewModel.cs" />
     <Compile Include="ViewModel\PrintTicket.cs" />

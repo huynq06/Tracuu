@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Oracle.DataAccess.Client;
-
+using Web.Portal.Common.ViewModel;
 using System.Data;
 namespace Web.Portal.DataAccess
 {
@@ -34,7 +34,35 @@ namespace Web.Portal.DataAccess
             
             return objExpAWB;
         }
+        private FindAwbAwbExportViewModel GetFindAwb(OracleDataReader reader)
+        {
+            FindAwbAwbExportViewModel objExpAWB = new FindAwbAwbExportViewModel();
+            objExpAWB.Quantity = Convert.ToString(GetValueField(reader, "QUANTITY", string.Empty));
+            objExpAWB.Weight = Convert.ToString(GetValueField(reader, "Weight", string.Empty));
+            objExpAWB.Dest = Convert.ToString(GetValueField(reader, "Dest", string.Empty));
+            objExpAWB.Position = Convert.ToString(GetValueField(reader, "RACK", string.Empty));
+            objExpAWB.Quantity = Convert.ToString(GetValueField(reader, "QUANTITY", string.Empty));
 
+            return objExpAWB;
+        }
+        public List<FindAwbAwbExportViewModel> GetLocationAwb(string id)
+        {
+            string sql = " select labs.labs_quantity_del QUANTITY,labs.labs_weight_del WEIGHT,labs.labs_destination DEST, "+
+                "sslp.sslp_rack_row RACK from labs "+
+ "join locs_locations locs on labs.labs_ident_no = locs.locs_object_isn "+
+ "join han_w1_hl.sslp_physical_locations sslp  on locs.locs_physical_isn = sslp.sslp_physical_isn "+
+ "where labs.labs_ident_no = '" + id + "'";
+            List<FindAwbAwbExportViewModel> listawb = new List<FindAwbAwbExportViewModel>();
+            using (OracleDataReader reader = GetScriptOracleDataReader(sql))
+            {
+                while (reader.Read())
+                {
+                    listawb.Add(GetFindAwb(reader));
+
+                }
+            }
+            return listawb;
+        }
         public IList<Layer.ExpAWB> GetPaging(int page, int pageSize, string code, string flightNo, DateTime? fromDate, DateTime? toDate, string hawb, ref int totalRows)
         {
             IList<Layer.ExpAWB> ExpAWBs = new List<Layer.ExpAWB>();

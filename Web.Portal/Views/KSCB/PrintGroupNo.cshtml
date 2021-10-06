@@ -1,0 +1,147 @@
+﻿@{
+Layout = null;
+}
+<style>
+    element.style {
+        width: 80px;
+    }
+
+    #ui-id-1 {
+        width: 100px;
+    }
+
+    .ui-autocomplete ui-front ui-menu ui-widget ui-widget-content {
+        width: 100px;
+    }
+
+    .ui-autocomplete {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        z-index: 10051;
+        float: left;
+        display: none;
+        min-width: 120px;
+        min-width: 160px;
+        padding: 4px 0;
+        margin: 0 0 10px 25px;
+        list-style: none;
+        background-color: #ffffff;
+        border-color: #ccc;
+        border-color: rgba(0, 0, 0, 0.2);
+        border-style: solid;
+        border-width: 1px;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        border-radius: 5px;
+        -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        -webkit-background-clip: padding-box;
+        -moz-background-clip: padding;
+        background-clip: padding-box;
+        *border-right-width: 2px;
+        *border-bottom-width: 2px;
+    }
+
+    .ui-menu-item > a.ui-corner-all {
+        display: block;
+        padding: 3px 15px;
+        clear: both;
+        font-weight: normal;
+        line-height: 18px;
+        color: #555555;
+        white-space: nowrap;
+        text-decoration: none;
+    }
+
+    .ui-state-hover, .ui-state-active {
+        color: #ffffff;
+        text-decoration: none;
+        background-color: #0088cc;
+        border-radius: 0px;
+        -webkit-border-radius: 0px;
+        -moz-border-radius: 0px;
+        background-image: none;
+    }
+</style>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet">
+            <div class="portlet-title">
+                <div class="caption caption-md">
+                    <span class="caption-subject font-blue-madison bold uppercase">IN GROUP BARCODE</span>
+                </div>
+                <div class="actions">
+                    @*<a href="javascript:;" data-id="02" class="btn btn-circle btn-danger btn-export-log">
+                            <i class="fa fa-download"></i> Xuất danh sách
+                        </a>*@
+                    @*<a href="#" class="btn btn-circle btn-success btn-print" target="_blank">
+                        <i class="fa fa-link"></i> Link to Queue
+                    </a>*@
+                    <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;">
+                    </a>
+                </div>
+
+            </div>
+            <div class="portlet-body">
+                <div class="row">
+                    <div class="form-group form-md-line-input">
+                        <div class="col-md-1 col-xs-3">
+                            <input class="form-control uppercase" id="prefix" placeholder="Prefix" value="10022" maxlength="6" />
+                            <div class="form-control-focus"> </div>
+                            <span class="help-block">Vui lòng nhập Prefix</span>
+                        </div>
+                        <div class="col-md-1 col-xs-3">
+                            <input class="form-control uppercase" id="length" placeholder="độ dài" value="14" maxlength="16" />
+                            <div class="form-control-focus"> </div>
+                            <span class="help-block">Vui lòng nhập độ dài</span>
+                        </div>
+                        <div class="col-md-1 col-xs-3">
+                            <input class="form-control uppercase" id="start" placeholder="Số bắt đầu" value="" maxlength="16" />
+                            <div class="form-control-focus"> </div>
+                            <span class="help-block">Vui lòng nhập độ dài</span>
+                        </div>
+                        <div class="col-md-4 col-xs-12">
+                            <div class="input-group">
+                                <input class="form-control uppercase" id="count" placeholder="Số lượng" maxlength="30" />
+                                <div class="form-control-focus"> </div>
+                                <span class="help-block">Vui lòng nhập độ dài</span>
+                                <span class="input-group-btn">
+                                    <button id="btn-search" class="btn btn-success btn-print" type="button"><i class="fa fa-search"></i></button>
+                                </span>
+
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="row">
+                    <div class="col-md-12 col-sm-12">
+                        <div id="content-list-result">
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $("#btn-search").click((e) =>
+    {
+        e.preventDefault();
+        console.log('da chay vao day')
+       // window.location.href('http://localhost:5031/KSCB/PrintGroupNoPrcess?total=100')
+        window.open('http://tracuu.alsc.com.vn/KSCB/PrintGroupNoProcess?prefix=' + $('#prefix').val() + '&length=' + $('#length').val() + '&start='+$('#start').val()+ '&count='+ $('#count').val(), '_blank').focus();
+    }
+        )
+</script>

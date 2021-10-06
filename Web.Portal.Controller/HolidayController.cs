@@ -29,7 +29,7 @@ namespace Web.Portal.Controller
         }
         public ActionResult Index()
         {
-           
+            string ID = new FlightControlAccess().GenGoupNo();
          //   string result = task.Result;
             //string message = "hello";
             //string forward = "";

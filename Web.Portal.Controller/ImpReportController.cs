@@ -55,10 +55,13 @@ namespace Web.Portal.Controller
             }
            
             string sqlComplete = string.Format(sql, prRequest);
-            if(id =="TLN06")
+            #region TLN06
+            if (id =="TLN06")
             {
                 sqlComplete = string.Format(sql, int.Parse(Request["Total"])-1);
             }
+            #endregion TLN06
+            #region TLN05
             System.Data.DataTable table = reportAccess.GetData(sqlComplete).Tables[0];
 
             if (id == "TLN05")
@@ -100,6 +103,7 @@ namespace Web.Portal.Controller
                 }
                     ViewData["ListCargoSepecial"] = cargoSpecialList;
             }
+            #endregion
             #region TLN04
             if (id == "TLN04")
             {
@@ -128,7 +132,6 @@ namespace Web.Portal.Controller
                 }
             }
             #endregion
-
             #region TLN01
             if (id == "TLN01")
             {
@@ -226,8 +229,6 @@ namespace Web.Portal.Controller
                 ViewData["listAWB"] = listAwb.OrderBy(c => c.LastAwb).ToList();
             }
             #endregion
-
-
             if (paging)
             {
                 string total = table.Rows[2][1].ToString();
@@ -280,6 +281,7 @@ namespace Web.Portal.Controller
                 sqlComplete = string.Format(sql, int.Parse(Request["Total"]) - 1);
             }
             System.Data.DataTable table = reportAccess.GetData(sqlComplete).Tables[0];
+            #region TLN05
             if (id == "TLN05")
             {
                 ViewBag.FlightNumber = prRequest[1] + "-" + prRequest[0];
@@ -323,6 +325,8 @@ namespace Web.Portal.Controller
                 }
                 ViewData["ListCargoSepecial"] = cargoSpecialList;
             }
+            #endregion
+            #region TLN04
             if (id == "TLN04")
             {
                 ViewBag.FlightNumber = prRequest[1] + "-" + prRequest[0];
@@ -349,6 +353,8 @@ namespace Web.Portal.Controller
                     }
                 }
             }
+            #endregion
+            #region TLN01
             if (id == "TLN01")
             {
                 ViewBag.FlightNumber = prRequest[1] + "-" + prRequest[0];
@@ -450,12 +456,16 @@ namespace Web.Portal.Controller
                 ViewBag.TotalWeightFfm = listAwb.Sum(c => double.Parse(string.IsNullOrEmpty(c.WEIGHT_FFM.Trim()) ? "0" : c.WEIGHT_FFM));
                 ViewBag.TotalPiceFhl = listAwb.Sum(c => int.Parse(string.IsNullOrEmpty(c.PIECES_FHL.Trim()) ? "0" : c.PIECES_FHL));
                 ViewBag.TotalWeightFhl = listAwb.Sum(c => double.Parse(string.IsNullOrEmpty(c.WEIGHT_FHL.Trim()) ? "0" : c.WEIGHT_FHL));
+                ViewBag.TotalAwb = listAwb.Count();
                 ViewData["listAWB"] = listAwb.OrderBy(c => c.LastAwb).ToList();
             }
+            #endregion
+            #region TLN02
             if (id == "TLN02")
             {
                 ViewBag.Date = prRequest[0];
             }
+            #endregion
             ViewData["DataList"] = table;
             ViewData["Column"] = column;
             ViewBag.Des = des;

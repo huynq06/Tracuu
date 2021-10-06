@@ -137,7 +137,7 @@ namespace Web.Portal.Service
             }
             if (!string.IsNullOrEmpty(no))
             {
-                query = query.Where(c => c.InvoiceNumber == no.Trim());
+                query = query.Where(c => c.Sequence == int.Parse(no.Trim()));
             }
             //if (type != "ALL")
             //{

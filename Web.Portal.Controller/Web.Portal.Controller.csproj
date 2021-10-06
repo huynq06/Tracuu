@@ -139,6 +139,7 @@
     <Compile Include="ExpAWBController.cs" />
     <Compile Include="ExportReportController.cs" />
     <Compile Include="FastCargoController.cs" />
+    <Compile Include="FindAwbExportController.cs" />
     <Compile Include="FlightController.cs" />
     <Compile Include="FlightExpController.cs" />
     <Compile Include="FlightServiceController.cs" />

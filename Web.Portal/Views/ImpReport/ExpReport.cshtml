@@ -12,6 +12,9 @@
 <p style="text-align:center;font-family:'Times New Roman';font-size:13pt;font-weight:bold;text-transform:uppercase">
     @ViewBag.FlightNumber
 </p>
+<p style="text-align:center;font-family:'Times New Roman';font-size:13pt;font-weight:bold;text-transform:uppercase">
+    @ViewBag.TotalAwb
+</p>
 
 
 
@@ -43,7 +46,8 @@
                 <td>@Html.Raw(row.WEIGHT_FHL)</td>
                 <td>@Html.Raw(row.Nature)</td>
                 <td>@Html.Raw(row.SHC)</td>
-                <td>@Html.Raw(row.Remark)</td>
+                <td>@Html.Raw(row.Remark.Length > 100 ? row.Remark.Substring(0,100) + "..." : row.Remark)</td>
+                @*<td>@Html.Raw(row.Remark.Length > 20 ? row.Remark.Substring(0,20) + "..." : row.Remark)</td>*@
                 <td>@Html.Raw(row.CheckCondition)</td>
 
             </tr>

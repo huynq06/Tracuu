@@ -37,9 +37,13 @@
     <Reference Include="EPPlus, Version=4.5.3.3, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
       <HintPath>..\packages\EPPlus.4.5.3.3\lib\net40\EPPlus.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.ApplicationBlocks.Data, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Web.Portal.DataBase\bin\Debug\Microsoft.ApplicationBlocks.Data.dll</HintPath>
+    </Reference>
     <Reference Include="Oracle.DataAccess, Version=2.112.1.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\bin\Oracle.DataAccess.dll</HintPath>
+      <HintPath>..\..\..\..\bin\2.12\Oracle.DataAccess.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
@@ -85,6 +89,8 @@
     <Compile Include="FlightAccess.cs" />
     <Compile Include="FlightAwbAccess.cs" />
     <Compile Include="FlightCheckAccess.cs" />
+    <Compile Include="FlightControlAccess.cs" />
+    <Compile Include="FLightControlProvider.cs" />
     <Compile Include="FlightExportAccess.cs" />
     <Compile Include="FlightRCFAccess.cs" />
     <Compile Include="FlightReportAccess.cs" />

@@ -1,0 +1,48 @@
+﻿
+@{
+    Layout = null;
+}
+@model Web.Portal.Common.ViewModel.FindAwbAwbExportViewModel 
+<div class="row" style="margin-top:20px;padding:20px">
+    <div class="row">
+        <div class="col-md-2 col-xs-6" style="font-size:14px">
+            <span class="caption-subject">Trạng thái:</span>
+        </div>
+        <div class="col-md-10 col-xs-6" style="font-size:14px">
+            <span class="caption-subject">@Html.DisplayFor(model => model.Status)</span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2 col-xs-6" style="font-size:14px">
+            <span class="caption-subject">Số kiện:</span>
+        </div>
+        <div class="col-md-10 col-xs-6" style="font-size:14px">
+            <span class="caption-subject">@Html.DisplayFor(model => model.Quantity)</span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2 col-xs-6" style="font-size:14px">
+            <span class="caption-subject">Số cân:</span>
+        </div>
+        <div class="col-md-10 col-xs-6" style="font-size:14px">
+            <span class="caption-subject">@Html.DisplayFor(model => model.Weight)</span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2 col-xs-6" style="font-size:14px">
+            <span class="caption-subject">Des:</span>
+        </div>
+        <div class="col-md-2 col-xs-6" style="font-size:14px">
+            <span class="caption-subject">@Html.DisplayFor(model => model.Dest)</span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2 col-xs-6" style="font-size:14px">
+            <span class="caption-subject">Vị Trí:</span>
+        </div>
+        <div class="col-md-2 col-xs-6" style="font-size:14px;color:red">
+            <span class="caption-subject">@Html.DisplayFor(model => model.Remark)</span>
+        </div>
+    </div>
+</div>
+  

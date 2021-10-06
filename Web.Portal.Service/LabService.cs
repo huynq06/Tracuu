@@ -15,6 +15,7 @@ namespace Web.Portal.Service
     {
         Lab GetByLabIdentity(string lagi_ident);
         Lab GetByMawb(string mawb);
+        List<string> GetGetByName(string name, DateTime dateCheck);
         IEnumerable<Lab> GetByDate(DateTime fdate,DateTime tdate,string awb,string warehouse);
     }
     public class LabService : ILabService
@@ -53,6 +54,11 @@ namespace Web.Portal.Service
         public Lab GetByMawb(string mawb)
         {
             return _labRepository.GetSingleByCondition(c => c.LABS_MAWB_PREFIX == mawb.Substring(0,3) && c.LABS_MAWB_SERIAL_NO == mawb.Substring(3));
+        }
+
+        public List<string> GetGetByName(string name,DateTime dateCheck)
+        {
+            return _labRepository.GetMulti(c => c.LABS_MAWB_SERIAL_NO.Substring(c.LABS_MAWB_SERIAL_NO.Length-4)==name && c.LABS_CREATED_AT > dateCheck).Select(y => y.LABS_MAWB_PREFIX+y.LABS_MAWB_SERIAL_NO.PadLeft(8,'0')+ "/" + y.LABS_IDENT_NO).Distinct().ToList();
         }
     }
 }

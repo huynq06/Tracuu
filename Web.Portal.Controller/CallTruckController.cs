@@ -204,10 +204,10 @@ namespace Web.Portal.Controller
             ViewBag.TotalMonthly = totalMonthly;
             #endregion
 
-
+            listTicketViewModelFinal.AddRange(listTicketViewModelMonthly);
             int total = listTicketViewModelFinal.Count;
             int notCheckIn = listTicketViewModelFinal.Where(c => c.CheckIn == "").Count();
-            int notCheckOut = listTicketViewModelFinal.Where(c => c.CheckOut == "").Count();
+            int notCheckOut = listTicketViewModelFinal.Where(c => string.IsNullOrEmpty(c.CheckOut)).Count();
             //string percentCheckIn = (notCheckIn / total).ToString("0.00%");/* Math.Round((double)(notCheckIn * 100 / total),4);*/
             //string percentCheckOut = (notCheckOut / total).ToString("0.00%"); /*Math.Round((double)(notCheckOut * 100 / total),4);*/
 
@@ -218,7 +218,7 @@ namespace Web.Portal.Controller
             ViewBag.PercentChecIn = DisplayPercentage((double)notCheckIn / total);
             ViewBag.PercentChecOut = DisplayPercentage((double)notCheckOut / total); ;
 
-            listTicketViewModelFinal.AddRange(listTicketViewModelMonthly);
+          
 
             ViewData["listTruck"] = listTicketViewModelFinal.OrderBy(c => c.Created).ToList();
 

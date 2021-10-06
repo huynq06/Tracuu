@@ -98,6 +98,39 @@ namespace Web.Portal.DataAccess
             }
             return check;
         }
+        public bool CheckCompleteAWB(string id)
+        {
+            string scaleStatus = "";
+            string getInStatus = "";
+            string sql = "SELECT DISTINCT labs.labs_ident_no,labs.labs_fwbm_serial_no,labs.labs_mawb_prefix,labs.labs_mawb_serial_no, " +
+  "CASE " +
+    "WHEN labs.labs_quantity_del = 0 THEN 'WAITING' " +
+    "WHEN labs.labs_quantity_del > 0 and labs.labs_quantity_del < labs.labs_quantity_booked THEN 'PROCESSING' " +
+    "WHEN labs.labs_quantity_del = labs.labs_quantity_booked THEN 'DONE' " +
+  "END AS SCALE_STATUS, " +
+  "CASE " +
+    "WHEN(select count(a.agen_ident_no)  FROM agen a WHERE a.agen_ident_no = labs.labs_ident_no and a.agen_status_external = 'AWB CONFIRMED') = 0 THEN 'WAITING' " +
+    " WHEN(select count(a.agen_ident_no)  FROM agen a WHERE a.agen_ident_no = labs.labs_ident_no and a.agen_status_external = 'AWB CONFIRMED') <> 0 THEN 'DONE' " +
+  " END AS RCS_STATUS " +
+" from labs " +
+" where labs.labs_ident_no = '" + id + "'";
+            bool check = false;
+           // LABS labs = new LABS();
+            using (OracleDataReader reader = GetScriptOracleDataReader(sql))
+            {
+                if (reader.Read())
+                {
+                    scaleStatus = Convert.ToString(GetValueField(reader, "SCALE_STATUS", string.Empty));
+                    getInStatus = Convert.ToString(GetValueField(reader, "RCS_STATUS", string.Empty));
+                }
+            }
+            if (scaleStatus == "DONE" && getInStatus == "DONE")
+            {
+                check = true;
+            }
+            return check;
+        }
+
     }
     
 }
