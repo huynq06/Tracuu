@@ -166,7 +166,7 @@ namespace Web.Portal.Controller
             string messageType = Utils.DisplayMessage.TypeSuccess;
             try
             {
-                var OrderViewModel = new JavaScriptSerializer().Deserialize<InvoiceViewModel>(order);
+                var OrderViewModel = new JavaScriptSerializer().Deserialize<InvoiceExportViewModel>(order);
                 var invoiceDB = _iHermesInvoiceService.GetByID(OrderViewModel.ID);
                 if (invoiceDB.IsCancel.HasValue && invoiceDB.IsCancel.Value == true)
                 {
@@ -181,6 +181,8 @@ namespace Web.Portal.Controller
                     foreach (var item in OrderViewModel.InvoiceDetailViewModels)
                     {
                         var invoiceDetailDB = _iHermesInvoiceDetailService.GetByID(item.ID);
+                        invoiceDetailDB.Item = item.Item;
+                        invoiceDetailDB.Unit = item.Unit;
                         invoiceDetailDB.Quantity = item.Quantity;
                         invoiceDetailDB.UnitPrice = item.UnitPrice;
                         invoiceDetailDB.InvoiceIns = invoiceDB.InvoiceIsn;

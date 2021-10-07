@@ -91,7 +91,9 @@
     <Compile Include="ViewModel\eInvoiceViewModel\inv.cs" />
     <Compile Include="ViewModel\eInvoiceViewModel\InvoiceApiViewModel.cs" />
     <Compile Include="ViewModel\eInvoiceViewModel\InvoiceCancel.cs" />
+    <Compile Include="ViewModel\eInvoiceViewModel\InvoiceDetailExportViewModel.cs" />
     <Compile Include="ViewModel\eInvoiceViewModel\InvoiceDetailViewModel.cs" />
+    <Compile Include="ViewModel\eInvoiceViewModel\InvoiceExportViewModel.cs" />
     <Compile Include="ViewModel\eInvoiceViewModel\InvoiceFields.cs" />
     <Compile Include="ViewModel\eInvoiceViewModel\InvoiceViewModel.cs" />
     <Compile Include="ViewModel\eInvoiceViewModel\item.cs" />
