@@ -43,6 +43,8 @@
     <Compile Include="ALSC_H5_ERP_ZINT_CHECKService.cs" />
     <Compile Include="ALSC_VCT_TO_DLV_BY_XMLService.cs" />
     <Compile Include="AWBByULDService.cs" />
+    <Compile Include="AwbIrrService.cs" />
+    <Compile Include="AwbLogService.cs" />
     <Compile Include="CallTruckService.cs" />
     <Compile Include="CARGO_INOUTService.cs" />
     <Compile Include="Cargo_KVGSService.cs" />
@@ -59,12 +61,15 @@
     <Compile Include="ErrorService.cs" />
     <Compile Include="EXP_AWBService.cs" />
     <Compile Include="FlightConfigService.cs" />
+    <Compile Include="FlightFavouriteService.cs" />
     <Compile Include="FLightFlupService.cs" />
+    <Compile Include="FlightIrrService.cs" />
     <Compile Include="FlightService.cs" />
     <Compile Include="FlightServiceConfigService.cs" />
     <Compile Include="FLUPService.cs" />
     <Compile Include="FormService.cs" />
     <Compile Include="HawbInAwbService.cs" />
+    <Compile Include="HawbIrrService.cs" />
     <Compile Include="HawbManagementService.cs" />
     <Compile Include="IADR_INVOICE_ADDRESSESService.cs" />
     <Compile Include="IADR_INVOICE_EMAILService.cs" />
@@ -77,6 +82,9 @@
     <Compile Include="LocationService.cs" />
     <Compile Include="NotifyAWBService.cs" />
     <Compile Include="EInvoice\PrintConfigService.cs" />
+    <Compile Include="OrderLagiDetailService.cs" />
+    <Compile Include="OrderLagiService.cs" />
+    <Compile Include="OrganizationService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PXKService.cs" />
     <Compile Include="StatisticService.cs" />
@@ -88,6 +96,8 @@
     <Compile Include="TruckAwbService.cs" />
     <Compile Include="ULDByFlightService.cs" />
     <Compile Include="ULD_TYPEService.cs" />
+    <Compile Include="UserCardService.cs" />
+    <Compile Include="UserService.cs" />
     <Compile Include="VCTService.cs" />
     <Compile Include="Vhld_vehicledetailService.cs" />
   </ItemGroup>

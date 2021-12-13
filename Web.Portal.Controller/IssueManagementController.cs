@@ -7,13 +7,14 @@ using Web.Portal.Common.ViewModel;
 using Web.Portal.Service;
 using Web.Portal.Model.Models;
 using Web.Portal.DataAccess;
-
+using Web.Portal.Utils;
 namespace Web.Portal.Controller
 {
     [Web.Portal.Sercurity.AuthorizedBase(Roles = "ADMIN,KTX")]
     public class IssueManagementController : BaseController
     {
         IIssueService _issueService;
+        private DateTime? ata;
         IIssue_detailService _issueDetailService;
         IVCTService _iVctService;
         IFLightFlupService _flightService;
@@ -229,6 +230,22 @@ namespace Web.Portal.Controller
 
             message = "LÔ HÀNG ĐÃ HOÀN THÀNH KÝ XÁC NHẬN!";
             return Json(new { Type = messageType, Message = message, Title = "Thông báo" }, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult AwbReport()
+        {
+            return View();
+        }
+        public ActionResult AwbReportList()
+        {
+            ata = string.IsNullOrEmpty(Request["ata"]) ? ata : Format.ConvertDate(Request["ata"]);
+            List<VCT> listVct = _iVctService.GetByDay(ata.Value).ToList();
+            foreach(var item in listVct)
+            {
+                item.CutOffTime = new VCTProcessingAccess().GetScaleDateTime(item.LABS_IDENT_NO);
+            }
+            ViewData["VCTList"] = listVct;
+            return View();
         }
     }
 }

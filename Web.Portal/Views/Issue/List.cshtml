@@ -101,14 +101,14 @@
         }
 
         #contain {
-           height: 700px;
+           height: 400px;
             overflow-y: scroll;
         }
 
         #table_scroll {
             width: 100%;
-            margin-top: 700px;
-            margin-bottom: 700px;
+            margin-top: 400px;
+            /*margin-bottom: 400px;*/
             border-collapse: collapse;
         }
 
@@ -127,6 +127,7 @@
             }
     </style>
     <script>
+        console.log('start!')
         var cfsAction = {
             search: function () {
                 egovutil.getContent("#content-list-result", "/Issue/list");
@@ -136,12 +137,13 @@
             }
         }
         $(document).ready(function () {
-            pageScroll();
+
+            pageScroll1();
 
             $("#contain").mouseover(function () {
                 clearTimeout(my_time);
             }).mouseout(function () {
-                pageScroll();
+                pageScroll1();
             });
 
             getWidthHeader('table_fixed', 'table_scroll');
@@ -150,17 +152,18 @@
 
         var my_time;
         var step = 1;
-        function pageScroll() {
+        function pageScroll1() {
             var objDiv = document.getElementById("contain");
+            console.log(objDiv.scrollTop)
             objDiv.scrollTop = objDiv.scrollTop + step;
-            if (objDiv.scrollHeight- Math.floor((objDiv.scrollTop + 700)) <= 2) {
+            if (objDiv.scrollHeight- Math.floor((objDiv.scrollTop + 400)) <= 2) {
                 //objDiv.scrollTop = 0;
-                location.reload();
+                cfsAction.search();
                //cfsAction.search();
             }
 
             else {
-                my_time = setTimeout('pageScroll()', 50);
+                my_time = setTimeout('pageScroll1()', 50);
             }
 
         }
@@ -182,6 +185,12 @@
         }
     </script>
 </div>
+@*<div class="row">
+        <div class='col-md-12 col-xs-12' style="align-items: center;text-align:center">
+            <label class='control-label' style="align-items: center;font-size:16px !important;"><b><span style="color:red;">(CHƯƠNG TRÌNH CHẠY THỬ NGHIỆM)</span></b></label>
+        </div>
+    </div>*@
+
 
 
 

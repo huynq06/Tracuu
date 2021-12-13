@@ -167,23 +167,23 @@ namespace Web.Portal.Controller
                 {
                   
                     List<Layer.CapSo> capsoCheckSpecial1 = CapSoList.Where(c => c.CheckService == "PROCESS").ToList();
-                    if(capsoCheckSpecial1.All(c=>c.IndexValue != 2))
+                    if(capsoCheckSpecial1.All(c=>c.IndexValue != 2 || (c.IndexValue == 2 && c.AWBRemain==0)))
                     {
                         messageTranfer1 = "Quầy 2 sẵn sàng phục vụ";
                     }
-                    else if (capsoCheckSpecial1.All(c => c.IndexValue != 3))
+                    else if (capsoCheckSpecial1.All(c => c.IndexValue != 3 || (c.IndexValue == 3 && c.AWBRemain == 0)))
                     {
                         messageTranfer1 = "Quầy 3 sẵn sàng phục vụ";
                     }
-                    else if (capsoCheckSpecial1.All(c => c.IndexValue != 4))
+                    else if (capsoCheckSpecial1.All(c => c.IndexValue != 4 || (c.IndexValue == 4 && c.AWBRemain == 0)))
                     {
                         messageTranfer1 = "Quầy 6 sẵn sàng phục vụ";
                     }
-                    else if (capsoCheckSpecial1.All(c => c.IndexValue != 5))
+                    else if (capsoCheckSpecial1.All(c => c.IndexValue != 5 || (c.IndexValue == 5 && c.AWBRemain == 0)))
                     {
                         messageTranfer1 = "Quầy 5 sẵn sàng phục vụ";
                     }
-                    else if (capsoCheckSpecial1.All(c => c.IndexValue != 6))
+                    else if (capsoCheckSpecial1.All(c => c.IndexValue != 6 || (c.IndexValue == 6 && c.AWBRemain == 0)))
                     {
                         messageTranfer1 = "Quầy 6 sẵn sàng phục vụ";
                     }
@@ -215,23 +215,23 @@ namespace Web.Portal.Controller
                 {
                     messageAller2 = "Xem xét bổ sung đầu 2";
                     List<Layer.CapSo> capsoCheckSpecial1 = CapSoList.Where(c => c.CheckService == "PROCESS").ToList();
-                    if (capsoCheckSpecial1.All(c => c.IndexValue != 7))
+                    if (capsoCheckSpecial1.All(c => c.IndexValue != 7 || (c.IndexValue == 7 && c.AWBRemain == 0)))
                     {
                         messageTranfer2 = "Quầy 7 sẵn sàng phục vụ";
                     }
-                    else if (capsoCheckSpecial1.All(c => c.IndexValue != 8))
+                    else if (capsoCheckSpecial1.All(c => c.IndexValue != 8 || (c.IndexValue == 8 && c.AWBRemain == 0)))
                     {
                         messageTranfer2 = "Quầy 8 sẵn sàng phục vụ";
                     }
-                    else if (capsoCheckSpecial1.All(c => c.IndexValue != 9))
+                    else if (capsoCheckSpecial1.All(c => c.IndexValue != 9 || (c.IndexValue == 9 && c.AWBRemain == 0)))
                     {
                         messageTranfer2 = "Quầy 9 sẵn sàng phục vụ";
                     }
-                    else if (capsoCheckSpecial1.All(c => c.IndexValue != 10))
+                    else if (capsoCheckSpecial1.All(c => c.IndexValue != 10 || (c.IndexValue == 10 && c.AWBRemain == 0)))
                     {
                         messageTranfer2 = "Quầy 10 sẵn sàng phục vụ";
                     }
-                    else if (capsoCheckSpecial1.All(c => c.IndexValue != 11))
+                    else if (capsoCheckSpecial1.All(c => c.IndexValue != 11 || (c.IndexValue == 11 && c.AWBRemain == 0)))
                     {
                         messageTranfer2 = "Quầy 11 sẵn sàng phục vụ";
                     }
@@ -258,50 +258,69 @@ namespace Web.Portal.Controller
             int toatalAWBWait = CapSoList.Where(c => c.CheckService == "WAIT").Sum(c => c.CountAWB);
             int totalProcess = CapSoList.Where(c => c.CheckService == "PROCESS" && c.AWBRemain > 0).ToList().Count;
             int totalWait = CapSoList.Where(c => c.CheckService == "WAIT").ToList().Count;
+            //int totalDone = CapSoList.Where(c => c.CheckService == "WAIT").ToList().Count;
+
 
             int totalAWBProcessQ3 = CapSoList.Where(c => c.CheckService == "PROCESS" && c.SPECIAL == 3 && c.AWBRemain > 0).Sum(c => c.AWBRemain);
             int toatalAWBWaitQ3 = CapSoList.Where(c => c.CheckService == "WAIT" && c.SPECIAL == 3).Sum(c => c.CountAWB);
             int totalProcessQ3 = CapSoList.Where(c => c.CheckService == "PROCESS" && c.SPECIAL == 3 && c.AWBRemain > 0).ToList().Count;
             int totalWaitQ3 = CapSoList.Where(c => c.CheckService == "WAIT" && c.SPECIAL == 3).ToList().Count;
+            int totalDoneQ3 = CapSoList.Where(c => c.CheckService == "DONE" && c.SPECIAL == 3).ToList().Count;
+            int totalAWBDoneQ3 = CapSoList.Where(c => c.CheckService == "DONE" && c.SPECIAL == 3).Sum(c => c.CountAWB);
 
             int totalAWBProcessQ2 = CapSoList.Where(c => c.CheckService == "PROCESS" && c.SPECIAL == 2 && c.AWBRemain>0).Sum(c => c.AWBRemain);
             int toatalAWBWaitQ2 = CapSoList.Where(c => c.CheckService == "WAIT" && c.SPECIAL == 2).Sum(c => c.CountAWB);
             int totalProcessQ2 = CapSoList.Where(c => c.CheckService == "PROCESS" && c.SPECIAL == 2 && c.AWBRemain > 0).ToList().Count;
             int totalWaitQ2 = CapSoList.Where(c => c.CheckService == "WAIT" && c.SPECIAL == 2).ToList().Count;
+            int totalDoneQ2 = CapSoList.Where(c => c.CheckService == "DONE" && c.SPECIAL == 2).ToList().Count;
+            int totalAWBDoneQ2 = CapSoList.Where(c => c.CheckService == "DONE" && c.SPECIAL == 2).Sum(c => c.CountAWB);
 
             int totalAWBProcessQ1 = CapSoList.Where(c => c.CheckService == "PROCESS" && c.SPECIAL == 1 && c.AWBRemain > 0).Sum(c => c.AWBRemain);
             int toatalAWBWaitQ1 = CapSoList.Where(c => c.CheckService == "WAIT" && c.SPECIAL == 1).Sum(c => c.CountAWB);
             int totalProcessQ1 = CapSoList.Where(c => c.CheckService == "PROCESS" && c.SPECIAL == 1 && c.AWBRemain > 0).ToList().Count;
             int totalWaitQ1 = CapSoList.Where(c => c.CheckService == "WAIT" && c.SPECIAL == 1).ToList().Count;
+            int totalDoneQ1 = CapSoList.Where(c => c.CheckService == "DONE" && c.SPECIAL == 1).ToList().Count + CapSoList.Where(c => c.CheckService == "PROCESS" && c.SPECIAL == 1 &&  c.AWBRemain == 0).ToList().Count;
+            int totalAWBDoneQ1 = CapSoList.Where(c => c.CheckService == "DONE" && c.SPECIAL == 1).Sum(c => c.CountAWB);
 
             ViewBag.totalAWBProcess = totalAWBProcess;
             ViewBag.toatalAWBWait = toatalAWBWait;
             ViewBag.totalProcess = totalProcess;
             ViewBag.totalWait = totalWait;
+            ViewBag.totalDone = totalDoneQ3 + totalDoneQ2 + totalDoneQ1;
+            ViewBag.totalAwbDone = totalAWBDoneQ3 + totalAWBDoneQ2 + totalAWBDoneQ1;
 
             ViewBag.totalAWBProcessQ3 = totalAWBProcessQ3;
             ViewBag.toatalAWBWaitQ3 = toatalAWBWaitQ3;
             ViewBag.totalProcessQ3 = totalProcessQ3;
             ViewBag.totalWaitQ3 = totalWaitQ3;
+            ViewBag.totalDoneQ3 = totalDoneQ3;
+            ViewBag.totalAWBDoneQ3 = totalAWBDoneQ3;
 
             ViewBag.totalAWBProcessQ2 = totalAWBProcessQ2;
             ViewBag.toatalAWBWaitQ2 = toatalAWBWaitQ2;
             ViewBag.totalProcessQ2 = totalProcessQ2;
             ViewBag.totalWaitQ2 = totalWaitQ2;
+            ViewBag.totalDoneQ2 = totalDoneQ2;
+            ViewBag.totalAWBDoneQ2 = totalAWBDoneQ2;
 
             ViewBag.totalAWBProcessQ1 = totalAWBProcessQ1;
             ViewBag.toatalAWBWaitQ1 = toatalAWBWaitQ1;
             ViewBag.totalProcessQ1 = totalProcessQ1;
             ViewBag.totalWaitQ1 = totalWaitQ1;
+            ViewBag.totalDoneQ1 = totalDoneQ1;
+            ViewBag.totalAWBDoneQ1 = totalAWBDoneQ1;
 
             ViewBag.MessageAller1 = messageAller1;
             ViewBag.MessageTranfer1 = messageTranfer1;
             ViewBag.MessageAller2 = messageAller2;
             ViewBag.MessageTranfer2 = messageTranfer2;
 
-            ViewData["CapSoList3"] = CapSoList3.Where(c=>c.AWBRemain > 0).ToList();
-            ViewData["CapSoList2"] = CapSoList2.Where(c => c.AWBRemain > 0).ToList(); ;
-            ViewData["CapSoList1"] = CapSoList1.Where(c => c.AWBRemain > 0).ToList(); ;
+            List<Layer.CapSo> CapSoList1Filter1 = CapSoList1.Where(c => c.AWBRemain > 0 && c.CheckService != "DONE").ToList();
+            List<Layer.CapSo> CapSoList1Filter2 = CapSoList2.Where(c => c.AWBRemain > 0 && c.CheckService != "DONE").ToList(); ;
+            List<Layer.CapSo> CapSoList1Filter3 = CapSoList3.Where(c => c.AWBRemain > 0 && c.CheckService != "DONE").ToList();
+            ViewData["CapSoList3"] = CapSoList1Filter3;
+            ViewData["CapSoList2"] = CapSoList1Filter2;
+            ViewData["CapSoList1"] = CapSoList1Filter1;
             return View();
         }
         public void Show()

@@ -426,8 +426,8 @@ order by k.ATA_DATE asc
       select distinct 
 lagi.lagi_mawb_prefix||lagi.lagi_mawb_no as MAWB,
 lagi.lagi_hawb as HAWB_NO,
-lagi.lagi_quantity_received as PIECES_FWB,
-lagi.lagi_weight_received as WEIGTH_FWB,
+lagi.lagi_quantity_expected as PIECES_FWB_FHL,
+lagi.lagi_weight_expected as WEIGTH_FWB_FHL,
 sum(j.pieces_received) as PIECES,
 sum(j.weight_received) as WEIGTH,
   0 as "TÌNH TRẠNG",
@@ -477,14 +477,14 @@ from
  -- and  lagi.LAGI_GOODS_CONTENT NOT  LIKE '%MAIL%'
  -- and lagi.LAGI_GOODS_CONTENT NOT LIKE '%POST%'
  group by lagi.lagi_ident_no,lagi.lagi_mawb_prefix||lagi.lagi_mawb_no,
- lagi.lagi_hawb,lagi.lagi_quantity_received,
- lagi.lagi_weight_received,lagi.LAGI_SHIPPER_NAME,lagi.LAGI_CONSIGNEE_NAME,
+ lagi.lagi_hawb,lagi.lagi_quantity_expected,
+ lagi.lagi_weight_expected,lagi.LAGI_SHIPPER_NAME,lagi.LAGI_CONSIGNEE_NAME,
  lagi.LAGI_SHIPMENT_REMARKS,lagi.lagi_goods_content
  order by 1
  
     </SQL>
     <FIND>FromDate,FlightNumber</FIND>
-    <COLUMN>MAWB,HAWB_NO,PIECES_FWB,WEIGTH_FWB,PIECES,WEIGTH,TÌNH TRẠNG,TÊN HÀNG,NGƯỜI GỬI,NGƯỜI NHẬN,REMARK</COLUMN> 
+    <COLUMN>MAWB,HAWB_NO,PIECES_FWB_FHL,WEIGTH_FWB_FHL,PIECES,WEIGTH,TÌNH TRẠNG,TÊN HÀNG,NGƯỜI GỬI,NGƯỜI NHẬN,REMARK</COLUMN> 
     <DES>DANH SÁCH HÀNG VỀ TRÊN CHUYẾN BAY</DES>    
   </TLN04>
   <TLN05>
@@ -568,6 +568,69 @@ order by 1
       ,T.LAGI_QUANTITY_RECEIVED SO_LUONG
       ,T.LAGI_WEIGHT_RECEIVED TRONG_LUONG
       ,T.Lagi_Shipper_Name NGUOI_GUI
+	  ,T.Lagi_Shipper_Address DIA_CHI_GUI
+      ,t.lagi_consignee_name NGUOI_NHAN
+	  ,t.lagi_consignee_address DIA_CHI_NHAN
+      ,T.LAGI_MAWB_PREFIX || TO_CHAR(T.LAGI_MAWB_NO
+                                    ,'00000000') MAWB
+      ,T.LAGI_HAWB HAWB
+      ,K.KUND_3_LETTER_CODE || ' ' || T.LAGI_FLIGHT_NO_IN FLIGHT_NO
+      , TO_CHAR(GET_DATETIME(T.LAGI_FLIGHT_DATE_IN
+                   ,0),'DD/MM/YYYY') FLIGHT_DATE
+      ,'ALSC' VI_TRI_DIA_DIEM
+      ,'' PHAN_LOAI        
+	  ,T.LAGI_AWB_ORIGIN ORIGIN
+	  ,apcc.apcc_airport_name GOODS_ORIGIN
+      ,T.LAGI_SHIPMENT_REMARKS GHI_CHU
+      ,LISTAGG(L.SSLP_RACK_ROW||'-'||L.SSLP_RACK_LOCATION||'-'||L.SSLP_RACK_HEIGHT, ', ') WITHIN GROUP (ORDER BY L.LOCS_PHYSICAL_ISN) VI_TRI
+FROM   LAGI                T
+      ,KUND                K
+      ,LCNV_LOCATIONS_VIEW L
+	  ,vn_share_hl.apcc apcc 
+WHERE  T.LAGI_CUSTOMER_NO_AIRLINE = K.KUND_CUSTOMER_NO_
+AND    L.IDENT_NO = T.LAGI_IDENT_NO
+AND    L.LOCS_DELETED = 0
+--AND    T.LAGI_DELETED = 0
+AND    K.KUND_RECORD_DELETED = 0
+AND  apcc.apcc_airport_code = T.LAGI_AWB_ORIGIN
+/*AND    (T.LAGI_DATE_LATEST_PKG_DEL IS NULL OR
+      TO_CHAR(T.LAGI_DATE_LATEST_PKG_DEL) = ' ')*/
+AND T.Lagi_Date_First_Pkg_Rec &lt;= trunc(sysdate) - {0}
+AND T.Lagi_Date_First_Pkg_Rec &gt; trunc(sysdate) - {1}
+AND (T.lagi_tso is null or T.lagi_tso not in ('ALSW','ALST','ALSB','ALSE','CLC'))
+--AND    T.LAGI_MAWB_NO = '23314362'
+GROUP  BY T.LAGI_MAWB_PREFIX || TO_CHAR(T.LAGI_MAWB_NO
+                                       ,'00000000')
+         ,T.LAGI_HAWB
+         ,K.KUND_3_LETTER_CODE || ' ' || T.LAGI_FLIGHT_NO_IN
+         ,GET_DATETIME(T.LAGI_FLIGHT_DATE_IN
+                      ,0)
+         ,T.LAGI_QUANTITY_EXPECTED
+         ,T.LAGI_WEIGHT_EXPECTED
+         ,T.LAGI_QUANTITY_RECEIVED
+         ,T.LAGI_WEIGHT_RECEIVED
+         ,T.LAGI_SHIPMENT_REMARKS
+         ,T.LAGI_GOODS_CONTENT
+         ,T.Lagi_Shipper_Name
+         ,T.Lagi_Consignee_Name
+		 ,T.Lagi_Shipper_Address
+         ,t.lagi_consignee_address
+		 ,T.LAGI_AWB_ORIGIN
+		 ,apcc.apcc_airport_name
+ORDER BY GET_DATETIME(T.LAGI_FLIGHT_DATE_IN ,0) desc
+ 
+    </SQL>
+    <FIND>from,to</FIND>
+    <COLUMN>TEN_HANG,SO_LUONG,TRONG_LUONG,NGUOI_GUI,DIA_CHI_GUI,NGUOI_NHAN,DIA_CHI_NHAN,MAWB,HAWB,FLIGHT_NO,FLIGHT_DATE,VI_TRI_DIA_DIEM,PHAN_LOAI,ORIGIN,GOODS_ORIGIN,GHI_CHU,VI_TRI</COLUMN> 
+    <DES>BÁO CÁO HÀNG TỒN V2</DES>    
+  </TLN06>
+   <TLN07>
+    <SQL>
+      SELECT 
+       T.LAGI_GOODS_CONTENT TEN_HANG
+      ,T.LAGI_QUANTITY_RECEIVED SO_LUONG
+      ,T.LAGI_WEIGHT_RECEIVED TRONG_LUONG
+      ,T.Lagi_Shipper_Name NGUOI_GUI
 	  ,T.Lagi_Shipper_Address DIA_CHI
       ,t.lagi_consignee_name NGUOI_NHAN
 	  ,t.lagi_consignee_address DIA_CHI
@@ -614,8 +677,8 @@ ORDER BY GET_DATETIME(T.LAGI_FLIGHT_DATE_IN ,0) desc
     </SQL>
     <FIND>total</FIND>
     <COLUMN>TEN_HANG,SO_LUONG,TRONG_LUONG,NGUOI_GUI,DIA_CHI,NGUOI_NHAN,DIA_CHI,MAWB,HAWB,FLIGHT_NO,FLIGHT_DATE,VI_TRI_DIA_DIEM,PHAN_LOAI,GHI_CHU,VI_TRI</COLUMN> 
-    <DES>BÁO CÁO HÀNG TỒN V2</DES>    
-  </TLN06>
+    <DES>BÁO CÁO HÀNG TỒN 14 NGÀY</DES>    
+  </TLN07>
    <HERMES28>
    <SQL>
       select  P_RESULT.* from ( 

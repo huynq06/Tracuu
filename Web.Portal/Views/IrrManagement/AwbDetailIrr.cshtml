@@ -1,0 +1,121 @@
+﻿@{
+  
+
+}
+@model Web.Portal.Model.Models.AwbIrr
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet">
+            <div class="portlet-title" style="border-bottom-color:#808080">
+                <div class="caption caption-md">
+                    <span class="caption-subject font-blue-madison bold uppercase">Danh sách bất thường Vận đơn 
+                    fgj @Html.Raw(Model.Prefix + '-' + Model.AWB)</span>
+                </div>
+                <div class="actions">
+                    <a href="javascript:;" class="btn btn-primary btn-add-item @Html.Raw(Model.AwbStatus==1 ? "disabled": "")">
+                        <i class="fa fa-plus"></i> Thêm mới
+                    </a>
+                    <a href="javascript:;" class="btn btn-success btn-close @Html.Raw(Model.AwbStatus==1 ? "disabled": "")">
+                        <i class="fa fa-check"></i> Finish
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+
+                <div class="row">
+                    <div class="col-md-3 col-xs-12">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="content-listHawbIrr-result">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="actions" style="float:right">
+        <a href="/IrrManagement/ListAwbIrr?flightId=@ViewBag.FlightID&flight=@ViewBag.FflightNo" target="_self" class="btn btn-primary btn-back">
+            <i class="fa fa-step-backward"></i> Back
+        </a>
+    </div>
+</div>
+
+@*<div class="portlet">
+    <div class="portlet-title">
+        <div class="caption caption-md">
+            <span class="caption-subject font-blue-madison bold uppercase">QUẢN LÝ BẤT THƯỜNG</span>
+        </div>
+        
+    </div>
+    <div class="portlet-body">
+
+
+    </div>
+</div>*@
+
+
+
+@*<div class="row">
+    <div class="col-md-12">
+        <div class="portlet">
+            <div class="portlet-title" style="border-bottom-color:#808080">
+                <div class="caption caption-md">
+                    <span class="caption-subject font-blue-madison bold uppercase">Biên bản bất thường</span>
+                </div>
+            </div>
+            <div class="portlet-body">
+             
+                <div class="row">
+                    <div class="col-md-3 col-xs-12">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="content-listLocation-result">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>*@
+
+<script>
+    var locationAction = {
+        search: function () {
+            egovutil.getContent("#content-listLocation-result", "/IrrManagement/BBBT?awbId=" + @ViewBag.AwbId)
+        },
+        loadHawb:function(){
+            egovutil.getContent("#content-listHawbIrr-result", "/IrrManagement/ListHawbIrr?awbId=" + @ViewBag.AwbId + "&flightID="+@ViewBag.FlightID)
+        }
+
+    }
+    var actionReloadHawb = {
+        execute: function () {
+            setTimeout(() => {
+                location.reload();
+            },1000)
+           
+        }
+    }
+    //locationAction.search();
+    locationAction.loadHawb();
+    $(".item-delete").click(function () {
+        egovutil.dlgConfirmAction("Xóa thông tin bất thường ", "Bạn muốn xóa bản ghi này", "/org/delete/" + $(this).attr("data-id"));
+    });
+    $(".add-note").click(function () {
+        egovutil.dialog("THÊM GHI CHÚ", "large", "/PXK/addNote/" + $(this).attr("data-id"), "hermesAction.search();");
+    });
+    $(".vct-delete").click(function () {
+        egovutil.dlgConfirmAction("DIM CONFIRM?  ", "Bạn có muốn xóa VCT", "/dlvvct/delete/" + $(this).attr("data-id"), "hermesAction.search()");
+        //Actionfocus.setFocus();
+    });
+    $(".btn-close").click(function () {
+        egovutil.dlgConfirmAction("Close", "Bạn có muốn đóng BBBT", "/IrrManagement/CloseAwbIrr/"+@ViewBag.AwbId,actionReloadHawb.execute);
+    });
+    //egovutil.submit("#frmAction", rule, message, "/IrrManagement/ActionSaveBBBT");
+</script>

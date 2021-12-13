@@ -22,7 +22,20 @@ namespace Web.Portal.DataAccess
             objFlight.FlightType = Convert.ToString(GetValueField(reader, "FLIGHTYPE", string.Empty));
             return objFlight;
         }
-
+        private Web.Portal.Layer.Flight GetProperties4Mobile(OracleDataReader reader)
+        {
+            Web.Portal.Layer.Flight objFlight = new Web.Portal.Layer.Flight();
+            string id = Convert.ToString(GetValueField(reader, "FLUI_ID", string.Empty));
+            objFlight.FlightID = string.IsNullOrEmpty(id) ? "" : id.Substring(3);
+            objFlight.Code = Convert.ToString(GetValueField(reader, "Code", string.Empty));
+            objFlight.FlightNo = Convert.ToString(GetValueField(reader, "FlightNo", string.Empty));
+            objFlight.ScheDate = Convert.ToDateTime(GetValueDateTimeField(reader, "ScheDate", objFlight.ScheDate));
+            objFlight.ScheTime = Convert.ToString(GetValueField(reader, "ScheTime", string.Empty));
+            objFlight.LandDate = Convert.ToDateTime(GetValueDateTimeField(reader, "LandDate", objFlight.LandDate));
+            objFlight.LandTime = Convert.ToString(GetValueField(reader, "LandTime", string.Empty));
+            objFlight.FlightType = Convert.ToString(GetValueField(reader, "FLIGHTYPE", string.Empty));
+            return objFlight;
+        }
         public IList<Layer.Flight> GetPaging(int page, int pageSize, string code, string flightNo, DateTime? fromDate, DateTime? toDate, ref int totalRows)
         {
             IList<Layer.Flight> flights = new List<Layer.Flight>();
@@ -38,7 +51,21 @@ namespace Web.Portal.DataAccess
             return flights;
 
         }
+        public IList<Layer.Flight> GetPagingMobile(int page, int pageSize, string code, string flightNo, DateTime? fromDate, DateTime? toDate, ref int totalRows)
+        {
+            IList<Layer.Flight> flights = new List<Layer.Flight>();
+            using (OracleDataReader reader = GetByOracleDataReader("HERMES_WEB_ALSC.FLUI_SEARCH_BY_D_C", code.Trim(), flightNo.Trim(),
+                GetNullDateTime(fromDate), GetNullDateTime(toDate), page, pageSize))
+            {
+                while (reader.Read())
+                {
+                    totalRows = Convert.ToInt32(GetValueField(reader, "total", 0));
+                    flights.Add(GetProperties(reader));
+                }
+            }
+            return flights;
 
+        }
 
         public IList<Layer.Flight> GetAllFlight()
         {

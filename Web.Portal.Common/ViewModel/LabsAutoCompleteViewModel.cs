@@ -9,5 +9,6 @@ namespace Web.Portal.Common.ViewModel
     public class LabsAutoCompleteViewModel
     {
         public string Keyword { set; get; }
+        public string flightID { set; get; }
     }
 }

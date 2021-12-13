@@ -17,6 +17,7 @@ namespace Web.Portal.Service
         Lagi GetByMH(string mawb, string hawb);
         Lagi GetByLagiIdentity(string lagi_ident);
         List<Lagi> GetByMawb(string mawb);
+        List<string> GetGetByName(string name, DateTime dateCheck);
     }
     public class LagiService : ILagiService
     {
@@ -41,6 +42,11 @@ namespace Web.Portal.Service
         public Lagi GetByMH(string mawb, string hawb)
         {
             return _lagiRepository.GetSingleByCondition(c => (c.LAGI_MAWB_PREFIX + c.LAGI_MAWB_NO) == mawb && c.LAGI_HAWB == hawb);
+        }
+
+        public List<string> GetGetByName(string name, DateTime dateCheck)
+        {
+            return _lagiRepository.GetMulti(c => c.LAGI_MAWB_NO.Substring(c.LAGI_MAWB_NO.Length - 4) == name && c.LAGI_DATE_STATUS_0_SET > dateCheck && c.LAGI_MASTER_IDENT_NO=="0").Select(y => y.LAGI_MAWB_PREFIX + y.LAGI_MAWB_NO.PadLeft(8, '0') + "/" + y.LAGI_IDENT_NO).Distinct().ToList();
         }
     }
 }

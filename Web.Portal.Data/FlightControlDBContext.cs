@@ -25,6 +25,12 @@ namespace Web.Portal.Data
         public DbSet<NotifyAWB> NotifyAWBs { set; get; }
         public DbSet<HawbInAwb> HawbInAwbs { set; get; }
         public DbSet<HawbManagement> HawbManagements { set; get; }
+        public DbSet<FlightIrr> FlightIrrs { set; get; }
+        public DbSet<AwbIrr> AwbIrrs { set; get; }
+        public DbSet<HawbIrr> HawbIrrs { set; get; }
+        public DbSet<OrderLagi> OrderLagis { set; get; }
+        public DbSet<OrderLagiDetail> OrderLagiDetails { set; get; }
+        public DbSet<FlightFavourite> FlightFavourites { set; get; }
         public static FlightControlDBContext Create()
         {
             return new FlightControlDBContext();

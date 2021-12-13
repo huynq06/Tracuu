@@ -63,6 +63,32 @@ namespace Web.Portal.Controller
             #endregion TLN06
             #region TLN05
             System.Data.DataTable table = reportAccess.GetData(sqlComplete).Tables[0];
+            if(id=="TLN06")
+            {
+                DateTime CheckDate = DateTime.Now.AddDays(-int.Parse(Request["Total"]));
+                ViewBag.ToDate = CheckDate.ToString("dd/MM/yyyy");
+                List<InventoryCustomViewModel> listInventory = new List<InventoryCustomViewModel>();
+                for (int i = 0; i < table.Rows.Count; i++)
+                {
+                    InventoryCustomViewModel inventory = new InventoryCustomViewModel();
+                    inventory.Cont = "";
+                    inventory.SealNo = "";
+                    inventory.GoodsName = table.Rows[i][0].ToString();
+                    inventory.Pieces_weight = table.Rows[i][1].ToString() + "/" + table.Rows[i][2].ToString();
+                    inventory.Shipper = table.Rows[i][3].ToString();
+                    inventory.Consignee = table.Rows[i][5].ToString();
+                    inventory.AwbNo  = table.Rows[i][7].ToString();
+                    inventory.AwbDate = table.Rows[i][10].ToString();
+                    inventory.AwbBreakDown = table.Rows[i][10].ToString();
+                    inventory.InventoryDate = ((int)Math.Round((Utils.Format.ConvertDate(table.Rows[i][10].ToString()).Value - DateTime.Now).TotalDays, 0)).ToString();
+                    inventory.Location = "ALSC";
+                    inventory.CustomManagement = "CKSBQT NỘI BÀI";
+                    inventory.AwbOrigin = table.Rows[i][14].ToString();
+                    listInventory.Add(inventory);
+                }
+                ViewBag.FromDate = listInventory[listInventory.Count - 1].AwbDate;
+                ViewData["ListInventory"] = listInventory;
+            }
 
             if (id == "TLN05")
             {
@@ -276,11 +302,94 @@ namespace Web.Portal.Controller
                     prRequest[i] = string.IsNullOrEmpty(Request[find[i]]) ? string.Empty : Request[find[i]].Trim();
             }
             string sqlComplete = string.Format(sql, prRequest);
-            if (id == "TLN06")
+            if (id == "TLN07")
             {
                 sqlComplete = string.Format(sql, int.Parse(Request["Total"]) - 1);
             }
+            if (id == "TLN06")
+            {
+                int from = int.Parse(Request["total"]);
+               // int to = int.Parse(string.IsNullOrEmpty(Request["total"])? "9999" : Request["total"]);
+                if (from == 30)
+                {
+                    prRequest[0] = 31.ToString();
+                    prRequest[1] = 90.ToString();
+                    sqlComplete = string.Format(sql, prRequest);
+                    DateTime CheckDate = DateTime.Now.AddDays(-31);
+                    ViewBag.ToDate = CheckDate.ToString("dd/MM/yyyy");
+                    ViewBag.FromDate = DateTime.Now.AddDays(-90).ToString("dd/MM/yyyy");
+   
+                    ViewBag.Title = " BẢNG TỔNG HỢP SỐ LIỆU HÀNG HÓA ĐẾN KHO BÃI, CẢNG, CỬA KHẨU QUÁ 30 NGÀY, QUÁ 60 NGÀY CHƯA LÀM THỦ TỤC HẢI QUAN";
+                    ViewBag.Temp = 2;
+                }
+                else if(from == 60)
+                {
+                    prRequest[0] = 61.ToString();
+                    prRequest[1] = 90.ToString();
+                    sqlComplete = string.Format(sql, prRequest);
+                    DateTime CheckDate = DateTime.Now.AddDays(-61);
+                    ViewBag.ToDate = CheckDate.ToString("dd/MM/yyyy");
+                    ViewBag.FromDate = DateTime.Now.AddDays(-90).ToString("dd/MM/yyyy");
+                    ViewBag.Title = " BẢNG TỔNG HỢP SỐ LIỆU HÀNG HÓA ĐẾN KHO BÃI, CẢNG, CỬA KHẨU QUÁ 30 NGÀY, QUÁ 60 NGÀY CHƯA LÀM THỦ TỤC HẢI QUAN";
+                    ViewBag.Temp = 2;
+                }
+                else if(from == 90)
+                {
+                    prRequest[0] = 90.ToString();
+                    prRequest[1] = 9999.ToString();
+                    sqlComplete = string.Format(sql, prRequest);
+                    DateTime CheckDate = DateTime.Now.AddDays(-91);
+                    ViewBag.ToDate = CheckDate.ToString("dd/MM/yyyy");
+                    ViewBag.Title = " BẢNG TỔNG HỢP SỐ LIỆU HÀNG HÓA ĐẾN KHO BÃI, CẢNG, CỬA KHẨU QUÁ 90 NGÀY CHƯA LÀM THỦ TỤC HẢI QUAN";
+                    ViewBag.Temp = 3;
+                }
+                else
+                {
+                    prRequest[0] = from.ToString();
+                    prRequest[1] = 9999.ToString();
+                    sqlComplete = string.Format(sql, prRequest);
+                    DateTime CheckDate = DateTime.Now.AddDays(-from);
+                    ViewBag.ToDate = CheckDate.ToString("dd/MM/yyyy");
+                    ViewBag.Temp = 3;
+                }
+                //  sqlComplete = string.Format(sql, int.Parse(Request["Total"]) - 1);
+            }
             System.Data.DataTable table = reportAccess.GetData(sqlComplete).Tables[0];
+            if (id == "TLN06")
+            {
+
+                int tem = int.Parse(Request["Total"]);
+                List<InventoryCustomViewModel> listInventory = new List<InventoryCustomViewModel>();
+                for (int i = 0; i < table.Rows.Count; i++)
+                {
+                    InventoryCustomViewModel inventory = new InventoryCustomViewModel();
+                    inventory.Cont = "";
+                    inventory.SealNo = "";
+                    inventory.GoodsName = table.Rows[i][0].ToString();
+                    inventory.Pieces_weight = table.Rows[i][1].ToString() + "/" + table.Rows[i][2].ToString();
+                    inventory.Shipper = table.Rows[i][3].ToString() + "-" + table.Rows[i][4].ToString();
+                    inventory.Consignee = table.Rows[i][5].ToString() + "-" + table.Rows[i][6].ToString(); ;
+                    inventory.AwbNo = table.Rows[i][7].ToString().Replace(" ","") +  (string.IsNullOrEmpty(table.Rows[i][8].ToString().Trim())? "" : "/" + table.Rows[i][8].ToString());
+                    inventory.AwbDate = table.Rows[i][10].ToString();
+                    inventory.AwbBreakDown = table.Rows[i][10].ToString();
+                    inventory.InventoryDate = ((int)Math.Round((DateTime.Now - Utils.Format.ConvertDate(table.Rows[i][10].ToString()).Value).TotalDays, 0)).ToString();
+                    inventory.Location = "ALSC";
+                    if (inventory.AwbNo.Contains('Z'))
+                    {
+                        inventory.AwbType = "Không tem nhãn";
+                    }
+                    inventory.CustomManagement = "CKSBQT NỘI BÀI";
+                    inventory.AwbOrigin = table.Rows[i][14].ToString();
+                    if(!listInventory.Any(c=>c.AwbNo == inventory.AwbNo))
+                         listInventory.Add(inventory);
+                }
+                if(tem==3)
+                {
+                    ViewBag.FromDate = listInventory[listInventory.Count - 1].AwbDate;
+                }
+            
+               ViewData["ListInventory"] = listInventory;
+            }
             #region TLN05
             if (id == "TLN05")
             {
@@ -323,6 +432,7 @@ namespace Web.Portal.Controller
                         cargoSpecialList.Add(cs);
                     }
                 }
+               
                 ViewData["ListCargoSepecial"] = cargoSpecialList;
             }
             #endregion
@@ -489,7 +599,15 @@ namespace Web.Portal.Controller
             else if (id == "TLN06")
             {
                 ViewBag.TitleReport = "BÁO CÁO HÀNG TỒN ĐẾN NGÀY " + DateTime.Now.AddDays(-int.Parse(Request["Total"])).ToString("dd/MM/yyyy");
-                return View("~/Views/ImpReport/ExpReportTLN06.cshtml");
+                if(Request["total"]=="30")
+                 return View("~/Views/ImpReport/ExpReportTLN06.cshtml");
+                else
+                    return View("~/Views/ImpReport/ExpReportTLN06Temp3.cshtml");
+            }
+            else if (id == "TLN07")
+            {
+                ViewBag.TitleReport = "BÁO CÁO HÀNG TỒN ĐẾN NGÀY " + DateTime.Now.AddDays(-int.Parse(Request["Total"])).ToString("dd/MM/yyyy");
+                return View("~/Views/ImpReport/ExpReportTLN07.cshtml");
             }
             else
             {

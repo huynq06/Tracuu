@@ -16,8 +16,14 @@ namespace Web.Portal
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional, eId = UrlParameter.Optional },
-                namespaces: new[] { "Web.Portal.Controller", "Web.Portal.Sercurity", "Web.Portal.Upload", "Web.Portal.Service"}
+                namespaces: new[] { "Web.Portal.Controller", "Web.Portal.Sercurity", "Web.Portal.Upload", "Web.Portal.Service", "Web.Portal.ControllerApi" }
             );
+            routes.MapRoute(
+name: "API Default",
+url: "api/{controller}/{action}/{id}",
+defaults: new { id = UrlParameter.Optional },
+
+  namespaces: new[] { "Web.Portal.ControllerApi" });
         }
     }
 }

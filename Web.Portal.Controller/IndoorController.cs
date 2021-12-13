@@ -60,15 +60,25 @@ namespace Web.Portal.Controller
                     else
                     {
                         var goixe = _dkgxService.GetBySynID(listTruckMonthlyCheckInT2[i].TicketUID);
-                        if(goixe!=null)
+                        if (goixe != null)
                         {
                             listTruckMonthlyCheckInT2[i].Note = goixe.SoCMND;
                             listTruckMonthlyCheckInT2[i].TrongTai = goixe.TenLaiXe;
                         }
                         else
                         {
-                            listTruckMonthlyCheckInT2[i].Note = "";
-                            listTruckMonthlyCheckInT2[i].TrongTai = "";
+                            goixe = _dkgxService.GetByBSXNewest(listTruckMonthlyCheckInT2[i].BienSoXe);
+                            if (goixe != null)
+                            {
+                                listTruckMonthlyCheckInT2[i].Note = goixe.SoCMND;
+                                listTruckMonthlyCheckInT2[i].TrongTai = goixe.TenLaiXe;
+                            }
+                            else
+                            {
+                                listTruckMonthlyCheckInT2[i].Note = "";
+                                listTruckMonthlyCheckInT2[i].TrongTai = "";
+                            }
+                           
                         }
                        
                     }

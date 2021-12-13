@@ -43,6 +43,8 @@
   <ItemGroup>
     <Compile Include="Models\ALSC_H5_ERP_ZINT_CHECK.cs" />
     <Compile Include="Models\ALSC_VCT_TO_DLV_BY_XML.cs" />
+    <Compile Include="Models\AwbIrr.cs" />
+    <Compile Include="Models\AwbLog.cs" />
     <Compile Include="Models\CallTruck.cs" />
     <Compile Include="Models\CallTruck\tblMission.cs" />
     <Compile Include="Models\CallTruck\tblTicket.cs" />
@@ -50,6 +52,7 @@
     <Compile Include="Models\ConnectALS\EXP_AWB.cs" />
     <Compile Include="Models\ConnectALS\IMP_AWB.cs" />
     <Compile Include="Models\eInvoice\PrintConfig.cs" />
+    <Compile Include="Models\FlightFavourite.cs" />
     <Compile Include="Models\FLightFlup.cs" />
     <Compile Include="Models\AWBByULD.cs" />
     <Compile Include="Models\CallTruck\tblDangKyGoiXe.cs" />
@@ -66,10 +69,12 @@
     <Compile Include="Models\Error.cs" />
     <Compile Include="Models\Flight.cs" />
     <Compile Include="Models\FlightConfig.cs" />
+    <Compile Include="Models\FlightIrr.cs" />
     <Compile Include="Models\FlightServiceConfig.cs" />
     <Compile Include="Models\FLUP.cs" />
     <Compile Include="Models\form.cs" />
     <Compile Include="Models\HawbInAwb.cs" />
+    <Compile Include="Models\HawbIrr.cs" />
     <Compile Include="Models\HawbManagement.cs" />
     <Compile Include="Models\IADR_INVOICE_ADDRESSES.cs" />
     <Compile Include="Models\IADR_INVOICE_EMAIL.cs" />
@@ -80,6 +85,11 @@
     <Compile Include="Models\Location.cs" />
     <Compile Include="Models\LocationConfig.cs" />
     <Compile Include="Models\NotifyAWB.cs" />
+    <Compile Include="Models\OrderLagi.cs" />
+    <Compile Include="Models\OrderLagiDetail.cs" />
+    <Compile Include="Models\QLT\Organization.cs" />
+    <Compile Include="Models\QLT\User.cs" />
+    <Compile Include="Models\QLT\UserCard.cs" />
     <Compile Include="Models\tblCompany.cs" />
     <Compile Include="Models\tblDangKyGoiXe.cs" />
     <Compile Include="Models\tblDangKyVaoRa.cs" />

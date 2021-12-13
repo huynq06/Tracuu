@@ -1,0 +1,156 @@
+﻿
+@{
+    Layout = null;
+    int PageCurrent = 0;
+    IEnumerable<Web.Portal.Common.ViewModel.IssueViewModel> listIssue = (IEnumerable<Web.Portal.Common.ViewModel.IssueViewModel>)ViewData["listIssue"];
+}
+
+<div class="row">
+    <div class='col-md-12 col-xs-12 margin-top-10' style="align-items: center;text-align:center">
+        <label class='control-label' style="align-items: center;font-size:35px !important;font-weight:bold !important "><b><span style="color:red;font-size:35px;font-weight:bold">DANH SÁCH XE ĐÃ ĐƯỢC GỌI LÊN TẦNG 2</span></b></label>
+    </div>
+</div>
+<table class="table table-bordered table-striped table-condensed flip-content" id="table_fixed" style="margin-bottom:10px !important">
+    <thead class="flip-content">
+        <tr style="">
+            <th class="all" style="width:9% !important;font-size:35px;font-weight:bold;background-color:yellow !important;text-align:center">
+                STT
+            </th>
+            <th style="width:9% !important;font-size:35px;font-weight:bold;background-color:yellow !important;text-align:center">
+                BSX
+            </th>
+            <th style="width:9% !important;font-size:35px;font-weight:bold;background-color:yellow !important;text-align:center">
+                THỜI GIAN GỌI
+            </th>
+        </tr>
+    </thead>
+</table>
+<div class="portlet-body flip-scroll" id="contain">
+    <table class="table table-bordered table-striped table-condensed flip-content" id="table_scroll">
+        <tbody>
+                @foreach (var row in (IList<Web.Portal.Model.Models.CallTruck>)ViewData["listTruck"])
+                {
+                    PageCurrent += 1;
+                    <tr>
+                        <td style="font-size:35px;background-color:#00ff00;font-weight:bold" align="center">@PageCurrent</td>
+
+                        <td style="font-size:35px;background-color:#00ff00;font-weight:bold" align="center">@Html.Raw(row.BSX)</td>
+                        <td style="font-size:35px;background-color:#00ff00;font-weight:bold" align="center">
+                            @Html.Raw(row.TimeCalled.HasValue ? row.TimeCalled.Value.ToString("dd/MM---HH:mm") : row.Created.Value.ToString("dd/MM---HH:mm"))
+                        </td>
+
+                    </tr>
+                }
+            <tr style="height:60px">
+                @*<td style="width:3%;text-align:center;background-color:#525151 !important;color:white"></td>
+            <td data-ID="" style="width:10%;text-align:center;background-color:#525151 !important;color:white"></td>
+            <td style="width:10%;text-align:center;background-color:#525151 !important;color:white"></td>
+            <td style="width:10%;text-align:center;background-color:#525151 !important;color:white"></td>
+            <td style="width:10%;text-align:center;background-color:#525151 !important;color:white"></td>*@
+            </tr>
+            <tr style="height:60px">
+                @*<td style="width:3%;text-align:center;background-color:#525151 !important;color:white"></td>
+            <td data-ID="" style="width:10%;text-align:center;background-color:#525151 !important;color:white"></td>
+            <td style="width:10%;text-align:center;background-color:#525151 !important;color:white"></td>
+            <td style="width:10%;text-align:center;background-color:#525151 !important;color:white"></td>
+            <td style="width:10%;text-align:center;background-color:#525151 !important;color:white"></td>*@
+            </tr>
+            <tr style="height:60px">
+                @*<td style="width:3%;text-align:center;background-color:#525151 !important;color:white"></td>
+            <td data-ID="" style="width:10%;text-align:center;background-color:#525151 !important;color:white"></td>
+            <td style="width:10%;text-align:center;background-color:#525151 !important;color:white"></td>
+            <td style="width:10%;text-align:center;background-color:#525151 !important;color:white"></td>
+            <td style="width:10%;text-align:center;background-color:#525151 !important;color:white"></td>*@
+            </tr>
+        </tbody>
+    </table>
+    <p></p>
+    <p></p>
+    <style>
+        body {
+            font-family: 'helvetica';
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        #contain {
+            height: 250px;
+            overflow-y: scroll;
+          
+        }
+
+        #table_scroll {
+            width: 100%;
+            margin-top: 250px;
+            /*margin-bottom: 250px;*/
+            border-collapse: collapse;
+        }
+
+            #table_scroll thead th {
+                padding-top: 10px;
+                padding-left: 10px;
+                background-color: #ea922c;
+                color: #fff;
+            }
+
+            #table_scroll tbody td {
+                padding-top: 10px;
+                font-weight: bold;
+                font-size: 18px;
+                color: black;
+            }
+    </style>
+    <script>
+      
+        $(document).ready(function () {
+
+            pageScroll1();
+
+            //$("#contain").mouseover(function () {
+            //    clearTimeout(my_time);
+            //}).mouseout(function () {
+            //    pageScroll1();
+            //});
+
+            getWidthHeader('table_fixed', 'table_scroll');
+
+        });
+
+        var my_time;
+        var step = 1;
+        function pageScroll1() {
+            var objDiv = document.getElementById("contain");
+            objDiv.scrollTop = objDiv.scrollTop + step;
+            if (objDiv.scrollHeight- Math.floor((objDiv.scrollTop +250)) <= 2) {
+                //objDiv.scrollTop = 0;
+                cfsAction.searchDieuXe();
+               //cfsAction.search();
+            }
+
+            else {
+                my_time = setTimeout('pageScroll1()', 20);
+            }
+
+        }
+
+        function getWidthHeader(id_header, id_scroll) {
+            var colCount = 0;
+            $('#' + id_scroll + ' tr:nth-child(1) td').each(function () {
+                if ($(this).attr('colspan')) {
+                    colCount += +$(this).attr('colspan');
+                } else {
+                    colCount++;
+                }
+            });
+
+            for (var i = 1; i <= colCount; i++) {
+                var th_width = $('#' + id_scroll + ' > tbody > tr:first-child > td:nth-child(' + i + ')').width();
+                $('#' + id_header + ' > thead th:nth-child(' + i + ')').css('width', th_width + 'px');
+            }
+        }
+    </script>
+</div>
+
+
+
+

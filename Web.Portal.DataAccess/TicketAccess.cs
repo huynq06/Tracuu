@@ -65,7 +65,7 @@ namespace Web.Portal.DataAccess
         public IList<Layer.CapSo> GetData()
         {
             IList<Layer.CapSo> capsoList = new List<Layer.CapSo>();
-            using (System.Data.IDataReader reader = CommandDataReader("GetDataByDate"))
+            using (System.Data.IDataReader reader = CommandDataReader("GetDataByDateV2"))
             {
 
                 while (reader.Read())

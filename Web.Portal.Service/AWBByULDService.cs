@@ -15,6 +15,7 @@ namespace Web.Portal.Service
         List<AWBByULD> GetListAWBOpenByFlightGuid(Guid id);
         List<AWBByULD> GetByFlightGuid(Guid id);
         AWBByULD GetByGuid(Guid id);
+        List<string> GetByName(string name, Guid id);
     }
     public class AWBByULDService : IAWBByULDService
     {
@@ -39,6 +40,11 @@ namespace Web.Portal.Service
         public IEnumerable<AWBByULD> GetColAWB()
         {
             return _awbByULDRepository.GetMulti(c => c.CheckValue == 1 && c.Process != 2 );
+        }
+
+        public List<string> GetByName(string name, Guid id)
+        {
+            return _awbByULDRepository.GetMulti(c => c.AWB.Substring(c.AWB.Length - 4) == name && c.Flight_ID == id).Select(y => y.AWB + "/" + y.Lagi_Identity).Distinct().ToList();
         }
 
         public List<AWBByULD> GetListAWBOpenByFlightGuid(Guid id)

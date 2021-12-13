@@ -143,6 +143,97 @@ namespace Web.Portal.DataAccess
             }
             return listawb;
         }
+        public AwbDetailViewModel GetAwbDetailStatus(string lagi_ident)
+        {
+            string sql = " SELECT distinct " +
+      "lagi.lagi_ident_no as ID, " +
+      "lagi.lagi_mawb_prefix || lagi.lagi_mawb_no as MAWB, " +
+      "lagi.LAGI_HAWB as HAWB, " +
+      "lagi.lagi_quantity_received as PIECES_RECEIVED, " +
+      "lagi.lagi_master_ident_no as LAGI_MASTER, " +
+      "lagi.lagi_quantity_expected as PIECES_EXPECTED, " +
+      "lagi.lagi_quantity_delivered as PIECES_DELIVERED, " +
+      "lagi.lagi_weight_received as WEIGHT, " +
+      "lagi.lagi_awb_origin as AWB_ORG, " +
+       "lagi.lagi_tso as LAGI_TSO, " +
+                             "lagi.lagi_awb_dest as AWB_DEST, " +
+                             "lagi.lagi_shipper_name as SHIPPER, " +
+                             "lagi.lagi_shipper_address as SHIPPERADDR, " +
+                             "lagi.LAGI_ORIGINAL_AGENT as CUS_CODE, " +
+                             "lagi.lagi_consignee_name as CONSIGNEE, " +
+                             "lagi.lagi_consignee_address as CONSIGADDR, " +
+                             "lagi.LAGI_CURRENT_AGENT as CNEE, " +
+                             "lagi.LAGI_ORIGINAL_AGENT as AGENT, " +
+                             "lagi.LAGI_ORIGINAL_AGENT as AGENT_CODE, " +
+                             "lagi.lagi_quantity_delivered as DELIVERED, " +
+                             "lagi.lagi_goods_content as GOODSCONTENT, " +
+                             "lagi.lagi_shipment_remarks as REMARK, " +
+                             " (select count(grai_object_isn) from grai_group_additional_info where grai_object_isn = lagi.lagi_ident_no" +
+                             " and grai_group_type = 'DATE' and grai_group_code = 'DELIVERED') as STATUS_DELIVERED " +
+    "FROM LAGI lagi " +
+           "WHERE " +
+                "1 = 1 " +
+      "AND lagi.lagi_deleted = 0 and lagi.lagi_ident_no = '" + lagi_ident + "'";
+            AwbDetailViewModel awb = new AwbDetailViewModel();
+            using (OracleDataReader reader = GetScriptOracleDataReader(sql))
+            {
+                if (reader.Read())
+                {
+                    awb = GetProperties(reader);
+
+                }
+            }
+            return awb;
+        }
+        public List<AwbDetailViewModel> GetAwbGeneralDetail(string mawb, string hawb)
+        {
+            string sql = " SELECT distinct " +
+      "lagi.lagi_ident_no as ID, " +
+      "lagi.lagi_mawb_prefix || lagi.lagi_mawb_no as MAWB, " +
+      "lagi.LAGI_HAWB as HAWB, " +
+      "lagi.lagi_quantity_received as PIECES_RECEIVED, " +
+      "lagi.lagi_master_ident_no as LAGI_MASTER, " +
+      "lagi.lagi_quantity_expected as PIECES_EXPECTED, " +
+      "lagi.lagi_quantity_delivered as PIECES_DELIVERED, " +
+      "lagi.lagi_weight_received as WEIGHT, " +
+      "lagi.lagi_awb_origin as AWB_ORG, " +
+       "lagi.lagi_tso as LAGI_TSO, " +
+                             "lagi.lagi_awb_dest as AWB_DEST, " +
+                             "lagi.lagi_shipper_name as SHIPPER, " +
+                             "lagi.lagi_shipper_address as SHIPPERADDR, " +
+                             "lagi.LAGI_ORIGINAL_AGENT as CUS_CODE, " +
+                             "lagi.lagi_consignee_name as CONSIGNEE, " +
+                             "lagi.lagi_consignee_address as CONSIGADDR, " +
+                             "lagi.LAGI_CURRENT_AGENT as CNEE, " +
+                             "lagi.LAGI_ORIGINAL_AGENT as AGENT, " +
+                             "lagi.LAGI_ORIGINAL_AGENT as AGENT_CODE, " +
+                             "lagi.lagi_quantity_delivered as DELIVERED, " +
+                             "lagi.lagi_goods_content as GOODSCONTENT, " +
+                             "lagi.lagi_shipment_remarks as REMARK " +
+    "FROM LAGI lagi " +
+           "WHERE " +
+                "1 = 1 " +
+      "AND lagi.lagi_deleted = 0 " +
+        "and lagi.lagi_ident_no NOT IN( "+
+         "SELECT l.lagi_ident_no FROM han_w1_hl.lagi l WHERE EXISTS( SELECT 1 FROM han_w1_hl.lagi t2 " +
+        "WHERE t2.lagi_mawb_no = l.lagi_mawb_no "+
+         "and t2.lagi_mawb_prefix = l.lagi_mawb_prefix "+
+         "AND t2.lagi_ident_no <> l.lagi_ident_no "+
+         "and t2.lagi_deleted = 0) "+
+        "AND l.lagi_hawb = ' ')" +
+      "AND ('" + mawb + "'='ALL' or (lagi.LAGI_MAWB_PREFIX ||  lagi.LAGI_MAWB_NO) = '" + mawb + "') " +
+      "AND ('" + hawb + "'='ALL' or lagi.LAGI_HAWB = '" + hawb + "')";
+            List<AwbDetailViewModel> listawb = new List<AwbDetailViewModel>();
+            using (OracleDataReader reader = GetScriptOracleDataReader(sql))
+            {
+                while (reader.Read())
+                {
+                    listawb.Add(GetProperties(reader));
+
+                }
+            }
+            return listawb;
+        }
         public List<AwbDetailViewModel> GetAwbDetailByMawb(string mawb)
         {
             string sql = " SELECT distinct " +

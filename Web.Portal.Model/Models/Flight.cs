@@ -32,6 +32,7 @@ namespace Web.Portal.Model.Models
         public int? SHCTIME { set; get; }
         public int? AlertSHC1 { set; get; }
         public int? AlertSHC2 { set; get; }
+        public string Flight_Int_Number { set; get; }
 
 
     }

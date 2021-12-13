@@ -172,6 +172,22 @@ namespace Web.Portal.Utils
          
 
         }
+        public static string GetAwbIrrStatus(int? status)
+        {
+            if (status.HasValue)
+            {
+                if (status == 0)
+                    return "<span class='btn red btn-outline btn-circle btn-sm active'><b>OPEN</b></span>";
+                else 
+                    return "<span class='btn green btn-outline btn-circle btn-sm active'><b>CLOSE</b></span>";
+            }
+           
+            else
+            {
+                return "<span class='btn red btn-outline btn-circle btn-sm active'><b>OPEN</b></span>";
+            }
+
+        }
         public static string GetStatusPrint(int status)
         {
             if (status == 0)
@@ -243,6 +259,44 @@ namespace Web.Portal.Utils
             catch(Exception)
             {
                 
+            }
+
+            return string.Empty;
+
+        }
+
+        public static string GetMissingContent(string ms, string hawb,ref int pieces,ref string weight,ref string dameType,ref string detail)
+        {
+            try
+            {
+                ms = ms.Replace(" ", string.Empty);
+                string SITA_T = @"((Pieces)\d{1,10})";
+                string SITA_W = @"((Weight)((\d+)+(\.\d+)))|((Weight)\d{1,10})";
+                string SITA_C = @"((Irregularity-)[a-zA-Z,]+)";
+                string SITA_D = @"((packages:).+,)";
+                System.Text.RegularExpressions.Regex regexC = new System.Text.RegularExpressions.Regex(SITA_C);
+                System.Text.RegularExpressions.Match matchC = regexC.Match(ms);
+
+                System.Text.RegularExpressions.Regex regexT = new System.Text.RegularExpressions.Regex(SITA_T);
+                System.Text.RegularExpressions.Match matchT = regexT.Match(ms);
+
+                System.Text.RegularExpressions.Regex regexW = new System.Text.RegularExpressions.Regex(SITA_W);
+                System.Text.RegularExpressions.Match matchW = regexW.Match(ms);
+
+                System.Text.RegularExpressions.Regex regexZ = new System.Text.RegularExpressions.Regex(SITA_D);
+                System.Text.RegularExpressions.Match matchZ = regexZ.Match(ms);
+                pieces = !string.IsNullOrEmpty(matchW.Value.Trim()) ? int.Parse(matchT.Value.Replace("Pieces", "").Trim()) : 0;
+                weight = (!string.IsNullOrEmpty(matchW.Value.Trim()) ?  matchW.Value.Replace("Weight", "").Trim() : string.Empty);
+                dameType = (!string.IsNullOrEmpty(matchC.Value.Trim()) ? matchC.Value.Replace("Irregularity-", " ") : string.Empty);
+                detail = (!string.IsNullOrEmpty(matchZ.Value.Trim()) ? matchZ.Value.Replace("packages:", " ").Trim().TrimEnd(',') : string.Empty);
+                return (!string.IsNullOrEmpty(matchT.Value.Trim()) ? "P" + matchT.Value.Replace("Pieces", "").Trim() : string.Empty)
+                        + (!string.IsNullOrEmpty(matchW.Value.Trim()) ? "K" + matchW.Value.Replace("Weight", "").Trim() : string.Empty)
+                        + (!string.IsNullOrEmpty(hawb.Trim()) ? " OF H-" + hawb : string.Empty)
+                        + (!string.IsNullOrEmpty(matchC.Value.Trim()) ? matchC.Value.Replace("Irregularity-", " ") : string.Empty);
+            }
+            catch (Exception)
+            {
+
             }
 
             return string.Empty;

@@ -44,9 +44,9 @@ namespace Web.Portal.ControllerApi
                 {
                     invoice =  _iHermesInvoiceService.GetByInvoiceID(invoiceid);
 
-                    if(invoice == null)
+                    if(invoice.InvoiceIsn == null)
                     {
-                        return Request.CreateResponse(HttpStatusCode.OK, invoice);
+                        return Request.CreateResponse(HttpStatusCode.OK, (HermesInvoice)null);
                     }
                     else if (invoice.InvoiceIsn == null)
                     {

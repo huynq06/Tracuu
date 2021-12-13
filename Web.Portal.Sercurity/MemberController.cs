@@ -94,6 +94,7 @@ namespace Web.Portal.Sercurity
                     }
 
                 }
+                string checkRoles = formRequest["userRoles"];
                 if (!string.IsNullOrEmpty(formRequest["userRoles"]))
                     roles.AddUsersToRoles(new string[] { formRequest["userName"] }, formRequest["userRoles"].Trim().Split(','));
 

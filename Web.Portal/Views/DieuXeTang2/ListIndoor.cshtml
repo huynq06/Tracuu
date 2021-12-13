@@ -1,0 +1,178 @@
+﻿
+@{
+    Layout = null;
+    int rowIndex = 0;
+    IEnumerable<Web.Portal.Common.ViewModel.IssueViewModel> listIssue = (IEnumerable<Web.Portal.Common.ViewModel.IssueViewModel>)ViewData["listIssue"];
+}
+
+<div class="row">
+    <div class='col-md-12 col-xs-12 margin-top-10' style="align-items: center;text-align:center">
+        <label class='control-label' style="align-items: center;font-size:24px !important;font-weight:bold !important "><b><span style="color:red;font-size:24px;font-weight:bold">DANH SÁCH GỌI XE BÊN TRONG TẦNG 2</span></b></label>
+    </div>
+</div>
+@*<div class="row">
+        <div class='col-md-12 col-xs-12' style="align-items: center;text-align:center">
+            <label class='control-label' style="align-items: center;font-size:16px !important;"><b><span style="color:red;">(CHƯƠNG TRÌNH CHẠY THỬ NGHIỆM)</span></b></label>
+        </div>
+    </div>*@
+
+<table class="table table-bordered table-striped table-condensed flip-content" id="table_fixed2" style="margin-bottom:10px !important">
+    <thead class="flip-content">
+        <tr style="">
+            <th class="all" style="width:9% !important;font-size:24px;font-weight:bold;background-color:yellow !important;text-align:center">
+                STT
+            </th>
+            <th style="width:9% !important;font-size:24px;font-weight:bold;background-color:yellow !important;text-align:center">
+                BSX
+            </th>
+            <th style="width:9% !important;font-size:24px;font-weight:bold;background-color:yellow !important;text-align:center">
+                AWB
+            </th>
+            <th style="width:9% !important;font-size:24px;font-weight:bold;background-color:yellow !important;text-align:center">
+                LÁI XE
+            </th>
+            <th style="width:9% !important;font-size:24px;font-weight:bold;background-color:yellow !important;text-align:center">
+                THỜI GIAN VÀO
+            </th>
+        </tr>
+    </thead>
+</table>
+<div class="portlet-body flip-scroll" id="contain2">
+    <table class="table table-bordered table-striped table-condensed flip-content" id="table_scroll2">
+        <tbody>
+            @foreach (var row in (IList<Web.Portal.Model.Models.tblTicketStatus>)ViewData["listTruck"])
+            {
+                rowIndex += 1;
+
+                <tr>
+                    <td style="font-size:24px;width:3%;text-align:center;background-color:#ffffff !important;color:black">@rowIndex</td>
+                    <td data-ID="@Html.DisplayFor(model => row.TicketUID)" style="font-size:24px;width:10%;text-align:center;background-color:#ffffff !important;color:black">@Html.Raw(row.BienSoXe)</td>
+                    <td style="font-size:24px;width:10%;text-align:center;background-color:#ffffff !important;color:black">
+                        @Html.DisplayTextFor(model => row.Note)
+                    </td>
+                    <td style="font-size:24px;width:10%;text-align:center;background-color:#ffffff !important;color:black">
+                        @Html.DisplayTextFor(model => row.TrongTai)
+                    </td>
+                    <td style="font-size:24px;width:10%;text-align:center;background-color:#ffffff !important;color:black">
+                        @Html.Raw(row.ActionDateTime)
+                    </td>
+                </tr>
+
+            }
+            <tr style="height:60px">
+                @*<td style="width:3%;text-align:center;background-color:#525151 !important;color:white"></td>
+                <td data-ID="" style="width:10%;text-align:center;background-color:#525151 !important;color:white"></td>
+                <td style="width:10%;text-align:center;background-color:#525151 !important;color:white"></td>
+                <td style="width:10%;text-align:center;background-color:#525151 !important;color:white"></td>
+                <td style="width:10%;text-align:center;background-color:#525151 !important;color:white"></td>*@
+            </tr>
+            <tr style="height:60px">
+                @*<td style="width:3%;text-align:center;background-color:#525151 !important;color:white"></td>
+                <td data-ID="" style="width:10%;text-align:center;background-color:#525151 !important;color:white"></td>
+                <td style="width:10%;text-align:center;background-color:#525151 !important;color:white"></td>
+                <td style="width:10%;text-align:center;background-color:#525151 !important;color:white"></td>
+                <td style="width:10%;text-align:center;background-color:#525151 !important;color:white"></td>*@
+            </tr>
+            <tr style="height:60px">
+                @*<td style="width:3%;text-align:center;background-color:#525151 !important;color:white"></td>
+                <td data-ID="" style="width:10%;text-align:center;background-color:#525151 !important;color:white"></td>
+                <td style="width:10%;text-align:center;background-color:#525151 !important;color:white"></td>
+                <td style="width:10%;text-align:center;background-color:#525151 !important;color:white"></td>
+                <td style="width:10%;text-align:center;background-color:#525151 !important;color:white"></td>*@
+            </tr>
+        </tbody>
+
+    </table>
+    <p></p>
+    <p></p>
+    <style>
+        body {
+            font-family: 'helvetica';
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        #contain2 {
+            height: 250px;
+            overflow-y: scroll;
+              /*background-color:chartreuse*/
+        }
+
+        #table_scroll2 {
+            width: 100%;
+            margin-top: 250px;
+            /*margin-bottom: 400px;*/
+            border-collapse: collapse;
+        }
+
+            #table_scroll2 thead th {
+                padding-top: 10px;
+                padding-left: 10px;
+                background-color: #ea922c;
+                color: #fff;
+            }
+
+            #table_scroll2 tbody td {
+                padding-top: 10px;
+                font-weight: bold;
+                font-size: 18px;
+                color: black;
+            }
+    </style>
+    <script>
+        $(document).ready(function () {
+
+            pageScrollIndoor();
+
+            //$("#contain2").mouseover(function () {
+            //    clearTimeout(my_time);
+            //}).mouseout(function () {
+            //    pageScroll1();
+            //});
+
+            getWidthHeader('table_fixed2', 'table_scroll2');
+
+        });
+
+        var my_time;
+        var step = 1;
+        function pageScrollIndoor() {
+            var objDiv = document.getElementById("contain2");
+            objDiv.scrollTop = objDiv.scrollTop + step;
+            console.log(objDiv.scrollHeight)
+            console.log('objDiv.scrollTop',objDiv.scrollTop)
+            if (objDiv.scrollHeight - Math.floor((objDiv.scrollTop + 250)) <= 1) {
+                console.log('da chay vao day')
+                //objDiv.scrollTop = 0;
+                cfsAction.searchIndoor();
+               //cfsAction.search();
+            }
+
+            else {
+                my_time = setTimeout('pageScrollIndoor()', 50);
+            }
+
+        }
+
+        function getWidthHeader(id_header, id_scroll) {
+            var colCount = 0;
+            $('#' + id_scroll + ' tr:nth-child(1) td').each(function () {
+                if ($(this).attr('colspan')) {
+                    colCount += +$(this).attr('colspan');
+                } else {
+                    colCount++;
+                }
+            });
+
+            for (var i = 1; i <= colCount; i++) {
+                var th_width = $('#' + id_scroll + ' > tbody > tr:first-child > td:nth-child(' + i + ')').width();
+                $('#' + id_header + ' > thead th:nth-child(' + i + ')').css('width', th_width + 'px');
+            }
+        }
+    </script>
+</div>
+
+
+
+
+

@@ -119,6 +119,8 @@
     <Compile Include="BaseController.cs" />
     <Compile Include="BusinessReportController.cs" />
     <Compile Include="CallTruckController.cs" />
+    <Compile Include="CardManagementController.cs" />
+    <Compile Include="DieuXeTang2Controller.cs" />
     <Compile Include="CapSoController.cs" />
     <Compile Include="CargoSpecialController.cs" />
     <Compile Include="CheckGetInAlsxController.cs" />
@@ -158,6 +160,7 @@
     <Compile Include="IndoorController.cs" />
     <Compile Include="InOutController.cs" />
     <Compile Include="InvoiceController.cs" />
+    <Compile Include="IrrManagementController.cs" />
     <Compile Include="IssueController.cs" />
     <Compile Include="IssueManagementController.cs" />
     <Compile Include="KSCBController.cs" />

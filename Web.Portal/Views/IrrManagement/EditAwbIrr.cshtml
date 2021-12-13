@@ -1,0 +1,154 @@
+﻿
+@{
+    Layout = null;
+}
+@model Web.Portal.Model.Models.AwbIrr
+<style>
+    element.style {
+        width: 20px;
+    }
+
+    #ui-id-1 {
+        width: 100px;
+    }
+
+    .ui-autocomplete ui-front ui-menu ui-widget ui-widget-content {
+        width: 100px;
+    }
+
+    .ui-autocomplete {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        z-index: 10051;
+        float: left;
+        display: none;
+        min-width: 60px;
+        min-width: 80px;
+        padding: 4px 0;
+        margin: 0 0 10px 25px;
+        list-style: none;
+        background-color: #ffffff;
+        border-color: #ccc;
+        border-color: rgba(0, 0, 0, 0.2);
+        border-style: solid;
+        border-width: 1px;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        border-radius: 5px;
+        -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        -webkit-background-clip: padding-box;
+        -moz-background-clip: padding;
+        background-clip: padding-box;
+        *border-right-width: 2px;
+        *border-bottom-width: 2px;
+    }
+
+    .ui-menu-item > a.ui-corner-all {
+        display: block;
+        padding: 3px 15px;
+        clear: both;
+        font-weight: normal;
+        line-height: 18px;
+        color: #555555;
+        white-space: nowrap;
+        text-decoration: none;
+    }
+
+    .ui-state-hover, .ui-state-active {
+        color: #ffffff;
+        text-decoration: none;
+        background-color: #0088cc;
+        border-radius: 0px;
+        -webkit-border-radius: 0px;
+        -moz-border-radius: 0px;
+        background-image: none;
+    }
+</style>
+<div id="content-pxk">
+    <form class="form-horizontal" id="frmAwbIrrAction">
+        <input type="hidden" name="flightId" value="@ViewBag.FlightID" />
+        <input type="hidden" name="keyValue" value="@Html.DisplayFor(model=>model.ID)" />
+        <div class="form-body">
+            <div class="form-group form-md-line-input">
+                <label class="col-md-3 control-label" for="frmAction">
+                    <b>Số vận đơn:</b>
+                    <span class="required">*</span>
+                </label>
+                <div class="col-md-9">
+                    <input class="form-control form-control-inline input txtName" id="awb" placeholder="Nhập 4 số cuối..." maxlength="256"  name="awb" />
+                    <div class="form-control-focus"> </div>
+                </div>
+            </div>
+            
+        </div>
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-success" id="btnSave"><i class="fa fa-floppy-o"></i> Lưu thông tin</button>
+            <button type="reset" class="btn btn-success"><i class="fa fa-refresh"></i> Làm mới</button>
+        </div>
+        <!-- /.box-footer -->
+    </form>
+</div>
+<script>
+    $('.date-picker').datepicker({
+        rtl: App.isRTL(),
+        orientation: "left",
+        autoclose: true
+    });
+        var message = {};
+        var rule = {};
+        var id = @ViewBag.FlightID
+        egovutil.submit("#frmAwbIrrAction", rule, message, "/IrrManagement/SaveAwbIrr");
+        var awb = $('#awb').val();
+        console.log(awb);
+        var common = {
+            init: function () {
+                common.registerEvents();
+            },
+            registerEvents: function () {
+                var flightID = $('#txtFlightID').val();
+
+
+                $("#awb").autocomplete({
+                    minLength: 0,
+
+                    source: function (request, response) {
+                        if ($('#awb').val().length == 4) {
+                            var data = {
+                                Keyword: request.term,
+                                flightID: id
+                            }
+                            console.log(data);
+                            $.ajax({
+                                url: "/IrrManagement/GetListlagiByName",
+                                dataType: "json",
+                                data: {
+                                    dataViewModel: JSON.stringify(data)
+                                },
+                                success: function (res) {
+                                    response(res.data);
+                                }
+                            });
+                        }
+                    },
+                    focus: function (event, ui) {
+                        $("#awb").val(ui.item.label);
+                        return false;
+                    },
+                    select: function (event, ui) {
+                        $("#awb").val(ui.item.label);
+                        return false;
+                    }
+                }).autocomplete("instance")._renderItem = function (ul, item) {
+                    return $("<li style='float:left;width:50%;height:50px;color:red;list-style: none;border-bottom: 1px black;'>")
+            .append("<a style='height:200px'>" + item.label + "</a>")
+            .appendTo(ul);
+                };
+
+            }
+        }
+        common.init();
+</script>

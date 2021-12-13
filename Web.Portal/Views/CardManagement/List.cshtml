@@ -1,0 +1,150 @@
+﻿@{
+    Layout = null;
+    int rowIndex = 0;
+
+}
+<table id="tbl-user" class="table table-striped table-bordered table-advance table-hover">
+    <thead>
+        <tr>
+            <th style="width:5%">
+                STT
+            </th>
+            <th style="width:5%">
+            </th>
+            <th style="width:10%">
+                Tên nhân viên
+            </th>
+            <th style="width:10%">
+               Mã NV
+            </th>
+            <th style="width:10%">
+                Phòng ban
+            </th>
+            <th>
+                Chức vụ
+            </th>
+            <th style="width:10%">
+                Ngày bắt đầu
+            </th>
+            <th style="width:10%">
+                Ngày kết thúc
+            </th>
+            <th style="width:10%">
+               Số thẻ
+            </th>
+            <th style="width:10%">
+               Ngày cấp
+            </th>
+            <th style="width:10%">
+               Ngày hết hạn
+            </th>
+            <th style="width:10%">
+               Ngày thu hồi
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var row in (IList<Web.Portal.Common.ViewModel.UserCardViewModel>)ViewData["ListUserCard"])
+        {
+            rowIndex += 1;
+
+        <tr>
+            <td>@rowIndex</td>
+            <td>
+
+                <div class="btn-group">
+                    <button class="btn green btn-sm btn-outline  dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                        <i class="fa fa-angle-down"></i>
+                    </button>
+                    <ul class="dropdown-menu pull-right" style="left:0px">
+                        <li>
+                            <a href="javascript:;" data-id="@Html.DisplayFor(model => row.ID)" class="edit-user btn btn-xs" style="margin-right:45px !important">
+                                <i class="fa fa-pencil"></i> Sửa
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;" data-id="@Html.DisplayFor(model => row.ID)" class="inactive-user btn btn-xs" style="margin-right:45px !important">
+                                <i class="fa fa-pencil"></i> Nghỉ việc
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;" data-id="@Html.DisplayFor(model => row.UserCardIndex)" class="colection-ticket btn btn-xs" style="margin-right:45px !important">
+                                <i class="fa fa-pencil"></i> Thu hồi thẻ
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;" data-id="@Html.DisplayFor(model => row.ID)" data-cardID="@Html.DisplayFor(model=>row.UserCardIndex)" class="add-card btn btn-xs" style="margin-right:45px !important">
+                                <i class="fa fa-pencil"></i> Cấp phát thẻ
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;" data-id="@Html.DisplayFor(model => row.ID)" class="delete-hawb btn btn-xs" style="margin-right:45px !important">
+                                <i class="fa fa-trash"></i> Xóa
+                            </a>
+                        </li>
+                        @*<li>
+                        <a href="javascript:;" data-flight="@Html.DisplayFor(model => row.FlightID)" class="fast-asyn btn btn-xs" style="margin-right:45px !important">
+                            <i class="fa fa-recycle"></i> ĐỒNG BỘ TỪ HERMES
+                        </a>
+                    </li>*@
+                    </ul>
+                </div>
+            </td>
+
+            <td>
+                <a href="#" data-id="@Html.DisplayFor(model => row.ID)" class="btn  btn-xs sqs-member-edit">@Html.Raw(row.UserName)</a>
+            </td>
+            <td>
+                <a href="#" data-id="@Html.DisplayFor(model => row.ID)" class="btn  btn-xs sqs-member-edit">@Html.DisplayTextFor(model => row.UserID)</a>
+            </td>
+            <td>
+                <a href="#" data-id="@Html.DisplayFor(model => row.ID)" class="btn  btn-xs sqs-member-edit">@Html.Raw(row.OrganizationName)</a>
+            </td>
+            <td>
+                <a href="#" data-id="@Html.DisplayFor(model => row.ID)" class="btn  btn-xs sqs-member-edit">@Html.Raw(row.Title)</a>
+            </td>
+            <td>
+                <a href="#" data-id="@Html.DisplayFor(model => row.ID)" class="btn  btn-xs sqs-member-edit">@Html.Raw(row.StartDate.HasValue ? row.StartDate.Value.ToString("dd/MM/yyyy") : "")</a>
+            </td>
+            <td>
+                <a href="#" data-id="@Html.DisplayFor(model => row.ID)" class="btn  btn-xs sqs-member-edit">@Html.Raw(row.EndDate.HasValue ? row.EndDate.Value.ToString("dd/MM/yyyy") : "")</a>
+            </td>
+            <td>
+                <a href="#" data-id="@Html.DisplayFor(model => row.ID)" class="btn  btn-xs sqs-member-edit">@Html.Raw(row.UserCardID)</a>
+            </td>
+            <td>
+                <a href="#" data-id="@Html.DisplayFor(model => row.ID)" class="btn  btn-xs sqs-member-edit">@Html.Raw(row.StartCardDate.HasValue ? row.StartCardDate.Value.ToString("dd/MM/yyyy") : "")</a>
+            </td>
+            <td>
+                <a href="#" data-id="@Html.DisplayFor(model => row.ID)" class="btn  btn-xs sqs-member-edit">@Html.Raw(row.ExpiredDate.HasValue ? row.ExpiredDate.Value.ToString("dd/MM/yyyy") : "")</a>
+            </td>
+            <td>
+                <a href="#" data-id="@Html.DisplayFor(model => row.ID)" class="btn  btn-xs sqs-member-edit">@Html.Raw(row.ColectionDate.HasValue ? row.ColectionDate.Value.ToString("dd/MM/yyyy") : "")</a>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+
+
+
+
+<script>
+
+
+    $(".edit-hawb").click(function () {
+        egovutil.dialog("SƯA THÔNG TIN", "large", "/phanca/edit/" + $(this).attr("data-id"), "hermesAction.search();");
+    });
+    $(".add-card").click(function () {
+        egovutil.dialog("CẤP PHÁT THẺ", "large", "/CardManagement/EditAllocation?id=" + $(this).attr("data-id") + "&cardID=" + $(this).attr("data-cardID"), "hermesAction.search();");
+    });
+    $(".delete-hawb").click(function () {
+        egovutil.dlgConfirmAction("XÓA  ", "Bạn có muốn xóa bản ghi?", "/phanca/delete/" + $(this).attr("data-id"), "hermesAction.search();");
+    });
+
+    egovutil.CreateTableSort("#tbl-user", [[0, "asc"]], [
+
+                { "orderable": false, "targets": 0 }
+    ], true);
+</script>

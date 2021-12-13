@@ -1,0 +1,46 @@
+﻿
+@{
+    Layout = null;
+    int PageCurrent = 0;
+    string[] columns = (string[])ViewData["column"];
+    System.Data.DataTable tableReport = ((System.Data.DataTable)ViewData["DataList"]);
+
+}
+<p style="text-align:center;font-family:'Times New Roman';font-size:15pt;font-weight:bold;text-transform:uppercase">
+    @ViewBag.TitleReport
+</p>
+<div class='col-md-2 col-xs-12 margin-top-10'>
+    <label class='control-label'><b>Tổng số: @ViewBag.TotalRecord</b></label>
+</div>
+
+
+<table border="1" id="tbl-report">
+    <thead>
+        <tr>
+            <th class="all" style="width:3%"></th>
+            @foreach (var item in columns)
+            {
+                <th style="width:15%">@Html.DisplayTextFor(model => item) </th>
+
+            }
+
+        </tr>
+    </thead>
+    <tbody>
+        @for (int i = 0; i < tableReport.Rows.Count; i++)
+        {
+            PageCurrent += 1;
+
+            <tr>
+                <td>@PageCurrent</td>
+                @foreach (var rs in columns)
+                {
+                    <td>@Html.Raw(tableReport.Rows[i][rs])</td>
+                }
+
+
+            </tr>
+        }
+    </tbody>
+
+</table>

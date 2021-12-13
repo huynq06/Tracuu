@@ -84,6 +84,53 @@ namespace Web.Portal.Controller
             }
 
         }
+        public ActionResult List2()
+        {
+            try
+            {
+                var modelIssueDetail = _iVctService.GetAllToday(0).ToList();
+
+
+                if (modelIssueDetail.Count > 0)
+                {
+                    List<IssueViewModel> listIssue = (from iss in modelIssueDetail
+
+                                                      select new IssueViewModel
+                                                      {
+                                                          IssueID = iss.ID,
+                                                          AWB = iss.LABS_AWB,
+                                                          Quantity = iss.LABS_QUANTITY_BOOKED.ToString(),
+                                                          Weight = iss.LABS_WEIGHT_BOOKED.ToString(),
+                                                          Booking = iss.BOOKING_FLIGHT,
+                                                          CreatedDate = iss.LABS_CREATED_AT.Value,
+                                                          Sort_Value = iss.SortValue.Value,
+                                                          FlightType = iss.CargoType,
+                                                          TimeTransition = iss.LABS_DIM_AT.HasValue ? iss.LABS_DIM_AT : null,
+                                                          TimeSpan = iss.CutOffTime.HasValue ? (int)Math.Round((iss.CutOffTime.Value - DateTime.Now).TotalMinutes, 0) : 10000,
+                                                          TimeSpanToCutOffTIme = iss.CutOffTime.HasValue ? IssueViewModel.FomatDateTime((int)Math.Round((iss.CutOffTime.Value - DateTime.Now).TotalMinutes, 0)) : string.Empty,
+                                                          Minute = iss.CutOffTime.HasValue ? (int)Math.Round((iss.CutOffTime.Value - DateTime.Now).TotalMinutes, 0) : 100000
+                                                      }).ToList();
+                    var listResult = listIssue.ToList().OrderByDescending(p => p.Sort_Value).ThenBy(x => x.CreatedDate).ToList();
+                    ViewData["listIssue"] = listResult;
+                    ViewBag.TotalRecord = listIssue.ToList().Count;
+                }
+                else
+                {
+                    List<IssueViewModel> listIssue = new List<IssueViewModel>();
+                    ViewData["listIssue"] = listIssue.ToList();
+                }
+                return View();
+            }
+            catch (Exception ex)
+            {
+
+
+                List<IssueViewModel> listIssue = new List<IssueViewModel>();
+                ViewData["listIssue"] = listIssue.ToList();
+                return View();
+            }
+
+        }
         public ActionResult Processing()
         {
             return View();

@@ -37,11 +37,28 @@ namespace Web.Portal.DataAccess
         private FindAwbAwbExportViewModel GetFindAwb(OracleDataReader reader)
         {
             FindAwbAwbExportViewModel objExpAWB = new FindAwbAwbExportViewModel();
-            objExpAWB.Quantity = Convert.ToString(GetValueField(reader, "QUANTITY", string.Empty));
-            objExpAWB.Weight = Convert.ToString(GetValueField(reader, "Weight", string.Empty));
+            objExpAWB.AWB = Convert.ToString(GetValueField(reader, "PREFIX", string.Empty)) + "-" + Convert.ToString(GetValueField(reader, "SERIAL", string.Empty));
+            objExpAWB.Quantity = Convert.ToInt32(GetValueField(reader, "QUANTITY", 0));
+            objExpAWB.Weight = Convert.ToDouble(GetValueField(reader, "Weight", 0));
             objExpAWB.Dest = Convert.ToString(GetValueField(reader, "Dest", string.Empty));
             objExpAWB.Position = Convert.ToString(GetValueField(reader, "RACK", string.Empty));
-            objExpAWB.Quantity = Convert.ToString(GetValueField(reader, "QUANTITY", string.Empty));
+            int quantiManifest = Convert.ToInt32(GetValueField(reader, "QTY_MANIF", 0));
+            objExpAWB.RemainQuantity = objExpAWB.Quantity - Convert.ToInt32(GetValueField(reader, "DEPARTED_PIECES", 0));
+            objExpAWB.RemainWeigth = objExpAWB.Weight - Convert.ToDouble(GetValueField(reader, "DEPARTED_WEIGHT", 0));
+            //if (quantiManifest <= objExpAWB.Quantity)
+            //{
+            //    objExpAWB.RemainQuantity = objExpAWB.Quantity - Convert.ToInt32(GetValueField(reader, "QTY_MANIF", 0));
+            //    objExpAWB.RemainWeigth = objExpAWB.Weight - Convert.ToDouble(GetValueField(reader, "WEIGHT_MANIF", 0));
+            //}
+            //else
+            //{
+            //    double result = quantiManifest / objExpAWB.Quantity;
+            //    int a = (int)Math.Ceiling(result);
+            //    objExpAWB.RemainQuantity = objExpAWB.Quantity * a - quantiManifest;
+            //    objExpAWB.RemainWeigth = objExpAWB.Weight* a - Convert.ToDouble(GetValueField(reader, "WEIGHT_MANIF", 0));
+            //}
+        
+            objExpAWB.Booking = Convert.ToString(GetValueField(reader, "BOOKING", string.Empty));
 
             return objExpAWB;
         }
@@ -49,9 +66,37 @@ namespace Web.Portal.DataAccess
         {
             string sql = " select labs.labs_quantity_del QUANTITY,labs.labs_weight_del WEIGHT,labs.labs_destination DEST, "+
                 "sslp.sslp_rack_row RACK from labs "+
- "join locs_locations locs on labs.labs_ident_no = locs.locs_object_isn "+
+                 "left join awbu_awbperuld_list awbu "+
+         "on awbu.awbu_mawb_ident_no = labs.labs_ident_no "+
+         "and awbu.awbu_object_type = 'EXPORT AWB' "+
+ "join locs_locations locs on labs.labs_ident_no = locs.locs_object_isn " +
  "join han_w1_hl.sslp_physical_locations sslp  on locs.locs_physical_isn = sslp.sslp_physical_isn "+
  "where labs.labs_ident_no = '" + id + "'";
+            List<FindAwbAwbExportViewModel> listawb = new List<FindAwbAwbExportViewModel>();
+            using (OracleDataReader reader = GetScriptOracleDataReader(sql))
+            {
+                while (reader.Read())
+                {
+                    listawb.Add(GetFindAwb(reader));
+
+                }
+            }
+            return listawb;
+        }
+        public List<FindAwbAwbExportViewModel> GetDetailAwb(string id)
+        {
+            string sql = " select labs.labs_mawb_prefix PREFIX,labs_mawb_serial_no SERIAL, labs.labs_quantity_booked QUANTITY,labs.labs_weight_booked WEIGHT,labs.labs_destination DEST, " +
+                "sslp.sslp_rack_row RACK, " +
+               "(select sum(awbu.awbu_pieces) from awbu_awbperuld_list awbu where awbu.awbu_mawb_ident_no = labs.labs_ident_no and awbu.awbu_object_type = 'EXPORT AWB') DEPARTED_PIECES," +
+   "(select sum(awbu.awbu_weight) from awbu_awbperuld_list awbu where awbu.awbu_mawb_ident_no = labs.labs_ident_no and awbu.awbu_object_type = 'EXPORT AWB') DEPARTED_WEIGHT " +
+                "from labs " +
+                    "left join awbu_awbperuld_list awbu " +
+         "on awbu.awbu_mawb_ident_no = labs.labs_ident_no " +
+         "and awbu.awbu_object_type = 'EXPORT AWB' " +
+                 "join locs_locations locs on labs.labs_ident_no = locs.locs_object_isn " +
+ "join han_w1_hl.sslp_physical_locations sslp  on locs.locs_physical_isn = sslp.sslp_physical_isn " +
+ "where labs.labs_deleted = 0 and labs.labs_ident_no = '" + id + "'";
+     
             List<FindAwbAwbExportViewModel> listawb = new List<FindAwbAwbExportViewModel>();
             using (OracleDataReader reader = GetScriptOracleDataReader(sql))
             {

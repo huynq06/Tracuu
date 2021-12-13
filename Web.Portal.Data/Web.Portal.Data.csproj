@@ -91,6 +91,8 @@
     <Compile Include="Repositories\ALSC_H5_ERP_ZINT_CHECKRepository.cs" />
     <Compile Include="Repositories\ALSC_VCT_TO_DLV_BY_XMLRepository.cs" />
     <Compile Include="Repositories\AWBByULDRepository.cs" />
+    <Compile Include="Repositories\AwbIrrRepository.cs" />
+    <Compile Include="Repositories\AwbLogRepository.cs" />
     <Compile Include="Repositories\CallTruckRepository.cs" />
     <Compile Include="Repositories\CARGO_INOUTRepository.cs" />
     <Compile Include="Repositories\Cargo_KVGSRepository.cs" />
@@ -101,12 +103,15 @@
     <Compile Include="Repositories\ErrorRepository.cs" />
     <Compile Include="Repositories\EXP_AWBRepository.cs" />
     <Compile Include="Repositories\FlightConfigRepository.cs" />
+    <Compile Include="Repositories\FlightFavouriteRepository.cs" />
     <Compile Include="Repositories\FLightFlupRepository.cs" />
+    <Compile Include="Repositories\FlightIrrRepository.cs" />
     <Compile Include="Repositories\FlightRepository.cs" />
     <Compile Include="Repositories\FlightServiceConfigRepository.cs" />
     <Compile Include="Repositories\FLUPRepository.cs" />
     <Compile Include="Repositories\FormRepository.cs" />
     <Compile Include="Repositories\HawbInAwbRepository.cs" />
+    <Compile Include="Repositories\HawbIrrRepository.cs" />
     <Compile Include="Repositories\HawbManagementRepository.cs" />
     <Compile Include="Repositories\HermesInvoiceDetailRepository.cs" />
     <Compile Include="Repositories\HermesInvoiceRepository.cs" />
@@ -122,6 +127,9 @@
     <Compile Include="Repositories\LocationConfigRepository.cs" />
     <Compile Include="Repositories\LocationRepository.cs" />
     <Compile Include="Repositories\NotifyAWBRepository.cs" />
+    <Compile Include="Repositories\OrderLagiDetailRepository.cs" />
+    <Compile Include="Repositories\OrderLagiRepository.cs" />
+    <Compile Include="Repositories\OrganizationRepository.cs" />
     <Compile Include="Repositories\PrintConfigRepository.cs" />
     <Compile Include="Repositories\PrintRepository.cs" />
     <Compile Include="Repositories\PXKRepository.cs" />
@@ -135,6 +143,8 @@
     <Compile Include="Repositories\TruckAwbRepository.cs" />
     <Compile Include="Repositories\ULDByFlightRepository.cs" />
     <Compile Include="Repositories\ULD_TYPERepository.cs" />
+    <Compile Include="Repositories\UserCardRepository.cs" />
+    <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="Repositories\VCTRepository.cs" />
     <Compile Include="Repositories\Vhld_vehicledetailRepository.cs" />
   </ItemGroup>

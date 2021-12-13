@@ -1,0 +1,73 @@
+﻿@{
+    Layout = null;
+
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet">
+            <div class="portlet-title">
+                <div class="caption caption-md">
+                    <span class="caption-subject font-blue-madison bold uppercase">QUẢN LÝ BẤT THƯỜNG</span>
+                </div>
+                <div class="actions">
+                    <a href="javascript:;" class="btn btn-primary btn-add-item">
+                        <i class="fa fa-plus"></i> Thêm mới
+                    </a>
+                    @*<a href="javascript:;" class="btn btn-success btn-import">
+                        <i class="fa fa-plus"></i> Import
+                    </a>*@
+                </div>
+            </div>
+            <div class="portlet-body">
+
+
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row" style="float:left; margin:10px 0 10px 0;">
+                <div class="col-md-4 col-xs-3">
+                    <input class="form-control form-control-inline input txtName" placeholder="SỐ HIỆU CB" maxlength="256" id="flightNo" />
+                    <div class="form-control-focus"> </div>
+                </div>
+                <div class="col-md-2 col-xs-12">
+                    <div class="input-group">
+
+                        <input class="form-control form-control-inline date-picker" value="@Html.Raw(DateTime.Now.ToString("dd/MM/yyyy"))" id="ata" placeholder="Từ ngày" maxlength="20" data-date-format="dd/mm/yyyy" />
+                        <div class="form-control-focus"> </div>
+                        <span class="input-group-btn">
+                            <button id="btn-search-sita" class="btn btn-success" type="button"><i class="fa fa-search"></i></button>
+                        </span>
+
+
+                    </div>
+
+
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div id="content-list-result">
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<script>
+    var hermesAction = {
+        search: function () {
+            egovutil.getContent("#content-list-result", "/irrManagement/list?flightNo=" + $("#flightNo").val()
+                                                                    + "&ata=" + $("#ata").val());
+        }
+    }
+    $("#btn-search-sita").click(function () { hermesAction.search(); })
+    hermesAction.search();
+    $(".btn-add-item").click(function () {
+        egovutil.dialog("THÊM MỚI CHUYẾN BAY", "large", "/irrManagement/edit/", "hermesAction.search()");
+    });
+    $('.date-picker').datepicker({
+        rtl: App.isRTL(),
+        orientation: "left",
+        autoclose: true
+    });
+</script>

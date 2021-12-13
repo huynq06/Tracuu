@@ -827,8 +827,8 @@ namespace Web.Portal.Controller
                 QRCode qrCode = new QRCode(data);
 
                 System.Web.UI.WebControls.Image imgBarCode = new System.Web.UI.WebControls.Image();
-                imgBarCode.Height = 50;
-                imgBarCode.Width = 50;
+                imgBarCode.Height = 100;
+                imgBarCode.Width = 100;
                 using (Bitmap bitMap = qrCode.GetGraphic(5))
                 {
                     using (MemoryStream ms = new MemoryStream())

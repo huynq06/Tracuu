@@ -105,7 +105,7 @@ namespace Web.Portal.DataAccess
   "sum(iawbd.group_weight_received) as WEIGHT_PER_FLIGHT " +
 "FROM REPORT.ALSC_IMP_AWB_GROUP_DETAILS iawbd " +
 "JOIN flui on flui.flui_internal_number = iawbd.flight_id " +
-"WHERE iawbd.id in (select lagi.lagi_ident_no from lagi where lagi.lagi_ident_no = '" + lagi_ident + "') " +
+"WHERE iawbd.id in (select lagi.lagi_ident_no from lagi where lagi.lagi_ident_no = '" + lagi_ident + "' or lagi.lagi_master_ident_no =  '" + lagi_ident + "') " +
 "GROUP BY " +
   "iawbd.flight_no, " +
   "iawbd.ata_date, " +

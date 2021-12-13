@@ -17,6 +17,7 @@ namespace Web.Portal.Service
         IEnumerable<tblDangKyGoiXe> GetVihicle(DateTime? fda,DateTime? tda,int location);
         List<tblDangKyGoiXe> GetListTruckAllow(int count);
         tblDangKyGoiXe GetByBSX(string BSX,DateTime? dateCheck,DateTime? createDate,DateTime? ScanDate,int type);
+        tblDangKyGoiXe GetByBSXNewest(string BSX);
         List<tblDangKyGoiXe> GetListTruckLimit(int count);
         List<tblDangKyGoiXe> GetListTruckFloor1(int count);
         List<tblDangKyGoiXe> GetListTruckFloorToCheck();
@@ -89,6 +90,11 @@ namespace Web.Portal.Service
             
 
             return xe;
+        }
+
+        public tblDangKyGoiXe GetByBSXNewest(string BSX)
+        {
+            return _dkgxRepository.GetMulti(c => c.ThoiGianDangKy.Value.Day == DateTime.Now.Day && c.ThoiGianDangKy.Value.Month == DateTime.Now.Month && c.ThoiGianDangKy.Value.Year == DateTime.Now.Year && c.BienSoXe == BSX).OrderByDescending(c => c.GioGoi).FirstOrDefault();
         }
 
         public IEnumerable<tblDangKyGoiXe> GetByDate(DateTime? dt)
