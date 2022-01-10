@@ -7903,6 +7903,8 @@
     <Content Include="Views\FindUld\List.cshtml" />
     <Content Include="Views\KSULD\Print.cshtml" />
     <Content Include="Views\KSULD\PrintByFlight.cshtml" />
+    <Content Include="Views\CallTruck\ScanInOutV2.cshtml" />
+    <Content Include="Views\CallTruck\ScanInOutExportV2.cshtml" />
     <None Include="Web References\com.cmcsoft.hoadon\DefaultService.disco" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
