@@ -19,6 +19,7 @@ namespace Web.Portal.Data
         public DbSet<FLightFlup> FLightFlups { set; get; }
         public DbSet<VCT> VCTs { set; get; }
         public DbSet<AwbLog> AwbLogs { set; get; }
+        public DbSet<UldLog> UldLogs { set; get; }
         public DbSet<Issue> Errors { set; get; }
         public DbSet<Condition> Conditions { set; get; }
         public DbSet<form> Forms { set; get; }
@@ -27,6 +28,7 @@ namespace Web.Portal.Data
         public DbSet<User> Users { set; get; }
         public DbSet<UserCard> UserCards { set; get; }
         public DbSet<Organization> Organizations { set; get; }
+        public DbSet<LabsFavourite> LabsFavourites { set; get; }
 
         public static CMSDbContext Create()
         {

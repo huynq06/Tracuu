@@ -139,9 +139,14 @@
         autoclose: true
     });
     $(".btn-export-log").click(function () {
-        window.location.href = "/HawbManagement/export?fno=" + $("#fno").val()
-                                                                    + "&ata=" + $("#ata").val()
+        window.location.href = "/AwbDetail/Export?awb=" + $("#awb").val()
+                    + "&hawb=" + $("#hawb").val() + "&vct=" + $("#vct").val() + "&pxk=" + $("#pxk").val() + "&sdd=" + $("#sdd").val() + "&stk=" + $("#stk").val()
+                                                                    
     });
+    //$(".btn-export-log").click(function () {
+    //    window.location.href = "/HawbManagement/export?fno=" + $("#fno").val()
+    //                                                                + "&ata=" + $("#ata").val()
+    //});
 
     $("#advance-search").click(function () {
         $("#search-pxk").toggle();

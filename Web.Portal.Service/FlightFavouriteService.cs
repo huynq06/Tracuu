@@ -11,7 +11,7 @@ namespace Web.Portal.Service
 {
     public interface IFlightFavouriteService
     {
-        IEnumerable<FlightFavourite> GetAll(Guid userId);
+        IEnumerable<FlightFavourite> GetAll(Guid userId,string type);
         FlightFavourite GetById(int id);
         FlightFavourite GetByFlightId(string flightId);
         void Update(FlightFavourite flight);
@@ -38,9 +38,9 @@ namespace Web.Portal.Service
             _flightRepository.Delete(id);
         }
 
-        public IEnumerable<FlightFavourite> GetAll(Guid userId)
+        public IEnumerable<FlightFavourite> GetAll(Guid userId,string type)
         {
-            return _flightRepository.GetMulti(c => c.UserID == userId && c.FlightActive==true);
+            return _flightRepository.GetMulti(c => c.UserID == userId && c.FlightActive==true && c.Description==type);
         }
 
         public FlightFavourite GetByFlightId(string flightId)

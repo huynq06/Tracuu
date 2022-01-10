@@ -109,15 +109,20 @@
                                     </a>
                                 </li>
                                 <li>
+                                    <a title="PHÊ DUYỆT HÓA ĐƠN" class="einvoice_appr btn btn-xs @Html.Raw(row.InvoiceStatus==4? "" : "disabled")" data-id="@Html.DisplayFor(model => row.InvoiceIsn)">
+                                        <i class="fa fa-check">Phê duyệt HĐ</i>
+                                    </a>
+                                </li>
+                                <li>
                                     <a title="Edit" class="einvoice_edit btn btn-xs @Html.Raw((row.InvoiceStatus!=0) ? "disabled" : "")" data-id="@Html.DisplayFor(model => row.InvoiceIsn)">
                                         <i class="fa fa-edit">SỬA</i>
                                     </a>
                                 </li>
-                                <li>
+                                @*<li>
                                     <a title="Cancel" class="einvoice_cancel btn btn-xs" data-id="@Html.DisplayFor(model => row.InvoiceIsn)">
                                         <i class="fa fa-trash">HỦY</i>
                                     </a>
-                                </li>
+                                </li>*@
                                 <li>
                                     <a title="Edit" class="einvoice_print btn btn-xs  @Html.Raw(row.InvoiceStatus==1 ? "disabled" : "")" data-id="@Html.DisplayFor(model => row.InvoiceIsn)">
                                         <i class="fa fa-print">IN LẠI</i>
@@ -192,6 +197,9 @@
         });
         $(".einvoice_replace").click(function () {
             egovutil.dialog("XUẤT LẠI HÓA ĐƠN", "large", "/einvoice/Replace?invoiceIsn=" + $(this).data('id'), "invoiceAction.search()");
+        });
+        $(".einvoice_appr").click(function () {
+            egovutil.dlgConfirmAction("PHÊ DUYỆT HÓA ĐƠN", "BẠN CÓ MUỐN PHÊ DUYỆT HÓA ĐƠN NÀY? ", "/einvoice/ApprInvoice?invoiceIsn=" + $(this).data('id'), "invoiceAction.search()");
         });
         $(".btn-doc").click(function () {
             window.open("/einvoice/OpenDoc?link=" + $(this).data('doc') + "&invoiceins=" + $(this).data('id'));

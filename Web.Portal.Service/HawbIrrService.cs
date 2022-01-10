@@ -15,7 +15,7 @@ namespace Web.Portal.Service
         IEnumerable<HawbIrr> GetbyAwbId(string awbId);
         IEnumerable<HawbIrr> GetbyAwbIdAndFlightId(string awbId,string flightId);
         IEnumerable<HawbIrr> GetbyAwb(string prefix,string awb);
-        IEnumerable<HawbIrr> GetbyHawbName(string hawb,string awbId);
+        IEnumerable<HawbIrr> GetbyHawbName(string hawb,string awbId,string flightId);
         HawbIrr GetById(int id);
         HawbIrr GetSingleByID(string hawbId);
         void Delete(int id);
@@ -58,9 +58,9 @@ namespace Web.Portal.Service
             return _hawbRepository.GetMulti(c => c.AwbId == awbId && c.FlightID==flightId);
         }
 
-        public IEnumerable<HawbIrr> GetbyHawbName(string hawb,string awbId)
+        public IEnumerable<HawbIrr> GetbyHawbName(string hawb,string awbId,string flightId)
         {
-            return _hawbRepository.GetMulti(c => c.Hawb == hawb.Trim()&& c.IrrPices > 0 && c.AwbId==awbId);
+            return _hawbRepository.GetMulti(c => c.Hawb == hawb.Trim()&& c.IrrPices > 0 && c.AwbId==awbId && c.FlightID==flightId);
         }
 
         public HawbIrr GetById(int id)

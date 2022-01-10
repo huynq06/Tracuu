@@ -12,6 +12,7 @@ namespace Web.Portal.Service
     public interface IFlightService
     {
         IEnumerable<Flight> GetAll();
+        IEnumerable<Flight> GetOpen();
         IEnumerable<Flight> GetAllByDate(DateTime frmDate,DateTime toDate);
         Flight GetById(Guid id);
         Flight GetSingleByID(int id);
@@ -42,6 +43,11 @@ namespace Web.Portal.Service
         public Flight GetById(Guid id)
         {
             return _flightRepository.GetSingleByCondition(c => c.FlightID == id);
+        }
+
+        public IEnumerable<Flight> GetOpen()
+        {
+            return _flightRepository.GetMulti(c => c.Status == false);
         }
 
         public Flight GetSingleByID(int id)

@@ -17,13 +17,15 @@ namespace Web.Portal.DataAccess
             UldByFlightViewModel uld = new UldByFlightViewModel();
 
             uld.Name = Convert.ToString(GetValueField(reader, "ULD", string.Empty));
-            uld.TotalAwb = Convert.ToInt32(GetValueField(reader, "AWB_COUNT", 0));
+            uld.TotalAwb = Convert.ToInt32(GetValueField(reader, "ULD_ID", 0));
+            uld.ULD_INS = Convert.ToString(GetValueField(reader, "ULD", string.Empty));
             return uld;
         }
         public List<UldByFlightViewModel> GetULDByFlight(Flight flight)
         {
             string sql = "SELECT DISTINCT " +
             "palo.palo_type || palo.palo_serial_no_ || palo.palo_owner as ULD, " +
+               "awbu.awbu_uld_isn ULD_ID," +
             "count(awbu.awbu_mawb_serial_no) as AWB_COUNT " +
             "FROM flui flui " +
             "JOIN PALO palo " +
@@ -40,7 +42,7 @@ namespace Web.Portal.DataAccess
             "AND flui.flui_al_2_3_letter_code || flui.flui_flight_no = '" + flight.FlightNumber + "' " +
              " AND flui.flui_schedule_date =" + flight.FLUI_SCHEDULE_DATE +
              " AND flui.flui_schedule_time = " + flight.FLUI_SCHEDULE_TIME +
-            "GROUP BY palo.palo_type || palo.palo_serial_no_ || palo.palo_owner";
+            "GROUP BY palo.palo_type || palo.palo_serial_no_ || palo.palo_owner,awbu.awbu_uld_isn";
             List<UldByFlightViewModel> ulds = new List<UldByFlightViewModel>();
             using (OracleDataReader reader = GetScriptOracleDataReader(sql))
             {

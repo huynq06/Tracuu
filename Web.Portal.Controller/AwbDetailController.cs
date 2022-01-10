@@ -92,7 +92,7 @@ namespace Web.Portal.Controller
                 Vhld_vehicledetail vhld = _vhldService.GetByVCTNumber(vct);
                 awb = vhld.VHLD_AWBPREFIX + vhld.VHLD_AWBSERIAL;
             }
-         
+
 
             if (!string.IsNullOrEmpty(pxk))
             {
@@ -104,12 +104,12 @@ namespace Web.Portal.Controller
             if (!string.IsNullOrEmpty(sdd))
             {
                 List<Cargo_KVGS> listKvgs = _cargoService.GetListCargo_KVGSBySDD(sdd).ToList();
-                if(listKvgs.Count >0)
+                if (listKvgs.Count > 0)
                 {
                     awb = listKvgs[0].EQ_MASTERBILLOFLADING;
                     hawb = listKvgs[0].EQ_HOUSEBILLOFLADING;
                 }
-               
+
             }
             if (!string.IsNullOrEmpty(stk))
             {
@@ -128,7 +128,7 @@ namespace Web.Portal.Controller
             if (awb != "ALL")
             {
                 listAwb = new AwbDetailAccess().GetAwbDetail(awb, "ALL");
-                if(listAwb.Count ==0)
+                if (listAwb.Count == 0)
                 {
                     ViewBag.Total = listAwb.Count;
 
@@ -171,7 +171,7 @@ namespace Web.Portal.Controller
                             item.Status = 3;
                         }
                     }
-              
+
 
                 }
                 AwbDetailViewModel adv = listAwb.Single(c => string.IsNullOrEmpty(c.Hawb.Trim()));
@@ -195,13 +195,138 @@ namespace Web.Portal.Controller
                 {
                     listAwb = listAwb.Where(c => c.Hawb == hawb).ToList();
                 }
-             
+
             }
             ViewBag.Total = listAwb.Count;
 
             ViewData["listAwb"] = listAwb;
             return View();
         }
+        [DocumentExport("EXCEL", "TLN_")]
+        public ActionResult Export()
+        {
+            string awb = string.IsNullOrEmpty(Request["awb"]) ? "ALL" : Request["awb"].Replace("-", "").Trim();
+            string hawb = string.IsNullOrEmpty(Request["hawb"]) ? "ALL" : Request["hawb"].Trim();
+            string vct = string.IsNullOrEmpty(Request["vct"]) ? string.Empty : Request["vct"].Trim();
+            string pxk = string.IsNullOrEmpty(Request["pxk"]) ? string.Empty : Request["pxk"].Trim();
+            string sdd = string.IsNullOrEmpty(Request["sdd"]) ? string.Empty : Request["sdd"].Trim();
+            string stk = string.IsNullOrEmpty(Request["stk"]) ? string.Empty : Request["stk"].Trim();
+            if (!string.IsNullOrEmpty(vct))
+            {
+                Vhld_vehicledetail vhld = _vhldService.GetByVCTNumber(vct);
+                awb = vhld.VHLD_AWBPREFIX + vhld.VHLD_AWBSERIAL;
+            }
+
+
+            if (!string.IsNullOrEmpty(pxk))
+            {
+                string result = new VCTAccess().GetAwbByPXK(pxk.Trim());
+                string[] dataResult = result.Split(';');
+                awb = dataResult[2];
+                hawb = dataResult[3];
+            }
+            if (!string.IsNullOrEmpty(sdd))
+            {
+                List<Cargo_KVGS> listKvgs = _cargoService.GetListCargo_KVGSBySDD(sdd).ToList();
+                if (listKvgs.Count > 0)
+                {
+                    awb = listKvgs[0].EQ_MASTERBILLOFLADING;
+                    hawb = listKvgs[0].EQ_HOUSEBILLOFLADING;
+                }
+
+            }
+            if (!string.IsNullOrEmpty(stk))
+            {
+                List<Cargo_KVGS> listKvgs = _cargoService.GetListCargo_KVGSBySDD(stk).ToList();
+                if (listKvgs.Count > 0)
+                {
+                    awb = listKvgs[0].EQ_MASTERBILLOFLADING;
+                    hawb = listKvgs[0].EQ_HOUSEBILLOFLADING;
+                }
+            }
+            List<AwbDetailViewModel> listAwb = new List<AwbDetailViewModel>();
+            ViewBag.CheckMaster = false;
+            ViewBag.ChechHawb = true;
+            //if(string.IsNullOrEmpty(sdd))
+            // //  List<Lagi> listLagi = _lagiService.GetByMawb(awb,);
+            if (awb != "ALL")
+            {
+                listAwb = new AwbDetailAccess().GetAwbDetail(awb, "ALL");
+                if (listAwb.Count == 0)
+                {
+                    ViewBag.Total = listAwb.Count;
+
+                    ViewData["listAwb"] = listAwb;
+                    return View();
+                }
+                else
+                {
+                    foreach (var item in listAwb)
+                    {
+                        if (listAwb.Count == 1)
+                        {
+                            item.ChecHawb = true;
+                        }
+                        else
+                        {
+                            if (item.Lagi_Master_Identity != "0")
+                            {
+                                item.ChecHawb = true;
+                            }
+                            else
+                            {
+                                item.ChecHawb = false;
+                            }
+                        }
+                        if (item.Pieces_Received == 0)
+                        {
+                            item.Status = 0;
+                        }
+                        else if (item.Pieces_Received < item.Pieces_Expected)
+                        {
+                            item.Status = 1;
+                        }
+                        else if (item.Pieces_Received == item.Pieces_Expected && item.Pieces_Delivered < item.Pieces_Expected)
+                        {
+                            item.Status = 2;
+                        }
+                        else
+                        {
+                            item.Status = 3;
+                        }
+                    }
+
+
+                }
+                AwbDetailViewModel adv = listAwb.Single(c => string.IsNullOrEmpty(c.Hawb.Trim()));
+                Session["Consignee"] = adv.Consignee;
+                Session["ConsigneeAdd"] = adv.ConsigneeAdd;
+                //foreach (var item in listLagi)
+                //{
+                //    AwbDetailViewModel awbViewModel = new AwbDetailViewModel();
+                //    awbViewModel = new AwbDetailAccess().GetAwbDetailByLagiIdentity(item.LAGI_IDENT_NO);
+                //    listAwb.Add(awbViewModel);
+                //}
+                if (listAwb.Count > 1)
+                {
+                    ViewBag.CheckMaster = true;
+                }
+                else
+                {
+                    ViewBag.CheckMaster = false;
+                }
+                if (hawb != "ALL")
+                {
+                    listAwb = listAwb.Where(c => c.Hawb == hawb).ToList();
+                }
+
+            }
+            ViewBag.Total = listAwb.Count;
+
+            ViewData["listAwb"] = listAwb;
+            return View();
+        }
+        
         public ActionResult FlightDetail()
         {
             string invoiceIsn = Request["lagi_ident"].Trim();

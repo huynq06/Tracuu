@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Security;
 using System.Text;
 
 namespace Web.Portal.Utils
@@ -168,13 +169,40 @@ namespace Web.Portal.Utils
             }
             return ReadResponse(respone);
         }
+        public string ExecuteReNotify(object obj, string verb, string caller, bool option, string issueKey, ref bool check)
+        {
 
+            HttpWebRequest request = CreateRequest(verb, option);
+            HttpWebResponse respone;
+            try
+            {
+                WriteStream(request, obj);
+                respone = (HttpWebResponse)request.GetResponse();
+                check = true;
+            }
+            catch (WebException ex)
+            {
+                check = false;
+                Log.WriteLog(ex, string.Format("{0}-{1}.txt", caller, DateTime.Now.ToString("yyyy-MM-dd")));
+                return ReadResponseFromError(ex);
+            }
+            return ReadResponse(respone);
+        }
         private HttpWebRequest CreateRequest(string verb, bool option)
         {
+
+            ServicePointManager.Expect100Continue = true;
+
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls
+        | SecurityProtocolType.Tls11
+        | SecurityProtocolType.Tls12
+        | SecurityProtocolType.Ssl3;
+            //ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3;
             var basicRequest = (HttpWebRequest)WebRequest.Create(Url);
             basicRequest.ContentType = ContentType;
             basicRequest.Method = verb;
             basicRequest.Timeout = Timeout;
+         
             if (option)
             {
                 basicRequest.Headers.Add("X-ExperimentalApi", "opt-in");

@@ -41,11 +41,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Web.Portal.DataBase\bin\Debug\Microsoft.ApplicationBlocks.Data.dll</HintPath>
     </Reference>
-    <Reference Include="Oracle.DataAccess, Version=2.112.1.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=x86">
+    <Reference Include="Oracle.DataAccess, Version=4.121.2.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\bin\Oracle.DataAccess.dll</HintPath>
+      <HintPath>..\..\..\..\bin\2.12\Oracle.DataAccess.dll</HintPath>
     </Reference>
-    <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
@@ -126,6 +125,7 @@
     <Compile Include="CapSoLogAccess.cs" />
     <Compile Include="TicketAccess.cs" />
     <Compile Include="ULDByFlightAccess.cs" />
+    <Compile Include="UldControlAccess.cs" />
     <Compile Include="ULDDataAccess.cs" />
     <Compile Include="ULDReceiveAccess.cs" />
     <Compile Include="VCTAccess.cs" />

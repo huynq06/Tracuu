@@ -1,0 +1,44 @@
+﻿@{
+    Layout = "~/Views/Layout/Core.cshtml";
+
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet">
+            <div class="portlet-title">
+                <div class="caption caption-md">
+                    <span class="caption-subject font-blue-madison bold uppercase">Danh Sách Chuyến Bay OPEN</span>
+                </div>
+            </div>
+            <div class="portlet-body">
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="content-list-result">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    $('.date-picker').datepicker({
+        rtl: App.isRTL(),
+        orientation: "left",
+        autoclose: true
+    });
+    var uldAction = {
+        search: function () {
+            egovutil.getContent("#content-list-result", "/ksuld/list?" + "fda=" + $("#fda").val()
+                                                                    + "&tda=" + $("#tda").val());
+        }
+    }
+    uldAction.search();
+    $("#btn-search-sita").click(function () { uldAction.search(); })
+
+
+
+</script>

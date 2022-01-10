@@ -13,7 +13,7 @@ namespace Web.Portal.Service
     {
         IEnumerable<AwbIrr> GetbyFlightID(string flightId);
         AwbIrr GetById(int id);
-        AwbIrr GetSingleByID(string awbId);
+        AwbIrr GetSingleByID(string awbId, string flightID);
         AwbIrr GetSingleByIDAndFlight(string awbId,string flightID);
         void Delete(int id);
         void closeAwbIrr(string id);
@@ -57,9 +57,9 @@ namespace Web.Portal.Service
             return _awbRepository.GetSingleById(id);
         }
 
-        public AwbIrr GetSingleByID(string awbId)
+        public AwbIrr GetSingleByID(string awbId, string flightID)
         {
-            return _awbRepository.GetSingleByCondition(c => c.AwbID == awbId && c.AwbMaster==1);
+            return _awbRepository.GetSingleByCondition(c => c.AwbID == awbId && c.AwbMaster==1 && c.FlightID==flightID);
         }
 
         public AwbIrr GetSingleByIDAndFlight(string awbId, string flightID)

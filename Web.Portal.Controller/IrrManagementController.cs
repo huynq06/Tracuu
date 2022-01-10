@@ -261,15 +261,16 @@ namespace Web.Portal.Controller
                     else
                     {
                         
-                            var awbDb = _awbIrrService.GetSingleByID(item.LAGI_MASTER_ID);
+                            var awbDb = _awbIrrService.GetSingleByID(item.LAGI_MASTER_ID, item.FlightID);
                             awbDb.LAGI_MASTER_PIECES = item.LAGI_MASTER_PIECES;
                             awbDb.LAGI_MASTER_WEGIHT = item.LAGI_MASTER_WEGIHT;
                             awbDb.LagiMasterQuantityEx = item.LAGI_MASTER_QUANTITY_EX;
                             awbDb.LagiMasterWeightEx = item.LAGI_MASTER_WEIGHT_EX;
                             listAwbIrr4Update.Add(awbDb);
                             //lay danh sach hawb trong DB
-                            List<HawbIrr> listHawbDb = _hawbService.GetbyAwbId(item.LAGI_MASTER_ID).ToList();
-                            if (listHawbDb.All(c => c.HawbId != item.ID.ToString()))
+                            List<HawbIrr> listHawbDb = _hawbService.GetbyAwbIdAndFlightId(item.LAGI_MASTER_ID, item.FlightID).ToList();
+                             string groupNo = item.GoodsContent.Substring(10, 14);
+                            if (listHawbDb.All(c => c.IrrGroup != groupNo))
                             {
                                 int pieces = 0;
                                 string weight = "";
@@ -669,7 +670,7 @@ namespace Web.Portal.Controller
             }
             ViewBag.FlightNo = flightNo;
             ViewBag.FlightID = flightID;
-            ViewData["listAwbIrr"] = listAwbIrr;
+            ViewData["listAwbIrr"] = listAwbIrr.OrderBy(c=>c.AWB.Substring(c.AWB.Length-1)).ThenBy(c=>c.AWB.Substring(c.AWB.Length - 4)).ToList();
             ViewBag.TotalRecord = listAwbIrr.Count();
             ViewBag.CheckAdmin = checkAdmin;
             return View();
@@ -695,31 +696,31 @@ namespace Web.Portal.Controller
             List<HawbIrr> listHawbCheck = new List<HawbIrr>();
             if (!string.IsNullOrEmpty(hawb.Hawb.Trim()) || (string.IsNullOrEmpty(hawb.Hawb.Trim()) && hawb.Remark=="DMGD"))
             {
-                listHawbCheck = _hawbService.GetbyHawbName(hawb.Hawb, awbId).ToList();
+                listHawbCheck = _hawbService.GetbyHawbName(hawb.Hawb, awbId,flightId).ToList();
             }
             if (listHawbCheck.Count < 2)
             {
                 if (!string.IsNullOrEmpty(hawb.Hawb.Trim()))
                 {
-                    if (!string.IsNullOrEmpty(hawb.IrrDes))
-                    {
-                        string detail = (hawb.IrrDes + " N " + hawb.IrrDetails).Trim().Trim('N');
-                        hawb.IrrDetails = hawb.Hawb + ": " + "P" + hawb.IrrPices + "K" + hawb.IrrWeight + " " + GetIrrDes(hawb) + " " + detail + " LDD IN " + hawb.ULD.Replace(" ", "");
-                    }
+                    //if (!string.IsNullOrEmpty(hawb.IrrDes))
+                    //{
+                    //    string detail = (hawb.IrrDes + " N " + hawb.IrrDetails).Trim().Trim('N');
+                    //    hawb.IrrDetails = hawb.Hawb + ": " + "P" + hawb.IrrPices + "K" + hawb.IrrWeight + " " + GetIrrDes(hawb) + " " + detail + " LDD IN " + hawb.ULD.Replace(" ", "");
+                    //}
 
-                    else
+                    //else
                         hawb.IrrDetails = hawb.Hawb + ": " + "P" + hawb.IrrPices + "K" + hawb.IrrWeight + " " + GetIrrDes(hawb) + " " + hawb.IrrDetails + " " + " LDD IN " + hawb.ULD.Replace(" ", "");
                 }
 
                 else
                 {
-                    if (!string.IsNullOrEmpty(hawb.IrrDes))
-                    {
-                        string detail = (hawb.IrrDes + " N " + hawb.IrrDetails).Trim().Trim('N');
-                        hawb.IrrDetails = "P" + hawb.IrrPices + "K" + hawb.IrrWeight + " " + GetIrrDes(hawb) + " " + detail + " LDD IN " + hawb.ULD.Replace(" ", "");
-                    }
+                    //if (!string.IsNullOrEmpty(hawb.IrrDes))
+                    //{
+                    //    string detail = (hawb.IrrDes + " N " + hawb.IrrDetails).Trim().Trim('N');
+                    //    hawb.IrrDetails = "P" + hawb.IrrPices + "K" + hawb.IrrWeight + " " + GetIrrDes(hawb) + " " + detail + " LDD IN " + hawb.ULD.Replace(" ", "");
+                    //}
 
-                    else
+                    //else
                         hawb.IrrDetails = "P" + hawb.IrrPices + "K" + hawb.IrrWeight + " " + GetIrrDes(hawb) + " " + hawb.IrrDetails + " " + " LDD IN " + hawb.ULD.Replace(" ", "");
                 }
                 if (!string.IsNullOrEmpty(hawb.LAGI_REMARK))
@@ -732,13 +733,13 @@ namespace Web.Portal.Controller
                     builder.Append(hawb.Hawb + ": ");
                 foreach (var item in listHawbCheck)
                 {
-                    if (!string.IsNullOrEmpty(item.IrrDes))
-                    {
-                        string detail = (item.IrrDes + " N " + item.IrrDetails).Trim().Trim('N');
-                        builder.AppendLine("<br>" + "-" + "P" + item.IrrPices + "K" + item.IrrWeight + " " + GetIrrDes(item) + " " + detail + " LDD IN " + item.ULD.Replace(" ", "") + " " + item.LAGI_REMARK);
-                    }
+                    //if (!string.IsNullOrEmpty(item.IrrDes))
+                    //{
+                    //    string detail = (item.IrrDes + " N " + item.IrrDetails).Trim().Trim('N');
+                    //    builder.AppendLine("<br>" + "-" + "P" + item.IrrPices + "K" + item.IrrWeight + " " + GetIrrDes(item) + " " + detail + " LDD IN " + item.ULD.Replace(" ", "") + " " + item.LAGI_REMARK);
+                    //}
                       
-                    else
+                    //else
                         builder.AppendLine("<br>" + "-" + "P" + item.IrrPices + "K" + item.IrrWeight + " " + GetIrrDes(item) + " " + item.IrrDetails + " " + " LDD IN " + item.ULD.Replace(" ", "") + " " + item.LAGI_REMARK);
                     if (item.IrrMsca.HasValue && item.IrrMsca == true)
                     {
@@ -764,6 +765,10 @@ namespace Web.Portal.Controller
                     {
                         hawb.IrrBroken = true;
                     }
+                    if (item.IrrWithoutLabel.HasValue && item.IrrWithoutLabel == true)
+                    {
+                        hawb.IrrWithoutLabel = true;
+                    }
                     if (item.IrrHoled.HasValue && item.IrrHoled == true)
                     {
                         hawb.IrrHoled = true;
@@ -779,11 +784,13 @@ namespace Web.Portal.Controller
                     if (!string.IsNullOrEmpty(item.LAGI_REMARK))
                         builder.AppendLine("<br>" + hawb.LAGI_REMARK.Replace("\n", "<br>"));
                 }
+                string irrDess = "";
                 foreach (var item in listHawbCheck)
                 {
-                    hawb.IrrDes += item.IrrDes + " & ";
+                    if(!string.IsNullOrEmpty(item.IrrDes))
+                        irrDess += item.IrrDes + " & ";
                 }
-                    hawb.IrrDes = hawb.IrrDes.Trim().Trim('&').Trim();
+                    hawb.IrrDes = irrDess.Trim().Trim('&').Trim();
                 hawb.IrrPices = listHawbCheck.Sum(c => c.IrrPices);
                 hawb.IrrWeight = listHawbCheck.Sum(c => c.IrrWeight);
                 hawb.IrrDetails = builder.ToString();
@@ -806,7 +813,7 @@ namespace Web.Portal.Controller
             string awb = Request["awb"].Trim();
             string awbId = Request["awbId"].Trim();
             string flightId = Request["flightID"].Trim();
-            var awbDb = _awbIrrService.GetSingleByID(awbId);
+            var awbDb = _awbIrrService.GetSingleByID(awbId, flightId);
             var flightDb = _flightService.GetSingleByID(flightId);
             ViewBag.FlightID = flightDb.FlightID;
             ViewBag.FflightNo = flightDb.FLightNo;
@@ -817,11 +824,12 @@ namespace Web.Portal.Controller
         public ActionResult ListHawbIrr()
         {
             string awbId = Request["awbId"].Trim();
-            var awbSelect = _awbIrrService.GetSingleByID(awbId);
+            string flightId = Request["flightID"].Trim();
+            var awbSelect = _awbIrrService.GetSingleByID(awbId, flightId);
             //  AwbIrr awbIrr = new AwbIrr();
             // awbIrr = _awbIrrService.GetSingleByID(awbId);
             //  FlightIrr flight = _flightService.GetSingleByID(awbIrr.FlightID);
-            List<HawbIrr> hawbIrr = _hawbService.GetbyAwbId(awbId).ToList();
+            List<HawbIrr> hawbIrr = _hawbService.GetbyAwbIdAndFlightId(awbId,flightId).ToList();
             List<HawbIrr> listHawbIrr = new List<HawbIrr>();
             List<HawbIrr> listHawbIrrFilter = new List<HawbIrr>();
             foreach (var item in hawbIrr)
@@ -829,7 +837,7 @@ namespace Web.Portal.Controller
                 item.HawbDes = "";
                 if (item.IrrMsca.HasValue && item.IrrMsca == true)
                 {
-                    item.HawbDes += "MCSA,";
+                    item.HawbDes += "MSCA,";
                 }
                 if (item.IrrCrushed.HasValue && item.IrrCrushed == true)
                 {
@@ -878,7 +886,7 @@ namespace Web.Portal.Controller
             string des = "";
             if (item.IrrMsca.HasValue && item.IrrMsca == true)
             {
-                des += "MCSA/";
+                des += "MSCA/";
             }
             if (item.IrrCrushed.HasValue && item.IrrCrushed == true)
             {
@@ -897,6 +905,10 @@ namespace Web.Portal.Controller
             {
                 des += "BROKEN/";
             }
+            if (item.IrrWithoutLabel.HasValue && item.IrrWithoutLabel == true)
+            {
+                des += "WITHOUT LABEL/";
+            }
             if (item.IrrHoled.HasValue && item.IrrHoled == true)
             {
                 des += "HOLED/";
@@ -905,10 +917,47 @@ namespace Web.Portal.Controller
             {
                 des += "OVCD/";
             }
-            if (item.IrrTorn.HasValue && item.IrrTorn == true)
+    
+
+            if (!string.IsNullOrEmpty(item.IrrDes))
             {
-                des += "TORN/";
+                if (item.IrrTorn.HasValue && item.IrrTorn == true)
+                {
+                    des = des.Trim('/');
+                    string detail = (item.IrrDes + " & TORN ").Trim();
+                    des += " " + detail;
+                }
+                else
+                {
+                    des = des.Trim('/');
+                    string detail = "";
+                    if (string.IsNullOrWhiteSpace(des))
+                    {
+                        detail =  item.IrrDes.Trim();
+                    }
+                    else
+                    {
+                        detail = " & " + item.IrrDes.Trim();
+                    }
+                    des += " " + detail;
+                }
+                //else
+                //{
+                //    string detail = (item.IrrDes + " ").Trim().Trim('N');
+                //    des += " " + detail;
+                //}
+                //string detail = (item.IrrDes + " N " + item.IrrDetails).Trim().Trim('N');
+                //des += " " + detail;
             }
+            else
+            {
+                if (item.IrrTorn.HasValue && item.IrrTorn == true)
+                {
+                    des += "TORN/";
+                   
+                }
+            }
+            
             return des.Trim('/');
         }
         public ActionResult ActionSaveBBBT(FormCollection formRequest)
@@ -1202,32 +1251,32 @@ namespace Web.Portal.Controller
             List<HawbIrr> listHawbCheck = new List<HawbIrr>();
             if (!string.IsNullOrEmpty(hawbIrr.Hawb.Trim()) || (string.IsNullOrEmpty(hawbIrr.Hawb.Trim()) && hawbIrr.Remark == "DMGD"))
             {
-               listHawbCheck = _hawbService.GetbyHawbName(hawbIrr.Hawb, awbIrr.AwbID).ToList();
+               listHawbCheck = _hawbService.GetbyHawbName(hawbIrr.Hawb, awbIrr.AwbID,flightId).ToList();
             }
 
             if (listHawbCheck.Count < 2)
             {
                 if (!string.IsNullOrEmpty(hawbIrr.Hawb.Trim()))
                 {
-                    if(!string.IsNullOrEmpty(hawbIrr.IrrDes))
-                    {
-                        string detail = (hawbIrr.IrrDes + " N " + hawbIrr.IrrDetails).Trim().Trim('N');
-                        hawbIrr.IrrDetails = hawbIrr.Hawb + ": " + "P" + hawbIrr.IrrPices + "K" + hawbIrr.IrrWeight + " " + GetIrrDes(hawbIrr) + " " + detail + " LDD IN " + hawbIrr.ULD.Replace(" ", "") + " " + hawbIrr.IrrRemark;
-                    }
+                    //if(!string.IsNullOrEmpty(hawbIrr.IrrDes))
+                    //{
+                    //    string detail = (hawbIrr.IrrDes + " N " + hawbIrr.IrrDetails).Trim().Trim('N');
+                    //    hawbIrr.IrrDetails = hawbIrr.Hawb + ": " + "P" + hawbIrr.IrrPices + "K" + hawbIrr.IrrWeight + " " + GetIrrDes(hawbIrr) + " " + detail + " LDD IN " + hawbIrr.ULD.Replace(" ", "") + " " + hawbIrr.IrrRemark;
+                    //}
                        
-                    else
+                    //else
                         hawbIrr.IrrDetails = hawbIrr.Hawb + ": " + "P" + hawbIrr.IrrPices + "K" + hawbIrr.IrrWeight + " " + GetIrrDes(hawbIrr) + " " + hawbIrr.IrrDetails + " " + " LDD IN " + hawbIrr.ULD.Replace(" ", "") + " " + hawbIrr.IrrRemark;
                 }
                    
                 else
                 {
-                    if (!string.IsNullOrEmpty(hawbIrr.IrrDes))
-                    {
-                        string detail = (hawbIrr.IrrDes + " N " + hawbIrr.IrrDetails).Trim().Trim('N');
-                        hawbIrr.IrrDetails = "P" + hawbIrr.IrrPices + "K" + hawbIrr.IrrWeight + " " + GetIrrDes(hawbIrr) + " " + detail + " LDD IN " + hawbIrr.ULD.Replace(" ", "") + " " + hawbIrr.IrrRemark;
-                    }
+                    //if (!string.IsNullOrEmpty(hawbIrr.IrrDes))
+                    //{
+                    //    string detail = (hawbIrr.IrrDes + " N " + hawbIrr.IrrDetails).Trim().Trim('N');
+                    //    hawbIrr.IrrDetails = "P" + hawbIrr.IrrPices + "K" + hawbIrr.IrrWeight + " " + GetIrrDes(hawbIrr) + " " + detail + " LDD IN " + hawbIrr.ULD.Replace(" ", "") + " " + hawbIrr.IrrRemark;
+                    //}
                         
-                    else
+                    //else
                         hawbIrr.IrrDetails = "P" + hawbIrr.IrrPices + "K" + hawbIrr.IrrWeight + " " + GetIrrDes(hawbIrr) + " " + hawbIrr.IrrDetails + " " + " LDD IN " + hawbIrr.ULD.Replace(" ", "") + " " + hawbIrr.IrrRemark;
                 }
                 if (!string.IsNullOrEmpty(hawbIrr.LAGI_REMARK))
@@ -1250,13 +1299,13 @@ namespace Web.Portal.Controller
                     {
                         item.IrrRemark = "";
                     }
-                    if (!string.IsNullOrEmpty(item.IrrDes))
-                    {
-                        string detail = (item.IrrDes + " N " + item.IrrDetails).Trim().Trim('N');
-                        builder.AppendLine("<br>" + "-" + "P" + item.IrrPices + "K" + item.IrrWeight + " " + GetIrrDes(item) + " " + detail + " LDD IN " + item.ULD.Replace(" ", "") + " " + item.IrrRemark);
-                    }
+                    //if (!string.IsNullOrEmpty(item.IrrDes))
+                    //{
+                    //    string detail = (item.IrrDes + " N " + item.IrrDetails).Trim().Trim('N');
+                    //    builder.AppendLine("<br>" + "-" + "P" + item.IrrPices + "K" + item.IrrWeight + " " + GetIrrDes(item) + " " + detail + " LDD IN " + item.ULD.Replace(" ", "") + " " + item.IrrRemark);
+                    //}
                        
-                    else
+                    //else
                         builder.AppendLine("<br>" + "-" + "P" + item.IrrPices + "K" + item.IrrWeight + " " + GetIrrDes(item) + " " + item.IrrDetails + " " + " LDD IN " + item.ULD.Replace(" ", "") + " " + item.IrrRemark);
                     if (item.IrrMsca.HasValue && item.IrrMsca == true)
                     {
@@ -1297,11 +1346,13 @@ namespace Web.Portal.Controller
                     if (!string.IsNullOrEmpty(item.LAGI_REMARK))
                         builder.AppendLine("<br>" + item.LAGI_REMARK);
                 }
+                string irrDess = "";
                 foreach (var item in listHawbCheck)
                 {
-                    hawbIrr.IrrDes += item.IrrDes + " & ";
+                    if (!string.IsNullOrEmpty(item.IrrDes))
+                        irrDess += item.IrrDes + " & ";
                 }
-                hawbIrr.IrrDes = hawbIrr.IrrDes.Trim().Trim('&').Trim();
+                hawbIrr.IrrDes = irrDess.Trim().Trim('&').Trim();
                 hawbIrr.IrrPices = listHawbCheck.Sum(c => c.IrrPices);
                 hawbIrr.IrrWeight = listHawbCheck.Sum(c => c.IrrWeight);
                 hawbIrr.IrrDetails = builder.ToString();
@@ -1318,16 +1369,13 @@ namespace Web.Portal.Controller
                     item.HawbDes = "";
                     if (item.IrrMsca.HasValue && item.IrrMsca == true)
                     {
-                        item.HawbDes += "MCSA/";
+                        item.HawbDes += "MSCA/";
                     }
                     if (item.IrrCrushed.HasValue && item.IrrCrushed == true)
                     {
                         item.HawbDes += "CRUSHED/";
                     }
-                    if (item.IrrTorn.HasValue && item.IrrTorn == true)
-                    {
-                        item.HawbDes += "TORN/";
-                    }
+                 
                     if (item.IrrWet.HasValue && item.IrrWet == true)
                     {
                         item.HawbDes += "WET/";
@@ -1340,6 +1388,10 @@ namespace Web.Portal.Controller
                     {
                         item.HawbDes += "BROKEN/";
                     }
+                    if (item.IrrWithoutLabel.HasValue && item.IrrWithoutLabel == true)
+                    {
+                        item.HawbDes += "WITHOUT LABEL/";
+                    }
                     if (item.IrrHoled.HasValue && item.IrrHoled == true)
                     {
                         item.HawbDes += "HOLED/";
@@ -1347,6 +1399,10 @@ namespace Web.Portal.Controller
                     if (item.IrrOvcd.HasValue && item.IrrOvcd == true)
                     {
                         item.HawbDes += "OVCD/";
+                    }
+                    if (item.IrrTorn.HasValue && item.IrrTorn == true)
+                    {
+                        item.HawbDes += "TORN/";
                     }
                     return "P" + item.IrrPices + " OF H-" + item.Hawb + " " + item.HawbDes.Trim('/') + " " + (string.IsNullOrEmpty(item.IrrDes)? "LDD IN " : item.IrrDes + " LDD IN ") + item.ULD.Replace(" ", "");
                 }
@@ -1373,7 +1429,7 @@ namespace Web.Portal.Controller
                     item.HawbDes = "";
                     if (item.IrrMsca.HasValue && item.IrrMsca == true)
                     {
-                        item.HawbDes += "MCSA/";
+                        item.HawbDes += "MSCA/";
                     }
                     if (item.IrrCrushed.HasValue && item.IrrCrushed == true)
                     {
@@ -1391,6 +1447,10 @@ namespace Web.Portal.Controller
                     if (item.IrrBroken.HasValue && item.IrrBroken == true)
                     {
                         item.HawbDes += "BROKEN/";
+                    }
+                    if (item.IrrWithoutLabel.HasValue && item.IrrWithoutLabel == true)
+                    {
+                        item.HawbDes += "WITHOUT LABEL/";
                     }
                     if (item.IrrHoled.HasValue && item.IrrHoled == true)
                     {
@@ -1432,7 +1492,7 @@ namespace Web.Portal.Controller
                     item.HawbDes = "";
                     if (item.IrrMsca.HasValue && item.IrrMsca == true)
                     {
-                        item.HawbDes += "MCSA/";
+                        item.HawbDes += "MSCA/";
                     }
                     if (item.IrrCrushed.HasValue && item.IrrCrushed == true)
                     {
@@ -1450,6 +1510,10 @@ namespace Web.Portal.Controller
                     if (item.IrrBroken.HasValue && item.IrrBroken == true)
                     {
                         item.HawbDes += "BROKEN/";
+                    }
+                    if (item.IrrWithoutLabel.HasValue && item.IrrWithoutLabel == true)
+                    {
+                        item.HawbDes += "WITHOUT LABEL/";
                     }
                     if (item.IrrHoled.HasValue && item.IrrHoled == true)
                     {
@@ -1506,6 +1570,7 @@ namespace Web.Portal.Controller
         {
             int? id = string.IsNullOrEmpty(Request["ID"].Trim())? 0 : int.Parse(Request["ID"].Trim());
             string awbId = Request["awbId"].Trim();
+            string flightId = Request["flightID"].Trim();
             var hawb = new HawbIrr();
             string check = "true";
             if (id.HasValue && id.Value != 0)
@@ -1514,6 +1579,7 @@ namespace Web.Portal.Controller
                 check = "false";
             }
             ViewBag.AwbId = awbId;
+            ViewBag.FlightId = flightId;
             ViewBag.Check = check;
             return View(hawb);
         }
@@ -1538,7 +1604,8 @@ namespace Web.Portal.Controller
             {
                 string message = string.Empty;
                 string awbId = formRequest["keyAwbId"];
-                var awbDb = _awbIrrService.GetSingleByID(awbId);
+                string flightID = formRequest["flightID"];
+                var awbDb = _awbIrrService.GetSingleByID(awbId, flightID);
                 string messageType = Utils.DisplayMessage.TypeSuccess;
                 int keyValue = string.IsNullOrEmpty(formRequest["keyValue"]) ? 0 : Convert.ToInt32(formRequest["keyValue"]);
                 var hawb = new HawbIrr();
@@ -1611,7 +1678,9 @@ namespace Web.Portal.Controller
             {
                 string message = string.Empty;
                 string awbId = formRequest["keyAwbId"];
-                var awbDb = _awbIrrService.GetSingleByID(awbId);
+                string flightID = formRequest["flightID"];
+                int ID = int.Parse(formRequest["keyValue"]);
+                var awbDb = _awbIrrService.GetSingleByID(awbId,flightID);
                 string messageType = Utils.DisplayMessage.TypeSuccess;
                 int keyValue = string.IsNullOrEmpty(formRequest["keyValue"]) ? 0 : Convert.ToInt32(formRequest["keyValue"]);
                 var hawb = new HawbIrr();
@@ -1779,7 +1848,7 @@ namespace Web.Portal.Controller
                 var awbIrr = new AwbIrr();
                 awbIrr.FlightID = formRequest["flightId"];
                 awbIrr.AwbID = lagiID;
-                var awbDb = _awbIrrService.GetSingleByID(lagiID);
+                var awbDb = _awbIrrService.GetSingleByID(lagiID, formRequest["flightId"]);
                 if (awbDb != null)
                 {
                     return Json(new { Type = Utils.DisplayMessage.TypeError, Message = "Đã tồn AWB trong hệ thống!", Title = "Thông báo" }, JsonRequestBehavior.AllowGet);
@@ -1807,10 +1876,10 @@ namespace Web.Portal.Controller
             }
         }
         [DocumentExport("TEXT", "DANHSACHBATTHUONG")]
-        public ActionResult Remark(string id)
+        public ActionResult Remark(int id)
         {
-            var awbSelect = _awbIrrService.GetSingleByID(id);
-            List<HawbIrr> hawbIrrs = _hawbService.GetbyAwbId(id).Where(c => c.Remark == "DMGD").ToList();
+            var awbSelect = _awbIrrService.GetById(id);
+            List<HawbIrr> hawbIrrs = _hawbService.GetbyAwbIdAndFlightId(awbSelect.AwbID,awbSelect.FlightID).Where(c => c.Remark == "DMGD").ToList();
             StringBuilder content = new StringBuilder();
             foreach (var item in hawbIrrs)
             {
@@ -1819,7 +1888,7 @@ namespace Web.Portal.Controller
                 List<HawbIrr> listHawbCheck = new List<HawbIrr>();
                 if (!string.IsNullOrEmpty(item.Hawb.Trim()) || (string.IsNullOrEmpty(item.Hawb.Trim()) && item.Remark == "DMGD"))
                 {
-                    listHawbCheck = _hawbService.GetbyHawbName(item.Hawb, item.AwbId).ToList();
+                    listHawbCheck = _hawbService.GetbyHawbName(item.Hawb, item.AwbId,awbSelect.FlightID).ToList();
                 }
                 if (listHawbCheck.Count < 2 && listHawbCheck.Count > 0)
                 {
@@ -1889,7 +1958,7 @@ namespace Web.Portal.Controller
                     List<HawbIrr> listHawbCheck = new List<HawbIrr>();
                     if (!string.IsNullOrEmpty(item.Hawb.Trim()) || (string.IsNullOrEmpty(item.Hawb.Trim()) && item.Remark == "DMGD"))
                     {
-                        listHawbCheck = _hawbService.GetbyHawbName(item.Hawb, item.AwbId).ToList();
+                        listHawbCheck = _hawbService.GetbyHawbName(item.Hawb, item.AwbId, flight.FlightID).ToList();
                     }
                     if (listHawbCheck.Count < 2 && listHawbCheck.Count > 0)
                     {
@@ -1931,7 +2000,7 @@ namespace Web.Portal.Controller
                             }
 
                             else
-                                result += "P" + hawb.IrrPices + "K" + item.IrrWeight + " " + GetIrrDes(hawb) + " " + hawb.IrrDetails.Replace(" ", "") + ",";
+                                result += "P" + hawb.IrrPices + "K" + hawb.IrrWeight + " " + GetIrrDes(hawb) + " " + hawb.IrrDetails.Replace(" ", "") + ",";
                         }
                         content.Append(System.Environment.NewLine + result.Trim(',') + "/");
                     }

@@ -11,5 +11,6 @@ namespace Web.Portal.Common.ApiViewModel
         public string FlightID { set; get; }
         public Guid UserID { set; get; }
         public string TokenID { set; get; }
+        public string Type { set; get; }
     }
 }

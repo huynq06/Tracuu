@@ -78,7 +78,6 @@
 
                                     <tr>
                                         <td style="text-align:center">@PageCurrent</td>
-
                                         <td style="text-align:center">@Html.Raw(row.Prefix + row.AWB)</td>
                                         <td style="text-align:center">@Html.Raw(row.Org)</td>
                                         <td style="text-align:center">@Html.Raw(row.Des)</td>
@@ -94,7 +93,7 @@
                                             @*<a href="/IrrManagement/PrintBBBT?prefix=@row.Prefix&awb=@row.AWB&awbId=@row.LagiMasterId" target="_blank" class="btn  btn-xs sqs-member-edit @Html.Raw(row.AwbStatus==1? "" : "disabled")"><div class="btn-group green"><i style="font-size:30px;" class="fa fa-print"></i></div> </a>*@
                                             <a href="#" class="btn  btn-xs awb-delete @Html.Raw(row.AwbStatus==1? "disabled" : "")" data-id="@row.ID"><div class="btn-group red"><i style="font-size:30px;" class="fa fa-trash "></i></div> </a>
                                             <a href="#" class="btn  btn-xs awb-open @Html.Raw(ViewBag.CheckAdmin=="true"? "" : "disabled")" data-id="@row.ID"><div class="btn-group red"><i style="font-size:30px;" class="fa fa-key "></i></div> </a>
-                                            <a href="#" data-ID="@row.LagiMasterId" class="btn btn-lg awb-export">
+                                            <a href="#" data-ID="@row.ID" class="btn btn-lg awb-export">
                                                 <div class="btn-group green"><i style="font-size:30px;" class="fa fa-download"></i>Xuất remark</div>
                                             </a>
                                         </td>

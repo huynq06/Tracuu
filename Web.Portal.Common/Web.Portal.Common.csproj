@@ -46,6 +46,10 @@
     <Compile Include="ApiViewModel\CustomDetailViewModel.cs" />
     <Compile Include="ApiViewModel\CustomFormViewModel.cs" />
     <Compile Include="ApiViewModel\DKXDViewModel.cs" />
+    <Compile Include="ApiViewModel\ExportAwbTrackCustomStatusResult.cs" />
+    <Compile Include="ApiViewModel\ExportAwbTrackCustomStatusViewModel.cs" />
+    <Compile Include="ApiViewModel\ExportAwbTrackStatusResult.cs" />
+    <Compile Include="ApiViewModel\ExportAwbTrackStatusViewModel.cs" />
     <Compile Include="ApiViewModel\ExportQuantity.cs" />
     <Compile Include="ApiViewModel\FFMViewModel.cs" />
     <Compile Include="ApiViewModel\FHLViewModel.cs" />
@@ -63,6 +67,7 @@
     <Compile Include="ApiViewModel\LocationDetailViewModel.cs" />
     <Compile Include="ApiViewModel\MessageViewModel.cs" />
     <Compile Include="ApiViewModel\NOAViewModel.cs" />
+    <Compile Include="ApiViewModel\NotificationViewModel.cs" />
     <Compile Include="ApiViewModel\OrderLagiDetailViewModel.cs" />
     <Compile Include="ApiViewModel\OrderLagiResultViewModel.cs" />
     <Compile Include="ApiViewModel\OrderLagiViewModel.cs" />
@@ -80,6 +85,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModel\AWBByULDViewModel.cs" />
     <Compile Include="ViewModel\AwbDetailViewModel.cs" />
+    <Compile Include="ViewModel\AwbuViewModel.cs" />
+    <Compile Include="ViewModel\eInvoiceViewModel\InvoiceApproveJson.cs" />
+    <Compile Include="ViewModel\eInvoiceViewModel\InvoiceAprrFields.cs" />
+    <Compile Include="ViewModel\ExportUldByFlightViewModel.cs" />
+    <Compile Include="ViewModel\FindUldViewModel.cs" />
+    <Compile Include="ViewModel\UldLogAutoCompleteViewModel.cs" />
     <Compile Include="ViewModel\AwbLogViewModel.cs" />
     <Compile Include="ViewModel\AWBPlanOnFlightViewModel.cs" />
     <Compile Include="ViewModel\ChartCategory.cs" />
@@ -122,6 +133,7 @@
     <Compile Include="ViewModel\IssueDataViewModel.cs" />
     <Compile Include="ViewModel\IssueDetailViewModel.cs" />
     <Compile Include="ViewModel\IssueViewModel.cs" />
+    <Compile Include="ViewModel\LabFavouriteViewModel.cs" />
     <Compile Include="ViewModel\LabsAutoCompleteViewModel.cs" />
     <Compile Include="ViewModel\LocationViewModel.cs" />
     <Compile Include="ViewModel\Prad_Pre_AdviceViewModel.cs" />
@@ -132,6 +144,8 @@
     <Compile Include="ViewModel\TicketStatusViewModel.cs" />
     <Compile Include="ViewModel\TicketViewModel.cs" />
     <Compile Include="ViewModel\UldByFlightViewModel.cs" />
+    <Compile Include="ViewModel\UldControlViewModel.cs" />
+    <Compile Include="ViewModel\UldLogViewModel.cs" />
     <Compile Include="ViewModel\ULDReceiveViewModel.cs" />
     <Compile Include="ViewModel\ULDViewModel.cs" />
     <Compile Include="ViewModel\UserCardViewModel.cs" />

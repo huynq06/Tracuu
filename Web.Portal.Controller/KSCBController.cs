@@ -15,7 +15,7 @@ using System.Drawing;
 using System.IO;
 using Web.Portal.Upload;
 using System.Text;
-
+using BarcodeLib;
 namespace Web.Portal.Controller
 {
     [Web.Portal.Sercurity.AuthorizedBase(Roles = "ADMIN,KTN")]
@@ -41,8 +41,6 @@ namespace Web.Portal.Controller
         }
         public ActionResult Index()
         {
-            //int count = _flightService.GetAll().ToList().Count;
-
             return View();
         }
         public ActionResult List()
@@ -564,6 +562,7 @@ namespace Web.Portal.Controller
                         newUld.FlightNumber = flightDB.FlightNumber;
                         newUld.Flight_ID = flightDB.FlightID;
                         newUld.Priority = 1;
+                        newUld.ULD_ISN = uld.ULD_INS;
                         _uldByFlightService.Add(newUld);
                     }
                 }
@@ -820,30 +819,60 @@ namespace Web.Portal.Controller
             List<GroupQrCodeViewModel> listGroup = new List<GroupQrCodeViewModel>();
             for( long i= startNumber;i<endNumber;i++)
             {
+                //GroupQrCodeViewModel group = new GroupQrCodeViewModel();
+                //group.GroupNo = i.ToString();
+                //QRCodeGenerator qrGenerator = new QRCodeGenerator();
+                //QRCodeData data = qrGenerator.CreateQrCode(i.ToString(), QRCodeGenerator.ECCLevel.Q);
+                //QRCode qrCode = new QRCode(data);
+
+                //System.Web.UI.WebControls.Image imgBarCode = new System.Web.UI.WebControls.Image();
+                //imgBarCode.Height = 100;
+                //imgBarCode.Width = 100;
+                //using (Bitmap bitMap = qrCode.GetGraphic(5))
+                //{
+                //    using (MemoryStream ms = new MemoryStream())
+                //    {
+                //        bitMap.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                //        byte[] byteImage = ms.ToArray();
+                //        imgBarCode.ImageUrl = "data:image/png;base64," + Convert.ToBase64String(byteImage);
+                //    }
+                //    group.Img = imgBarCode.ImageUrl;
+                //}
+                //listGroup.Add(group);
                 GroupQrCodeViewModel group = new GroupQrCodeViewModel();
                 group.GroupNo = i.ToString();
-                QRCodeGenerator qrGenerator = new QRCodeGenerator();
-                QRCodeData data = qrGenerator.CreateQrCode(i.ToString(), QRCodeGenerator.ECCLevel.Q);
-                QRCode qrCode = new QRCode(data);
-
-                System.Web.UI.WebControls.Image imgBarCode = new System.Web.UI.WebControls.Image();
-                imgBarCode.Height = 100;
-                imgBarCode.Width = 100;
-                using (Bitmap bitMap = qrCode.GetGraphic(5))
-                {
-                    using (MemoryStream ms = new MemoryStream())
-                    {
-                        bitMap.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
-                        byte[] byteImage = ms.ToArray();
-                        imgBarCode.ImageUrl = "data:image/png;base64," + Convert.ToBase64String(byteImage);
-                    }
-                    group.Img = imgBarCode.ImageUrl;
-                }
+                BarcodeLib.Barcode b = new BarcodeLib.Barcode();
+                Image img = b.Encode(BarcodeLib.TYPE.CODE128, i.ToString(), Color.Black, Color.White, 290, 120);
+                group.Img = "data:image/png;base64," + ImageToBase64(img, System.Drawing.Imaging.ImageFormat.Png);
                 listGroup.Add(group);
             }
             ViewData["listPrint"] = listGroup;
             return View();
         }
+        public ActionResult ListUld()
+        {
+            int id = int.Parse(Request["id"]);
+            Guid flightID = Guid.Parse(Request["flightID"]);
+            var flight = _flightService.GetById(flightID);
+            ViewBag.Flight = flight.FlightNumber + " " + flight.Schedule.Value.ToString("dd/MM/yyyy");
+            var listULD = _uldByFlightService.GetListULDByFlightGuid(flightID);
+            ViewData["listULD"] = listULD.ToList();
+            return View();
+        }
+        public string ImageToBase64(Image image, System.Drawing.Imaging.ImageFormat format)
+        {
+            using (MemoryStream ms = new MemoryStream())
+            {
+                // Convert Image to byte[]
+                image.Save(ms, format);
+                byte[] imageBytes = ms.ToArray();
+
+                // Convert byte[] to Base64 String
+                string base64String = Convert.ToBase64String(imageBytes);
+                return base64String;
+            }
+        }
 
     }
+
 }

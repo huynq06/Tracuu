@@ -30,6 +30,22 @@ namespace Web.Portal.Controller
         {
             return View();
         }
+        public ActionResult SendNotify()
+        {
+            string message = string.Empty;
+            string messageType = Utils.DisplayMessage.TypeSuccess;
+            string rp = "";
+            Utils.HttpRequest rq = new Utils.HttpRequest();
+            string url = System.Configuration.ConfigurationManager.AppSettings["NotifyAgen"];
+            rq.Url = url;
+            bool check = false;
+            var watch = System.Diagnostics.Stopwatch.StartNew();
+            rp = rq.Execute(JsonNotify(), "POST", "", false, "", ref check);
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            message = "Gui thong bao thanh cong";
+            return Json(new { Type = messageType, Message = message, Title = "Thông báo" }, JsonRequestBehavior.AllowGet);
+        }
         public ActionResult Edit(int? id)
         {
             //int? id = int.Parse(Request["id"]);
@@ -246,6 +262,16 @@ namespace Web.Portal.Controller
             }
             ViewData["VCTList"] = listVct;
             return View();
+        }
+        public string JsonNotify()
+        {
+            Web.Portal.Common.ApiViewModel.NotificationViewModel notify = new Common.ApiViewModel.NotificationViewModel();
+            notify.deviceId = "fp2LBCA5Qyen6tiVrBuzd0:APA91bGFtWWhLQl__DQ1VGpR6_cAFgFUMUV6vwsbMerWqdQgxc1VjioaSJrXNwErNVxbjmiKK9BjwMcSEQSrIpPYbIfer1-ZtMNffc5ujHuwRlFlulNKR3RzREYOVkizFxp0IiuVRDuD";
+            notify.title = "Hello from ALSC " + DateTime.Now.ToString("dd/MM/yyyy HH:mm");
+            notify.body = "Lô hàng 180 11111111 đã khai thác xong";
+            notify.isAndroiodDevice = true;
+            return Newtonsoft.Json.JsonConvert.SerializeObject(notify);
+
         }
     }
 }

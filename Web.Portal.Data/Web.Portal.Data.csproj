@@ -123,6 +123,7 @@
     <Compile Include="Repositories\Issue_detailRepository.cs" />
     <Compile Include="Infrastructure\RepositoryFlightControlBase.cs" />
     <Compile Include="Repositories\LabRepository.cs" />
+    <Compile Include="Repositories\LabsFavouriteRepository.cs" />
     <Compile Include="Repositories\LagiRepository.cs" />
     <Compile Include="Repositories\LocationConfigRepository.cs" />
     <Compile Include="Repositories\LocationRepository.cs" />
@@ -142,6 +143,7 @@
     <Compile Include="Repositories\tblUserRepository.cs" />
     <Compile Include="Repositories\TruckAwbRepository.cs" />
     <Compile Include="Repositories\ULDByFlightRepository.cs" />
+    <Compile Include="Repositories\UldLogRepository.cs" />
     <Compile Include="Repositories\ULD_TYPERepository.cs" />
     <Compile Include="Repositories\UserCardRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />

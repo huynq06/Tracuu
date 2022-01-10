@@ -1,0 +1,91 @@
+﻿@{
+    Layout = null;
+    int rowIndex = 0;
+}
+<table id="tbl-hawb" border="1" class="table table-striped table-bordered table-advance table-hover dt-responsive">
+    <thead>
+        <tr>
+            <th style="width:10%">
+                STT
+            </th>
+
+            <th style="width:10%">
+                MAWB
+            </th>
+            <th style="width:10%">
+                HAWB
+            </th>
+            <th style="width:10%">
+                KIỆN
+            </th>
+            <th style="width:10%">
+                CÂN
+            </th>
+            <th style="width:10%">
+                TSO
+            </th>
+            <th tyle="width:10%">
+                TÌNH TRẠNG
+            </th>
+            <th style="width:10%">
+                CHI TIẾT
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var row in (IList<Web.Portal.Common.ViewModel.AwbDetailViewModel>)ViewData["listAwb"])
+        {
+            rowIndex += 1;
+
+            <tr>
+                <td>@Html.Raw((rowIndex == 1 && string.IsNullOrEmpty(row.Hawb.Trim())) ? "1(Master)" : rowIndex.ToString())</td>
+
+
+                <td>
+                   @Html.Raw(row.Mawb)
+                </td>
+                <td>
+                    @Html.Raw(row.Hawb)
+                </td>
+                <td>
+                  @Html.Raw(row.Pieces_Expected)
+                </td>
+                <td>
+                  @Html.Raw(row.Weight)
+                </td>
+                <td>
+                  @Html.Raw(row.LAGI_TSO)
+                </td>
+                @*<td>
+                      @Html.Raw((rowIndex == 1 && string.IsNullOrEmpty(row.Hawb.Trim())) ? row.Lagi_Identity.Substring(row.Lagi_Identity.Length - 6) : "")
+                    </td>*@
+                @if (ViewBag.CheckMaster && rowIndex == 1)
+                {
+                    <td></td>
+                }
+                else
+                {
+                    <td>@Html.Raw(Web.Portal.Utils.Constants.GetStatus(row.Status))</td>
+                }
+              
+
+            </tr>
+        }
+    </tbody>
+</table>
+<script>
+    //$(".flight-detail").click(function () {
+    //    egovutil.dialog("THÔNG TIN CHUYẾN BAY", "large", "/AwbDetail/FlightDetail?lagi_ident=" + $(this).attr("data-id"), "hermesAction.search();");
+    //});s
+    $(".flight-detail").click(function () {
+        egovutil.dialog("THÔNG TIN ĐIỆN VĂN", "large", "/AwbDetail/MessageDetail?lagi_ident=" + $(this).attr("data-id"), "hermesAction.search();");
+    });
+   // egovutil.CreateTableSort("#tbl-hawb", [[0, "asc"]], [
+
+   //{
+
+   //    "orderable": false, "targets": [0, 0]
+   //}
+   // ], false);
+</script>

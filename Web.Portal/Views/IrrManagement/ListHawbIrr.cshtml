@@ -110,31 +110,31 @@
                                 <tr>
                                   
                                     <td style="width:30%">
-                                        <a href="javascript:xuLyEdit(@Html.DisplayFor(model => rowxl.ID));" data-id="@Html.DisplayFor(model => rowxl.ID)" class="btn  btn-xs hawb-editt">@Html.DisplayTextFor(model => rowxl.Hawb)</a>
+                                        <a href="javascript:xuLyEdit(@Html.DisplayFor(model => rowxl.ID));" data-flight="@ViewBag.FlightId" data-id="@Html.DisplayFor(model => rowxl.ID)" class="btn  btn-xs hawb-editt">@Html.DisplayTextFor(model => rowxl.Hawb)</a>
                                     </td>
                                     <td style="width:15%">
-                                        <a href="javascript:xuLyEdit(@Html.DisplayFor(model => rowxl.ID));" data-id="@Html.DisplayFor(model => rowxl.ID)" class="btn  btn-xs hawb-editt">@Html.DisplayTextFor(model => rowxl.HawbDes)</a>
+                                        <a href="javascript:xuLyEdit(@Html.DisplayFor(model => rowxl.ID));"  data-id="@Html.DisplayFor(model => rowxl.ID)" data-flight="@ViewBag.FlightId" class="btn  btn-xs hawb-editt">@Html.DisplayTextFor(model => rowxl.HawbDes)</a>
                                     </td>
                                     <td style="width:10%">
-                                        <a href="javascript:xuLyEdit(@Html.DisplayFor(model => rowxl.ID));" data-id="@Html.DisplayFor(model => rowxl.ID)" class="btn  btn-xs hawb-editt">@Html.DisplayTextFor(model => rowxl.IrrDes)</a>
+                                        <a href="javascript:xuLyEdit(@Html.DisplayFor(model => rowxl.ID));"  data-id="@Html.DisplayFor(model => rowxl.ID)" data-flight="@ViewBag.FlightId" class="btn  btn-xs hawb-editt">@Html.DisplayTextFor(model => rowxl.IrrDes)</a>
                                     </td>
                                     <td style="width:20%">
-                                        <a href="javascript:xuLyEdit(@Html.DisplayFor(model => rowxl.ID));" data-id="@Html.DisplayFor(model => rowxl.ID)" class="btn  btn-xs hawb-editt">@Html.DisplayTextFor(model => rowxl.IrrPices)</a>
+                                        <a href="javascript:xuLyEdit(@Html.DisplayFor(model => rowxl.ID));" data-id="@Html.DisplayFor(model => rowxl.ID)" data-flight="@ViewBag.FlightId" class="btn  btn-xs hawb-editt">@Html.DisplayTextFor(model => rowxl.IrrPices)</a>
                                     </td>
                                     <td style="width:20%">
-                                        <a href="javascript:xuLyEdit(@Html.DisplayFor(model => rowxl.ID));" data-id="@Html.DisplayFor(model => rowxl.ID)" class="btn  btn-xs hawb-editt">@Html.DisplayTextFor(model => rowxl.IrrWeight)</a>
+                                        <a href="javascript:xuLyEdit(@Html.DisplayFor(model => rowxl.ID));" data-id="@Html.DisplayFor(model => rowxl.ID)" data-flight="@ViewBag.FlightId" class="btn  btn-xs hawb-editt">@Html.DisplayTextFor(model => rowxl.IrrWeight)</a>
                                     </td>
                                     <td style="width:20%">
-                                        <a href="javascript:xuLyEdit(@Html.DisplayFor(model => rowxl.ID));" data-id="@Html.DisplayFor(model => rowxl.ID)" class="btn  btn-xs hawb-editt">@Html.DisplayTextFor(model => rowxl.IrrDetails)</a>
+                                        <a href="javascript:xuLyEdit(@Html.DisplayFor(model => rowxl.ID));" data-id="@Html.DisplayFor(model => rowxl.ID)" data-flight="@ViewBag.FlightId" class="btn  btn-xs hawb-editt">@Html.DisplayTextFor(model => rowxl.IrrDetails)</a>
                                     </td>
                                     <td style="width:20%">
-                                        <a href="javascript:xuLyEdit(@Html.DisplayFor(model => rowxl.ID));" data-id="@Html.DisplayFor(model => rowxl.ID)" class="btn  btn-xs hawb-editt">@Html.DisplayTextFor(model => rowxl.ULD)</a>
+                                        <a href="javascript:xuLyEdit(@Html.DisplayFor(model => rowxl.ID));" data-id="@Html.DisplayFor(model => rowxl.ID)" data-flight="@ViewBag.FlightId" class="btn  btn-xs hawb-editt">@Html.DisplayTextFor(model => rowxl.ULD)</a>
                                     </td>
                                     <td>
-                                        <a href="javascript:xuLyEdit(@Html.DisplayFor(model => rowxl.ID));" data-id="@Html.DisplayFor(model => rowxl.ID)" class="btn  btn-xs hawb-editt">
+                                        <a href="javascript:xuLyEdit(@Html.DisplayFor(model => rowxl.ID));" data-id="@Html.DisplayFor(model => rowxl.ID)" data-flight="@ViewBag.FlightId" class="btn  btn-xs hawb-editt">
                                             <i class="fa fa-edit"></i> Sửa
                                         </a>
-                                        <a href="javascript:xuLyDelete(@Html.DisplayFor(model => rowxl.ID));" data-id="@Html.DisplayFor(model => rowxl.ID)" class="btn  btn-xs hawb-delete">
+                                        <a href="javascript:xuLyDelete(@Html.DisplayFor(model => rowxl.ID));" data-id="@Html.DisplayFor(model => rowxl.ID)" data-flight="@ViewBag.FlightId" class="btn  btn-xs hawb-delete">
                                             <i class="fa fa fa-trash-o"></i> Xóa
                                         </a>
                                     </td>
@@ -156,7 +156,7 @@
             setTimeout(() => {
                 location.reload();
             },1000)
-           
+
         }
     }
     egovutil.CreateTableSort("#tbl-flight", [[0, "asc"]], [
@@ -167,22 +167,22 @@
         egovutil.dlgConfirmAction("XÓA  ", "Bạn có muốn xóa bản ghi?", "/Irrmanagement/DeleteHawb/" + $(this).attr("data-id"), actionHawbReload.execute);
     });
     $(".hawb-edit").click(function () {
-        egovutil.dialog("Sửa thông tin bất thường", "large", "/IrrManagement/EditHawbIrr?ID=" + $(this).attr("data-id") + "&awbId="+@ViewBag.AwbId);
+        egovutil.dialog("Sửa thông tin bất thường", "large", "/IrrManagement/EditHawbIrr?ID=" + $(this).attr("data-id") + "&awbId="+@ViewBag.AwbId+ "&flightID="+@ViewBag.FlightId);
     });
     $(".hawb-add").click(function () {
-        egovutil.dialog("Thêm mới thông tin bất thường", "large", "/IrrManagement/AddHawbIrr?ID=" + $(this).attr("data-id") + "&awbId="+@ViewBag.AwbId);
+        egovutil.dialog("Thêm mới thông tin bất thường", "large", "/IrrManagement/AddHawbIrr?ID=" + $(this).attr("data-id") + "&awbId="+@ViewBag.AwbId+ "&flightID="+@ViewBag.FlightId);
     });
     $(".hawb-print").click(function () {
         egovutil.dialog("Sửa thông tin bất thường", "large", "/IrrManagement/BBBT?ID=" + $(this).attr("data-id") + "&awbId="+@ViewBag.AwbId +"&flightID="+@ViewBag.FlightId);
     });
     $(".btn-add-item").click(function () {
-        egovutil.dialog("Thêm mới thông tin bất thường", "large", "/IrrManagement/EditHawbIrr?ID=0&awbId="+@ViewBag.AwbId);
+        egovutil.dialog("Thêm mới thông tin bất thường", "large", "/IrrManagement/EditHawbIrr?ID=0&awbId="+@ViewBag.AwbId+"&flightID="+@ViewBag.FlightId);
     });
     $(".item-delete").click(function () {
         egovutil.dlgConfirmAction("Xóa thông tin bất thường ", "Bạn muốn xóa bản ghi này", "/org/delete/" + $(this).attr("data-id"));
     });
     function xuLyEdit(id) {
-        egovutil.dialog("Sửa thông tin bất thường", "large", "/IrrManagement/EditHawbIrr?ID=" + id + "&awbId="+@ViewBag.AwbId);
+        egovutil.dialog("Sửa thông tin bất thường", "large", "/IrrManagement/EditHawbIrr?ID=" + id + "&awbId="+@ViewBag.AwbId +"&flightID="+@ViewBag.FlightId);
     }
     function xuLyDelete(id) {
         egovutil.dlgConfirmAction("XÓA  ", "Bạn có muốn xóa bản ghi?", "/Irrmanagement/DeleteHawb/" + id, actionHawbReload.execute);

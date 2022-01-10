@@ -7890,6 +7890,19 @@
     <Content Include="Views\ImpReport\ExpReportTLN07.cshtml" />
     <Content Include="Views\IrrManagement\Remark.cshtml" />
     <Content Include="Views\IrrManagement\RemarkFlight.cshtml" />
+    <Content Include="Views\AwbDetail\Export.cshtml" />
+    <Content Include="Views\EInvoice\InvoiceApprove.cshtml" />
+    <Content Include="Views\EInvoice\InvoiceCancel.cshtml" />
+    <Content Include="Views\KSULD\Index.cshtml" />
+    <Content Include="Views\KSULD\List.cshtml" />
+    <Content Include="Views\KSULD\ListULD.cshtml" />
+    <Content Include="Views\KSULD\ULDDetail.cshtml" />
+    <Content Include="Views\KSCB\ListUld.cshtml" />
+    <Content Include="Views\KSULD\Export.cshtml" />
+    <Content Include="Views\FindUld\Index.cshtml" />
+    <Content Include="Views\FindUld\List.cshtml" />
+    <Content Include="Views\KSULD\Print.cshtml" />
+    <Content Include="Views\KSULD\PrintByFlight.cshtml" />
     <None Include="Web References\com.cmcsoft.hoadon\DefaultService.disco" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

@@ -112,7 +112,9 @@ namespace Web.Portal.DataAccess
                 while (reader.Read())
                 {
                     totalRows = Convert.ToInt32(GetValueField(reader, "total", 0));
-                    impAWBs.Add(GetProperties(reader));
+                 
+                   
+                         impAWBs.Add(GetProperties(reader));
                 }
             }
             return impAWBs;
@@ -180,7 +182,9 @@ namespace Web.Portal.DataAccess
                     totalRows = Convert.ToInt32(GetValueField(reader, "total", 0));
                     sumDelivered = Convert.ToInt32(GetValueField(reader, "DELIVEREDSUM", 0));
                     sumWeight = Convert.ToDouble(GetValueField(reader, "GWGOODSSUM", 0));
-                    impAWBs.Add(GetPropertiesV2(reader));
+                    //Layer.ImpAWB item = GetProperties(reader);
+                    //if (item.HAWB == "SMCIA218071")
+                        impAWBs.Add(GetPropertiesV2(reader));
                 }
             }
             return impAWBs;

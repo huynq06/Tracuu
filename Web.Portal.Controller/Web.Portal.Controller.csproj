@@ -37,6 +37,9 @@
       <HintPath>..\packages\Autofac.4.9.4\lib\net45\Autofac.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="BarcodeLib">
+      <HintPath>C:\Users\Admin\Downloads\BarcodeLib\BarcodeLib.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Owin, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
       <Private>True</Private>
@@ -142,6 +145,7 @@
     <Compile Include="ExportReportController.cs" />
     <Compile Include="FastCargoController.cs" />
     <Compile Include="FindAwbExportController.cs" />
+    <Compile Include="FindUldController.cs" />
     <Compile Include="FlightController.cs" />
     <Compile Include="FlightExpController.cs" />
     <Compile Include="FlightServiceController.cs" />
@@ -164,6 +168,7 @@
     <Compile Include="IssueController.cs" />
     <Compile Include="IssueManagementController.cs" />
     <Compile Include="KSCBController.cs" />
+    <Compile Include="KSULDController.cs" />
     <Compile Include="MenuController.cs" />
     <Compile Include="MessageController.cs" />
     <Compile Include="PhanCaController.cs" />

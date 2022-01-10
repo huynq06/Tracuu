@@ -384,7 +384,19 @@ namespace Web.Portal.Controller
                     adj.rea = "Sai thong tin hoa don";
                     adj.ref_ = invoice.InvoiceIsn;
                     inv inv = new inv();
-                    inv.seq = System.Configuration.ConfigurationManager.AppSettings["SeqCancel_EXPORT"] + invoice.Sequence.ToString().PadLeft(7, '0'); ;
+                    if (invoice.ID >= 241089 && invoice.ID <= 241408)
+                    {
+                        inv.seq = "01GTKT0/001-AC/20E-" + invoice.Sequence.ToString().PadLeft(7, '0');
+                    }
+                    else if (invoice.ID < 241089)
+                    {
+                        inv.seq = "01GTKT0/001-AX/20E-" + invoice.Sequence.ToString().PadLeft(7, '0'); 
+                    }
+                    else
+                    {
+                        inv.seq = System.Configuration.ConfigurationManager.AppSettings["SeqCancel_EXPORT"] + invoice.Sequence.ToString().PadLeft(7, '0'); 
+                    }
+                    //inv.seq = System.Configuration.ConfigurationManager.AppSettings["SeqCancel_EXPORT"] + invoice.Sequence.ToString().PadLeft(7, '0'); ;
                     inv.adj = adj;
                     InvoiceCancel invoiceCancel = new InvoiceCancel();
                     invoiceCancel.user = account;
@@ -528,6 +540,70 @@ namespace Web.Portal.Controller
 
             //return Json(new { Type = messageType, Message = message, Title = "Thông báo" }, JsonRequestBehavior.AllowGet);
         }
+        public ActionResult ApprInvoice()
+        {
+            bool check = false;
+            string message = string.Empty;
+            string messageType = Utils.DisplayMessage.TypeSuccess;
+            string invoiceIsn = Request["invoiceIsn"].Trim();
+            var invoiceDB = _iHermesInvoiceService.GetByInvoiceIsn(invoiceIsn);
+            try
+            {
+                string jsonResult = JsonAprroveInvoiceALSC(invoiceIsn);
+                string rp = "";
+                Utils.HttpRequest rq = new Utils.HttpRequest();
+                string url = System.Configuration.ConfigurationManager.AppSettings["Apprs"];
+                rq.Url = url;
+                var watch = System.Diagnostics.Stopwatch.StartNew();
+
+                // the code that you want to measure comes here
+                invoiceDB.TimeSent = DateTime.Now;
+
+                rp = rq.Execute(jsonResult, "POST", "", false, "", ref check);
+                watch.Stop();
+                var elapsedMs = watch.ElapsedMilliseconds;
+                if (check)
+                {
+                    JObject jObj = JObject.Parse(rp);                 // Parse the object graph
+                    int seq = int.Parse(jObj["seq"].ToString());
+                    string reference = jObj["id"].ToString();
+                    string invoiceSearchLink = jObj["link"].ToString();
+                    string searchCode = jObj["sec"].ToString();
+                    invoiceDB.Status = true;
+                    invoiceDB.TimeReponse = DateTime.Now;
+                    invoiceDB.ExecuteTime = elapsedMs.ToString();
+                    invoiceDB.Sequence = seq;
+                    invoiceDB.ReferenceNo = reference;
+                    invoiceDB.InvoiceStatus = CommonConstants.INVOICEAPROVE;
+                    invoiceDB.InvoiceDescription = CommonConstants.APPROVE;
+                    invoiceDB.EInvoiceSearchLink = invoiceSearchLink;
+                    invoiceDB.SearchCode = searchCode;
+                    _iHermesInvoiceService.Update(invoiceDB);
+                    _iHermesInvoiceService.Save();
+                    return Json(new
+                    {
+                        data = invoiceDB.InvoiceIsn,
+                        status = true
+                    }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(new
+                    {
+                        data = rp,
+                        status = false
+                    }, JsonRequestBehavior.AllowGet);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                messageType = Utils.DisplayMessage.TypeError;
+                Log.WriteLog(ex.ToString(), "InvoiceEdit.txt");
+                message = ex.ToString();
+                return Json(new { Type = messageType, Message = message, Title = "Thông báo" }, JsonRequestBehavior.AllowGet);
+            }
+        }
         public ActionResult CheckError()
         {
             string invoiceIsn = Request["invoiceIsn"].Trim();
@@ -613,6 +689,24 @@ namespace Web.Portal.Controller
                 jsonResult = JsonConvert.SerializeObject(invoiceJson);
             }
 
+            return jsonResult;
+        }
+        public string JsonAprroveInvoiceALSC(string id)
+        {
+            string jsonResult = "";
+            Account account = new Account();
+            account.username = System.Configuration.ConfigurationManager.AppSettings["UserNameEInvoiceALSC"];
+            account.password = System.Configuration.ConfigurationManager.AppSettings["PasswordEInvoiceALSC"];
+            InvoiceAprrFields invoiceField = new InvoiceAprrFields();
+            invoiceField.sid = id;
+            //invoiceField.seq = "";
+            invoiceField.stax = "0106232917";
+            invoiceField.form = System.Configuration.ConfigurationManager.AppSettings["InvoiceFieldFormALSC"];
+            invoiceField.serial = System.Configuration.ConfigurationManager.AppSettings["InvoiceFieldSerialALSC_EXPORT"];
+            InvoiceApproveJson invoiceJson = new InvoiceApproveJson();
+            invoiceJson.user = account;
+            invoiceJson.inv = invoiceField;
+            jsonResult = JsonConvert.SerializeObject(invoiceJson);
             return jsonResult;
         }
         public static string CreatePdf(string invoiceIsn, string objBase64)

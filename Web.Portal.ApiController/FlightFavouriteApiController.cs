@@ -39,7 +39,7 @@ namespace Web.Portal.ControllerApi
                     flight.UserID = flightViewModel.UserID;
                     flight.TokenID = flightViewModel.TokenID;
                     flight.FlightStatus = 0;
-                    flight.Description = "";
+                    flight.Description = flightViewModel.Type;
                     flight.FlightActive = true;
                     flight.IsSendNotification = false;
                     _flightService.Add(flight);
@@ -61,12 +61,12 @@ namespace Web.Portal.ControllerApi
             }
         }
         [HttpGet]
-        public HttpResponseMessage Index(string id)
+        public HttpResponseMessage Index(string userId, string type)
         {
             try
             {
                 List<FlightFavouriteViewModel> listFlight = new List<FlightFavouriteViewModel>();
-                List<FlightFavourite> flights = _flightService.GetAll(Guid.Parse(id)).ToList();
+                List<FlightFavourite> flights = _flightService.GetAll(Guid.Parse(userId), type).ToList();
                 foreach(var item in flights)
                 {
                     FlightFavouriteViewModel flightViewModel = new FlightFavouriteViewModel();

@@ -19,6 +19,24 @@ namespace Web.Portal.DataAccess
             getIn.GetInstatus = getIn.Created.HasValue ? 1 : 0;
             return getIn;
         }
+        private ExportAwbTrackCustomStatusViewModel GetProperties(OracleDataReader reader)
+        {
+            ExportAwbTrackCustomStatusViewModel item = new ExportAwbTrackCustomStatusViewModel();
+            item.SDD = Convert.ToString(GetValueField(reader, "GOODS_ID", string.Empty));
+            item.STK = Convert.ToString(GetValueField(reader, "STK", string.Empty));
+            item.GetInStatus = Convert.ToInt32(GetValueField(reader, "GETIN_STATUS", 0));
+            item.GetInPieces = Convert.ToInt32(GetValueField(reader, "GETIN_PIECE", 0));
+            item.GetInMessage = Convert.ToString(GetValueField(reader, "GETIN_MSG", string.Empty));
+            item.GetInCreated = GetValueDateTimeField(reader, "GETIN_CREATED", item.GetInCreated);
+            item.GetInDate = item.GetInCreated.HasValue ? item.GetInCreated.Value.ToString("dd/MM/yyyy HH:mm") : "";
+            item.GetOutStatus = Convert.ToInt32(GetValueField(reader, "GETOUT_STATUS", 0));
+            item.GetOutPieces = Convert.ToInt32(GetValueField(reader, "GETOUT_PIECE", 0));
+            item.GetOutMessage = Convert.ToString(GetValueField(reader, "GETOUT_MSG", string.Empty));
+            item.GetOutCreated = GetValueDateTimeField(reader, "GETOUT_CREATED", item.GetOutCreated);
+            item.GetOutDate = item.GetOutCreated.HasValue ? item.GetOutCreated.Value.ToString("dd/MM/yyyy HH:mm") : "";
+
+            return item;
+        }
         public GetInViewModel GetInCheck(string awb,string hawb)
         {
             string sql = "select cargo.Created as CREATED from  customservice.cargo_inout cargo " +
@@ -95,6 +113,32 @@ namespace Web.Portal.DataAccess
                 }
             }
             return getOut;
+        }
+        public List<ExportAwbTrackCustomStatusViewModel> ExportAwbCustomStatus(string labIdent)
+        {
+            string sql = "select ci.tequip_masterbilloflading AWB, "+
+"ci.tequip_cargoctrlno GOODS_ID, "+
+"ci.tequip_cargopiece GETIN_PIECE, "+
+"ci.dec_customsreference STK, " +
+ "ci.status GETIN_STATUS, ci.contentmessage GETIN_MSG, "+
+ "co.tequip_cargopiece GETOUT_PIECE, " +
+ "ci.created GETIN_CREATED,co.status GETOUT_STATUS,co.contentmessage GETOUT_MSG, " +
+ "co.created GETOUT_CREATED from  hawb_house_waybill_details hh " +
+"join labs on hh.hawb_master_isn = labs.labs_fwbm_serial_no "+
+"left join customservice.cargo_inout ci on ci.tequip_cargoctrlno = hh.hawb_house_number "+
+"left join customservice.cargo_out co on co.tequip_cargoctrlno = hh.hawb_house_number "+
+"where labs.labs_ident_no = '" + labIdent + "'";
+            List<ExportAwbTrackCustomStatusViewModel> status = new List<ExportAwbTrackCustomStatusViewModel>();
+            using (OracleDataReader reader = GetScriptOracleDataReader(sql))
+            {
+                while (reader.Read())
+                {
+                    ExportAwbTrackCustomStatusViewModel awb = GetProperties(reader);
+                    if(awb.GetInCreated.HasValue)
+                      status.Add(GetProperties(reader));
+                }
+            }
+            return status;
         }
     }
 }

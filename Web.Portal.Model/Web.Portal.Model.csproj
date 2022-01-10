@@ -81,6 +81,7 @@
     <Compile Include="Models\Issue.cs" />
     <Compile Include="Models\Issue_detail.cs" />
     <Compile Include="Models\Lab.cs" />
+    <Compile Include="Models\LabsFavourite.cs" />
     <Compile Include="Models\Lagi.cs" />
     <Compile Include="Models\Location.cs" />
     <Compile Include="Models\LocationConfig.cs" />
@@ -97,6 +98,7 @@
     <Compile Include="Models\tblUser.cs" />
     <Compile Include="Models\TruckAwb.cs" />
     <Compile Include="Models\ULDByFlight.cs" />
+    <Compile Include="Models\UldLog.cs" />
     <Compile Include="Models\ULD_TYPE.cs" />
     <Compile Include="Models\VCT.cs" />
     <Compile Include="Models\VCTProcessing.cs" />

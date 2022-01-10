@@ -77,6 +77,7 @@
     <Compile Include="IssueService.cs" />
     <Compile Include="Issue_detailService.cs" />
     <Compile Include="LabService.cs" />
+    <Compile Include="LabsFavouriteService.cs" />
     <Compile Include="LagiService.cs" />
     <Compile Include="LocationConfigService.cs" />
     <Compile Include="LocationService.cs" />
@@ -95,6 +96,7 @@
     <Compile Include="tblUserService.cs" />
     <Compile Include="TruckAwbService.cs" />
     <Compile Include="ULDByFlightService.cs" />
+    <Compile Include="UldLogService.cs" />
     <Compile Include="ULD_TYPEService.cs" />
     <Compile Include="UserCardService.cs" />
     <Compile Include="UserService.cs" />

@@ -15,6 +15,7 @@ namespace Web.Portal.Service
         IEnumerable<VCT> GetAll();
         IEnumerable<VCT> GetAllToday(int id);
              VCT GetByID(int id);
+        VCT GetByLabIdent(string labIdent);
         IEnumerable<VCT> GetConfirm();
         IEnumerable<VCT> GetByDay(DateTime dateCheck);
         void Update(VCT vct);
@@ -102,6 +103,11 @@ namespace Web.Portal.Service
         public IEnumerable<VCT> GetByDay(DateTime dateCheck)
         {
             return _vctRepository.GetMulti(c => c.LABS_CREATED_AT.Value.Day == dateCheck.Day && c.LABS_CREATED_AT.Value.Month == dateCheck.Month && c.LABS_CREATED_AT.Value.Year == dateCheck.Year).OrderBy(c => c.LABS_CREATED_AT);
+        }
+
+        public VCT GetByLabIdent(string labIdent)
+        {
+            return _vctRepository.GetSingleByCondition(c => c.LABS_IDENT_NO == labIdent);
         }
     }
 }

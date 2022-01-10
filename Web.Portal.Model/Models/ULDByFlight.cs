@@ -27,6 +27,7 @@ namespace Web.Portal.Model.Models
         public int? Priority { set; get; }
         public string SHC { set; get; }
         public int? CheckValue { set; get; }
+        public string ULD_ISN { set; get; }
 
 
     }
