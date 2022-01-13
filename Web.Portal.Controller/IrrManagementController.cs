@@ -1587,6 +1587,7 @@ namespace Web.Portal.Controller
         {
             int? id = string.IsNullOrEmpty(Request["ID"].Trim()) ? 0 : int.Parse(Request["ID"].Trim());
             string awbId = Request["awbId"].Trim();
+            string flightID = Request["flightID"].Trim();
             var hawb = new HawbIrr();
             string check = "true";
             if (id.HasValue && id.Value != 0)
@@ -1596,6 +1597,7 @@ namespace Web.Portal.Controller
             }
             ViewBag.AwbId = awbId;
             ViewBag.Check = check;
+            ViewBag.FlightID = flightID;
             return View(hawb);
         }
         public ActionResult SaveHawb(FormCollection formRequest)

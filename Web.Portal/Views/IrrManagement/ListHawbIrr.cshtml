@@ -167,22 +167,22 @@
         egovutil.dlgConfirmAction("XÓA  ", "Bạn có muốn xóa bản ghi?", "/Irrmanagement/DeleteHawb/" + $(this).attr("data-id"), actionHawbReload.execute);
     });
     $(".hawb-edit").click(function () {
-        egovutil.dialog("Sửa thông tin bất thường", "large", "/IrrManagement/EditHawbIrr?ID=" + $(this).attr("data-id") + "&awbId="+@ViewBag.AwbId+ "&flightID="+@ViewBag.FlightId);
+        egovutil.dialog("Sửa thông tin bất thường", "large", "/IrrManagement/EditHawbIrr?ID=" + $(this).attr("data-id") + "&awbId="+@ViewBag.AwbId+ "&flightID="+@ViewBag.FlightId, actionHawbReload.execute);
     });
     $(".hawb-add").click(function () {
-        egovutil.dialog("Thêm mới thông tin bất thường", "large", "/IrrManagement/AddHawbIrr?ID=" + $(this).attr("data-id") + "&awbId="+@ViewBag.AwbId+ "&flightID="+@ViewBag.FlightId);
+        egovutil.dialog("Thêm mới thông tin bất thường", "large", "/IrrManagement/AddHawbIrr?ID=" + $(this).attr("data-id") + "&awbId="+@ViewBag.AwbId+ "&flightID="+@ViewBag.FlightId, actionHawbReload.execute);
     });
     $(".hawb-print").click(function () {
-        egovutil.dialog("Sửa thông tin bất thường", "large", "/IrrManagement/BBBT?ID=" + $(this).attr("data-id") + "&awbId="+@ViewBag.AwbId +"&flightID="+@ViewBag.FlightId);
+        egovutil.dialog("Sửa thông tin bất thường", "large", "/IrrManagement/BBBT?ID=" + $(this).attr("data-id") + "&awbId="+@ViewBag.AwbId +"&flightID="+@ViewBag.FlightId, actionHawbReload.execute);
     });
     $(".btn-add-item").click(function () {
-        egovutil.dialog("Thêm mới thông tin bất thường", "large", "/IrrManagement/EditHawbIrr?ID=0&awbId="+@ViewBag.AwbId+"&flightID="+@ViewBag.FlightId);
+        egovutil.dialog("Thêm mới thông tin bất thường", "large", "/IrrManagement/EditHawbIrr?ID=0&awbId="+@ViewBag.AwbId+"&flightID="+@ViewBag.FlightId, actionHawbReload.execute);
     });
     $(".item-delete").click(function () {
-        egovutil.dlgConfirmAction("Xóa thông tin bất thường ", "Bạn muốn xóa bản ghi này", "/org/delete/" + $(this).attr("data-id"));
+        egovutil.dlgConfirmAction("Xóa thông tin bất thường ", "Bạn muốn xóa bản ghi này", "/org/delete/" + $(this).attr("data-id"), actionHawbReload.execute);
     });
     function xuLyEdit(id) {
-        egovutil.dialog("Sửa thông tin bất thường", "large", "/IrrManagement/EditHawbIrr?ID=" + id + "&awbId="+@ViewBag.AwbId +"&flightID="+@ViewBag.FlightId);
+        egovutil.dialog("Sửa thông tin bất thường", "large", "/IrrManagement/EditHawbIrr?ID=" + id + "&awbId="+@ViewBag.AwbId +"&flightID="+@ViewBag.FlightId, actionHawbReload.execute);
     }
     function xuLyDelete(id) {
         egovutil.dlgConfirmAction("XÓA  ", "Bạn có muốn xóa bản ghi?", "/Irrmanagement/DeleteHawb/" + id, actionHawbReload.execute);

@@ -5,6 +5,7 @@
 @model Web.Portal.Model.Models.HawbIrr
 <form class="form-horizontal" id="frmHawbIrrAction">
     <input type="hidden" name="keyAwbId" value="@ViewBag.AwbId" />
+    <input type="hidden" name="flightID" value="@ViewBag.FlightID" />
     <input type="hidden" name="keyValue" value="@Html.DisplayFor(model=>model.ID)" />
     <div class="form-body" style="padding:10px">
         <div class="form-group form-md-line-input">

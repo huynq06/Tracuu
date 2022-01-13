@@ -46,7 +46,7 @@ namespace Web.Portal.Controller
             DateTime dateCheck = DateTime.Now.AddHours(-6);
             //                                                                  ref total);
             var listFlight = _flightService.GetAll().Where(c=>c.LandedDate > dateCheck).ToList();
-            ViewData["ListFlight"] = _flightService.GetAll().Where(c => c.LandedDate.Value.Date == DateTime.Now.Date).ToList();
+            ViewData["ListFlight"] = listFlight;
             return View();
         }
         public ActionResult ListULD()
