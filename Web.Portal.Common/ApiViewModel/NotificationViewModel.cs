@@ -12,5 +12,6 @@ namespace Web.Portal.Common.ApiViewModel
         public bool isAndroiodDevice { set; get; }
         public string title { set; get; }
         public string body { set; get; }
+        public Guid? UserID { set; get; }
     }
 }

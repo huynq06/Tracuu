@@ -1015,6 +1015,7 @@ namespace Web.Portal.Controller
                 awbIrr.IrrTimeDes = Utils.Format.GetNullString(formRequest["irrTimeDes"]);
                 awbIrr.Staff = Utils.Format.GetNullString(formRequest["staff"]);
                 awbIrr.Supervisor = Utils.Format.GetNullString(formRequest["sup"]);
+                awbIrr.CustomSupervisor = Utils.Format.GetNullString(formRequest["custom"]);
                 awbIrr.AgenCreated = string.IsNullOrEmpty(Request["printDate"]) ? new DateTime() : Web.Portal.Utils.Format.ConvertDate(Request["printDate"]);
                 _hawbService.Update(awbIrr);
                 _awbIrrService.Save();

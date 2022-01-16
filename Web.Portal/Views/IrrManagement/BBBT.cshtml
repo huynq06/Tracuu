@@ -581,20 +581,29 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="form-group form-md-line-input">
-                                <label class="col-md-7 control-label" for="form_control_1">16.Nhân Viên </label>
-                                <div class="col-md-5">
+                                <label class="col-md-4 control-label" for="form_control_1">16.Nhân Viên </label>
+                                <div class="col-md-8">
                                     <input type="text" class="form-control" id="form_control_1" placeholder="Nhân viên" value="@Html.Raw(string.IsNullOrEmpty(Model.Staff) ? "" : Model.Staff)" name="staff" />
                                     <div class="form-control-focus"> </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="form-group form-md-line-input">
-                                <label class="col-md-7 control-label" for="form_control_1">17. Cán bộ </label>
-                                <div class="col-md-5">
+                                <label class="col-md-4 control-label" for="form_control_1">17.Cán bộ </label>
+                                <div class="col-md-8">
                                     <input type="text" class="form-control" id="form_control_1" placeholder="Cán bộ" value="@Html.Raw(string.IsNullOrEmpty(Model.Supervisor) ? "" : Model.Supervisor)" name="sup">
+                                    <div class="form-control-focus"> </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group form-md-line-input">
+                                <label class="col-md-4 control-label" for="form_control_1">17.Hải quan </label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control" id="form_control_1" placeholder="Cán bộ HQ" value="@Html.Raw(string.IsNullOrEmpty(Model.CustomSupervisor) ? "" : Model.CustomSupervisor)" name="custom">
                                     <div class="form-control-focus"> </div>
                                 </div>
                             </div>

@@ -18,19 +18,21 @@ namespace Web.Portal.Controller
         IIssue_detailService _issueDetailService;
         IVCTService _iVctService;
         IFLightFlupService _flightService;
+        ILabsFavouriteService _labFavouriteService;
         public IssueManagementController(IIssueService issueService, IIssue_detailService issueDetailService, 
-            IVCTService iVctService, IFLightFlupService flightService)
+            IVCTService iVctService, IFLightFlupService flightService, ILabsFavouriteService labFavouriteService)
         {
             this._issueService = issueService;
             this._flightService = flightService;
             this._issueDetailService = issueDetailService;
             this._iVctService = iVctService;
+            this._labFavouriteService = labFavouriteService;
         }
         public ActionResult Index()
         {
             return View();
         }
-        public ActionResult SendNotify()
+        public ActionResult SendNotify(string token,string title,string body,Guid userID)
         {
             string message = string.Empty;
             string messageType = Utils.DisplayMessage.TypeSuccess;
@@ -40,7 +42,7 @@ namespace Web.Portal.Controller
             rq.Url = url;
             bool check = false;
             var watch = System.Diagnostics.Stopwatch.StartNew();
-            rp = rq.Execute(JsonNotify(), "POST", "", false, "", ref check);
+            rp = rq.Execute(JsonNotify(token,title,body, userID), "POST", "", false, "", ref check);
             watch.Stop();
             var elapsedMs = watch.ElapsedMilliseconds;
             message = "Gui thong bao thanh cong";
@@ -77,7 +79,14 @@ namespace Web.Portal.Controller
             _iVctService.Save();
             string message = string.Empty;
             string messageType = Utils.DisplayMessage.TypeSuccess;
+            //kiem tra xem co can gui notify hay ko
+            var labFavorite = _labFavouriteService.GetByLabId(vct.LABS_IDENT_NO);
+            if(labFavorite != null)
+            {
+                SendNotify(labFavorite.TokenID, "", "Lô hàng: " + vct.LABS_AWB + " đã hoàn thành đo DIM lúc" + DateTime.Now.ToString("HH:mm")+ " !",labFavorite.UserId.Value);
 
+            }
+          
             message = "LÔ HÀNG ĐÃ HOÀN THÀNH ĐO DIM!";
             return Json(new { Type = messageType, Message = message, Title = "Thông báo" }, JsonRequestBehavior.AllowGet);
         }
@@ -263,13 +272,14 @@ namespace Web.Portal.Controller
             ViewData["VCTList"] = listVct;
             return View();
         }
-        public string JsonNotify()
+        public string JsonNotify(string tokenID,string title,string body,Guid userID)
         {
             Web.Portal.Common.ApiViewModel.NotificationViewModel notify = new Common.ApiViewModel.NotificationViewModel();
-            notify.deviceId = "fp2LBCA5Qyen6tiVrBuzd0:APA91bGFtWWhLQl__DQ1VGpR6_cAFgFUMUV6vwsbMerWqdQgxc1VjioaSJrXNwErNVxbjmiKK9BjwMcSEQSrIpPYbIfer1-ZtMNffc5ujHuwRlFlulNKR3RzREYOVkizFxp0IiuVRDuD";
-            notify.title = "Hello from ALSC " + DateTime.Now.ToString("dd/MM/yyyy HH:mm");
-            notify.body = "Lô hàng 180 11111111 đã khai thác xong";
+            notify.deviceId = tokenID;
+            notify.title = string.IsNullOrEmpty(title)? "ALSC Thông báo" : title;
+            notify.body = body;
             notify.isAndroiodDevice = true;
+            notify.UserID = userID;
             return Newtonsoft.Json.JsonConvert.SerializeObject(notify);
 
         }

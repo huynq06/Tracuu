@@ -86,5 +86,6 @@ namespace Web.Portal.Model.Models
         public string LAGI_WEIGHT_RECEIVED { set; get; }
         public int? LAGI_QUANTITY_EXPECTED { set; get; }
         public string LAGI_WEIGHT_EXPECTED { set; get; }
+        public string CustomSupervisor { set; get; }
     }
 }
