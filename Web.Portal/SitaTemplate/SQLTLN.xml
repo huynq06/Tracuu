@@ -90,6 +90,7 @@ z.HAWB,
  from 
 (select
 m.FLIGHT_NO,
+m.FLUI_ID,
 count(distinct(m.MAWB))as MAWB,
 sum(m.pieces_received) as pieces_received,
 sum(m.weight_received) as weight_received
@@ -98,6 +99,7 @@ from
 (
 select distinct
 flui.flui_al_2_3_letter_code || flui.flui_flight_no FLIGHT_NO,
+flui.flui_internal_number FLUI_ID,
 to_char(to_date(flui.flui_landed_time,'HH24MISS'),'HH24:MI:SS') as ATA_TIME,
 lagi.lagi_mawb_prefix||lagi.lagi_mawb_no as MAWB,
 lagi.lagi_hawb as HAWB,
@@ -138,11 +140,12 @@ from
  and lagi.LAGI_GOODS_CONTENT NOT LIKE '%POST%'
 ) m
 --where rn=1 
-group by m.FLIGHT_NO )x
+group by m.FLIGHT_NO,m.FLUI_ID )x
 left join 
 (
 select
 m.FLIGHT_NO,
+m.FLUI_ID,
 count(distinct(m.MAWB))as MAWB,
 --SUM(NVL2(LENGTH(TRIM(m.HAWB)),1,0)) as HAWB,
 COUNT(DISTINCT m.HAWB) - COUNT(DISTINCT CASE WHEN m.HAWB = ' ' THEN 0 END) as HAWB,
@@ -153,6 +156,7 @@ from
 (
 select distinct
 flui.flui_al_2_3_letter_code || flui.flui_flight_no FLIGHT_NO,
+flui.flui_internal_number FLUI_ID,
 to_char(to_date(flui.flui_landed_time,'HH24MISS'),'HH24:MI:SS') as ATA_TIME,
 lagi.lagi_mawb_prefix||lagi.lagi_mawb_no as MAWB,
 lagi.lagi_hawb as HAWB,
@@ -193,11 +197,12 @@ from
  or lagi.LAGI_GOODS_CONTENT  LIKE '%POST%')
 ) m
 where rn=1 
-group by m.FLIGHT_NO     
-)y on x.FLIGHT_NO = y.FLIGHT_NO
+group by m.FLIGHT_NO,m.FLUI_ID     
+)y on x.FLIGHT_NO = y.FLIGHT_NO and x.FLUI_ID = y.FLUI_ID
 join (
 SELECT 
  flui.flui_al_2_3_letter_code||flui.flui_flight_no AS FLIGHT_NO,
+ flui.flui_internal_number FLUI_ID,
   count(distinct lagi.LAGI_HAWB) - COUNT(DISTINCT CASE WHEN lagi.LAGI_HAWB = ' ' THEN 1 END) as HAWB
 FROM flui flui
 JOIN PALO palo 
@@ -234,8 +239,8 @@ WHERE
   1 = 1 
   AND lagi.lagi_deleted = 0
   AND to_date('02-01-0001' ,'DD-MM-YYYY') + flui.flui_landed_date  = to_date('{0}','dd/mm/yyyy') 
-  group by   flui.flui_al_2_3_letter_code,flui.flui_flight_no
-)z on x.FLIGHT_NO = z.FLIGHT_NO
+  group by   flui.flui_al_2_3_letter_code,flui.flui_flight_no,flui.flui_internal_number
+)z on x.FLIGHT_NO = z.FLIGHT_NO and x.FLUI_ID = z.FLUI_ID
     </SQL>
     <FIND>FromDate</FIND>
     <COLUMN>FLIGHT_NO,MAWB,HAWB,SỐ KIỆN,TRỌNG LƯỢNG,SỐ KIỆN BƯU ĐIỆN,TRỌNG LƯỢNG BƯU ĐIỆN,TỔNG KIỆN,TỔNG TRỌNG LƯỢNG,TỔNG LÔ HÀNG</COLUMN> 
@@ -415,7 +420,7 @@ WHERE
   group by   flui.flui_al_2_3_letter_code,flui.flui_flight_no,flui.flui_landed_date
 )z on  x.FLIGHT_NO = z.FLIGHT_NO and x.ATA_DATE = z.ATA_DATE
 )k group by k.ATA_DATE
-order by k.ATA_DATE asc
+order by SUBSTR(k.ATA_DATE,4,2),k.ATA_DATE asc
     </SQL>
     <FIND>FromDate,ToDate</FIND>
     <COLUMN>NGÀY,TỔNG KIỆN,TỔNG TRỌNG LƯỢNG,TỔNG KIỆN MAIL,TỔNG TRỌNG LƯỢNG MAIL,TOTALPICES,TOTALWEIGHT,TỔNG SỐ LÔ HÀNG</COLUMN>   
@@ -554,7 +559,7 @@ from
  
 ) m
 where rn=1
-order by 1 
+order by substr(m.MAWB, -1),substr(m.MAWB, 4)
  
     </SQL>
     <FIND>FromDate,FlightNumber</FIND>
@@ -654,7 +659,7 @@ AND    T.LAGI_DELETED = 0
 AND    K.KUND_RECORD_DELETED = 0
 /*AND    (T.LAGI_DATE_LATEST_PKG_DEL IS NULL OR
       TO_CHAR(T.LAGI_DATE_LATEST_PKG_DEL) = ' ')*/
-AND T.Lagi_Date_First_Pkg_Rec &lt;= trunc(sysdate) - {0}
+AND to_date('02-01-0001' ,'DD-MM-YYYY') + T.LAGI_FLIGHT_DATE_IN &lt;= trunc(sysdate) - {0}
 --AND    T.LAGI_MAWB_NO = '23314362'
 GROUP  BY T.LAGI_MAWB_PREFIX || TO_CHAR(T.LAGI_MAWB_NO
                                        ,'00000000')

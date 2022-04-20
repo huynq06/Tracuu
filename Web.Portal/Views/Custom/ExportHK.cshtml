@@ -4,7 +4,7 @@
 
 }
 <p style="text-align:center;font-family:'Times New Roman';font-size:15pt;font-weight:bold;text-transform:uppercase">
-  DANH SÁCH BÀN GIAO HÀNG HÓA ALSC - @ViewBag.WareHouse <br/>Từ ngày @ViewBag.FromDate - @ViewBag.ToDate</p>
+    BÁO CÁO HÀNG CHUYỂN KHO @ViewBag.WareHouse <br/>Từ ngày @ViewBag.FromDate - @ViewBag.ToDate</p>
 <p style="text-align:left;font-family:'Times New Roman';font-size:15pt;font-weight:bold">
    <span>TỔNG SỐ LÔ:</span> <span style="color:red">@ViewBag.TotalRecord</span>
    <span>TỔNG SỐ KIỆN:</span> <span style="color:red">@ViewBag.SUMPCS</span>
@@ -71,11 +71,23 @@
     </tbody>
 
 </table>
+<p style="text-align:center;font-family:'Times New Roman';font-size:13pt;font-weight:bold;text-transform:uppercase">
 
-<table style="width:100%" border="0">
+</p>
+<div style="margin-top:200px;padding-top:50px;">
+    <table style="width:100%;" border="0">
+        <tr style="font-family:'Times New Roman';font-size:12pt;font-weight:bold;text-transform:uppercase">
+            <td colspan="3" align="center"><strong>Người lập báo cáo</strong></td>
+            <td colspan="6"></td>
+            @*<td align="center"><strong>Người kiểm soát</strong></td>*@
+        </tr>
+    </table>
+
+</div>
+@*<table style="width:100%" border="0">
     <tr style="font-family:'Times New Roman';font-size:15pt;font-weight:bold;text-transform:uppercase">
-        <td align="left"><strong></strong>XÁC NHẬN CỦA KHO HÀNG ALSC</strong></td>
-        <td align="right"><strong>XÁC NHẬN CỦA KHO @ViewBag.WareHouse</strong></td>
+        <td align="left"><strong></strong></td>
+        <td align="right"><strong>NGƯỜI LÀM BÁO CÁO</strong></td>
     </tr>
-</table>
+</table>*@
 

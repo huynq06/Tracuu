@@ -501,37 +501,46 @@ namespace Web.Portal.Controller
                                                                                   toDate,                                                                                  
                                                                                   ref total, ref totalPices, ref totalWeight);
             IList<Layer.ImpAWB> impAwbsReal = new List<Layer.ImpAWB>();
-            foreach (var item in impAwbs)
+            try
             {
-                Cargo_KVGS ck = _cargoService.GetByMawbHawb((item.Prefix + item.AWB.PadLeft(8, '0')), item.HAWB);
-                if (ck != null)
+                foreach (var item in impAwbs)
                 {
-                    item.SDD = ck.EQ_CARGOCTRLNO;
-                    item.STK = ck.EQ_CUSTOMSREFERENCE;
-                }
-                else
-                {
-                    item.SDD = "";
-                    item.STK = "";
-                }
-                List<Layer.ImpAWB> item_check = impAwbs.Where(x => x.AWB.Equals(item.AWB) && x.HAWB.Equals(item.HAWB)).ToList();
-                if (item_check.Count > 1)
-                {
-                    if (impAwbsReal.Count(x => x.AWB.Equals(item.AWB) && x.HAWB.Equals(item.HAWB)) == 0)
+                    Cargo_KVGS ck = _cargoService.GetByMawbHawb((item.Prefix + item.AWB.PadLeft(8, '0')), item.HAWB);
+                    if (ck != null)
                     {
-                        item_check[0].SDD = item.SDD;
-                        item_check[0].STK = item.STK;
-                        impAwbsReal.Add(item_check[0]);
+                        item.SDD = ck.EQ_CARGOCTRLNO;
+                        item.STK = ck.EQ_CUSTOMSREFERENCE;
                     }
-                }
-                else
-                {
-                    item.SDD = item.SDD;
-                    item.STK = item.STK;
-                    impAwbsReal.Add(item);
-                }
+                    else
+                    {
+                        item.SDD = "";
+                        item.STK = "";
+                    }
+                    List<Layer.ImpAWB> item_check = impAwbs.Where(x => x.AWB.Equals(item.AWB) && x.HAWB.Equals(item.HAWB)).ToList();
+                    if (item_check.Count > 1)
+                    {
+                        if (impAwbsReal.Count(x => x.AWB.Equals(item.AWB) && x.HAWB.Equals(item.HAWB)) == 0)
+                        {
+                            item_check[0].SDD = item.SDD;
+                            item_check[0].STK = item.STK;
+                            impAwbsReal.Add(item_check[0]);
+                        }
+                    }
+                    else
+                    {
+                        item.SDD = item.SDD;
+                        item.STK = item.STK;
+                        impAwbsReal.Add(item);
+                    }
 
+                }
             }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+           
             ViewData["impAWBLists"] = impAwbsReal;
             ViewBag.TotalRecord = impAwbsReal.Count();
             ViewBag.WareHouse = no.Equals("ALL")?string.Empty:no;

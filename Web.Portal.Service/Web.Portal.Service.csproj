@@ -95,6 +95,8 @@
     <Compile Include="tblTicketStatusService.cs" />
     <Compile Include="tblUserService.cs" />
     <Compile Include="TruckAwbService.cs" />
+    <Compile Include="UatEInvoice\UatHermesInvoiceDetailService.cs" />
+    <Compile Include="UatEInvoice\UatHermesInvoiceService.cs" />
     <Compile Include="ULDByFlightService.cs" />
     <Compile Include="UldLogService.cs" />
     <Compile Include="ULD_TYPEService.cs" />

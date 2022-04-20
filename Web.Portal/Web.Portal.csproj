@@ -7905,6 +7905,20 @@
     <Content Include="Views\KSULD\PrintByFlight.cshtml" />
     <Content Include="Views\CallTruck\ScanInOutV2.cshtml" />
     <Content Include="Views\CallTruck\ScanInOutExportV2.cshtml" />
+    <Content Include="Views\FindUld\ListUld.cshtml" />
+    <Content Include="Views\UatEInvoice\CheckError.cshtml" />
+    <Content Include="Views\UatEInvoice\Edit.cshtml" />
+    <Content Include="Views\UatEInvoice\ImpExport.cshtml" />
+    <Content Include="Views\UatEInvoice\Index.cshtml" />
+    <Content Include="Views\UatEInvoice\InvoiceApprove.cshtml" />
+    <Content Include="Views\UatEInvoice\InvoiceCancel.cshtml" />
+    <Content Include="Views\UatEInvoice\InvoiceDetail.cshtml" />
+    <Content Include="Views\UatEInvoice\List.cshtml" />
+    <Content Include="Views\UatEInvoice\Replace.cshtml" />
+    <Content Include="Views\ViewUld\Index.cshtml" />
+    <Content Include="Views\ViewUld\List.cshtml" />
+    <Content Include="Views\ViewUld\ListUld.cshtml" />
+    <Content Include="Views\IrrManagement\BBBGFlight.cshtml" />
     <None Include="Web References\com.cmcsoft.hoadon\DefaultService.disco" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

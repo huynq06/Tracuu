@@ -88,6 +88,11 @@
     <Compile Include="ViewModel\AwbuViewModel.cs" />
     <Compile Include="ViewModel\eInvoiceViewModel\InvoiceApproveJson.cs" />
     <Compile Include="ViewModel\eInvoiceViewModel\InvoiceAprrFields.cs" />
+    <Compile Include="ViewModel\eInvoiceViewModel\InvoiceCancel78.cs" />
+    <Compile Include="ViewModel\eInvoiceViewModel\InvoiceFields78.cs" />
+    <Compile Include="ViewModel\eInvoiceViewModel\InvoiceJson78.cs" />
+    <Compile Include="ViewModel\eInvoiceViewModel\item78.cs" />
+    <Compile Include="ViewModel\eInvoiceViewModel\wrongnotice.cs" />
     <Compile Include="ViewModel\ExportUldByFlightViewModel.cs" />
     <Compile Include="ViewModel\FindUldViewModel.cs" />
     <Compile Include="ViewModel\UldLogAutoCompleteViewModel.cs" />

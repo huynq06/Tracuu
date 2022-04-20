@@ -28,6 +28,7 @@ namespace Web.Portal.Common.ViewModel
         public DateTime? TimeCheckIn { set; get; }
         public DateTime? TimeCheckOut { set; get; }
         public string AWB { set; get; }
+        public string GhiChu { set; get; }
 
     }
 }

@@ -41,6 +41,9 @@
                 ULD
             </th>
             <th style="wIDth:10%;text-align:center;font-size:16px">
+                STATUS
+            </th>
+            <th style="wIDth:10%;text-align:center;font-size:16px">
                 Action
             </th>
             <th class="none"  style="width:100%">
@@ -64,11 +67,13 @@
                 <td style="text-align:center">@Html.Raw(row.IrrDetails)</td>
                 <td style="text-align:center">@Html.Raw(row.LAGI_REMARK)</td>
                 <td style="text-align:center">@Html.Raw(row.ULD)</td>
+                <td style="text-align:center">@Html.Raw(Web.Portal.Utils.Constants.GetAwbIrrStatus(row.HawbStatus))</td>
                 <td style="text-align:center">
                     <a href="#" class="btn  btn-xs hawb-edit @Html.Raw(Model.AwbStatus==1? "disabled" : "")" data-id="@row.ID"><div class="btn-group green"><i style="font-size:30px;" class="fa fa-edit "></i></div> </a>
                     <a href="#" class="btn  btn-xs hawb-print @Html.Raw(Model.AwbStatus==1? "" : "")" data-id="@row.ID"><div class="btn-group green"><i style="font-size:30px;" class="fa fa-print "></i></div> </a>
                     <a href="#" class="btn  btn-xs hawb-add @Html.Raw(Model.AwbStatus==1? "" : "")" data-id="@row.ID"><div class="btn-group green"><i style="font-size:30px;" class="fa fa-plus "></i></div> </a>
                     <a href="#" class="btn  btn-xs hawb-delete @Html.Raw(Model.AwbStatus==1? "disabled" : "")"  data-id="@row.ID"><div class="btn-group red"><i style="font-size:30px;" class="fa fa-trash "></i></div> </a>
+                    <a href="#" class="btn  btn-xs hawb-close @Html.Raw(Model.AwbStatus==1? "disabled" : "")" data-id="@row.ID"><div class="btn-group red"><i style="font-size:30px;" class="fa @Html.Raw(row.HawbStatus==0? "fa-lock" : "fa-unlock") "></i></div> </a>
                 </td>
                 <td>
 
@@ -171,6 +176,9 @@
     });
     $(".hawb-add").click(function () {
         egovutil.dialog("Thêm mới thông tin bất thường", "large", "/IrrManagement/AddHawbIrr?ID=" + $(this).attr("data-id") + "&awbId="+@ViewBag.AwbId+ "&flightID="+@ViewBag.FlightId, actionHawbReload.execute);
+    });
+    $(".hawb-close").click(function () {
+        egovutil.dlgConfirmAction("CLOSE HAWB","Bạn có muốn mở/đóng Hawb? ", "/IrrManagement/CloseOrOpenHawb?ID=" + $(this).attr("data-id") + "&awbId="+@ViewBag.AwbId+ "&flightID="+@ViewBag.FlightId, actionHawbReload.execute);
     });
     $(".hawb-print").click(function () {
         egovutil.dialog("Sửa thông tin bất thường", "large", "/IrrManagement/BBBT?ID=" + $(this).attr("data-id") + "&awbId="+@ViewBag.AwbId +"&flightID="+@ViewBag.FlightId, actionHawbReload.execute);

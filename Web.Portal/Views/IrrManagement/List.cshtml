@@ -48,7 +48,7 @@
                 <td style="text-align:center">@PageCurrent</td>
 
                 <td style="text-align:center">@Html.DisplayTextFor(model => row.FLightNo)</td>
-                <td style="text-align:center">@Html.Raw(row.FlightDate)</td>
+                <td style="text-align:center">@Html.Raw(row.LandedDate)</td>
                 <td style="text-align:center">@Html.Raw(row.LandedTime)</td>
                 <td style="text-align:center">@Html.Raw(row.Org)</td>
                 <td style="text-align:center">@Html.Raw(row.Des)</td>
@@ -61,6 +61,9 @@
                     </a>
                     <a href="#" data-ID="@Html.DisplayFor(model => row.ID)" class="btn btn-lg flight-remark">
                         <div class="btn-group green"><i style="font-size:30px;" class="fa fa-download"></i>Xuất Remark</div>
+                    </a>
+                    <a href="#" data-ID="@Html.DisplayFor(model => row.ID)" class="btn btn-lg flight-bbbt">
+                        <div class="btn-group green"><i style="font-size:30px;" class="fa fa-book"></i>BBBG</div>
                     </a>
                     <a href="#" class="btn  btn-xs flight-sync" data-id="@row.ID"><div class="btn-group red"><i style="font-size:30px;" class="fa fa-recycle "></i></div> </a>
                 </td>
@@ -88,6 +91,10 @@
     $(".flight-remark").click(function () {
         console.log('da chay vao day')
         window.location.href = "/IrrManagement/RemarkFlight/" + $(this).attr("data-id")
+    })
+    $(".flight-bbbt").click(function () {
+        console.log('da chay vao day')
+        window.location.href = "/IrrManagement/BBBGFlight/" + $(this).attr("data-id")
     })
     $(".hawb-edit").click(function () {
         egovutil.dialog("Sửa thông tin Chuyến bay", "large", "/irrManagement/edit/" + $(this).attr("data-id"));

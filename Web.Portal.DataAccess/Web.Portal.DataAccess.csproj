@@ -119,6 +119,8 @@
     <Compile Include="QuantityDataAccess.cs" />
     <Compile Include="QUEUEAWBAccess.cs" />
     <Compile Include="ReportAccess.cs" />
+    <Compile Include="ReportArchive2018Access.cs" />
+    <Compile Include="ReportArchiveAccess.cs" />
     <Compile Include="ReportImpAccess.cs" />
     <Compile Include="SearchImpAwbAccess.cs" />
     <Compile Include="SitaAccess.cs" />

@@ -11,6 +11,7 @@ namespace Web.Portal.Data.Infrastructure
         CMSDbContext Init();
         FlightControlDBContext InitflightControl();
         EInvoiceDbContext InitEInvoice();
+        UatEInvoiceDbContext InitUatEInvoice();
         PXKControlDBContext InitpxkControl();
         HermesDBContext InitHermes();
         CustomServiceDBContext InitCustomService();

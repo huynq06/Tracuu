@@ -12,6 +12,7 @@ namespace Web.Portal.Data.Infrastructure
         private CMSDbContext dbContext;
         private FlightControlDBContext fcDBContext;
         private EInvoiceDbContext eInvoiceContext;
+        private UatEInvoiceDbContext uatEInvoiceContext;
         private PXKControlDBContext pxkDBContext;
         HermesDBContext dbHermesContext;
         private CustomServiceDBContext dbCustomServiceContext;
@@ -37,6 +38,10 @@ namespace Web.Portal.Data.Infrastructure
         {
             get { return eInvoiceContext ?? (eInvoiceContext = dbFactory.InitEInvoice()); }
         }
+        public UatEInvoiceDbContext UatEInvoiceContext
+        {
+            get { return uatEInvoiceContext ?? (uatEInvoiceContext = dbFactory.InitUatEInvoice()); }
+        }
         public HermesDBContext HermesContext
         {
             get { return dbHermesContext ?? (dbHermesContext = dbFactory.InitHermes()); }
@@ -61,6 +66,10 @@ namespace Web.Portal.Data.Infrastructure
         public void CommitEInvoice()
         {
             EInvoiceContext.SaveChanges();
+        }
+        public void CommitUatEInvoice()
+        {
+            UatEInvoiceContext.SaveChanges();
         }
 
         public void CommitPXK()

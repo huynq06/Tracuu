@@ -35,7 +35,7 @@ namespace Web.Portal.Service
 
         public IEnumerable<FlightIrr> GetbyDate( DateTime date)
         {
-            return _flightRepository.GetMulti(c => c.FlightDate.Value.Day == date.Day && c.FlightDate.Value.Month == date.Month && c.FlightDate.Value.Year == date.Year);
+            return _flightRepository.GetMulti(c => c.LandedDate.Value.Day == date.Day && c.LandedDate.Value.Month == date.Month && c.LandedDate.Value.Year == date.Year);
         }
 
         public FlightIrr GetById(int id)

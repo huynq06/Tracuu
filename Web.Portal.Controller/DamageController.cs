@@ -128,7 +128,7 @@ namespace Web.Portal.Controller
                 }
             }
 
-            ViewData["DamageList"] = impAwbMiss;
+            ViewData["DamageList"] = impAwbMiss.OrderBy(c => c.AWB.Substring(c.AWB.Length - 1)).ToList();
             ViewBag.Flight = cd + no;
             ViewBag.Date = Request["tda"];
             ViewBag.ETA = impAwbsFlight.Count>0?impAwbsFlight[0].ScheTime:string.Empty;

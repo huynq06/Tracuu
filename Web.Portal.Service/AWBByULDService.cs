@@ -12,9 +12,11 @@ namespace Web.Portal.Service
     public interface IAWBByULDService
     {
         IEnumerable<AWBByULD> GetColAWB();
+        IEnumerable<AWBByULD> GetAllColAWB();
         List<AWBByULD> GetListAWBOpenByFlightGuid(Guid id);
         List<AWBByULD> GetByFlightGuid(Guid id);
         AWBByULD GetByGuid(Guid id);
+        DateTime? GetAllColAWBByFlightID(Guid id);
         List<string> GetByName(string name, Guid id);
     }
     public class AWBByULDService : IAWBByULDService
@@ -52,6 +54,22 @@ namespace Web.Portal.Service
             return _awbByULDRepository.GetMulti(c => c.Flight_ID == id && c.CheckValue == 1 && c.Process == 0).ToList();
         }
 
-     
+        public IEnumerable<AWBByULD> GetAllColAWB()
+        {
+            return _awbByULDRepository.GetMulti(c => c.CheckValue == 1);
+        }
+
+        public DateTime? GetAllColAWBByFlightID(Guid id)
+        {
+            AWBByULD awb = _awbByULDRepository.GetSingleByCondition(c => c.CheckValue == 1 && c.Flight_ID == id);
+            if(awb!=null)
+            {
+                return _awbByULDRepository.GetSingleByCondition(c => c.CheckValue == 1 && c.Flight_ID == id).TimeFinish;
+            }
+            else
+            {
+                return DateTime.Now;
+            }
+        }
     }
 }

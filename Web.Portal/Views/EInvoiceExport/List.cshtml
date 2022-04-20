@@ -178,7 +178,15 @@
         //    egovutil.getContent("#content-listUld-result", "/einvoiceexport/list?ps=" + $("#pagingeinv_step").val() + "&awb=" + $("#iv_mawb").val()
         //                                                                + "&ty=" + $("#iv_type").val()
         //                                                                + "&date=" + $("#tda").val());
-        //});
+    //});
+    var invoicePrint = {
+        print: function (id) {
+            setTimeout(() => {
+                window.open("/einvoice/Reprint?invoiceins=" + id);
+            }, 200)
+
+        }
+    }
         egovutil.CreateTableSort("#tbl-invoice", [[0, "asc"]], [
 
         {
@@ -202,7 +210,7 @@
             window.open("/einvoiceexport/Reprint?invoiceins=" + $(this).data('id'));
         });
         $(".einvoice_appr").click(function () {
-            egovutil.dlgConfirmAction("PHÊ DUYỆT HÓA ĐƠN", "BẠN CÓ MUỐN PHÊ DUYỆT HÓA ĐƠN NÀY? ", "/einvoiceexport/ApprInvoice?invoiceIsn=" + $(this).data('id'), "invoiceAction.search()");
+            egovutil.dlgConfirmAction("PHÊ DUYỆT HÓA ĐƠN", "BẠN CÓ MUỐN PHÊ DUYỆT HÓA ĐƠN NÀY? ", "/einvoiceexport/ApprInvoice?invoiceIsn=" + $(this).data('id'), "invoicePrint.print($(this).data('id'))");
         });
         //$(".einvoiceexport_detail").click(function () {
         //    window.open("/einvoiceexport/RePrint?invoiceIsn=" + $(this).data('id'), "")

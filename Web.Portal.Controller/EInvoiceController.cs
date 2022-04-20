@@ -20,6 +20,7 @@ using System.Net.Http;
 using Web.Portal.Controller.vn.cinvoice.api;
 using Web.Portal.Common.ViewModel.eInvoiceViewModel;
 using System.Threading;
+using System.Diagnostics;
 
 namespace Web.Portal.Controller
 {
@@ -197,6 +198,8 @@ namespace Web.Portal.Controller
                     foreach (var item in OrderViewModel.InvoiceDetailViewModels)
                     {
                         var invoiceDetailDB = _iHermesInvoiceDetailService.GetByID(item.ID);
+                        invoiceDetailDB.Item = item.Item;
+                        invoiceDetailDB.Unit = item.Unit;
                         invoiceDetailDB.Quantity = item.Quantity;
                         invoiceDetailDB.UnitPrice = item.UnitPrice;
                         invoiceDetailDB.InvoiceIns = invoiceDB.InvoiceIsn;
@@ -227,6 +230,7 @@ namespace Web.Portal.Controller
                     string reference = jObj["id"].ToString();
                     string invoiceSearchLink = jObj["link"].ToString();
                     string searchCode = jObj["sec"].ToString();
+                    string idt = jObj["idt"].ToString();
                     invoiceDB.Status = true;
                     invoiceDB.TimeReponse = DateTime.Now;
                     invoiceDB.ExecuteTime = elapsedMs.ToString();
@@ -235,6 +239,12 @@ namespace Web.Portal.Controller
                     invoiceDB.InvoiceStatus = CommonConstants.INVOICEAPROVE;
                     invoiceDB.InvoiceDescription = CommonConstants.APPROVE;
                     invoiceDB.EInvoiceSearchLink = invoiceSearchLink;
+                    invoiceDB.Idt = idt;
+                    invoiceDB.InvoiceFieldForm = System.Configuration.ConfigurationManager.AppSettings["InvoiceFieldFormALSC"];
+                    invoiceDB.InvoiceFieldType = System.Configuration.ConfigurationManager.AppSettings["InvoiceFieldTypeALSC"];
+                   
+                        invoiceDB.InvoiceFieldSerial = System.Configuration.ConfigurationManager.AppSettings["InvoiceFieldSerialALSC_IMPORT"];
+
                     invoiceDB.SearchCode = searchCode;
                     _iHermesInvoiceService.Update(invoiceDB);
                     _iHermesInvoiceService.Save();
@@ -307,6 +317,7 @@ namespace Web.Portal.Controller
                     string reference = jObj["id"].ToString();
                     string invoiceSearchLink = jObj["link"].ToString();
                     string searchCode = jObj["sec"].ToString();
+                    string idt = jObj["idt"].ToString();
                     invoiceDB.Status = true;
                     invoiceDB.TimeReponse = DateTime.Now;
                     invoiceDB.ExecuteTime = elapsedMs.ToString();
@@ -314,8 +325,12 @@ namespace Web.Portal.Controller
                     invoiceDB.ReferenceNo = reference;
                     invoiceDB.InvoiceStatus = CommonConstants.INVOICEAPROVE;
                     invoiceDB.InvoiceDescription = CommonConstants.APPROVE;
+                    invoiceDB.InvoiceFieldForm = System.Configuration.ConfigurationManager.AppSettings["InvoiceFieldFormALSC"];
+                    invoiceDB.InvoiceFieldType = System.Configuration.ConfigurationManager.AppSettings["InvoiceFieldTypeALSC"];
+                    invoiceDB.InvoiceFieldSerial = System.Configuration.ConfigurationManager.AppSettings["InvoiceFieldSerialALSC_IMPORT"];
                     invoiceDB.ExceptionStatus = 0;
                     invoiceDB.EInvoiceSearchLink = invoiceSearchLink;
+                    invoiceDB.Idt = idt;
                     invoiceDB.SearchCode = searchCode;
                     _iHermesInvoiceService.Update(invoiceDB);
                     _iHermesInvoiceService.Save();
@@ -331,6 +346,7 @@ namespace Web.Portal.Controller
                     string sequence = jsonArray[0]["doc"]["seq"].ToString();
                     string invoiceSearchLink = jsonArray[0]["doc"]["link"].ToString();
                     string searchCode = jsonArray[0]["doc"]["sec"].ToString();
+                    string idt = jsonArray[0]["doc"]["idt"].ToString();
                     invoiceDB.Status = true;
                     invoiceDB.TimeReponse = DateTime.Now;
                     invoiceDB.ExecuteTime = elapsedMs.ToString();
@@ -338,9 +354,13 @@ namespace Web.Portal.Controller
                     invoiceDB.ReferenceNo = jsonArray[0]["doc"]["id"].ToString();
                     invoiceDB.InvoiceStatus = CommonConstants.INVOICEAPROVE;
                     invoiceDB.InvoiceDescription = CommonConstants.APPROVE;
+                    invoiceDB.InvoiceFieldForm = System.Configuration.ConfigurationManager.AppSettings["InvoiceFieldFormALSC"];
+                    invoiceDB.InvoiceFieldType = System.Configuration.ConfigurationManager.AppSettings["InvoiceFieldTypeALSC"];
+                    invoiceDB.InvoiceFieldSerial = System.Configuration.ConfigurationManager.AppSettings["InvoiceFieldSerialALSC_IMPORT"];
                     invoiceDB.EInvoiceSearchLink = invoiceSearchLink;
                     invoiceDB.SearchCode = searchCode;
                     invoiceDB.ExceptionStatus = 0;
+                    invoiceDB.Idt = idt;
                     _iHermesInvoiceService.Update(invoiceDB);
                     _iHermesInvoiceService.Save();
                     return Json(new
@@ -387,7 +407,7 @@ namespace Web.Portal.Controller
                     adj.rea = "Sai thong tin hoa don";
                     adj.ref_ = invoice.InvoiceIsn;
                     inv inv = new inv();
-                    inv.seq = System.Configuration.ConfigurationManager.AppSettings["SeqCancel_IMPORT"] + invoice.Sequence.ToString().PadLeft(7, '0'); ;
+                    inv.seq = invoice.InvoiceFieldForm + "-" + invoice.InvoiceFieldSerial + "-" + invoice.Sequence.ToString().PadLeft(7, '0'); ;
                     inv.adj = adj;
                     InvoiceCancel invoiceCancel = new InvoiceCancel();
                     invoiceCancel.user = account;
@@ -450,29 +470,37 @@ namespace Web.Portal.Controller
         }
         public ActionResult OpenDoc()
         {
-            string link = Request["link"].Trim();
-            string invoiceins = Request["invoiceins"].Trim();
-            string fileName = invoiceins + ".rtf";
-
-            string filePath = Server.MapPath("~/invoiceHermes/") + fileName;
-            FileInfo fileInfo = new FileInfo(filePath);
-            if (!fileInfo.Exists)
+            string message = string.Empty;
+            string messageType = Utils.DisplayMessage.TypeSuccess;
+            var path = "\\\\VM-SHARE\\Hermes5Share"; //@"\2.16.10.130\Resource";
+            var s = connectState(path, @"alsc\hermessrv", "#hermessrv*");
+            if(s)
             {
-                System.IO.File.Copy(link, Server.MapPath("~/invoiceHermes/") + fileName);
+                string link = Request["link"].Trim();
+                string invoiceins = Request["invoiceins"].Trim();
+                string fileName = invoiceins + ".rtf";
+
+                string filePath = Server.MapPath("~/invoiceHermes/") + fileName;
+                FileInfo fileInfo = new FileInfo(filePath);
+                if (!fileInfo.Exists)
+                {
+                    System.IO.File.Copy(link, Server.MapPath("~/invoiceHermes/") + fileName);
+                }
+                if (!System.IO.File.Exists(filePath))
+                {
+                    return HttpNotFound();
+                }
+
+                var fileBytes = System.IO.File.ReadAllBytes(filePath);
+                var response = new FileContentResult(fileBytes, "application/octet-stream")
+                {
+                    FileDownloadName = "invoiceH5.rtf"
+                };
+                return response;
+
             }
-            if (!System.IO.File.Exists(filePath))
-            {
-                return HttpNotFound();
-            }
 
-            var fileBytes = System.IO.File.ReadAllBytes(filePath);
-            var response = new FileContentResult(fileBytes, "application/octet-stream")
-            {
-                FileDownloadName = "invoiceH5.rtf"
-            };
-            return response;
-
-            //return Json(new { Type = messageType, Message = message, Title = "Thông báo" }, JsonRequestBehavior.AllowGet);
+            return Json(new { Type = messageType, Message = message, Title = "Thông báo" }, JsonRequestBehavior.AllowGet);
         }
         public ActionResult Reprint()
         {
@@ -776,6 +804,49 @@ namespace Web.Portal.Controller
             invoiceJson.inv = invoiceField;
             jsonResult = JsonConvert.SerializeObject(invoiceJson);
             return jsonResult;
+        }
+        public static bool connectState(string path, string userName, string passWord)
+        {
+            var flag = false;
+            var proc = new Process();
+            try
+            {
+                proc.StartInfo.FileName = "cmd.exe";
+                proc.StartInfo.UseShellExecute = false;
+                proc.StartInfo.RedirectStandardInput = true;
+                proc.StartInfo.RedirectStandardOutput = true;
+                proc.StartInfo.RedirectStandardError = true;
+                proc.StartInfo.CreateNoWindow = true;
+                proc.Start();
+                var dosLine = "net use " + path + " " + passWord + " /user:" + userName;
+                proc.StandardInput.WriteLine(dosLine);
+                proc.StandardInput.WriteLine("exit");
+                while (!proc.HasExited)
+                {
+                    proc.WaitForExit(1000);
+                }
+
+                var errormsg = proc.StandardError.ReadToEnd();
+                proc.StandardError.Close(); if (string.IsNullOrEmpty(errormsg))
+                {
+                    flag = true;
+                }
+                else
+                {
+                    throw new Exception(errormsg);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                proc.Close();
+                proc.Dispose();
+            }
+
+            return flag;
         }
     }
 }

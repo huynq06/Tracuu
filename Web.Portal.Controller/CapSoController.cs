@@ -32,12 +32,12 @@ namespace Web.Portal.Controller
         public ActionResult Action(FormCollection formRequest)
         {
             string password = formRequest["password"].Trim();
-            if(password == "12345")
+            if(password == "admin@2022")
             {
                 Session["CheckLogin"] = true;
               
                 return Json(new { Message = "", Error = true, Func = "window.location.href='/capso/main';" }, JsonRequestBehavior.AllowGet);
-            }
+            }   
             else
             {
                 return Json(new { Error = false, Type = Web.Portal.Utils.DisplayMessage.TypeError, Message = "mật khẩu", Title = "Thông báo" }, JsonRequestBehavior.AllowGet);

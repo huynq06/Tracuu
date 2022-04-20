@@ -171,7 +171,7 @@ namespace Web.Portal.Controller
                     double x = double.Parse(table.Rows[i][2].ToString());
                     double y = double.Parse(string.IsNullOrEmpty(table.Rows[i][4].ToString()) ? "0" : table.Rows[i][4].ToString());
                     //   double z = double.Parse(table.Rows[i][6].ToString());
-                    if (table.Rows[i][7].ToString().Trim() == "CONSOL")
+                    if (table.Rows[i][7].ToString().Trim() == "CONSOL"|| table.Rows[i][7].ToString().Trim() == "CONSOLIDATION")
                     {
                         int c = string.IsNullOrEmpty(table.Rows[i][5].ToString()) ?0 : int.Parse(table.Rows[i][5].ToString());
                         double z = string.IsNullOrEmpty(table.Rows[i][6].ToString()) ? 0 : double.Parse(table.Rows[i][6].ToString());
@@ -292,6 +292,8 @@ namespace Web.Portal.Controller
             string id = Request["id"];
             string fileTem = Request["fn"].Trim();
             DataAccess.ReportAccess reportAccess = new DataAccess.ReportAccess();
+            DataAccess.ReportArchiveAccess reportArchiveAccess = new DataAccess.ReportArchiveAccess();
+            DataAccess.ReportArchive2018Access reportArchive2018Access = new DataAccess.ReportArchive2018Access();
             Utils.SQLUtils.GetSQLDes(Server.MapPath("/SitaTemplate/SQLTLN.xml"), id, ref sql, ref find, ref column, ref des);
             string[] prRequest = new string[find.Length];
             for (int i = 0; i < find.Length; i++)
@@ -306,6 +308,7 @@ namespace Web.Portal.Controller
             {
                 sqlComplete = string.Format(sql, int.Parse(Request["Total"]) - 1);
             }
+            #region TLN06
             if (id == "TLN06")
             {
                 int from = int.Parse(Request["total"]);
@@ -348,18 +351,22 @@ namespace Web.Portal.Controller
                     prRequest[0] = from.ToString();
                     prRequest[1] = 9999.ToString();
                     sqlComplete = string.Format(sql, prRequest);
-                    DateTime CheckDate = DateTime.Now.AddDays(-from);
+                    DateTime CheckDate = DateTime.Now.AddDays(-from-1);
                     ViewBag.ToDate = CheckDate.ToString("dd/MM/yyyy");
                     ViewBag.Temp = 3;
                 }
                 //  sqlComplete = string.Format(sql, int.Parse(Request["Total"]) - 1);
             }
+            #endregion TLN06
             System.Data.DataTable table = reportAccess.GetData(sqlComplete).Tables[0];
+           
             if (id == "TLN06")
             {
-
+                int from = int.Parse(Request["total"]);
                 int tem = int.Parse(Request["Total"]);
                 List<InventoryCustomViewModel> listInventory = new List<InventoryCustomViewModel>();
+                List<InventoryCustomViewModel> listInventoryArchieve = new List<InventoryCustomViewModel>();
+                List<InventoryCustomViewModel> listInventoryArchieve2018 = new List<InventoryCustomViewModel>();
                 for (int i = 0; i < table.Rows.Count; i++)
                 {
                     InventoryCustomViewModel inventory = new InventoryCustomViewModel();
@@ -383,7 +390,61 @@ namespace Web.Portal.Controller
                     if(!listInventory.Any(c=>c.AwbNo == inventory.AwbNo))
                          listInventory.Add(inventory);
                 }
-                if(tem==3)
+                if(from == 90)
+                {
+                    System.Data.DataTable tableArchive = reportArchiveAccess.GetData(sqlComplete).Tables[0];
+                    for (int i = 0; i < tableArchive.Rows.Count; i++)
+                    {
+                        InventoryCustomViewModel inventory = new InventoryCustomViewModel();
+                        inventory.Cont = "";
+                        inventory.SealNo = "";
+                        inventory.GoodsName = tableArchive.Rows[i][0].ToString();
+                        inventory.Pieces_weight = tableArchive.Rows[i][1].ToString() + "/" + tableArchive.Rows[i][2].ToString();
+                        inventory.Shipper = tableArchive.Rows[i][3].ToString() + "-" + tableArchive.Rows[i][4].ToString();
+                        inventory.Consignee = tableArchive.Rows[i][5].ToString() + "-" + tableArchive.Rows[i][6].ToString(); ;
+                        inventory.AwbNo = tableArchive.Rows[i][7].ToString().Replace(" ", "") + (string.IsNullOrEmpty(tableArchive.Rows[i][8].ToString().Trim()) ? "" : "/" + tableArchive.Rows[i][8].ToString());
+                        inventory.AwbDate = tableArchive.Rows[i][10].ToString();
+                        inventory.AwbBreakDown = tableArchive.Rows[i][10].ToString();
+                        inventory.InventoryDate = ((int)Math.Round((DateTime.Now - Utils.Format.ConvertDate(tableArchive.Rows[i][10].ToString()).Value).TotalDays, 0)).ToString();
+                        inventory.Location = "ALSC";
+                        if (inventory.AwbNo.Contains('Z'))
+                        {
+                            inventory.AwbType = "Không tem nhãn";
+                        }
+                        inventory.CustomManagement = "CKSBQT NỘI BÀI";
+                        inventory.AwbOrigin = tableArchive.Rows[i][14].ToString();
+                        if (!listInventoryArchieve.Any(c => c.AwbNo == inventory.AwbNo))
+                            listInventoryArchieve.Add(inventory);
+                    }
+                    listInventory.AddRange(listInventoryArchieve);
+                    //System.Data.DataTable tableArchive2018 = reportArchive2018Access.GetData(sqlComplete).Tables[0];
+                    //for (int i = 0; i < tableArchive2018.Rows.Count; i++)
+                    //{
+                    //    InventoryCustomViewModel inventory = new InventoryCustomViewModel();
+                    //    inventory.Cont = "";
+                    //    inventory.SealNo = "";
+                    //    inventory.GoodsName = tableArchive2018.Rows[i][0].ToString();
+                    //    inventory.Pieces_weight = tableArchive2018.Rows[i][1].ToString() + "/" + tableArchive2018.Rows[i][2].ToString();
+                    //    inventory.Shipper = tableArchive2018.Rows[i][3].ToString() + "-" + tableArchive2018.Rows[i][4].ToString();
+                    //    inventory.Consignee = tableArchive2018.Rows[i][5].ToString() + "-" + tableArchive2018.Rows[i][6].ToString(); ;
+                    //    inventory.AwbNo = tableArchive2018.Rows[i][7].ToString().Replace(" ", "") + (string.IsNullOrEmpty(tableArchive2018.Rows[i][8].ToString().Trim()) ? "" : "/" + tableArchive2018.Rows[i][8].ToString());
+                    //    inventory.AwbDate = tableArchive2018.Rows[i][10].ToString();
+                    //    inventory.AwbBreakDown = tableArchive2018.Rows[i][10].ToString();
+                    //    inventory.InventoryDate = ((int)Math.Round((DateTime.Now - Utils.Format.ConvertDate(tableArchive2018.Rows[i][10].ToString()).Value).TotalDays, 0)).ToString();
+                    //    inventory.Location = "ALSC";
+                    //    if (inventory.AwbNo.Contains('Z'))
+                    //    {
+                    //        inventory.AwbType = "Không tem nhãn";
+                    //    }
+                    //    inventory.CustomManagement = "CKSBQT NỘI BÀI";
+                    //    inventory.AwbOrigin = tableArchive2018.Rows[i][14].ToString();
+                    //    if (!listInventoryArchieve2018.Any(c => c.AwbNo == inventory.AwbNo))
+                    //        listInventoryArchieve2018.Add(inventory);
+                    //}
+                    //listInventory.AddRange(listInventoryArchieve2018);
+                }
+                
+                if (tem==3)
                 {
                     ViewBag.FromDate = listInventory[listInventory.Count - 1].AwbDate;
                 }
@@ -432,7 +493,8 @@ namespace Web.Portal.Controller
                         cargoSpecialList.Add(cs);
                     }
                 }
-               
+
+                //ViewData["ListCargoSepecial"] = cargoSpecialList.OrderBy(c => c.MAWB.Substring(c.MAWB.Length - 1)).ThenBy(c => c.MAWB.Substring(c.MAWB.Length - 4)).ToList();
                 ViewData["ListCargoSepecial"] = cargoSpecialList;
             }
             #endregion
@@ -606,7 +668,9 @@ namespace Web.Portal.Controller
             }
             else if (id == "TLN07")
             {
-                ViewBag.TitleReport = "BÁO CÁO HÀNG TỒN ĐẾN NGÀY " + DateTime.Now.AddDays(-int.Parse(Request["Total"])).ToString("dd/MM/yyyy");
+                System.Data.DataTable tableArchive = reportArchiveAccess.GetData(sqlComplete).Tables[0];
+                table.Merge(tableArchive);
+                ViewBag.TitleReport = "BÁO CÁO HÀNG TỒN ĐẾN NGÀY " + DateTime.Now.AddDays(-int.Parse(Request["Total"])+1).ToString("dd/MM/yyyy");
                 return View("~/Views/ImpReport/ExpReportTLN07.cshtml");
             }
             else

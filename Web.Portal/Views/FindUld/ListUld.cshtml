@@ -1,0 +1,54 @@
+﻿@{
+    Layout = null;
+    int rowIndex = 0;
+
+}
+<table id="tbl-hawb" class="table table-striped table-bordered table-advance table-hover">
+    <thead>
+        <tr>
+            <th style="width:5%">
+                STT
+            </th>
+            <th style="width:30%">
+                ULD
+            </th>
+            <th>
+                Vị Trí
+            </th>
+            <th>
+                UPDATE
+            </th>
+
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var row in (IList<Web.Portal.Common.ViewModel.FindUldViewModel>)ViewData["listULD"])
+        {
+            rowIndex += 1;
+
+            <tr>
+                <td>@rowIndex</td>
+                
+
+                <td><a href="#"  class="btn  btn-xs sqs-member-edit">@Html.Raw(row.ULD)</a></td>
+                <td>
+                    <a href="#"  class="btn  btn-xs sqs-member-edit">@Html.Raw(row.Location)</a>
+                </td>
+                <td>
+                    <a href="#" class="btn  btn-xs sqs-member-edit">@Html.Raw(row.Modified.HasValue? row.Modified.Value.ToString("dd/MM/yyyy HH:mm"): "")</a>
+                </td>
+               
+
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+
+    egovutil.CreateTableSort("#tbl-hawb", [[0, "asc"]], [
+
+                { "orderable": false, "targets": 0 }
+    ], true);
+</script>

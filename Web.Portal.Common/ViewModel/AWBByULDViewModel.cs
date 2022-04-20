@@ -13,7 +13,7 @@ namespace Web.Portal.Common.ViewModel
         public string SHC { set; get; }
         public Guid Flight_ID { set; get; }
         public int? CheckValue { set; get; }
-        public int TimeFinish { set; get; }
+        public float TimeFinish { set; get; }
         public Guid? AWB_ID { set; get; }
         public bool? HaveMultiHawb { set; get; }
     }

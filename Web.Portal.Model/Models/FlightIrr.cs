@@ -23,5 +23,6 @@ namespace Web.Portal.Model.Models
         public Nullable<bool> WeatherDry { get; set; }
         public Nullable<bool> WeatherOther { get; set; }
         public string WeatherDes { get; set; }
+        public Nullable<System.DateTime> LandedDate { get; set; }
     }
 }

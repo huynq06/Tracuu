@@ -118,11 +118,11 @@
                                         <i class="fa fa-edit">SỬA</i>
                                     </a>
                                 </li>
-                                @*<li>
+                                <li>
                                     <a title="Cancel" class="einvoice_cancel btn btn-xs" data-id="@Html.DisplayFor(model => row.InvoiceIsn)">
                                         <i class="fa fa-trash">HỦY</i>
                                     </a>
-                                </li>*@
+                                </li>
                                 <li>
                                     <a title="Edit" class="einvoice_print btn btn-xs  @Html.Raw(row.InvoiceStatus==1 ? "disabled" : "")" data-id="@Html.DisplayFor(model => row.InvoiceIsn)">
                                         <i class="fa fa-print">IN LẠI</i>
@@ -181,7 +181,15 @@
         //    egovutil.getContent("#content-listUld-result", "/einvoice/list?ps=" + $("#pagingeinv_step").val() + "&awb=" + $("#iv_mawb").val()
         //                                                                + "&ty=" + $("#iv_type").val()
         //                                                                + "&date=" + $("#tda").val());
-        //});
+    //});
+    var invoicePrint = {
+        print: function (id) {
+            setTimeout(() => {
+                window.open("/einvoice/Reprint?invoiceins=" + id);
+            }, 200)
+         
+        }
+    }
         egovutil.CreateTableSort("#tbl-invoice", [[0, "asc"]], [
 
         {
@@ -199,7 +207,7 @@
             egovutil.dialog("XUẤT LẠI HÓA ĐƠN", "large", "/einvoice/Replace?invoiceIsn=" + $(this).data('id'), "invoiceAction.search()");
         });
         $(".einvoice_appr").click(function () {
-            egovutil.dlgConfirmAction("PHÊ DUYỆT HÓA ĐƠN", "BẠN CÓ MUỐN PHÊ DUYỆT HÓA ĐƠN NÀY? ", "/einvoice/ApprInvoice?invoiceIsn=" + $(this).data('id'), "invoiceAction.search()");
+            egovutil.dlgConfirmAction("PHÊ DUYỆT HÓA ĐƠN", "BẠN CÓ MUỐN PHÊ DUYỆT HÓA ĐƠN NÀY? ", "/einvoice/ApprInvoice?invoiceIsn=" + $(this).data('id'), "invoicePrint.print($(this).data('id'))");
         });
         $(".btn-doc").click(function () {
             window.open("/einvoice/OpenDoc?link=" + $(this).data('doc') + "&invoiceins=" + $(this).data('id'));

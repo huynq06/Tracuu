@@ -122,6 +122,7 @@ namespace Web.Portal.Controller
                                    {
                                        ID = (int)ticket.ID,
                                        BSX = ticket.BienSoXe,
+                                       GhiChu = ticket.GhiChu,
                                        TicketID = Guid.Parse(ticket.SyncID),
                                        Created = ticket.NgayGioVao.Value,
                                        LoaiXe = ticket.LoaiXe == 2 ? "XE MÁY" : "ÔTÔ",

@@ -15,6 +15,7 @@ namespace Web.Portal.Data.Infrastructure
         private HermesDBContext dbHermesContext;
         private CustomServiceDBContext dbCustomServiceContext;
         private AlsConnectDbContext alsContext;
+        private UatEInvoiceDbContext uatEInvoiceContext;
         public CMSDbContext Init()
         {
             return dbContext ?? (dbContext = new CMSDbContext());
@@ -38,6 +39,10 @@ namespace Web.Portal.Data.Infrastructure
         public EInvoiceDbContext InitEInvoice()
         {
             return eInvoiceContext ?? (eInvoiceContext = new EInvoiceDbContext());
+        }
+        public UatEInvoiceDbContext InitUatEInvoice()
+        {
+            return uatEInvoiceContext ?? (uatEInvoiceContext = new UatEInvoiceDbContext());
         }
         public AlsConnectDbContext InitAls()
         {

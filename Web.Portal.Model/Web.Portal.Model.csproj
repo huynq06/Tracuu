@@ -97,6 +97,9 @@
     <Compile Include="Models\tblTicketStatus.cs" />
     <Compile Include="Models\tblUser.cs" />
     <Compile Include="Models\TruckAwb.cs" />
+    <Compile Include="Models\UatEInvoice\UatHermesInvoice.cs" />
+    <Compile Include="Models\UatEInvoice\UatHermesInvoiceDetail.cs" />
+    <Compile Include="Models\UatEInvoice\UatResponseMessage.cs" />
     <Compile Include="Models\ULDByFlight.cs" />
     <Compile Include="Models\UldLog.cs" />
     <Compile Include="Models\ULD_TYPE.cs" />

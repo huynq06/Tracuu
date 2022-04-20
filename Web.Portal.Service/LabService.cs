@@ -58,7 +58,9 @@ namespace Web.Portal.Service
 
         public List<string> GetGetByName(string name,DateTime dateCheck)
         {
-            return _labRepository.GetMulti(c => c.LABS_MAWB_SERIAL_NO.Substring(c.LABS_MAWB_SERIAL_NO.Length-4)==name && c.LABS_CREATED_AT > dateCheck).Select(y => y.LABS_MAWB_PREFIX+y.LABS_MAWB_SERIAL_NO.PadLeft(8,'0')+ "/" + y.LABS_IDENT_NO).Distinct().ToList();
+            name = name.TrimStart('0');
+            int lenght = name.Length;
+            return _labRepository.GetMulti(c => c.LABS_MAWB_SERIAL_NO.Substring(c.LABS_MAWB_SERIAL_NO.Length- lenght) ==name && c.LABS_CREATED_AT > dateCheck).Select(y => y.LABS_MAWB_PREFIX+y.LABS_MAWB_SERIAL_NO.PadLeft(8,'0')+ "/" + y.LABS_IDENT_NO).Distinct().ToList();
         }
     }
 }

@@ -108,18 +108,22 @@
                 <tr id="{{ItemId}}">
                     <td>
                         <div id="tooltip-inventory-${itemIndex}" class="left position-relative">
-                            {{Item}}
+                            <input  autocomplete="off" class="txtItem quantity-input sapo-textbox align-right" type="text"
+                                   data-id="{{ItemId}}" data-price="{{Price}}" data-unit="{{Unit}}" value="{{Item}}" data-quantity="{{Quantity}}" style="width:250px;height:31px;border:1px solid #c4cdd5;border-radius:3px !important" />
+                            @*{{Item}}*@
                         </div>
                     </td>
                     <td>
                         <div id="tooltip-inventory-${itemIndex}" class="left position-relative">
-                            <span>{{Unit}}</span>
+                            <input autocomplete="off" class="txtUnit quantity-input sapo-textbox align-right" type="text"
+                                   data-id="{{ItemId}}" data-price="{{Price}}" value="{{Unit}}" data-item="{{Item}}" data-quantity="{{Quantity}}" style="width:80px;height:31px;border:1px solid #c4cdd5;border-radius:3px !important" />
+                            @*<span>{{Unit}}</span>*@
                         </div>
                     </td>
                     <td>
                         <div class="input-wrap">
                             <input step=".01" autocomplete="off" class="txtQuantity quantity-input sapo-textbox align-right" type="number" min="1" max="100"
-                                   data-id="{{ItemId}}" data-price="{{Price}}" value="{{Quantity}}" style="width:60px;height:31px;border:1px solid #c4cdd5;border-radius:3px !important" />
+                                   data-id="{{ItemId}}" data-unit="{{Unit}}" data-item="{{Item}}" data-price="{{Price}}" value="{{Quantity}}" style="width:60px;height:31px;border:1px solid #c4cdd5;border-radius:3px !important" />
                         </div>
                     </td>
 
@@ -127,7 +131,7 @@
                     <td class="align-right">
                         <div class="input-wrap">
                             <input step=".01" autocomplete="off" class="txtUnitPrice unitprice-input sapo-textbox align-right" type="number" min="1" max="100" data-id="{{ItemId}}"
-                                   data-quantity="{{Quantity}}" value="{{Price}}" style="width:100px;height:31px;border:1px solid #c4cdd5;border-radius:3px !important" />
+                                   data-quantity="{{Quantity}}" data-unit="{{Unit}}" data-item="{{Item}}" value="{{Price}}" style="width:100px;height:31px;border:1px solid #c4cdd5;border-radius:3px !important" />
                         </div>
                     </td>
                     <td class="align-right" id="amount_{{ItemId}}">
@@ -213,11 +217,17 @@
                 var cartList = [];
                 $('#cartBody > tr').each(function() {
                     trid = $(this).attr('id'); // table row ID
-                    var value = $(this).find('input').val();
-                    var price = $(this).find('input').eq(1).val();
+                    //var value = $(this).find('input').val();
+                    //var price = $(this).find('input').eq(1).val();
+                    var item = $(this).find('input').val();
+                    var unit = $(this).find('input').eq(1).val();
+                    var value = $(this).find('input').eq(2).val();
+                    var price = $(this).find('input').eq(3).val();
                     console.log(trid);
                     cartList.push({
                         ID: trid,
+                        Item:item,
+                        Unit: unit,
                         Quantity: value,
                         UnitPrice:price,
                     });

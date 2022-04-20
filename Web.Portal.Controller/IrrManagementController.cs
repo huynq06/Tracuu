@@ -114,6 +114,7 @@ namespace Web.Portal.Controller
             List<AwbIrr> listAwbIrr = new List<AwbIrr>();
             List<AwbIrr> listAwbIrr4Update = new List<AwbIrr>();
             List<HawbIrr> listHAwbIrr = new List<HawbIrr>();
+            List<HawbIrr> listHAwbIrr4Update = new List<HawbIrr>();
             if (imAwbsCheck.Count > 0)
             {
                 foreach (var item in imAwbsCheck)
@@ -230,6 +231,7 @@ namespace Web.Portal.Controller
                         hawbIrr.HawbId = item.ID.ToString();
                         hawbIrr.Hawb = item.HAWB;
                         hawbIrr.LAGI_MASTER_PIECES = item.LAGI_MASTER_PIECES;
+                        hawbIrr.HawbStatus = 0;
                         hawbIrr.LAGI_MASTER_WEGIHT = item.LAGI_MASTER_WEGIHT;
                         hawbIrr.LagiMasterQuantityEx = item.LAGI_MASTER_QUANTITY_EX;
                         hawbIrr.LagiMasterWeightEx = item.LAGI_MASTER_WEIGHT_EX;
@@ -270,9 +272,20 @@ namespace Web.Portal.Controller
                             //lay danh sach hawb trong DB
                             List<HawbIrr> listHawbDb = _hawbService.GetbyAwbIdAndFlightId(item.LAGI_MASTER_ID, item.FlightID).ToList();
                              string groupNo = item.GoodsContent.Substring(10, 14);
+                       
                             if (listHawbDb.All(c => c.IrrGroup != groupNo))
                             {
-                                int pieces = 0;
+                            //ktra xem da ton tại hawb trong chuyen bay chua
+                            var listHawbDB = _hawbService.GetbyHawbName(item.HAWB, item.LAGI_MASTER_ID, item.FlightID);
+                            if(listHawbDB.Count() > 0)
+                            {
+                                foreach(var hawbDB in listHawbDB)
+                                {
+                                    hawbDB.HawbStatus = 0;
+                                    listHAwbIrr4Update.Add(hawbDB);
+                                }
+                            }
+                            int pieces = 0;
                                 string weight = "";
                                 string dameType = "";
                                 string irrDetail = "";
@@ -332,6 +345,7 @@ namespace Web.Portal.Controller
                                 hawbIrr.HawbId = item.ID.ToString();
                                 hawbIrr.Hawb = item.HAWB;
                                 hawbIrr.LAGI_MASTER_PIECES = item.LAGI_MASTER_PIECES;
+                            hawbIrr.HawbStatus = 0;
                                 hawbIrr.LAGI_MASTER_WEGIHT = item.LAGI_MASTER_WEGIHT;
                                 hawbIrr.LagiMasterQuantityEx = item.LAGI_MASTER_QUANTITY_EX;
                                 hawbIrr.LagiMasterWeightEx = item.LAGI_MASTER_WEIGHT_EX;
@@ -381,6 +395,10 @@ namespace Web.Portal.Controller
             foreach (var item in listHAwbIrr)
             {
                 _hawbService.Add(item);
+            }
+            foreach (var item in listHAwbIrr4Update)
+            {
+                _hawbService.Update(item);
             }
             _hawbService.Save();
             message = "Đồng bộ dữ liệu thành công";
@@ -468,6 +486,7 @@ namespace Web.Portal.Controller
                 if (imAwbsCheck.Count > 0)
                 {
                     flight.LandedTime = imAwbsCheck[0].ATATIME;
+                    flight.LandedDate = imAwbsCheck[0].FlightDate;
                     flight.Org = imAwbsCheck[0].LOADING;
                     flight.Des = imAwbsCheck[0].DEST;
                     flight.FlightID = imAwbsCheck[0].FlightID;
@@ -594,6 +613,7 @@ namespace Web.Portal.Controller
                         hawbIrr.HawbId = item.ID.ToString();
                         hawbIrr.FlightID = item.FlightID;
                         hawbIrr.Hawb = item.HAWB;
+                        hawbIrr.HawbStatus = 0;
                         hawbIrr.LAGI_MASTER_PIECES = item.LAGI_MASTER_PIECES;
                         hawbIrr.LAGI_MASTER_WEGIHT = item.LAGI_MASTER_WEGIHT;
                         hawbIrr.LagiMasterQuantityEx = item.LAGI_MASTER_QUANTITY_EX;
@@ -804,7 +824,7 @@ namespace Web.Portal.Controller
             hawb.WeatherOther = flight.WeatherOther;
             hawb.WeatherDes = flight.WeatherDes;
             ViewBag.FlightNo = flight.FLightNo;
-            ViewBag.FlightDate = flight.FlightDate.Value.ToString("dd/MM/yyyy");
+            ViewBag.FlightDate = flight.LandedDate.Value.ToString("dd/MM/yyyy");
             return View(hawb);
         }
         public ActionResult AwbDetailIrr()
@@ -877,7 +897,7 @@ namespace Web.Portal.Controller
             ViewBag.AwbId = awbId;
             ViewBag.FlightId = Request["flightID"].Trim();
             ViewData["ListHawbAll"] = listHawbIrr;
-            ViewData["listHawb"] = listHawbIrrFilter;
+            ViewData["listHawb"] = listHawbIrrFilter.OrderBy(c => c.Hawb).ToList();
             ViewBag.TotalRecord = listHawbIrr.Count();
             return View(awbSelect);
         }
@@ -1040,7 +1060,7 @@ namespace Web.Portal.Controller
             {
 
                 content.Append("IRP");
-                content.Append(System.Environment.NewLine + flight.FLightNo + "/" + Utils.Format.GetMonthName(flight.FlightDate) + "/" + flight.Org + "-" + flight.Des);
+                content.Append(System.Environment.NewLine + flight.FLightNo + "/" + Utils.Format.GetMonthName(flight.LandedDate) + "/" + flight.Org + "-" + flight.Des);
                 content.Append(System.Environment.NewLine + "DMGD");
                 foreach (var item in listAwbIrr)
                 {
@@ -1129,7 +1149,7 @@ namespace Web.Portal.Controller
             else
             {
                 content.Append("IRP");
-                content.Append(System.Environment.NewLine + flight.FLightNo + "/" + Utils.Format.GetMonthName(flight.FlightDate) + "/" + flight.Org + "-" + flight.Des);
+                content.Append(System.Environment.NewLine + flight.FLightNo + "/" + Utils.Format.GetMonthName(flight.LandedDate) + "/" + flight.Org + "-" + flight.Des);
                 foreach (var item in listAwbIrr)
                 {
                     content.Append(System.Environment.NewLine + "M-" + item.Prefix + "" + item.AWB + "/" + item.Org + item.Des + "/" + "T" + item.LAGI_MASTER_PIECES + "K" + item.LAGI_MASTER_WEGIHT);
@@ -1238,7 +1258,7 @@ namespace Web.Portal.Controller
             hawbIrr.WeatherOther = flight.WeatherOther;
             hawbIrr.WeatherDes = flight.WeatherDes;
             ViewBag.FlightNo = flight.FLightNo;
-            ViewBag.FlightDate = flight.FlightDate.Value.ToString("dd/MM/yyyy");
+            ViewBag.FlightDate = flight.LandedDate.Value.ToString("dd/MM/yyyy");
             if (flight.FLightNo.ToUpper().Contains("KE") || flight.FLightNo.ToUpper().Contains("JL"))
             {
                 hawbIrr.IrrRemark = GetDameType(hawbIrr.DameType.Value);
@@ -1790,6 +1810,48 @@ namespace Web.Portal.Controller
             message = "Đã xóa thông tin Hawb bất thường thành công!";
             return Json(new { Type = messageType, Message = message, Title = "Thông báo" }, JsonRequestBehavior.AllowGet);
         }
+        public ActionResult CloseOrOpenHawb()
+        {
+            string message = string.Empty;
+            string messageType = Utils.DisplayMessage.TypeSuccess;
+            int? id = string.IsNullOrEmpty(Request["ID"].Trim()) ? 0 : int.Parse(Request["ID"].Trim());
+            string awbId = Request["awbId"].Trim();
+            string flightId = Request["flightID"].Trim();
+            var hawb = new HawbIrr();
+            hawb = _hawbService.GetById(id.Value);
+            if(hawb.HawbStatus!=1)
+            {
+                _hawbService.CloseHawb(hawb.Hawb, awbId, flightId);
+                //lay awb theo Hawb
+                IEnumerable<HawbIrr> listHawb = _hawbService.GetbyAwbIdAndFlightId(awbId, flightId);
+                if (listHawb.All(c => c.HawbStatus == 1))
+                {
+                    //close Awb
+                    // var awbIrr = _awbIrrService.GetSingleByIDAndFlight(awbId, flightId);
+                    _awbIrrService.closeAwbIrr(awbId);
+                }
+                //_hawbService.Delete(id);
+                _hawbService.Save();
+                message = "Đã đóng thông tin Hawb bất thường thành công!";
+            }
+            else
+            {
+                _hawbService.OpenHawb(hawb.Hawb, awbId, flightId);
+                //lay awb theo Hawb
+                //IEnumerable<HawbIrr> listHawb = _hawbService.GetbyAwbIdAndFlightId(awbId, flightId);
+                //if (listHawb.All(c => c.HawbStatus == 1))
+                //{
+                //    //close Awb
+                //    // var awbIrr = _awbIrrService.GetSingleByIDAndFlight(awbId, flightId);
+                //    _awbIrrService.closeAwbIrr(awbId);
+                //}
+                //_hawbService.Delete(id);
+                _hawbService.Save();
+                message = "Đã đóng thông tin Hawb bất thường thành công!";
+            }
+           
+            return Json(new { Type = messageType, Message = message, Title = "Thông báo" }, JsonRequestBehavior.AllowGet);
+        }
         public ActionResult DeleteAwb(int id)
         {
             string message = string.Empty;
@@ -2014,6 +2076,31 @@ namespace Web.Portal.Controller
             }
             ViewData["ListIrr"] = listIrrRemark;
             ViewBag.TitleReport = "Báo cáo Remark bất thường";
+            return View();
+        }
+        [DocumentExport("EXCEL", "BBBG")]
+        public ActionResult BBBGFlight(int id)
+        {
+            FlightIrr flight = _flightService.GetById(id);
+            List<AwbIrr> listAwbIrr = _awbIrrService.GetbyFlightID(flight.FlightID).Where(c=>c.Remarks== "DMGD").ToList();
+            List<IrrRemarkViewModel> listIrrRemark = new List<IrrRemarkViewModel>();
+            foreach (var awb in listAwbIrr)
+            {
+                IrrRemarkViewModel irr = new IrrRemarkViewModel();
+                irr.Mawb = awb.Prefix + awb.AWB;
+                List<HawbIrr> hawbIrrs = _hawbService.GetbyAwbIdAndFlightId(awb.AwbID,flight.FlightID).Where(c => c.Remark == "DMGD").OrderBy(c=>c.Hawb).ToList();
+                StringBuilder content = new StringBuilder();
+                foreach (var item in hawbIrrs)
+                {
+                    if (content.ToString().Contains(item.Hawb))
+                        continue;
+                    content.Append(item.Hawb + " ");
+                }
+                irr.Remark = content.ToString().Trim();
+                listIrrRemark.Add(irr);
+            }
+            ViewData["ListIrr"] = listIrrRemark.OrderBy(c => c.Mawb.Substring(c.Mawb.Length - 1)).ThenBy(c => c.Mawb.Substring(c.Mawb.Length - 4)).ToList(); ;
+            ViewBag.TitleReport = "Biên bản bàn giao bất thường";
             return View();
         }
     }

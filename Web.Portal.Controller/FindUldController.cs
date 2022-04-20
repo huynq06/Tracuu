@@ -19,6 +19,7 @@ namespace Web.Portal.Controller
 {
     public class FindUldController : GuestController
     {
+        private DateTime? ata;
         IUldLogService _uldLogService;
         public FindUldController(IUldLogService uldLogService)
         {
@@ -37,6 +38,23 @@ namespace Web.Portal.Controller
             {
                 data = model
             }, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult ListUld()
+        {
+            string flightNo = string.IsNullOrEmpty(Request["fno"]) ? "" : Request["fno"].Trim();
+            ata = string.IsNullOrEmpty(Request["ata"]) ? ata : Web.Portal.Utils.Format.ConvertDate(Request["ata"]);
+            List<FindUldViewModel> listULD = new ExpAWBAccess().GetUldByFlight(flightNo, ata.Value.ToString("dd/MM/yyyy"));
+            foreach(var uld in listULD)
+            {
+                var uldDB = _uldLogService.GetByUldIns(uld.UldIns);
+                if(uldDB !=null)
+                {
+                    uld.Modified = uldDB.Modified.HasValue ? uldDB.Modified : uldDB.Created;
+                    uld.Location = uldDB.Remark;
+                }
+            }
+            ViewData["listULD"] = listULD;
+            return View();
         }
         public ActionResult List()
         {

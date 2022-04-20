@@ -23,7 +23,7 @@ using System.Threading;
 
 namespace Web.Portal.Controller
 {
-    [Web.Portal.Sercurity.AuthorizedBase(Roles = "ADMIN,KTX")]
+    [Web.Portal.Sercurity.AuthorizedBase(Roles = "ADMIN,KTX,KHAITHAC")]
     public class EInvoiceExportController : BaseController
     {
         DateTime? dateCheck;
@@ -181,6 +181,8 @@ namespace Web.Portal.Controller
                     foreach (var item in OrderViewModel.InvoiceDetailViewModels)
                     {
                         var invoiceDetailDB = _iHermesInvoiceDetailService.GetByID(item.ID);
+                        invoiceDetailDB.Item = item.Item;
+                        invoiceDetailDB.Unit = item.Unit;
                         invoiceDetailDB.Quantity = item.Quantity;
                         invoiceDetailDB.UnitPrice = item.UnitPrice;
                         invoiceDetailDB.InvoiceIns = invoiceDB.InvoiceIsn;
@@ -210,6 +212,7 @@ namespace Web.Portal.Controller
                     string reference = jObj["id"].ToString();
                     string invoiceSearchLink = jObj["link"].ToString();
                     string searchCode = jObj["sec"].ToString();
+                    string idt = jObj["idt"].ToString();
                     invoiceDB.Status = true;
                     invoiceDB.TimeReponse = DateTime.Now;
                     invoiceDB.ExecuteTime = elapsedMs.ToString();
@@ -217,6 +220,10 @@ namespace Web.Portal.Controller
                     invoiceDB.ReferenceNo = reference;
                     invoiceDB.InvoiceStatus = CommonConstants.INVOICEAPROVE;
                     invoiceDB.InvoiceDescription = CommonConstants.APPROVE;
+                    invoiceDB.InvoiceFieldForm = System.Configuration.ConfigurationManager.AppSettings["InvoiceFieldFormALSC"];
+                    invoiceDB.InvoiceFieldType = System.Configuration.ConfigurationManager.AppSettings["InvoiceFieldTypeALSC"];
+                    invoiceDB.Idt = idt;
+                    invoiceDB.InvoiceFieldSerial = System.Configuration.ConfigurationManager.AppSettings["InvoiceFieldSerialALSC_EXPORT"];
                     invoiceDB.EInvoiceSearchLink = invoiceSearchLink;
                     invoiceDB.SearchCode = searchCode;
                     _iHermesInvoiceService.Update(invoiceDB);
@@ -291,7 +298,7 @@ namespace Web.Portal.Controller
                 // the code that you want to measure comes here
                 invoiceDB.TimeSent = DateTime.Now;
                 bool exception = false;
-                rp = rq.ExecuteInvoice(jsonResult, "POST", "", false, invoiceDB.InvoiceIsn, ref check,ref exception);
+                //rp = rq.ExecuteInvoice(jsonResult, "POST", "", false, invoiceDB.InvoiceIsn, ref check,ref exception);
 
               //  var data = Newtonsoft.Json.Linq.JObject.Parse(rp);
                 
@@ -304,14 +311,20 @@ namespace Web.Portal.Controller
                     string reference = jObj["id"].ToString();
                     string invoiceSearchLink = jObj["link"].ToString();
                     string searchCode = jObj["sec"].ToString();
+                    string idt = jObj["idt"].ToString();
                     invoiceDB.Status = true;
                     invoiceDB.TimeReponse = DateTime.Now;
                     invoiceDB.ExecuteTime = elapsedMs.ToString();
                     invoiceDB.Sequence = seq;
                     invoiceDB.ReferenceNo = reference;
                     invoiceDB.ExceptionStatus = 0;
+                    invoiceDB.Idt = idt;
                     invoiceDB.InvoiceStatus = CommonConstants.INVOICEAPROVE;
                     invoiceDB.InvoiceDescription = CommonConstants.APPROVE;
+                    invoiceDB.InvoiceFieldForm = System.Configuration.ConfigurationManager.AppSettings["InvoiceFieldFormALSC"];
+                    invoiceDB.InvoiceFieldType = System.Configuration.ConfigurationManager.AppSettings["InvoiceFieldTypeALSC"];
+
+                    invoiceDB.InvoiceFieldSerial = System.Configuration.ConfigurationManager.AppSettings["InvoiceFieldSerialALSC_EXPORT"];
                     invoiceDB.EInvoiceSearchLink = invoiceSearchLink;
                     invoiceDB.SearchCode = searchCode;
                     _iHermesInvoiceService.Update(invoiceDB);
@@ -328,6 +341,7 @@ namespace Web.Portal.Controller
                     string sequence = jsonArray[0]["doc"]["seq"].ToString();
                     string invoiceSearchLink = jsonArray[0]["doc"]["link"].ToString();
                     string searchCode = jsonArray[0]["doc"]["sec"].ToString();
+                    string idt = jsonArray[0]["doc"]["idt"].ToString();
                     invoiceDB.Status = true;
                     invoiceDB.TimeReponse = DateTime.Now;
                     invoiceDB.ExecuteTime = elapsedMs.ToString();
@@ -335,6 +349,10 @@ namespace Web.Portal.Controller
                     invoiceDB.ReferenceNo = jsonArray[0]["doc"]["id"].ToString();
                     invoiceDB.InvoiceStatus = CommonConstants.INVOICEAPROVE;
                     invoiceDB.InvoiceDescription = CommonConstants.APPROVE;
+                    invoiceDB.InvoiceFieldForm = System.Configuration.ConfigurationManager.AppSettings["InvoiceFieldFormALSC"];
+                    invoiceDB.InvoiceFieldType = System.Configuration.ConfigurationManager.AppSettings["InvoiceFieldTypeALSC"];
+                    invoiceDB.Idt = idt;
+                    invoiceDB.InvoiceFieldSerial = System.Configuration.ConfigurationManager.AppSettings["InvoiceFieldSerialALSC_EXPORT"];
                     invoiceDB.ExceptionStatus = 0;
                     invoiceDB.EInvoiceSearchLink = invoiceSearchLink;
                     invoiceDB.SearchCode = searchCode;
@@ -384,18 +402,19 @@ namespace Web.Portal.Controller
                     adj.rea = "Sai thong tin hoa don";
                     adj.ref_ = invoice.InvoiceIsn;
                     inv inv = new inv();
-                    if (invoice.ID >= 241089 && invoice.ID <= 241408)
-                    {
-                        inv.seq = "01GTKT0/001-AC/20E-" + invoice.Sequence.ToString().PadLeft(7, '0');
-                    }
-                    else if (invoice.ID < 241089)
-                    {
-                        inv.seq = "01GTKT0/001-AX/20E-" + invoice.Sequence.ToString().PadLeft(7, '0'); 
-                    }
-                    else
-                    {
-                        inv.seq = System.Configuration.ConfigurationManager.AppSettings["SeqCancel_EXPORT"] + invoice.Sequence.ToString().PadLeft(7, '0'); 
-                    }
+                    inv.seq = invoice.InvoiceFieldForm + "-" + invoice.InvoiceFieldSerial + "-" + invoice.Sequence.ToString().PadLeft(7, '0');
+                    //if (invoice.ID >= 241089 && invoice.ID <= 241408)
+                    //{
+                    //    inv.seq = "01GTKT0/001-AC/20E-" + invoice.Sequence.ToString().PadLeft(7, '0');
+                    //}
+                    //else if (invoice.ID < 241089)
+                    //{
+                    //    inv.seq = "01GTKT0/001-AX/20E-" + invoice.Sequence.ToString().PadLeft(7, '0'); 
+                    //}
+                    //else
+                    //{
+                    //    inv.seq = System.Configuration.ConfigurationManager.AppSettings["SeqCancel_EXPORT"] + invoice.Sequence.ToString().PadLeft(7, '0'); 
+                    //}
                     //inv.seq = System.Configuration.ConfigurationManager.AppSettings["SeqCancel_EXPORT"] + invoice.Sequence.ToString().PadLeft(7, '0'); ;
                     inv.adj = adj;
                     InvoiceCancel invoiceCancel = new InvoiceCancel();

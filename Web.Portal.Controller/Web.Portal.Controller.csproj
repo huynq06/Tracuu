@@ -186,11 +186,13 @@
     <Compile Include="ScanTicketController.cs" />
     <Compile Include="SitaController.cs" />
     <Compile Include="TicketController.cs" />
+    <Compile Include="UatEInvoiceController.cs" />
     <Compile Include="UldController.cs" />
     <Compile Include="UnqualifiedController.cs" />
     <Compile Include="UpdateIssueController.cs" />
     <Compile Include="UserController.cs" />
     <Compile Include="VCTController.cs" />
+    <Compile Include="ViewUldController.cs" />
     <Compile Include="Web References\com.viagsnoibai.wsfly1\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

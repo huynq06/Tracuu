@@ -16,6 +16,9 @@ namespace Web.Portal.Service
         IEnumerable<HawbIrr> GetbyAwbIdAndFlightId(string awbId,string flightId);
         IEnumerable<HawbIrr> GetbyAwb(string prefix,string awb);
         IEnumerable<HawbIrr> GetbyHawbName(string hawb,string awbId,string flightId);
+        IEnumerable<HawbIrr> GetbyHawbId(string hawbId);
+        void CloseHawb(string hawbName, string awbId, string flightId);
+        void OpenHawb(string hawbName, string awbId, string flightId);
         HawbIrr GetById(int id);
         HawbIrr GetSingleByID(string hawbId);
         void Delete(int id);
@@ -38,6 +41,25 @@ namespace Web.Portal.Service
             _hawbRepository.Add(hawbId);
         }
 
+        public void CloseHawb(string hawbName, string awbId, string flightId)
+        {
+            IEnumerable<HawbIrr> listHawbClose = _hawbRepository.GetMulti(c => c.Hawb == hawbName.Trim() && c.IrrPices > 0 && c.AwbId == awbId && c.FlightID == flightId);
+            foreach(var item in listHawbClose)
+            {
+                item.HawbStatus = 1;
+                Update(item);
+            }
+        }
+        public void OpenHawb(string hawbName, string awbId, string flightId)
+        {
+            IEnumerable<HawbIrr> listHawbClose = _hawbRepository.GetMulti(c => c.Hawb == hawbName.Trim() && c.IrrPices > 0 && c.AwbId == awbId && c.FlightID == flightId);
+            foreach (var item in listHawbClose)
+            {
+                item.HawbStatus = 0;
+                Update(item);
+            }
+        }
+
         public void Delete(int id)
         {
             _hawbRepository.Delete(id);
@@ -56,6 +78,11 @@ namespace Web.Portal.Service
         public IEnumerable<HawbIrr> GetbyAwbIdAndFlightId(string awbId, string flightId)
         {
             return _hawbRepository.GetMulti(c => c.AwbId == awbId && c.FlightID==flightId);
+        }
+
+        public IEnumerable<HawbIrr> GetbyHawbId(string hawbId)
+        {
+            return _hawbRepository.GetMulti(c => c.HawbId==hawbId);
         }
 
         public IEnumerable<HawbIrr> GetbyHawbName(string hawb,string awbId,string flightId)

@@ -59,6 +59,7 @@ namespace Web.Portal.DataAccess
             objuld.Location = Convert.ToString(GetValueField(reader, "LOCATION", string.Empty));
             objuld.ULD = Convert.ToString(GetValueField(reader, "ULD", string.Empty));
             objuld.Weight = Convert.ToString(GetValueField(reader, "CW", string.Empty));
+            objuld.Modified = Convert.ToDateTime(GetValueDateTimeField(reader, "LOC_DATE", objuld.Modified));
             return objuld;
         }
         private FindUldViewModel GetFindUldOffLoad(OracleDataReader reader)
@@ -146,6 +147,35 @@ namespace Web.Portal.DataAccess
                 }
             }
             return uld;
+        }
+        public List<FindUldViewModel> GetUldByFlight(string flightNo,string Date)
+        {
+            string sql = " select distinct awbu.awbu_uld_no || awbu.awbu_uld_serial || awbu.awbu_uld_owner ULD, to_date('02-01-0001' ,'DD-MM-YYYY') + cont.CONT_DATE FLIGHT_DATE, " +
+ "sslp.sslp_rack_row || sslp.sslp_rack_location LOCATION,locs.locs_last_updated LOC_DATE,flup.flup_flight_no_lvg || flup.flup_flight_no FLIGHTNO, " +
+ "cont.cont_tara_uld CW, cont.cont_uld_isn ULDINS " +
+ "from CONT cont JOIN AWBU_AWBPERULD_LIST awbu " +
+        "on awbu.awbu_uld_isn = cont.cont_uld_isn " +
+        "join han_w1_hl.locs_locations locs " +
+     "on cont.cont_uld_isn = locs.locs_object_isn " +
+  "join han_w1_hl.sslp_physical_locations sslp " +
+   "on locs.locs_physical_isn = sslp.sslp_physical_isn " +
+   "left join flup on cont.CONT_FLIGHT_NO_ = flup.flup_flight_no " +
+    "and to_date('02-01-0001' , 'DD-MM-YYYY') +cont.CONT_DATE = to_date('02-01-0001', 'DD-MM-YYYY') + flup.flup_scheduled_date " +
+   "where 1 = 1 " +
+   "and to_char(flup.flup_flight_scheduled_date, 'dd/mm/yyyy') = '" + Date + "'" +
+    "and flup.flup_flight_no_lvg || flup.flup_flight_no = '" + flightNo + "'" +
+   " order by sslp.sslp_rack_row || sslp.sslp_rack_location ";
+
+            List<FindUldViewModel> ulds = new List<FindUldViewModel>();
+            using (OracleDataReader reader = GetScriptOracleDataReader(sql))
+            {
+                while (reader.Read())
+                {
+                    ulds.Add(GetFindUld(reader));
+
+                }
+            }
+            return ulds;
         }
         public FindUldViewModel GetDetailUldOffLoad(string id)
         {

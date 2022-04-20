@@ -36,7 +36,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Debug\Microsoft.ApplicationBlocks.Data.dll</HintPath>
     </Reference>
-    <Reference Include="Oracle.DataAccess, Version=2.112.1.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=x86">
+    <Reference Include="Oracle.DataAccess, Version=4.121.2.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\bin\2.12\Oracle.DataAccess.dll</HintPath>
     </Reference>
@@ -55,6 +55,8 @@
   <ItemGroup>
     <Compile Include="DataProvider.cs" />
     <Compile Include="DataProviderService.cs" />
+    <Compile Include="OracleArchieveProvider.cs" />
+    <Compile Include="OracleArchive2018Provider.cs" />
     <Compile Include="OracleHelper.cs" />
     <Compile Include="OracleProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
