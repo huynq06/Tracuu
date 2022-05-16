@@ -11,6 +11,7 @@ namespace Web.Portal.Data.Infrastructure
         void Commit();
         void CommitFlight();
         void CommitEInvoice();
+        void CommitUatEInvoice();
         void CommitPXK();
         void CommitHermes();
         void CommitCustomService();

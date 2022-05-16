@@ -1,0 +1,199 @@
+﻿
+@{
+    Layout = null;
+    int PageCurrent = 0;
+    IEnumerable<Web.Portal.Model.Models.HawbIrr> ListHawbIrr = (IEnumerable<Web.Portal.Model.Models.HawbIrr>)ViewData["ListHawbAll"];
+}
+@model Web.Portal.Model.Models.AwbIrr
+<div class='col-md-2 col-xs-4 margin-top-10'>
+    <label class='control-label'><b>Tổng số: @ViewBag.TotalRecord</b></label>
+</div>
+
+<table class="table table-striped table-bordered table-advance table-hover dt-responsive" id="tbl-flight" style="width:100%;font-size:14pt">
+    <thead>
+        <tr style="">
+            <th class="all" style="width:3%;text-align:center">
+
+            </th>
+            <th style="width:10%;text-align:center">
+                Hawb
+            </th>
+            <th style="width:10%;text-align:center">
+                Loại bất thường
+            </th>
+            <th style="wIDth:10%;text-align:center;font-size:16px">
+                Loại bất thường Khác
+            </th>
+            <th style="wIDth:10%;text-align:center;font-size:16px">
+                Số kiện
+            </th>
+            <th style="wIDth:10%;text-align:center;font-size:16px">
+                Số cân
+            </th>
+            <th style="wIDth:10%;text-align:center;font-size:16px">
+                Chi tiết
+            </th>
+            <th style="wIDth:10%;text-align:center;font-size:16px">
+                Ghi chú
+            </th>
+
+            <th style="wIDth:10%;text-align:center;font-size:16px">
+                ULD
+            </th>
+            <th style="wIDth:10%;text-align:center;font-size:16px">
+                STATUS
+            </th>
+            <th style="wIDth:10%;text-align:center;font-size:16px">
+                Action
+            </th>
+            <th class="none"  style="width:100%">
+                
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var row in (IList<Web.Portal.Model.Models.HawbIrr>)ViewData["listHawb"])
+        {
+            PageCurrent += 1;
+
+            <tr style="@Html.Raw(ListHawbIrr.Where(c => c.Hawb == row.Hawb && c.ID != row.ID).ToList().Count > 0? "background-color:#FFA07A !important" : "")">
+                <td style="text-align:center">@PageCurrent</td>
+
+                <td style="text-align:center">@Html.Raw(row.Hawb)</td>
+                <td style="text-align:center">@Html.Raw(row.HawbDes)</td>
+                <td style="text-align:center">@Html.Raw(row.IrrDes)</td>
+                <td style="text-align:center">@Html.Raw(row.IrrPices)</td>
+                <td style="text-align:center">@Html.Raw(row.IrrWeight)</td>
+                <td style="text-align:center">@Html.Raw(row.IrrDetails)</td>
+                <td style="text-align:center">@Html.Raw(row.LAGI_REMARK)</td>
+                <td style="text-align:center">@Html.Raw(row.ULD)</td>
+                <td style="text-align:center">@Html.Raw(Web.Portal.Utils.Constants.GetAwbIrrStatus(row.HawbStatus))</td>
+                <td style="text-align:center">
+                    <a href="#" class="btn  btn-xs hawb-edit @Html.Raw(Model.AwbStatus==1? "disabled" : "")" data-id="@row.ID"><div class="btn-group green"><i style="font-size:30px;" class="fa fa-edit "></i></div> </a>
+                    <a href="#" class="btn  btn-xs hawb-print @Html.Raw(Model.AwbStatus==1? "" : "")" data-id="@row.ID"><div class="btn-group green"><i style="font-size:30px;" class="fa fa-print "></i></div> </a>
+                    <a href="#" class="btn  btn-xs hawb-add @Html.Raw(Model.AwbStatus==1? "" : "")" data-id="@row.ID"><div class="btn-group green"><i style="font-size:30px;" class="fa fa-plus "></i></div> </a>
+                    <a href="#" class="btn  btn-xs hawb-delete @Html.Raw(Model.AwbStatus==1? "disabled" : "")"  data-id="@row.ID"><div class="btn-group red"><i style="font-size:30px;" class="fa fa-trash "></i></div> </a>
+                    <a href="#" class="btn  btn-xs hawb-close @Html.Raw(Model.AwbStatus==1? "disabled" : "")" data-id="@row.ID"><div class="btn-group red"><i style="font-size:30px;" class="fa @Html.Raw(row.HawbStatus==0? "fa-lock" : "fa-unlock") "></i></div> </a>
+                </td>
+                <td>
+
+                    <table id="tbl-flight" class="table table-bordered table-hover">
+                        <thead>
+                        <tr style="">
+                        
+                            <th style="width:10%;text-align:center">
+                                Hawb
+                            </th>
+                            <th style="width:10%;text-align:center">
+                                Loại bất thường
+                            </th>
+                            <th style="wIDth:10%;text-align:center;font-size:16px">
+                                Loại bất thường Khác
+                            </th>
+                            <th style="wIDth:10%;text-align:center;font-size:16px">
+                                Số kiện
+                            </th>
+                            <th style="wIDth:10%;text-align:center;font-size:16px">
+                                Số cân
+                            </th>
+                            <th style="wIDth:10%;text-align:center;font-size:16px">
+                                Chi tiết
+                            </th>
+                            <th style="wIDth:10%;text-align:center;font-size:16px">
+                                ULD
+                            </th>
+                            <th style="wIDth:10%;text-align:center;font-size:16px">
+                                Action
+                            </th>
+                            
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                            @foreach (var rowxl in ListHawbIrr.Where(c => c.Hawb == row.Hawb && c.ID != row.ID).ToList())
+                            {
+                                <tr>
+                                  
+                                    <td style="width:30%">
+                                        <a href="javascript:xuLyEdit(@Html.DisplayFor(model => rowxl.ID));" data-flight="@ViewBag.FlightId" data-id="@Html.DisplayFor(model => rowxl.ID)" class="btn  btn-xs hawb-editt">@Html.DisplayTextFor(model => rowxl.Hawb)</a>
+                                    </td>
+                                    <td style="width:15%">
+                                        <a href="javascript:xuLyEdit(@Html.DisplayFor(model => rowxl.ID));"  data-id="@Html.DisplayFor(model => rowxl.ID)" data-flight="@ViewBag.FlightId" class="btn  btn-xs hawb-editt">@Html.DisplayTextFor(model => rowxl.HawbDes)</a>
+                                    </td>
+                                    <td style="width:10%">
+                                        <a href="javascript:xuLyEdit(@Html.DisplayFor(model => rowxl.ID));"  data-id="@Html.DisplayFor(model => rowxl.ID)" data-flight="@ViewBag.FlightId" class="btn  btn-xs hawb-editt">@Html.DisplayTextFor(model => rowxl.IrrDes)</a>
+                                    </td>
+                                    <td style="width:20%">
+                                        <a href="javascript:xuLyEdit(@Html.DisplayFor(model => rowxl.ID));" data-id="@Html.DisplayFor(model => rowxl.ID)" data-flight="@ViewBag.FlightId" class="btn  btn-xs hawb-editt">@Html.DisplayTextFor(model => rowxl.IrrPices)</a>
+                                    </td>
+                                    <td style="width:20%">
+                                        <a href="javascript:xuLyEdit(@Html.DisplayFor(model => rowxl.ID));" data-id="@Html.DisplayFor(model => rowxl.ID)" data-flight="@ViewBag.FlightId" class="btn  btn-xs hawb-editt">@Html.DisplayTextFor(model => rowxl.IrrWeight)</a>
+                                    </td>
+                                    <td style="width:20%">
+                                        <a href="javascript:xuLyEdit(@Html.DisplayFor(model => rowxl.ID));" data-id="@Html.DisplayFor(model => rowxl.ID)" data-flight="@ViewBag.FlightId" class="btn  btn-xs hawb-editt">@Html.DisplayTextFor(model => rowxl.IrrDetails)</a>
+                                    </td>
+                                    <td style="width:20%">
+                                        <a href="javascript:xuLyEdit(@Html.DisplayFor(model => rowxl.ID));" data-id="@Html.DisplayFor(model => rowxl.ID)" data-flight="@ViewBag.FlightId" class="btn  btn-xs hawb-editt">@Html.DisplayTextFor(model => rowxl.ULD)</a>
+                                    </td>
+                                    <td>
+                                        <a href="javascript:xuLyEdit(@Html.DisplayFor(model => rowxl.ID));" data-id="@Html.DisplayFor(model => rowxl.ID)" data-flight="@ViewBag.FlightId" class="btn  btn-xs hawb-editt">
+                                            <i class="fa fa-edit"></i> Sửa
+                                        </a>
+                                        <a href="javascript:xuLyDelete(@Html.DisplayFor(model => rowxl.ID));" data-id="@Html.DisplayFor(model => rowxl.ID)" data-flight="@ViewBag.FlightId" class="btn  btn-xs hawb-delete">
+                                            <i class="fa fa fa-trash-o"></i> Xóa
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </td>
+
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+<script>
+    var actionHawbReload = {
+        execute: function () {
+            setTimeout(() => {
+                location.reload();
+            },1000)
+
+        }
+    }
+    egovutil.CreateTableSort("#tbl-flight", [[0, "asc"]], [
+
+             { "orderable": false, "targets": 2 }
+    ], true);
+    $(".hawb-delete").click(function () {
+        egovutil.dlgConfirmAction("XÓA  ", "Bạn có muốn xóa bản ghi?", "/Irrmanagement/DeleteHawb/" + $(this).attr("data-id"), actionHawbReload.execute);
+    });
+    $(".hawb-edit").click(function () {
+        egovutil.dialog("Sửa thông tin bất thường", "large", "/IrrManagement/EditHawbIrr?ID=" + $(this).attr("data-id") + "&awbId="+@ViewBag.AwbId+ "&flightID="+@ViewBag.FlightId, actionHawbReload.execute);
+    });
+    $(".hawb-add").click(function () {
+        egovutil.dialog("Thêm mới thông tin bất thường", "large", "/IrrManagement/AddHawbIrr?ID=" + $(this).attr("data-id") + "&awbId="+@ViewBag.AwbId+ "&flightID="+@ViewBag.FlightId, actionHawbReload.execute);
+    });
+    $(".hawb-close").click(function () {
+        egovutil.dlgConfirmAction("CLOSE HAWB","Bạn có muốn mở/đóng Hawb? ", "/IrrManagement/CloseOrOpenHawb?ID=" + $(this).attr("data-id") + "&awbId="+@ViewBag.AwbId+ "&flightID="+@ViewBag.FlightId, actionHawbReload.execute);
+    });
+    $(".hawb-print").click(function () {
+        egovutil.dialog("Sửa thông tin bất thường", "large", "/IrrManagement/BBBT?ID=" + $(this).attr("data-id") + "&awbId="+@ViewBag.AwbId +"&flightID="+@ViewBag.FlightId, actionHawbReload.execute);
+    });
+    $(".btn-add-item").click(function () {
+        egovutil.dialog("Thêm mới thông tin bất thường", "large", "/IrrManagement/EditHawbIrr?ID=0&awbId="+@ViewBag.AwbId+"&flightID="+@ViewBag.FlightId, actionHawbReload.execute);
+    });
+    $(".item-delete").click(function () {
+        egovutil.dlgConfirmAction("Xóa thông tin bất thường ", "Bạn muốn xóa bản ghi này", "/org/delete/" + $(this).attr("data-id"), actionHawbReload.execute);
+    });
+    function xuLyEdit(id) {
+        egovutil.dialog("Sửa thông tin bất thường", "large", "/IrrManagement/EditHawbIrr?ID=" + id + "&awbId="+@ViewBag.AwbId +"&flightID="+@ViewBag.FlightId, actionHawbReload.execute);
+    }
+    function xuLyDelete(id) {
+        egovutil.dlgConfirmAction("XÓA  ", "Bạn có muốn xóa bản ghi?", "/Irrmanagement/DeleteHawb/" + id, actionHawbReload.execute);
+    }
+
+</script>

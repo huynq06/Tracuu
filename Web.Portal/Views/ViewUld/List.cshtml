@@ -1,0 +1,138 @@
+﻿
+@{
+    Layout = null;
+}
+@model Web.Portal.Common.ViewModel.FindUldViewModel 
+<div class="row" style="margin-top:20px;padding:20px">
+    <input type="hidden" name="keyValue" id="uldIns" value="@Html.DisplayFor(model=>model.UldIns)" />
+    <div class="col-lg-12 col-sm-12">
+        <table id="tbl-uld" border="1" class="table table-striped table-bordered table-advance table-hover">
+            <thead>
+                <tr style="">
+                    
+                    <th style="width:10%;font-size:16px;background-color:darkgrey !important;text-align:center">
+                        Thông tin
+                    </th>
+                    <th style="width:10%;font-size:16px;background-color:darkgrey !important;text-align:center">
+                        Chi tiết
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+              
+                    <tr>
+                        <td style="font-size:14px;">ULD</td>
+                        <td style="font-size:14px">@Html.DisplayFor(model => model.ULD)</td>
+                    </tr>
+                <tr>
+                    <td style="font-size:14px;">LOCATION</td>
+                    <td style="font-size:14px">@Html.DisplayFor(model => model.Location)</td>
+                </tr>
+                <tr>
+                    <td style="font-size:14px;">REMARK</td>
+                    <td style="font-size:14px;color:red">@Html.DisplayFor(model => model.Remark)</td>
+                </tr>
+                <tr>
+                    <td style="font-size:14px;">Flight</td>
+                    <td style="font-size:14px">@Html.Raw(Model.Flight + " - " + (Model.FlightDate.HasValue && Model.FlightDate.Value != DateTime.MinValue ? Model.FlightDate.Value.ToString("dd/MM/yyyy") : ""))</td>
+                </tr>
+                <tr>
+                    <td style="font-size:14px;">GW</td>
+                    <td style="font-size:14px">@Html.Raw(Model.Weight)</td>
+                </tr>
+                
+            </tbody>
+        </table>
+    </div>
+    @*<div class="row" style="margin-top:20px">
+        <div class="col-md-2 col-xs-3" style="font-size:14px">
+            <span class="caption-subject">ULD:</span>
+        </div>
+        <div class="col-md-10 col-xs-9" style="font-size:14px">
+            <span class="caption-subject" style="font-weight:bold">@Html.DisplayFor(model => model.ULD)</span>
+        </div>
+    </div>*@
+    @*<div class="row">
+        <div class="col-md-2 col-xs-3" style="font-size:14px">
+            <span class="caption-subject">LOCATION:</span>
+        </div>
+        <div class="col-md-10 col-xs-9" style="font-size:14px">
+            <span class="caption-subject" style="font-weight:bold;color:red">@Html.DisplayFor(model => model.Location)</span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2 col-xs-2" style="font-size:14px">
+            <span class="caption-subject">REMARK:</span>
+        </div>
+        <div class="col-md-10 col-xs-10" style="font-size:14px">
+            <span class="caption-subject" style="font-weight:bold;color:red">@Html.DisplayFor(model => model.Remark)</span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2 col-xs-2" style="font-size:14px">
+            <span class="caption-subject">Flight:</span>
+        </div>
+        <div class="col-md-2 col-xs-10" style="font-size:14px">
+            <span class="caption-subject">@Html.Raw(Model.Flight + (Model.FlightDate.HasValue? Model.FlightDate.Value.ToString("dd/MM/yyyy"): ""))</span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2 col-xs-2" style="font-size:14px">
+            <span class="caption-subject">CW:</span>
+        </div>
+        <div class="col-md-2 col-xs-10" style="font-size:14px">
+            <span class="caption-subject">@Html.Raw(Model.Weight)</span>
+        </div>
+    </div>*@
+    @*<div class="row">
+        <div class="form-group form-md-line-input">
+
+            <div class="col-md-4 col-xs-10">
+
+                <div class="input-group">
+
+
+                    <input class="form-control uppercase" id="location" placeholder="Cập Nhập ví trí ULD" maxlength="500" />
+                    <div class="form-control-focus"> </div>
+                    <span class="help-block">Nhập vị trí</span>
+                    <span class="input-group-btn">
+                        <button id="btn-save" class="btn btn-success" type="button"><i class="fa fa-check"></i></button>
+                    </span>
+
+
+                </div>
+            </div>
+        </div>
+    </div>*@    
+</div>
+<script>
+    var Action = {
+        Reset: function () {
+
+            $('#awb').val('');
+        },
+    }
+    $("#btn-save").click(function (e) {
+        e.preventDefault();
+        var uld = {}
+        uld.UldIns = $('#uldIns').val();
+        uld.Remark = $('#location').val();
+        $.ajax({
+            url: '/ViewUld/Save',
+            type: 'POST',
+            data: {
+                uldViewModel: JSON.stringify(uld)
+            },
+            dataType: 'json',
+            success: function (data) {
+                setTimeout(function () {
+                    egovutil.MessageToast(data.Type, data.Title, data.Message);
+                }, 200);
+                setTimeout(function () {
+                    egovutil.getContentCallBack("#content-list-result", "/ViewUld/list?uld=" + $('#uldIns').val(), Action.Reset);
+                }, 500);
+            }
+        });
+    })
+</script>
+  

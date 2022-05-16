@@ -10,12 +10,16 @@
                     <span class="caption-subject font-blue-madison bold uppercase">Danh sách AWB</span>
                 </div>
 
-                @*<div class="actions">
-
-                    <a href="javascript:;" class="btn btn-default btn-sm btn-add-item">
-                        <i class="fa fa-plus"></i> Thêm mới
+                <div class="actions">
+                    <a href="javascript:;" data-id="02" class="btn btn-circle btn-danger btn-export-log">
+                        <i class="fa fa-download"></i> Xuất danh sách
                     </a>
-                </div>*@
+                    @*<a href="javascript:;" class="btn btn-default btn-sm btn-add-item">
+                <i class="fa fa-plus"></i> Thêm mới
+            </a>*@
+                    <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;">
+                    </a>
+                </div>
             </div>
             <div class="portlet-body">
                 <div class="row">
@@ -122,5 +126,8 @@
             egovutil.getContentCallBack("#content-list-result", "/IssueManagement/list/3", Action.setValueInput);
         }
     });
+    $(".btn-export-log").click(function () {
+        window.location.href = "/IssueManagement/SendNotify";
 
+    });
 </script>

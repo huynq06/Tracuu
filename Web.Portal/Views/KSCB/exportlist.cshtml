@@ -49,14 +49,6 @@
                                             <i class="fa fa-edit"></i> Mở lại chuyến
                                         </a>
                                     </li>
-
-                                    @*<li>
-                        <a href="javascript:;" data-id="@Html.DisplayFor(model => row.ID)" class="sqs-soghinhan-comment">
-                            <i class="fa fa-comment"></i> Comment
-                        </a>
-                    </li>*@
-
-
                                 </ul>
                             </div>
 
@@ -74,6 +66,12 @@
                                 <a title="Xuất báo cáo" class="btn blue btn_export"  data-id="@Html.DisplayFor(model => row.FlightID)">
                                     <i class="fa fa-cloud-download"></i>
                                 </a>
+                                <a title="Chi tiết" class="btn yellow btn_detail" href="/kscb/ListULD?id=@row.ID&flightID=@row.FlightID"  target="_self" >
+                                    <i class="fa fa-eye"></i>
+                                </a>
+                                <a title="Chi tiết" class="btn yellow btn_uld" data-id="@Html.DisplayFor(model => row.FlightID)">
+                                    <i class="fa fa-search"></i>
+                                </a>
                             </div>
                         </td>
                     </tr>
@@ -89,5 +87,9 @@
     });
     $(".re-open").click(function () {
         egovutil.dlgConfirmAction("Mở lại chuyến bay", "Bạn có muốn mở lại chuyến bay", "/kscb/Reopen/" + $(this).data('id'), "");
+    });
+    $(".btn_uld").click(function () {
+        window.open("/ksuld/PrintByFlight/" + $(this).data('id'), '_blank');
+        //window.location.href = "/ksuld/PrintByFlight/" + $(this).data('id')
     });
 </script>

@@ -85,9 +85,21 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a class="log-page" data-url="/IrrManagement">
+                    <i class="fas fa-book"></i>
+                    <span class="title">KSBT</span>
+                </a>
+            </li>
+            <li class="nav-item">
                 <a class="log-page" data-url="/DlvVct">
                     <i class="fas fa-barcode"></i>
                     <span class="title">DLV XML</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="log-page" data-url="/kscb/PrintGroupNo">
+                    <i class="fas fa-book"></i>
+                    <span class="title">Print Group</span>
                 </a>
             </li>
             <li class="nav-item">
@@ -96,7 +108,13 @@
                     <span class="title">Phân ca</span>
                 </a>
             </li>
+            <li class="nav-item " style="@Html.Raw(ViewBag.CheckView == "true"? "" : "display:none")">
+                <a class="log-page" data-url="/UatEInvoice">
+                    <i class="fas fa-money-bill-alt"></i>
+                    <span class="title">UAT HÓA ĐƠN ĐIỆN TỬ</span>
+                </a>
 
+            </li>
 
         </ul>
 
@@ -166,6 +184,12 @@
                     <span class="title">KS chứng từ</span>
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="log-page" data-url="/Issuemanagement/AwbReport">
+                    <i class="icon-arrow-right "></i>
+                    <span class="title">VCT Export</span>
+                </a>
+            </li>
         </ul>
 
     </li>
@@ -192,6 +216,12 @@
                     </a>
 </li>
             <li class="nav-item">
+                <a class="log-page" data-url="/CallTruck/ScanInOutV2">
+                    <i class="icon-arrow-right "></i>
+                    <span class="title">VÀO RA V2</span>
+                </a>
+            </li>
+            <li class="nav-item">
                 <a class="log-page" data-url="/CallTruck/Truck">
                     <i class="icon-arrow-right "></i>
                     <span class="title">KS XE</span>
@@ -201,6 +231,12 @@
                 <a class="log-page" href="/Ticket">
                     <i class="icon-arrow-right "></i>
                     <span class="title">VÉ THÁNG</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="log-page" data-url="/CardManagement">
+                    <i class="fas fa-calendar"></i>
+                    <span class="title">Quản lý thẻ</span>
                 </a>
             </li>
 
@@ -338,7 +374,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="log-page" data-url="/impawb">
+                <a class="log-page" data-url="/Holiday">
                     <i class="icon-arrow-right "></i>
                     <span class="title">Holiday</span>
                 </a>

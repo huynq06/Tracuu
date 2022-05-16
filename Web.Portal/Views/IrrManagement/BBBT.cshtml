@@ -1,0 +1,638 @@
+﻿
+@{
+    Layout = null;
+}
+@model Web.Portal.Model.Models.HawbIrr
+@*<div class="caption caption-md" style="margin-top:20px;margin-bottom:20px">
+    <span class="caption-subject font-blue-madison bold uppercase">Biên bản bất thường</span>
+</div>*@
+<div class="tab-pane" id="tab_1">
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">
+                <i class="fa fa-gift"></i>BBBT
+            </div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse"> </a>
+                <a href="#portlet-config" data-toggle="modal" class="config"> </a>
+                <a href="javascript:;" class="reload"> </a>
+                <a href="javascript:;" class="remove"> </a>
+            </div>
+        </div>
+        <div class="portlet-body form">
+            <!-- BEGIN FORM-->
+            <form action="#" id="frmAction" class="horizontal-form">
+                <input type="hidden" name="keyValue" value="@Html.DisplayFor(model=>model.ID)" />
+                <div class="form-body">
+                    <h3 class="form-section" style="border-color:dimgrey">A.Thông tin chung</h3>
+                    <div class="row" style="border-color:gray;padding-bottom:10px;border-bottom-width:1px !important;border-bottom:dotted;">
+                        <div class="col-md-9">
+                            <div class="row">
+                                <div class="col-md-4" style="border-right:double;border-color:gray;border-width:1px">
+                                    <div class="form-group form-md-line-input">
+                                        <label class="control-label">1.AWB No:</label>
+                                        <input type="text" id="firstName" class="form-control" placeholder="" value="@Model.Prefix-@Model.AWB">
+                                        <span class="help-block"> This is inline help </span>
+                                    </div>
+                                    <div class="form-group form-md-line-input">
+                                    </div>
+                                    <div class="form-group form-md-line-input">
+                                    </div>
+                                </div>
+                                <!--/span-->
+                                <div class="col-md-4" style="border-right:double;border-color:gray;border-width:1px">
+                                    <div class="form-group form-md-line-input">
+                                        <label class="control-label">2.Điểm xuất phát</label>
+                                        <input type="text" id="lastName" class="form-control" placeholder="Origin" value="@Model.Org">
+                                       
+                                    </div>
+                                    <div class="form-group form-md-line-input">
+                                        <label class="control-label">3.Điểm đến</label>
+                                        <input type="text" id="lastName" class="form-control" placeholder="Destination" value="@Model.Des">
+                                       
+                                    </div>
+                                </div>
+                                <div class="col-md-4" style="border-right:double;border-color:gray;border-width:1px">
+                                    <div class="form-group form-md-line-input">
+                                        <label class="control-label">4.Số hiệu chuyến bay</label>
+                                        <input type="text" id="lastName" class="form-control" placeholder="" value="@ViewBag.FlightNo">
+                                       
+                                    </div>
+                                    <div class="form-group form-md-line-input">
+                                        <label class="control-label">5.Ngày đến</label>
+                                        <input type="text" id="lastName" class="form-control" placeholder="@ViewBag.FlightDate">
+                                       
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group form-md-line-input">
+                                    <label class="col-md-4 control-label" for="form_control_1">7.Tên hàng theo tài liệu/ Content as per AWB/XML </label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control" id="form_control_1" placeholder="GOODS NAME" value="@Model.LAGI_MASTER_GOODS">
+                                        <div class="form-control-focus"> </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--/span-->
+                        <div class="col-md-3">
+                            <div class="form-group form-md-checkboxes">
+                                <label>6.Tình trạng thời tiết tại thời điểm bất thường</label>
+                                <div class="md-checkbox-list">
+                                    <div class="md-checkbox">
+                                        <input type="checkbox" id="weatherRain" name="weatherRain" class="md-check" value="true" @Html.Raw(Model.WeatherRain.HasValue && Model.WeatherRain == true ? "checked" : "")>
+                                        <input type="hidden" value="false" name="weatherRain" />
+                                        <label for="weatherRain">
+                                            <span></span>
+                                            <span class="check"></span>
+                                            <span class="box"></span> Mưa/Rain
+                                        </label>
+                                    </div>
+                                    <div class="md-checkbox">
+                                        <input type="checkbox" id="weatherDry" name="weatherDry" class="md-check" value="false" @Html.Raw(Model.WeatherDry.HasValue && Model.WeatherDry == true ? "checked" : "")>
+                                        <input type="hidden" value="false" name="weatherDry" />
+                                        <label for="weatherDry">
+                                            <span></span>
+                                            <span class="check"></span>
+                                            <span class="box"></span> Không mưa/ Dry
+                                        </label>
+                                    </div>
+                                    <div class="md-checkbox">
+                                        <input type="checkbox" id="weatherOther" name="weatherOther" class="md-check" value="true" @Html.Raw(Model.WeatherOther.HasValue && Model.WeatherOther == true ? "checked" : "")>
+                                        <input type="hidden" value="false" name="weatherOther" />
+                                        <label for="weatherOther">
+                                            <span></span>
+                                            <span class="check"></span>
+                                            <span class="box"></span> Khác/Other
+                                        </label>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="form-group form-md-line-input">
+                                <input type="text" id="lastName" class="form-control" name="WeatherDes" placeholder="note" value="@Html.DisplayTextFor(model=>model.WeatherDes)">
+                               
+                            </div>
+                        </div>
+                        <!--/span-->
+                    </div>
+                    @*<h3 class="form-section"></h3>*@
+                    <div class="row" style="border-color:gray;padding-bottom:10px;border-bottom-width:1px !important;border-bottom:dotted;">
+                        <div class="col-md-6">
+                            <div class="form-group form-md-line-input">
+                                <label class="col-md-7 control-label" for="form_control_1">8.Tổng số kiện/Trọng lượng theo MNF(Pcs/Kg as per MNF) </label>
+                                <div class="col-md-5">
+                                    <input type="text" class="form-control" id="form_control_1" placeholder="Pcs/Kg as per MNF" value="@ViewBag.LagiMasterPieces/@ViewBag.LagiMasterWeight">
+                                    <div class="form-control-focus"> </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group form-md-line-input">
+                                <label class="col-md-7 control-label" for="form_control_1">9.Tổng số kiện/Trọng lượng theo AWB(Pcs/Kg as per AWB) </label>
+                                <div class="col-md-5">
+                                    <input type="text" class="form-control" id="form_control_1" placeholder="Pcs/Kg as per AWB"  value="@Model.LagiMasterQuantityEx/@Model.LagiMasterWeightEx" >
+                                    <div class="form-control-focus"> </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <h3 class="form-section" style="border-color:dimgrey">B.Bất thường / Irrgularity</h3>
+                    <div class="row" style="border-color:gray;padding-bottom:10px;border-bottom-width:1px !important;border-bottom:dotted;">
+                        <div class="col-md-3">
+                            <div class="form-group form-md-checkboxes">
+                                <div class="md-checkbox-list">
+                                    <div class="md-checkbox">
+                                        <input type="checkbox" id="irrMcsa" name="irrMcsa" class="md-check" value="true" @Html.Raw(Model.IrrMsca.HasValue && Model.IrrMsca == true ? "checked" : "")>
+                                        <input type="hidden" value="false" name="irrMcsa" />
+                                        <label for="irrMcsa">
+                                            <span></span>
+                                            <span class="check"></span>
+                                            <span class="box"></span> Thiếu kiện /MCSA/MCSB
+                                        </label>
+                                    </div>
+                                    <div class="md-checkbox">
+                                        <input type="checkbox" id="irrCrushed" name="irrCrushed" class="md-check" value="true" @Html.Raw(Model.IrrCrushed.HasValue && Model.IrrCrushed == true ? "checked" : "")>
+                                        <input type="hidden" value="false" name="irrCrushed" />
+                                        <label for="irrCrushed">
+                                            <span></span>
+                                            <span class="check"></span>
+                                            <span class="box"></span> Bẹp/ Crushed
+                                        </label>
+                                    </div>
+                                    <div class="md-checkbox">
+                                        <input type="checkbox" id="irrTorn" name="irrTorn" class="md-check" value="true" @Html.Raw(Model.IrrTorn.HasValue && Model.IrrTorn == true ? "checked" : "")>
+                                        <input type="hidden" value="false" name="irrTorn" />
+                                        <label for="irrTorn">
+                                            <span></span>
+                                            <span class="check"></span>
+                                            <span class="box"></span> Rách/Torn
+                                        </label>
+                                    </div>
+                                    <div class="md-checkbox">
+                                        <input type="checkbox" id="irrWet" name="irrWet" class="md-check" value="true"  @Html.Raw(Model.IrrWet.HasValue && Model.IrrWet == true ? "checked" : "")>
+                                        <input type="hidden" value="false" name="irrWet" />
+                                        <label for="irrWet">
+                                            <span></span>
+                                            <span class="check"></span>
+                                            <span class="box"></span> Ướt/Wet
+                                        </label>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group form-md-checkboxes">
+                                <div class="md-checkbox-list">
+                                    <div class="md-checkbox">
+                                        <input type="checkbox" id="irrFdca" name="irrFdca" class="md-check" value="true" @Html.Raw(Model.IrrFdca.HasValue && Model.IrrFdca == true ? "checked" : "")>
+                                        <input type="hidden" value="false" name="irrFdca" />
+                                        <label for="irrFdca">
+                                            <span></span>
+                                            <span class="check"></span>
+                                            <span class="box"></span> Thừa kiện /FDCA/FDMB
+                                        </label>
+                                    </div>
+                                    <div class="md-checkbox">
+                                        <input type="checkbox" id="irrHoled" name="irrHoled" class="md-check" value="true" @Html.Raw(Model.IrrHoled.HasValue && Model.IrrHoled == true ? "checked" : "")>
+                                        <input type="hidden" value="false" name="irrHoled" />
+                                        <label for="irrHoled">
+                                            <span></span>
+                                            <span class="check"></span>
+                                            <span class="box"></span> Thủng/ Holed
+                                        </label>
+                                    </div>
+                                    <div class="md-checkbox">
+                                        <input type="checkbox" id="irrBroken" name="irrBroken" class="md-check" value="true"  @Html.Raw(Model.IrrBroken.HasValue && Model.IrrBroken == true ? "checked" : "")>
+                                        <input type="hidden" value="false" name="irrBroken" />
+                                        <label for="irrBroken">
+                                            <span></span>
+                                            <span class="check"></span>
+                                            <span class="box"></span> Vỡ/Broken
+                                        </label>
+                                    </div>
+                                    <div class="md-checkbox">
+                                        <input type="checkbox" id="irrLabel" name="irrLabel" class="md-check" value="true"  @Html.Raw(Model.IrrLabel.HasValue && Model.IrrLabel == true ? "checked" : "")>
+                                        <input type="hidden" value="false" name="irrLabel" />
+                                        <label for="irrLabel">
+                                            <span></span>
+                                            <span class="check"></span>
+                                            <span class="box"></span> Thiếu/Không có nhãn/Without Label, mark
+                                        </label>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="form-group form-md-checkboxes">
+                                <div class="md-checkbox-list">
+                                    <div class="md-checkbox">
+                                        <input type="checkbox" id="irrOvcd" name="irrOvcd" class="md-check" value="true" @Html.Raw(Model.IrrOvcd.HasValue && Model.IrrOvcd == true ? "checked" : "")>
+                                        <input type="hidden" value="false" name="irrOvcd" />
+                                        <label for="irrOvcd">
+                                            <span></span>
+                                            <span class="check"></span>
+                                            <span class="box"></span> Lạc tuyến /OVCD
+                                        </label>
+                                    </div>
+                                    <div class="md-checkbox">
+                                        <input type="checkbox" id="irrOther" name="irrOther" class="md-check" value="true"  @Html.Raw(Model.IrrOther.HasValue && Model.IrrOther == true ? "checked" : "")>
+                                        <input type="hidden" value="false" name="irrOther" />
+                                        <label for="irrOther">
+                                            <span></span>
+                                            <span class="check"></span>
+                                            <span class="box"></span> Lý do khác/ Others
+                                        </label>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                            <div class="form-group form-md-line-input">
+                                <input type="text" id="irrDes" class="form-control" name="irrDes" placeholder="note"  value="@Html.DisplayTextFor(model=>model.IrrDes)">
+                               
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+
+                        <div class="form-group form-md-line-input">
+                            <label class="col-md-6 control-label" for="form_control_1">10.Tổng số kiện và trọng lượng thực tế của hàng bất thường/Total Pcs,weight of irr cargo: </label>
+                            <div class="col-md-3">
+                                <input type="text" class="form-control" id="irrPiece" name="irrPiece" placeholder="Số kiện" value="@Html.DisplayTextFor(model=>model.IrrPices)">
+                                <span class="box"></span> pcs
+                            </div>
+                            <div class="col-md-3">
+                                <input type="text" class="form-control" id="irrWeight" name="irrWeight" placeholder="Số cân" value="@Html.DisplayTextFor(model=>model.IrrWeight)">
+                                <span class="box"></span> Kg
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="border-color:gray;padding-bottom:10px;border-bottom-width:1px !important;border-bottom:dotted;">
+
+                        <div class="form-group form-md-line-input">
+                            <label class="col-md-6 control-label" for="form_control_1">11.Tổng số kiện và trọng lượng thực tế của hàng bất thường/Total Pcs,weight of consignment: </label>
+                            <div class="col-md-3">
+                                <input type="text" class="form-control" id="form_control_1" placeholder="Số kiện">
+                                <span class="box"></span> pcs
+                            </div>
+                            <div class="col-md-3">
+                                <input type="text" class="form-control" id="form_control_1" placeholder="Số cân">
+                                <span class="box"></span> Kg
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="border-color:gray;padding-bottom:60px;border-bottom-width:1px !important;border-bottom:dotted;">
+
+                        <div class="form-group form-md-line-input">
+                            <label class="col-md-12 control-label" for="form_control_1">12.Mô tả cụ thể về tình trạng bất thường: </label>
+                            <label class="col-md-12 control-label" for="form_control_1">@Html.Raw(Model.IrrDetails) </label>
+                            @*<div class="col-md-12">
+                                <input type="text" class="form-control" id="irrDetail" placeholder="Mô tả" name="irrDetail" value="@Html.Raw(Model.IrrDetails)">
+                            </div>*@
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="row">
+                                <label class="col-md-12 control-label" for="form_control_1">13.Tình trạng bất thường được ghi chú trên: </label>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group form-md-checkboxes">
+                                        <div class="md-checkbox-list">
+                                            <div class="md-checkbox">
+                                                <input type="checkbox" id="irrRemarkMail" name="irrRemarkMail" class="md-check" value="true"  @Html.Raw(Model.IrrRemarkMail.HasValue && Model.IrrRemarkMail == true ? "checked" : "")>
+                                                <input type="hidden" value="false" name="irrRemarkMail" />
+                                                <label for="irrRemarkMail">
+                                                    <span></span>
+                                                    <span class="check"></span>
+                                                    <span class="box"></span> Mail Manifest
+                                                </label>
+                                            </div>
+                                            <div class="md-checkbox">
+                                                <input type="checkbox" id="irrRemarkCargoManifest" name="irrRemarkCargoManifest" class="md-check" value="true" @Html.Raw(Model.IrrRemarkCargoManifest.HasValue && Model.IrrRemarkCargoManifest == true ? "checked" : "")>
+                                                <input type="hidden" value="false" name="irrRemarkCargoManifest" />
+                                                <label for="irrRemarkCargoManifest">
+                                                    <span></span>
+                                                    <span class="check"></span>
+                                                    <span class="box"></span> Cargo Manifest
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group form-md-checkboxes">
+                                        <div class="md-checkbox-list">
+                                            <div class="md-checkbox">
+                                                <input type="checkbox" id="irrRemarkNo" name="irrRemarkNo" class="md-check" value="true" @Html.Raw(Model.IrrRemarkNo.HasValue && Model.IrrRemarkNo == true ? "checked" : "")>
+                                                <input type="hidden" value="false" name="irrRemarkNo" />
+                                                <label for="irrRemarkNo">
+                                                    <span></span>
+                                                    <span class="check"></span>
+                                                    <span class="box"></span> Không / No
+                                                </label>
+                                            </div>
+                                            <div class="md-checkbox">
+                                                <input type="checkbox" id="irrRemarkOther" name="irrRemarkOther" class="md-check" value="true" @Html.Raw(Model.IrrRemarkOther.HasValue && Model.IrrRemarkOther == true ? "checked" : "")>
+                                                <input type="hidden" value="false" name="irrRemarkOther" />
+                                                <label for="irrRemarkOther">
+                                                    <span></span>
+                                                    <span class="check"></span>
+                                                    <span class="box"></span> Khác/ Other
+                                                </label>
+                                            </div>
+                                            <div class="form-group form-md-line-input">
+                                                <input type="text" class="form-control" id="irrRemarkDes" placeholder="Mô tả" name="irrRemarkDes" value="@Html.DisplayTextFor(model=>model.IrrRemarkDes)">
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <h3 class="form-section" style="border-color:dimgrey"></h3>
+                            <div class="row">
+                                <div class="row">
+                                    <label class="col-md-6 control-label" for="form_control_1">14.Nguyên nhân: </label>
+                                    <div class="col-md-6">
+                                        <div class="form-group form-md-checkboxes">
+                                            <div class="md-checkbox-list">
+                                                <div class="md-checkbox">
+                                                    <input type="checkbox" id="irrCauseUnknown" name="irrCauseUnknown" class="md-check" value="true" @Html.Raw(Model.IrrCauseUnknown.HasValue && Model.IrrCauseUnknown == true ? "checked" : "")>
+                                                    <input type="hidden" value="false" name="irrCauseUnknown" />
+                                                    <label for="irrCauseUnknown">
+                                                        <span></span>
+                                                        <span class="check"></span>
+                                                        <span class="box"></span> Chưa rõ / Unknown
+                                                    </label>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group form-md-line-input">
+                                    <input type="text" class="form-control" id="irrCauseDes" placeholder="Mô tả" name="irrCauseDes" value="@Html.DisplayTextFor(model=>model.IrrCauseDes)">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="row">
+                                <label class="col-md-12 control-label" for="form_control_1">15.Biện pháp khắc phục về hàng hóa/ Action taken for damaged cargo: </label>
+                            </div>
+                            <div class="row">
+                                <label class="col-md-12 control-label" for="form_control_1">- Gia cố lại/ Reinforced: </label>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group form-md-checkboxes">
+                                    <div class="md-checkbox-list">
+                                        <div class="md-checkbox">
+                                            <input type="checkbox" id="irrActionStrapped" name="irrActionStrapped" class="md-check" value="true" @Html.Raw(Model.IrrActionStrapped.HasValue && Model.IrrActionStrapped == true ? "checked" : "")>
+                                            <input type="hidden" value="false" name="irrActionStrapped" />
+
+                                            <label for="irrActionStrapped">
+                                                <span></span>
+                                                <span class="check"></span>
+                                                <span class="box"></span> Đai,buộc lại /Strapped
+                                            </label>
+                                        </div>
+                                        <div class="md-checkbox">
+                                            <input type="checkbox" id="irrActionRepacked" name="irrActionRepacked" class="md-check" value="true"  @Html.Raw(Model.IrrActionRepacked.HasValue && Model.IrrActionRepacked == true ? "checked" : "")>
+                                            <input type="hidden" value="false" name="irrActionRepacked" />
+                                            <label for="irrActionRepacked">
+                                                <span></span>
+                                                <span class="check"></span>
+                                                <span class="box"></span> Đóng gói lại/ Repacked
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group form-md-checkboxes">
+                                    <div class="md-checkbox-list">
+                                        <div class="md-checkbox">
+                                            <input type="checkbox" id="irrActionRetaped" name="irrActionRetaped" class="md-check" value="true" @Html.Raw(Model.IrrActionRetaped.HasValue && Model.IrrActionRetaped == true ? "checked" : "")>
+                                            <input type="hidden" value="false" name="irrActionRetaped" />
+                                            <label for="irrActionRetaped">
+                                                <span></span>
+                                                <span class="check"></span>
+                                                <span class="box"></span> Băng dính lại/ Retaped
+                                            </label>
+                                        </div>
+                                        <div class="md-checkbox">
+                                            <input type="checkbox" id="irrActionNo" name="irrActionNo" class="md-check" value="true" @Html.Raw(Model.IrrActionNo.HasValue && Model.IrrActionNo == true ? "checked" : "")>
+                                            <input type="hidden" value="false" name="irrActionNo" />
+                                            <label for="irrActionNo">
+                                                <span></span>
+                                                <span class="check"></span>
+                                                <span class="box"></span> Không/ No
+                                            </label>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-md-12 control-label" for="form_control_1">- Chụp ảnh/ Photograp taken: </label>
+                            </div>
+                            <div class="row">
+                                @*<label class="col-md-6 control-label" for="form_control_1">Chụp ảnh/ Photograp taken: </label>*@
+                                <div class="md-checkbox-inline col-md-6">
+                                    <div class="md-checkbox">
+                                        <input type="checkbox" id="irrActionPhotoYes" name="irrActionPhotoYes" class="md-check" value="true" @Html.Raw(Model.IrrActionPhotoYes.HasValue && Model.IrrActionPhotoYes == true ? "checked" : "")>
+                                        <input type="hidden" value="false" name="irrActionPhotoYes" />
+                                        <label for="irrActionPhotoYes">
+                                            <span></span>
+                                            <span class="check"></span>
+                                            <span class="box"></span> Có / Yes
+                                        </label>
+                                    </div>
+                                    <div class="md-checkbox">
+                                        <input type="checkbox" id="irrActionPhotoNo" name="irrActionPhotoNo" class="md-check" value="true" @Html.Raw(Model.IrrActionPhotoNo.HasValue && Model.IrrActionPhotoNo == true ? "checked" : "")>
+                                        <input type="hidden" value="false" name="irrActionPhotoNo" />
+                                        <label for="irrActionPhotoNo">
+                                            <span></span>
+                                            <span class="check"></span>
+                                            <span class="box"></span> Không/ No
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-md-6 control-label" for="form_control_1">Niêm phong HQ/ Customs sealed: </label>
+                                <div class="md-checkbox-inline col-md-6">
+                                    <div class="md-checkbox">
+                                        <input type="checkbox" id="irrCustomsSealedYes" name="irrCustomsSealedYes" class="md-check" value="true" @Html.Raw(Model.IrrCustomsSealedYes.HasValue && Model.IrrCustomsSealedYes == true ? "checked" : "")>
+                                        <input type="hidden" value="false" name="irrCustomsSealedYes" />
+                                        <label for="irrCustomsSealedYes">
+                                            <span></span>
+                                            <span class="check"></span>
+                                            <span class="box"></span> Có / Yes
+                                        </label>
+                                    </div>
+                                    <div class="md-checkbox">
+                                        <input type="checkbox" id="irrCustomsSealedNo" name="irrCustomsSealedNo" class="md-check" value="true" @Html.Raw(Model.IrrCustomsSealedNo.HasValue && Model.IrrCustomsSealedNo == true ? "checked" : "")>
+                                        <input type="hidden" value="false" name="irrCustomsSealedNo" />
+                                        <label for="irrCustomsSealedNo">
+                                            <span></span>
+                                            <span class="check"></span>
+                                            <span class="box"></span> Không/ No
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <h3 class="form-section" style="border-color:dimgrey">C.THỜI ĐIỂM BẤT THƯỜNG ĐƯỢC PHÁT HIỆN / TIME OF IRREGULARITY FOUND</h3>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group form-md-checkboxes">
+                                <div class="md-checkbox-list">
+                                    <div class="md-checkbox">
+                                        <input type="checkbox" id="irrTimeReceiving" name="irrTimeReceiving" class="md-check" value="true" @Html.Raw(Model.IrrTimeReceiving.HasValue && Model.IrrTimeReceiving == true ? "checked" : "")>
+                                        <input type="hidden" value="false" name="irrTimeReceiving" />
+                                        <label for="irrTimeReceiving">
+                                            <span></span>
+                                            <span class="check"></span>
+                                            <span class="box"></span> Nhận bàn giao từ công ty PVSĐ/ While receiving from GHA
+                                        </label>
+                                    </div>
+                                    <div class="md-checkbox">
+                                        <input type="checkbox" id="irrTimeDuringULDBreakDown" name="irrTimeDuringULDBreakDown" class="md-check" value="true" @Html.Raw(Model.IrrTimeDuringULDBreakDown.HasValue && Model.IrrTimeDuringULDBreakDown == true ? "checked" : "")>
+                                        <input type="hidden" value="false" name="irrTimeDuringULDBreakDown" />
+                                        <label for="irrTimeDuringULDBreakDown">
+                                            <span></span>
+                                            <span class="check"></span>
+                                            <span class="box"></span> Trong quá trình dỡ hàng/ During ULD breakdown
+                                        </label>
+                                    </div>
+                                    <div class="md-checkbox">
+                                        <input type="checkbox" id="irrTimeDuringStorage" name="irrTimeDuringStorage" class="md-check" value="true" @Html.Raw(Model.IrrTimeDuringStorage.HasValue && Model.IrrTimeDuringStorage == true ? "checked" : "")>
+                                        <input type="hidden" value="false" name="irrTimeDuringStorage" />
+                                        <label for="irrTimeDuringStorage">
+                                            <span></span>
+                                            <span class="check"></span>
+                                            <span class="box"></span> Trong quá trình lưu kho/ During Storage
+                                        </label>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group form-md-checkboxes">
+                                <div class="md-checkbox-list">
+                                    <div class="md-checkbox">
+                                        <input type="checkbox" id="irrTimeDuringDelivery" name="irrTimeDuringDelivery" class="md-check" value="true" @Html.Raw(Model.IrrTimeDuringDelivery.HasValue && Model.IrrTimeDuringDelivery == true ? "checked" : "")>
+                                        <input type="hidden" value="false" name="irrTimeDuringDelivery" />
+                                        <label for="irrTimeDuringDelivery">
+                                            <span></span>
+                                            <span class="check"></span>
+                                            <span class="box"></span> Trong quá trình trả hàng/ During Delivery
+                                        </label>
+                                    </div>
+                                    <div class="md-checkbox">
+                                        <input type="checkbox" id="irrTimeOther" name="irrTimeOther" class="md-check" value="true"  @Html.Raw(Model.IrrTimeOther.HasValue && Model.IrrTimeOther == true ? "checked" : "")>
+                                        <input type="hidden" value="false" name="irrTimeOther" />
+                                        <label for="irrTimeOther">
+                                            <span></span>
+                                            <span class="check"></span>
+                                            <span class="box"></span> Lý do khác/ Others
+                                        </label>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                            <div class="form-group form-md-line-input">
+                                <input type="text" id="lastName" class="form-control" placeholder="note" name="irrTimeDes" value="@Html.DisplayTextFor(model=>model.IrrTimeDes)">
+                               
+                            </div>
+                        </div>
+                    </div>
+                    <h3 class="form-section" style="border-color:dimgrey"></h3>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group form-md-line-input">
+                                <label class="col-md-7 control-label" for="form_control_1">16.Ngày giờ lập Biên Bản/ Time and Date Report </label>
+                                <div class="col-md-5">
+                                    @*<input type="text" class="form-control" id="form_control_1" placeholder="DateTime Report" value="">*@
+                                    <input type="text" class="form-control" id="form_control_1" placeholder="DateTime Report" value="@Html.Raw(Model.AgenCreated.HasValue? @Model.AgenCreated.Value.ToString("dd/MM/yyyy HH:mm"): DateTime.Now.ToString("dd/MM/yyyy HH:mm"))" data-date-format="dd/mm/yyyy hh:ii" name="printDate" />
+                                    <div class="form-control-focus"> </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group form-md-line-input">
+                                <label class="col-md-7 control-label" for="form_control_1">Tại địa điểm </label>
+                                <div class="col-md-5">
+                                    <input type="text" class="form-control" id="form_control_1" placeholder="địa điểm" value="ALSC">
+                                    <div class="form-control-focus"> </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group form-md-line-input">
+                                <label class="col-md-4 control-label" for="form_control_1">16.Nhân Viên </label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control" id="form_control_1" placeholder="Nhân viên" value="@Html.Raw(string.IsNullOrEmpty(Model.Staff) ? "" : Model.Staff)" name="staff" />
+                                    <div class="form-control-focus"> </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group form-md-line-input">
+                                <label class="col-md-4 control-label" for="form_control_1">17.Cán bộ </label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control" id="form_control_1" placeholder="Cán bộ" value="@Html.Raw(string.IsNullOrEmpty(Model.Supervisor) ? "" : Model.Supervisor)" name="sup">
+                                    <div class="form-control-focus"> </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group form-md-line-input">
+                                <label class="col-md-4 control-label" for="form_control_1">17.Hải quan </label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control" id="form_control_1" placeholder="Cán bộ HQ" value="@Html.Raw(string.IsNullOrEmpty(Model.CustomSupervisor) ? "" : Model.CustomSupervisor)" name="custom">
+                                    <div class="form-control-focus"> </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-actions right">
+                    <a href="/IrrManagement/PrintBBBT?prefix=@Model.Prefix&awb=@Model.AWB&awbId=@Model.AwbId&ID=@Model.ID&flightID=@ViewBag.FlightID" target="_blank" class="btn  btn-xs sqs-member-edit"><div class="btn-group green"><i style="font-size:30px;" class="fa fa-print"></i></div> </a>
+                    <button type="submit" class="btn btn-success" id="btnSave"><i class="fa fa-floppy-o"></i> Lưu thông tin</button>
+                </div>
+            </form>
+            <!-- END FORM-->
+        </div>
+    </div>
+
+</div>
+<script>
+     var message = {};
+     var rule = {};
+
+     $(".form_datetime").datetimepicker({
+         autoclose: true,
+         isRTL: App.isRTL(),
+         format: "dd/mm/yyyy  hh:ii",
+         pickerPosition: (App.isRTL() ? "bottom-right" : "bottom-left")
+     });
+     $('.bs-select').selectpicker({
+         iconBase: 'fa',
+         tickIcon: 'fa-check'
+     });
+    egovutil.submit("#frmAction", rule, message, "/IrrManagement/ActionSaveBBBT");
+</script>

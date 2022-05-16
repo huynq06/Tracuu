@@ -32,7 +32,7 @@ namespace Web.Portal.ControllerApi
 
             fromDate = string.IsNullOrEmpty(fda) ? fromDate : Web.Portal.Utils.Format.ConvertDate(fda);
             toDate = string.IsNullOrEmpty(tda) ? toDate : Web.Portal.Utils.Format.ConvertDate(tda);
-            IList<Layer.FlightExport> flights = new DataAccess.FlightExportAccess().GetPaging(pageInput,
+            IList<Layer.FlightExport> flights = new DataAccess.FlightExportAccess().GetPagingMobile(pageInput,
                                                                                   pageSizeInput,
                                                                                   codeInput,
                                                                                   flightNoInput,

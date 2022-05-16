@@ -1,0 +1,113 @@
+﻿
+@{
+    Layout = null;
+}
+@model Web.Portal.Model.Models.FlightIrr
+<div id="content-pxk">
+    <form class="form-horizontal" id="frmAction">
+        <input type="hidden" name="keyValue" value="@Html.DisplayFor(model=>model.ID)" />
+        <div class="form-body">
+            <div class="form-group form-md-line-input">
+                <label class="col-md-3 control-label" for="frmAction">
+                    <b>FLightNo:</b>
+                    <span class="required">*</span>
+                </label>
+                <div class="col-md-9">
+                    <input class="form-control form-control-inline input txtName" id="vctNo" placeholder="SỐ HIỆU CB ..vd:KE361" maxlength="256" data-id="@Html.DisplayTextFor(model=>model.FLightNo)" value="@Html.DisplayTextFor(model=>model.FLightNo)" name="flight" />
+                    <div class="form-control-focus"> </div>
+                </div>
+            </div>
+            <div class="form-group form-md-line-input">
+                <label class="col-md-3 control-label" for="frmAction">
+                    <b>NGÀY DỰ KIẾN HẠ CÁNH (STA):</b>
+                    <span class="required">*</span>
+                </label>
+                <div class="col-md-3">
+                    <input class="form-control form-control-inline date-picker" value="@Html.Raw(Model.FlightDate.HasValue?Model.FlightDate.Value.ToString("dd/MM/yyyy"):DateTime.Now.ToString("dd/MM/yyyy"))" id="ata" placeholder="ATA" maxlength="20" data-date-format="dd/mm/yyyy" name="ata" />
+                    <div class="form-control-focus"> </div>
+                    <span class="help-block">Nhập ngày</span>
+                </div>
+            </div>
+            <div class="form-group form-md-checkboxes">
+                <label class="col-md-4 control-label" for="form_control_1">Tình trạng thời tiết tại điểm đến</label>
+                <div class="col-md-8">
+                    <div class="md-checkbox-inline">
+                        <div class="md-checkbox">
+                            <input type="checkbox" id="flightWeahterRain" name="flightWeahterRain" class="md-check" value="true" @Html.Raw(Model.WeatherRain.HasValue && Model.WeatherRain == true ? "checked" : "")>
+                            <input type="hidden" value="false" name="flightWeahterRain" />
+                            <label for="flightWeahterRain">
+                                <span></span>
+                                <span class="check"></span>
+                                <span class="box"></span> Rain / Mưa
+                            </label>
+                        </div>
+                        <div class="md-checkbox">
+                            <input type="checkbox" id="flightWeahterDry" name="flightWeahterDry" class="md-check" value="true" @Html.Raw(Model.WeatherDry.HasValue && Model.WeatherDry == true ? "checked" : "")>
+                            <input type="hidden" value="false" name="flightWeahterDry" />
+                            <label for="flightWeahterDry">
+                                <span></span>
+                                <span class="check"></span>
+                                <span class="box"></span> Dry/ Khô
+                            </label>
+                        </div>
+                        <div class="md-checkbox">
+                            <input type="checkbox" id="flightWeatherOther" name="flightWeatherOther" class="md-check" value="true" @Html.Raw(Model.WeatherOther.HasValue && Model.WeatherOther == true ? "checked" : "")>
+                            <input type="hidden" value="false" name="flightWeatherOther" />
+                            <label for="flightWeatherOther">
+                                <span></span>
+                                <span class="check"></span>
+                                <span class="box"></span> Other/Khác
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group form-md-line-input">
+                <label class="col-md-3 control-label" for="frmAction">
+                    <b>Ghi chú:</b>
+                </label>
+                <div class="col-md-9">
+                    <input class="form-control form-control-inline input txtName" id="flightWeatherDes" placeholder="Khác" maxlength="256" name="flightWeatherDes" />
+                    <div class="form-control-focus"> </div>
+                </div>
+            </div>
+            </div>
+        <div class="text-center">
+            <button type="submit" class="btn btn-success" id="btnSave"><i class="fa fa-floppy-o"></i> Lưu thông tin</button>
+            <button type="reset" class="btn btn-success"><i class="fa fa-refresh"></i> Làm mới</button>
+        </div>
+        <!-- /.box-footer -->
+    </form>
+</div>
+<script>
+    $('.date-picker').datepicker({
+        rtl: App.isRTL(),
+        orientation: "left",
+        autoclose: true
+    });
+    //$("#vctNo").focus();
+    //    var dlgAction = {
+    //        search: function () {
+    //            egovutil.getContent("#content-pxk", "/IrrManagement/edit/");
+    //            $("#vctNo").focus();
+    //        },
+    //        refresh: function () {
+    //            setTimeout(function () {
+    //                $("#vctNo").val('');
+    //                $("#vctNo").focus()
+    //            }
+    //           , 500);
+            
+    //        }
+    //    }
+
+    //    $(document).keypress(function (e) {
+    //        if (e.charCode == 32) {
+    //            dlgAction.search();
+
+    //        }
+    //    });
+        var message = {};
+        var rule = {};
+        egovutil.submit("#frmAction", rule, message, "/IrrManagement/action");
+</script>

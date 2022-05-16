@@ -37,6 +37,9 @@
       <HintPath>..\packages\Autofac.4.9.4\lib\net45\Autofac.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="BarcodeLib">
+      <HintPath>C:\Users\Admin\Downloads\BarcodeLib\BarcodeLib.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Owin, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
       <Private>True</Private>
@@ -119,6 +122,8 @@
     <Compile Include="BaseController.cs" />
     <Compile Include="BusinessReportController.cs" />
     <Compile Include="CallTruckController.cs" />
+    <Compile Include="CardManagementController.cs" />
+    <Compile Include="DieuXeTang2Controller.cs" />
     <Compile Include="CapSoController.cs" />
     <Compile Include="CargoSpecialController.cs" />
     <Compile Include="CheckGetInAlsxController.cs" />
@@ -139,6 +144,8 @@
     <Compile Include="ExpAWBController.cs" />
     <Compile Include="ExportReportController.cs" />
     <Compile Include="FastCargoController.cs" />
+    <Compile Include="FindAwbExportController.cs" />
+    <Compile Include="FindUldController.cs" />
     <Compile Include="FlightController.cs" />
     <Compile Include="FlightExpController.cs" />
     <Compile Include="FlightServiceController.cs" />
@@ -157,9 +164,11 @@
     <Compile Include="IndoorController.cs" />
     <Compile Include="InOutController.cs" />
     <Compile Include="InvoiceController.cs" />
+    <Compile Include="IrrManagementController.cs" />
     <Compile Include="IssueController.cs" />
     <Compile Include="IssueManagementController.cs" />
     <Compile Include="KSCBController.cs" />
+    <Compile Include="KSULDController.cs" />
     <Compile Include="MenuController.cs" />
     <Compile Include="MessageController.cs" />
     <Compile Include="PhanCaController.cs" />
@@ -177,11 +186,13 @@
     <Compile Include="ScanTicketController.cs" />
     <Compile Include="SitaController.cs" />
     <Compile Include="TicketController.cs" />
+    <Compile Include="UatEInvoiceController.cs" />
     <Compile Include="UldController.cs" />
     <Compile Include="UnqualifiedController.cs" />
     <Compile Include="UpdateIssueController.cs" />
     <Compile Include="UserController.cs" />
     <Compile Include="VCTController.cs" />
+    <Compile Include="ViewUldController.cs" />
     <Compile Include="Web References\com.viagsnoibai.wsfly1\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

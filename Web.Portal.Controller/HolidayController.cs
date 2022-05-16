@@ -13,6 +13,8 @@ using MoralesLarios.Linq;
 using Web.Portal.Common.ApiViewModel;
 using Web.Portal.Utils;
 using System.Threading.Tasks;
+using System.IO;
+using System.Diagnostics;
 
 namespace Web.Portal.Controller
 {
@@ -29,7 +31,7 @@ namespace Web.Portal.Controller
         }
         public ActionResult Index()
         {
-           
+            string ID = new FlightControlAccess().GenGoupNo();
          //   string result = task.Result;
             //string message = "hello";
             //string forward = "";
@@ -45,10 +47,27 @@ namespace Web.Portal.Controller
         }
         public ActionResult List()
         {
+            string filePath = "";
+            string fileName = "";
+            var path = "\\\\10.10.1.21\\ktn"; //@"\2.16.10.130\Resource";
+            var s = connectState(path, "admin", "zaq1@3456");
+            if (s)
+            {
+                //string link = @"X:\Ảnh bất thường hàng hóa (đủ điều kiện lập BBBT)\2022\13139059042\AAKSN2201042";
+                fileName = "IMG_9468" + ".jpg";
+
+                filePath = Server.MapPath("~/images/") + fileName;
+                FileInfo fileInfo = new FileInfo(filePath);
+                if (!fileInfo.Exists)
+                {
+                    System.IO.File.Copy(path + "\\IMG_9468.jpg", Server.MapPath("~/images/") + fileName);
+                }
+            }
+            ViewBag.ImgUrl = "images/" + fileName;
             //string url = Server.MapPath("/SitaTemplate/temFligtRequest.xml");
             //Task<string> task = Task.Run<String>(async () => await Utils.FlightRequest.Command(url));
             //string result = task.Result;
-           // string result = Utils.FlightRequest.CommandTest(url);
+            // string result = Utils.FlightRequest.CommandTest(url);
             //string flightNo = string.IsNullOrEmpty(Request["fno"]) ? "" : Request["fno"].Trim();
             //ata = string.IsNullOrEmpty(Request["ata"]) ? ata : Web.Portal.Utils.Format.ConvertDate(Request["ata"]);
             var listHoliday = _holidayService.GetAll().ToList();
@@ -175,6 +194,49 @@ namespace Web.Portal.Controller
 
                 return Json(new { Type = messageType, Message = "Error " + ex.ToString(), Title = "Thông báo" }, JsonRequestBehavior.AllowGet);
             }
+        }
+        public static bool connectState(string path, string userName, string passWord)
+        {
+            var flag = false;
+            var proc = new Process();
+            try
+            {
+                proc.StartInfo.FileName = "cmd.exe";
+                proc.StartInfo.UseShellExecute = false;
+                proc.StartInfo.RedirectStandardInput = true;
+                proc.StartInfo.RedirectStandardOutput = true;
+                proc.StartInfo.RedirectStandardError = true;
+                proc.StartInfo.CreateNoWindow = true;
+                proc.Start();
+                var dosLine = "net use " + path + " " + passWord + " /user:" + userName;
+                proc.StandardInput.WriteLine(dosLine);
+                proc.StandardInput.WriteLine("exit");
+                while (!proc.HasExited)
+                {
+                    proc.WaitForExit(1000);
+                }
+
+                var errormsg = proc.StandardError.ReadToEnd();
+                proc.StandardError.Close(); if (string.IsNullOrEmpty(errormsg))
+                {
+                    flag = true;
+                }
+                else
+                {
+                    throw new Exception(errormsg);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                proc.Close();
+                proc.Dispose();
+            }
+
+            return flag;
         }
     }
 }

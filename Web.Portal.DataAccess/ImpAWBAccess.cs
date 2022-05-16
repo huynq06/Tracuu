@@ -52,6 +52,57 @@ namespace Web.Portal.DataAccess
             objImpAWB.LAGI_REMARK = Convert.ToString(GetValueField(reader, "LAGI_REMARKS", string.Empty));
             return objImpAWB;
         }
+        private Web.Portal.Layer.ImpAWB GetPropertiesV2(OracleDataReader reader)
+        {
+            Web.Portal.Layer.ImpAWB objImpAWB = new Web.Portal.Layer.ImpAWB();
+
+            objImpAWB.ID = Convert.ToInt64(GetValueField(reader, "LAGI_IDENT_NO", 0));
+            objImpAWB.FlightNo = Convert.ToString(GetValueField(reader, "FLIGHTNO", string.Empty));
+            objImpAWB.FlightDate = Convert.ToDateTime(GetValueDateTimeField(reader, "FLIDATE", objImpAWB.FlightDate));
+            objImpAWB.ATATIME = Convert.ToString(GetValueField(reader, "ATA_TIME", string.Empty));
+            objImpAWB.ScheTime = Convert.ToString(GetValueField(reader, "SCHETIME", string.Empty));
+            objImpAWB.Prefix = Convert.ToString(GetValueField(reader, "MAWB_PREFIX", string.Empty));
+            objImpAWB.AWB = Convert.ToString(GetValueField(reader, "MAWB_NO", string.Empty));
+            objImpAWB.HAWB = Convert.ToString(GetValueField(reader, "HAWB_NO", string.Empty));
+            objImpAWB.GoodsContent = Convert.ToString(GetValueField(reader, "GOODSCONTENT", string.Empty));
+            objImpAWB.ORGIN = Convert.ToString(GetValueField(reader, "AWB_ORG", string.Empty));
+            objImpAWB.LOADING = Convert.ToString(GetValueField(reader, "AWB_ORG_LOAD", string.Empty));
+            objImpAWB.DEST = Convert.ToString(GetValueField(reader, "AWB_DEST", string.Empty));
+            objImpAWB.Agent = Convert.ToString(GetValueField(reader, "AGENT", string.Empty));
+            objImpAWB.AgentCode = Convert.ToString(GetValueField(reader, "AGENT_CODE", string.Empty));
+            objImpAWB.Shipper = Convert.ToString(GetValueField(reader, "SHIPPER", string.Empty));
+            objImpAWB.ShipperADDR = Convert.ToString(GetValueField(reader, "SHIPPERADDR", string.Empty));
+            objImpAWB.Consignee = Convert.ToString(GetValueField(reader, "CONSIGNEE", string.Empty));
+            objImpAWB.ConsignADDR = Convert.ToString(GetValueField(reader, "CONSIGADDR", string.Empty));
+            objImpAWB.QuantityExpected = Convert.ToString(GetValueField(reader, "SPIECE", "0"));
+            objImpAWB.WeightExpected = Convert.ToString(GetValueField(reader, "SWEIGHT", "0"));
+            objImpAWB.QuantityReceived = Convert.ToString(GetValueField(reader, "PCSGOODS", "0"));
+            objImpAWB.WeightReceived = Convert.ToString(GetValueField(reader, "GWGOODS", "0"));
+            objImpAWB.QuantityDelivered = Convert.ToString(GetValueField(reader, "DELIVERED", "0"));
+            objImpAWB.WareHouse = Convert.ToString(GetValueField(reader, "WAREHOUSE", string.Empty));
+            objImpAWB.DateStatus = Convert.ToDateTime(GetValueDateTimeField(reader, "LAGI_DATE_STATUS", objImpAWB.DateStatus));
+            objImpAWB.DateOut = Convert.ToDateTime(GetValueDateTimeField(reader, "DateOut", objImpAWB.DateIn));
+            objImpAWB.Remarks = Convert.ToString(GetValueField(reader, "AGEN_REMARKS", string.Empty));
+            objImpAWB.GoodsContent = Convert.ToString(GetValueField(reader, "AGEN_REMARKS", string.Empty));
+            objImpAWB.AgenCreated = Convert.ToDateTime(GetValueDateTimeField(reader, "AGEN_CREATED", objImpAWB.AgenCreated));
+            objImpAWB.Location = Convert.ToString(GetValueField(reader, "LOCATION", string.Empty));
+            objImpAWB.GOODSNATURE = Convert.ToString(GetValueField(reader, "GOODSNATURE", string.Empty));
+            objImpAWB.GroupNO = Convert.ToString(GetValueField(reader, "GROUP_NO,", string.Empty));
+            objImpAWB.LAGI_MASTER_PIECES = Convert.ToInt32(GetValueField(reader, "PIECES_FFM", 0));
+            objImpAWB.LAGI_MASTER_WEGIHT = Convert.ToString(GetValueField(reader, "WEIGHT_FFM", 0));
+            objImpAWB.LAGI_MASTER_GOODS = Convert.ToString(GetValueField(reader, "LAGI_MASTER_GOOD", string.Empty));
+            objImpAWB.LAGI_REMARK = Convert.ToString(GetValueField(reader, "LAGI_REMARKS", string.Empty));
+            objImpAWB.FlightID = Convert.ToString(GetValueField(reader, "FLIGHT_ID", string.Empty));
+            objImpAWB.GroupNo = Convert.ToString(GetValueField(reader, "GROUP_NO", string.Empty));
+            objImpAWB.ULD = Convert.ToString(GetValueField(reader, "ULD", string.Empty));
+            objImpAWB.LAGI_MASTER_QUANTITY_EX = Convert.ToInt32(GetValueField(reader, "LAGI_MASTER_QUANTITY_EX", 0));
+            objImpAWB.LAGI_MASTER_WEIGHT_EX = Convert.ToString(GetValueField(reader, "LAGI_MASTER_WEIGHT_EX", 0));
+            objImpAWB.LAGI_MASTER_ID = Convert.ToString(GetValueField(reader, "LAGI_MASTER_ID", 0));
+            objImpAWB.LAGI_ORIGIN = Convert.ToString(GetValueField(reader, "LAGI_ORIGIN", ""));
+            objImpAWB.LAGI_DES = Convert.ToString(GetValueField(reader, "LAGI_DES", 0));
+
+            return objImpAWB;
+        }
 
         public IList<Layer.ImpAWB> GetPaging(int page, int pageSize, string code, string flightNo, DateTime? fromDate, DateTime? toDate, string hawb, ref int totalRows)
         {
@@ -61,7 +112,9 @@ namespace Web.Portal.DataAccess
                 while (reader.Read())
                 {
                     totalRows = Convert.ToInt32(GetValueField(reader, "total", 0));
-                    impAWBs.Add(GetProperties(reader));
+                 
+                   
+                         impAWBs.Add(GetProperties(reader));
                 }
             }
             return impAWBs;
@@ -119,7 +172,24 @@ namespace Web.Portal.DataAccess
             return impAWBs;
 
         }
+        public IList<Layer.ImpAWB> GetCustomByStatus_v2(int page, int pageSize, string code, string fno, DateTime? fromDate, DateTime? toDate, string status, ref int totalRows, ref int sumDelivered, ref double sumWeight)
+        {
+            IList<Layer.ImpAWB> impAWBs = new List<Layer.ImpAWB>();
+            using (OracleDataReader reader = GetByOracleDataReader("HERMES_WEB_ALSC.CUSTOM_IMP_REPORT_STATUS_V2", code, fno.Trim(), GetNullDateTime(fromDate), GetNullDateTime(toDate), status, page, pageSize))
+            {
+                while (reader.Read())
+                {
+                    totalRows = Convert.ToInt32(GetValueField(reader, "total", 0));
+                    sumDelivered = Convert.ToInt32(GetValueField(reader, "DELIVEREDSUM", 0));
+                    sumWeight = Convert.ToDouble(GetValueField(reader, "GWGOODSSUM", 0));
+                    //Layer.ImpAWB item = GetProperties(reader);
+                    //if (item.HAWB == "SMCIA218071")
+                        impAWBs.Add(GetPropertiesV2(reader));
+                }
+            }
+            return impAWBs;
 
+        }
         public IList<Layer.ImpAWB> GetCustomByStatus(int page, int pageSize, string code, string fno, DateTime? fromDate, DateTime? toDate, string status, ref int totalRows, ref int sumDelivered, ref double sumWeight)
         {
             IList<Layer.ImpAWB> impAWBs = new List<Layer.ImpAWB>();

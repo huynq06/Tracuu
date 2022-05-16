@@ -37,13 +37,14 @@
     <Reference Include="EPPlus, Version=4.5.3.3, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
       <HintPath>..\packages\EPPlus.4.5.3.3\lib\net40\EPPlus.dll</HintPath>
     </Reference>
-    <Reference Include="Oracle.DataAccess, Version=2.112.1.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=x86">
+    <Reference Include="Microsoft.ApplicationBlocks.Data, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Web.Portal.DataBase\bin\Debug\Microsoft.ApplicationBlocks.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Oracle.DataAccess, Version=4.121.2.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\bin\2.12\Oracle.DataAccess.dll</HintPath>
-      <HintPath>..\..\..\bin\2.12\Oracle.DataAccess.dll</HintPath>
     </Reference>
-    <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
@@ -87,6 +88,8 @@
     <Compile Include="FlightAccess.cs" />
     <Compile Include="FlightAwbAccess.cs" />
     <Compile Include="FlightCheckAccess.cs" />
+    <Compile Include="FlightControlAccess.cs" />
+    <Compile Include="FLightControlProvider.cs" />
     <Compile Include="FlightExportAccess.cs" />
     <Compile Include="FlightRCFAccess.cs" />
     <Compile Include="FlightReportAccess.cs" />
@@ -116,12 +119,15 @@
     <Compile Include="QuantityDataAccess.cs" />
     <Compile Include="QUEUEAWBAccess.cs" />
     <Compile Include="ReportAccess.cs" />
+    <Compile Include="ReportArchive2018Access.cs" />
+    <Compile Include="ReportArchiveAccess.cs" />
     <Compile Include="ReportImpAccess.cs" />
     <Compile Include="SearchImpAwbAccess.cs" />
     <Compile Include="SitaAccess.cs" />
     <Compile Include="CapSoLogAccess.cs" />
     <Compile Include="TicketAccess.cs" />
     <Compile Include="ULDByFlightAccess.cs" />
+    <Compile Include="UldControlAccess.cs" />
     <Compile Include="ULDDataAccess.cs" />
     <Compile Include="ULDReceiveAccess.cs" />
     <Compile Include="VCTAccess.cs" />
@@ -148,6 +154,9 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

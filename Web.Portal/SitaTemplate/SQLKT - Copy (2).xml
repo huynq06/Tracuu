@@ -1,0 +1,510 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<REPORT>
+  <EXP_KT01>
+    <SQL>
+      select n.DEPARTURE_DATE,
+ m.CI as CI2021,n.CI as CI2022, Round((n.CI - m.CI)/m.CI*100) as CITotal,
+ m.KE as KE2021,n.KE as KE2022, Round((n.KE - m.KE)/m.KE*100) as KETotal,
+ m.CX as CX2021,n.CX as CX2022, Round((n.CX - m.CX)/m.CX*100) as CXTotal,
+ m.EK as EK2021,n.EK as EK2022, Round((n.EK - m.EK)/m.EK*100) as EKTotal,
+  m.ET as ET2021,n.ET as ET2022, Round((n.ET - m.ET)/m.ET*100) as ETTotal,
+ m.JL as JL2021,n.JL as JL2022, Round((n.JL - m.JL)/m.JL*100) as JLTotal,
+ m.UPS as UPS2021,n.UPS as UPS2022, Round((n.UPS - m.UPS)/n.UPS*100) as UPSTotal,
+   m.VN as VN2021,n.VN as VN2022, Round((n.VN - m.VN)/n.VN*100) as VNTotal,
+      m.VZ as VZ2021,n.VZ as VZ2022, Round((n.VZ - m.VZ)/n.VZ*100) as VZTotal,
+	     m.CZ as CZ2021,n.CZ as CZ2022, Round((n.CZ - m.CZ)/n.CZ*100) as CZTotal,
+ m.OT as OT2021,n.OT as OT2022, Round((n.OT - m.OT)/n.OT*100) as OTTotal
+
+ from (select 
+*
+from
+(
+  SELECT 
+    to_char(to_date('02-01-0001' ,'DD-MM-YYYY') + flup.flup_estimated_date, 'DD/MM/YYYY')  AS DEPARTURE_DATE,
+    case
+     when flup.FLUP_FLIGHT_NO_LVG in ('CI','CX','EK','ET','JL','KE','5X','VN','VZ','CZ','KA','TK','LJ','LD') then flup.FLUP_FLIGHT_NO_LVG 
+       else 'OT' 
+         end as FLIGHT_NO ,
+       awbu.AWBU_WEIGHT  as DEPARTED_WEIGHT
+  FROM FLUP flup
+      JOIN CONT cont 
+           ON cont.CONT_FLIGHT_NO_  = flup.flup_flight_no
+           and to_date('02-01-0001' ,'DD-MM-YYYY') + cont.CONT_DATE = to_date('02-01-0001' ,'DD-MM-YYYY') + flup.flup_scheduled_date
+      JOIN AWBU_AWBPERULD_LIST awbu
+          on awbu.awbu_uld_isn = cont.cont_uld_isn
+      JOIN LABS labs 
+           on awbu.awbu_mawb_ident_no = labs.LABS_IDENT_NO
+  WHERE 
+   to_date('02-01-0001' ,'DD-MM-YYYY') + flup.flup_estimated_date between  to_date('{0}','DD/MM/YYYY') +  interval '-1' year  and to_date('{1}','DD/MM/YYYY') +  interval '-1' year
+  AND labs.labs_deleted = 0
+  ORDER BY DEPARTURE_DATE, FLIGHT_NO ASC
+ ) t pivot (
+ sum(DEPARTED_WEIGHT)
+ for FLIGHT_NO in (
+   'CI' as CI,
+   'CX' as CX,
+   'EK' as EK,
+   'ET' as ET,
+   'JL' as JL,
+   'KE' AS KE,
+   'TH' as TH,
+   'VJ' as VJ,
+   'VZ' as VZ,
+   'CZ' as CZ,
+   '5X' as UPS,
+   'VN' as VN,
+   'OT' as OT
+ 
+   )
+   )
+ORDER BY 1 )m
+join 
+ (select 
+*
+from
+(
+  SELECT 
+    to_char(to_date('02-01-0001' ,'DD-MM-YYYY') + flup.flup_estimated_date, 'DD/MM/YYYY')  AS DEPARTURE_DATE,
+     case
+     when flup.FLUP_FLIGHT_NO_LVG in ('CI','CX','EK','ET','JL','KE','5X','VN','VZ','CZ','KA','TK','LJ','LD') then flup.FLUP_FLIGHT_NO_LVG 
+       else 'OT' 
+         end as FLIGHT_NO ,
+       awbu.AWBU_WEIGHT  as DEPARTED_WEIGHT
+  FROM FLUP flup
+      JOIN CONT cont 
+           ON cont.CONT_FLIGHT_NO_  = flup.flup_flight_no
+           and to_date('02-01-0001' ,'DD-MM-YYYY') + cont.CONT_DATE = to_date('02-01-0001' ,'DD-MM-YYYY') + flup.flup_scheduled_date
+      JOIN AWBU_AWBPERULD_LIST awbu
+          on awbu.awbu_uld_isn = cont.cont_uld_isn
+      JOIN LABS labs 
+           on awbu.awbu_mawb_ident_no = labs.LABS_IDENT_NO
+  WHERE 
+  to_date('02-01-0001' ,'DD-MM-YYYY') + flup.flup_estimated_date between to_date('{0}','DD/MM/YYYY') and to_date('{1}','DD/MM/YYYY')
+  AND labs.labs_deleted = 0
+  ORDER BY DEPARTURE_DATE, FLIGHT_NO ASC
+ ) t pivot (
+ sum(DEPARTED_WEIGHT)
+ for FLIGHT_NO in (
+   'CI' as CI,
+   'CX' as CX,
+   'EK' as EK,
+   'ET' as ET,
+   'JL' as JL,
+   'KE' AS KE,
+   '5X' as UPS,
+   'VN' as VN,
+   'VZ' as VZ,
+    'CZ' as CZ,
+    'OT' as OT
+   )
+   )
+ORDER BY 1 )n
+on add_months( to_date(m.DEPARTURE_DATE,'DD/MM/YYYY'), 12 ) = to_date(n.DEPARTURE_DATE,'DD/MM/YYYY')
+    </SQL>
+    <FIND>FromDate,ToDate</FIND>
+    <COLUMN>DEPARTURE_DATE,CI2021,CI2022,CITotal,KE2021,KE2022,KETotal,CX2021,CX2022,CXTotal,EK2021,EK2022,EKTotal,ET2021,ET2022,ETTotal,JL2021,JL2022,JLTotal,UPS2021,UPS2022,UPSTotal,VN2021,VN2022,VNTotal,VZ2021,VZ2022,VZTotal,CZ2021,CZ2022,CZTotal,OT2021,OT2022,OTTotal</COLUMN> 
+    <DES>BÁO CÁO SẢN LƯỢNG THEO HÃNG HÀNG XUẤT</DES>    
+  </EXP_KT01>
+  <IMP_KT01>
+    <SQL>
+     
+     select n.RECEIVED_DATE,
+ m.KE as KE2021,n.KE as KE2022, Round((n.KE - m.KE)/m.KE*100) as KETotal,
+ m.CX as CX2021,n.CX as CX2022, Round((n.CX - m.CX)/m.CX*100) as CXTotal,
+ m.EK as EK2021,n.EK as EK2022, Round((n.EK - m.EK)/m.EK*100) as EKTotal,
+ m.JL as JL2021,n.JL as JL2022, Round((n.JL - m.JL)/m.JL*100) as JLTotal,
+--m.KA as KA2019,n.KA as KA2022, Round((n.KA - m.KA)/m.KA*100) as KATotal,
+--m.LJ as LJ2019,n.LJ as LJ2022, Round((n.LJ - m.LJ)/m.LJ*100) as LJTotal,
+ m.XX as XX2021,n.XX as XX2022, Round((n.XX - m.XX)/m.XX*100) as XXTotal,
+  m.VZ as VZ2021,n.VZ as VZ2022, Round((n.VZ - m.VZ)/m.VZ*100) as VZTotal, 
+   m.CZ as CZ2021,n.CZ as CZ2022, Round((n.CZ - m.CZ)/m.CZ*100) as CZTotal, 
+ m.CT as CT2021,n.CT as CT2022, Round((n.CT - m.CT)/m.CT*100) as CTTotal  
+ from (
+select
+*
+from
+(
+
+select 
+FLIGHT_NO,
+
+m.ATA_DATE as RECEIVED_DATE,
+
+m.weight_received as RECEIVED_WEIGHT
+from
+(
+select distinct
+case
+     when flui.flui_al_2_3_letter_code in ('CX','EK','JL','KE','5X','VZ','CZ','KA','LJ') then flui.flui_al_2_3_letter_code
+       else 'Other' 
+         end as FLIGHT_NO,
+to_char(to_date('02-01-0001' ,'DD-MM-YYYY') + flui.flui_schedule_date, 'DD-MM-YYYY') as SCHEDULED_DATE,
+to_char(to_date(flui.flui_schedule_time,'HH24MISS'),'HH24:MI:SS') as SCHEDULED_TIME,
+to_char(to_date('02-01-0001' ,'DD-MM-YYYY') + flui.flui_landed_date, 'DD-MM-YYYY') AS ATA_DATE,
+to_char(to_date(flui.flui_landed_time,'HH24MISS'),'HH24:MI:SS') as ATA_TIME,
+lagi.lagi_mawb_prefix||lagi.lagi_mawb_no as MAWB,
+lagi.LAGI_HAWB as HAWB,
+lagi.lagi_quantity_received as pieces,
+lagi.lagi_weight_received as weight,
+j.*
+--grli.grli_shc as shc
+--max(grli.grli_shc) over (partition by grai.grai_object_group_isn order by grli.grli_shc desc) as shc,
+--row_number() over (partition by grai.grai_object_group_isn order by grai.grai_object_group_isn) as rn
+from
+(
+  select
+  k.*,
+  grai.grai_numeric_value as weight_received
+  from
+  (
+  select 
+    grai.grai_object_isn as ID,
+      grai.grai_object_group_isn as group_no,
+     grai.grai_numeric_value as pieces_received
+          from han_w1_hl.grai_group_additional_info grai
+      where
+	      grai.grai_group_type='PIECES'
+      and grai.grai_group_code='RECEIVED'
+  )k
+    join han_w1_hl.grai_group_additional_info grai on k.ID= grai.grai_object_isn and k.group_no=grai.grai_object_group_isn
+  and grai.grai_group_type='WEIGHT'
+  and grai.grai_group_code='RECEIVED'  
+)j
+  join han_w1_hl.grai_group_additional_info grai on j.ID= grai.grai_object_isn and j.group_no=grai.grai_object_group_isn
+  and grai.grai_group_type='FLIGHT'
+  and grai.grai_group_code='ISN'   
+  join han_w1_hl.flui flui on grai.grai_value = flui.flui_internal_number
+  join han_w1_hl.lagi lagi on j.ID = lagi.lagi_ident_no
+--  JOIN han_w1_hl.grli_group_location_info grli on j.ID = grli.grli_object_isn
+  where  to_date('02-01-0001' ,'DD-MM-YYYY') + flui.flui_landed_date between  to_date('{0}','DD/MM/YYYY') +  interval '-1' year  and to_date('{1}','DD/MM/YYYY') +  interval '-1' year
+) m
+--where rn=1 
+)a  
+pivot (
+ sum(RECEIVED_WEIGHT) 
+ for FLIGHT_NO in (
+   'CX' as CX,
+   'EK' as EK,
+   'JL' as JL,
+   'KE' as KE,
+ --   'VJ' as VJ,
+   '5X' as XX,
+    'VZ' as VZ,
+	'CZ' as CZ,
+     'Other' as CT
+   )
+   ) 
+ORDER BY 1 ) m
+join 
+(
+select
+*
+from
+(
+
+select FLIGHT_NO,
+
+m.ATA_DATE as RECEIVED_DATE,
+
+m.weight_received as RECEIVED_WEIGHT
+from
+(
+select distinct
+case
+when flui.flui_al_2_3_letter_code in ('CX','EK','JL','KE','5X','VZ','CZ','KA','LJ') then flui.flui_al_2_3_letter_code
+       else 'Other' 
+         end as FLIGHT_NO,
+to_char(to_date('02-01-0001' ,'DD-MM-YYYY') + flui.flui_schedule_date, 'DD-MM-YYYY') as SCHEDULED_DATE,
+to_char(to_date(flui.flui_schedule_time,'HH24MISS'),'HH24:MI:SS') as SCHEDULED_TIME,
+to_char(to_date('02-01-0001' ,'DD-MM-YYYY') + flui.flui_landed_date, 'DD-MM-YYYY') AS ATA_DATE,
+to_char(to_date(flui.flui_landed_time,'HH24MISS'),'HH24:MI:SS') as ATA_TIME,
+lagi.lagi_mawb_prefix||lagi.lagi_mawb_no as MAWB,
+lagi.LAGI_HAWB as HAWB,
+lagi.lagi_quantity_received as pieces,
+lagi.lagi_weight_received as weight,
+j.*
+--grli.grli_shc as shc
+--max(grli.grli_shc) over (partition by grai.grai_object_group_isn order by grli.grli_shc desc) as shc,
+--row_number() over (partition by grai.grai_object_group_isn order by grai.grai_object_group_isn) as rn
+from
+(
+  select
+  k.*,
+  grai.grai_numeric_value as weight_received
+  from
+  (
+  select 
+    grai.grai_object_isn as ID,
+      grai.grai_object_group_isn as group_no,
+     grai.grai_numeric_value as pieces_received
+          from han_w1_hl.grai_group_additional_info grai
+      where
+	      grai.grai_group_type='PIECES'
+      and grai.grai_group_code='RECEIVED'
+  )k
+    join han_w1_hl.grai_group_additional_info grai on k.ID= grai.grai_object_isn and k.group_no=grai.grai_object_group_isn
+  and grai.grai_group_type='WEIGHT'
+  and grai.grai_group_code='RECEIVED'  
+)j
+  join han_w1_hl.grai_group_additional_info grai on j.ID= grai.grai_object_isn and j.group_no=grai.grai_object_group_isn
+  and grai.grai_group_type='FLIGHT'
+  and grai.grai_group_code='ISN'   
+  join han_w1_hl.flui flui on grai.grai_value = flui.flui_internal_number
+  join han_w1_hl.lagi lagi on j.ID = lagi.lagi_ident_no
+ -- JOIN han_w1_hl.grli_group_location_info grli on j.ID = grli.grli_object_isn
+  where  to_date('02-01-0001' ,'DD-MM-YYYY') + flui.flui_landed_date between to_date('{0}','dd/mm/yyyy') and to_date('{1}','dd/mm/yyyy')
+) m
+--where rn=1 
+)a  
+pivot (
+ sum(RECEIVED_WEIGHT) 
+ for FLIGHT_NO in (
+   'CX' as CX,
+   'EK' as EK,
+   'JL' as JL,
+   'KE' as KE,
+ --   'VJ' as VJ,
+   'VZ' as VZ,
+    'CZ' as CZ,
+   '5X' as XX,
+   'Other' as CT
+   )
+   ) 
+ORDER BY 1 )n
+on add_months( to_date(m.RECEIVED_DATE,'DD/MM/YYYY'), 12 ) = to_date(n.RECEIVED_DATE,'DD/MM/YYYY')
+    </SQL>
+    <FIND>FromDate,ToDate</FIND>
+    <COLUMN>RECEIVED_DATE,KE2021,KE2022,KETotal,CX2021,CX2022,CXTotal,EK2021,EK2022,EKTotal,JL2021,JL2022,JLTotal,XX2021,XX2022,XXTotal,VZ2021,VZ2022,VZTotal,CZ2021,CZ2022,CZTotal,CT2021,CT2022,CTTotal</COLUMN> 
+    <DES>BÁO CÁO SẢN LƯỢNG THEO HÃNG HÀNG NHẬP</DES>    
+  </IMP_KT01>
+  <EXP_KT02>
+    <SQL>     
+select * from
+(select
+x.RECEIVED_DATE,
+sum(x.RECEIVED_WEIGHT) as RECEIVED_WEIGHT,
+x.SHC
+from
+(
+  select distinct
+  k.RECEIVED_DATE as RECEIVED_DATE,
+  k.RECEIVED_WEIGHT as RECEIVED_WEIGHT,
+  REGEXP_SUBSTR(k.SHC, '[^,]+', 1, LEVEL) AS SHC
+  from
+  (
+    select
+    t.RECEIVED_DATE,
+    sum(t.RECEIVED_WEIGHT) as RECEIVED_WEIGHT,
+    t.SHC
+    from
+    (
+    SELECT 
+      to_char(labs.LABS_DATE_STATUS_2_SET, 'DD-MM-YYYY') as RECEIVED_DATE,
+      (labs.labs_weight_del) as RECEIVED_WEIGHT,
+      case 
+        when (labs.LABS_SPECIAL_GOODS like '%ALE%'  or labs.LABS_SPECIAL_GOODS = ' ' ) then 'GRC'
+        when (labs.LABS_SPECIAL_GOODS like '%DG1%'  or labs.LABS_SPECIAL_GOODS like '%DGR%' ) then 'DGR'
+        when (labs.LABS_SPECIAL_GOODS like '%HE1%'  or labs.LABS_SPECIAL_GOODS like '%HEA%' ) then 'HEA'
+        else labs.LABS_SPECIAL_GOODS
+        end
+        as SHC  
+    FROM labs labs
+    WHERE  
+    labs.LABS_DATE_STATUS_2_SET between to_date('{0}','dd/mm/yyyy') and to_date('{1}','dd/mm/yyyy')
+     AND labs.labs_deleted = 0
+     and labs.labs_weight_del > 0
+    )t
+    group by
+    t.RECEIVED_DATE,
+    t.SHC
+    --ORDER BY RECEIVED_DATE,SHC ASC
+  )k
+  CONNECT BY REGEXP_SUBSTR(k.SHC, '[^,]+', 1, LEVEL) IS NOT NULL
+  --order by 3
+) x
+group by 
+x.RECEIVED_DATE,
+x.SHC
+order by 1)m
+pivot (
+ sum(RECEIVED_WEIGHT) 
+ for SHC in (
+   'DGR' as HANG_NGUY_HIEM,
+   'GRC' as HANG_THONG_THUONG,
+   'HEA' as HANG_NANG,
+   'FRZ' as HANG_LANH,
+   'VAL' as HANG_GIA_TRI_CAO,
+   'VUN' AS HANG_KHO_BAO_QUAN,
+   'AVI' AS HANG_DONG_VAT_SONG
+   )
+   )  
+   order by 1
+    </SQL>
+    <FIND>FromDate,ToDate</FIND>
+    <COLUMN>RECEIVED_DATE,HANG_NGUY_HIEM,HANG_THONG_THUONG,HANG_NANG,HANG_LANH,HANG_GIA_TRI_CAO,HANG_KHO_BAO_QUAN,HANG_DONG_VAT_SONG</COLUMN>   
+    <DES>BÁO CÁO SẢN LƯỢNG HÀNG XUẤT THEO CODE HÀNG</DES>   	
+  </EXP_KT02>
+   <IMP_KT02>
+   <SQL>
+      select * from (
+select REMARK,ATA_DATE,weight_received as WEIGHT_RECEIVED from (
+select distinct
+flui.flui_al_2_3_letter_code FLIGHT_NO,
+ CASE 
+   WHEN a.agen_remarks  like '%99F%' THEN '99F'
+   WHEN  a.agen_remarks  like '%99D%' THEN '99D'
+   WHEN  a.agen_remarks  like '%99N%' THEN '99N'
+   WHEN  a.agen_remarks  like '%99V%' THEN '99V'
+   WHEN  a.agen_remarks  like '%99A%' THEN '99A'
+    ELSE
+      'GEN'
+    END AS REMARK,
+to_char(to_date('02-01-0001' ,'DD-MM-YYYY') + flui.flui_schedule_date, 'DD-MM-YYYY') as SCHEDULED_DATE,
+to_char(to_date(flui.flui_schedule_time,'HH24MISS'),'HH24:MI:SS') as SCHEDULED_TIME,
+to_char(to_date('02-01-0001' ,'DD-MM-YYYY') + flui.flui_landed_date, 'DD-MM-YYYY') AS ATA_DATE,
+to_char(to_date(flui.flui_landed_time,'HH24MISS'),'HH24:MI:SS') as ATA_TIME,
+lagi.lagi_mawb_prefix||lagi.lagi_mawb_no as MAWB,
+lagi.LAGI_HAWB as HAWB,
+lagi.lagi_quantity_received as pieces,
+lagi.lagi_weight_received as weight,
+weight_received,
+--grli.grli_shc as shc
+--max(grli.grli_shc) over (partition by grai.grai_object_group_isn order by grli.grli_shc desc) as shc,
+row_number() over (partition by grai.grai_object_group_isn order by grai.grai_object_group_isn) as rn
+from
+(
+  select
+  k.*,
+  grai.grai_numeric_value as WEIGHT_RECEIVED
+  from
+  (
+  select 
+    distinct grai.grai_object_isn as ID,
+      grai.grai_object_group_isn as group_no,
+     grai.grai_numeric_value as pieces_received
+          from han_w1_hl.grai_group_additional_info grai
+      where
+       grai.grai_group_type='PIECES'
+      and grai.grai_group_code='RECEIVED'
+  )k
+    join han_w1_hl.grai_group_additional_info grai on k.ID= grai.grai_object_isn and k.group_no=grai.grai_object_group_isn
+  and grai.grai_group_type='WEIGHT'
+  and grai.grai_group_code='RECEIVED'  
+)j
+  join han_w1_hl.grai_group_additional_info grai on j.ID= grai.grai_object_isn and j.group_no=grai.grai_object_group_isn
+  and grai.grai_group_type='FLIGHT'
+  and grai.grai_group_code='ISN'   
+  join han_w1_hl.flui flui on grai.grai_value = flui.flui_internal_number
+  join han_w1_hl.lagi lagi on j.ID = lagi.lagi_ident_no
+  JOIN han_w1_hl.grli_group_location_info grli on j.ID = grli.grli_object_isn
+left  join agen a on a.agen_ident_no = j.ID and a.agen_remarks like '%update: SHC - STORAGE - 99%'
+  where  to_date('02-01-0001' ,'DD-MM-YYYY') + flui.flui_landed_date between to_date('{0}','dd/mm/yyyy') and to_date('{1}','dd/mm/yyyy')
+ -- and flui.flui_al_2_3_letter_code = 'KE' and flui.flui_flight_no = '361'
+  
+  
+)
+  where rn = 1
+  )x
+pivot (
+ sum(x.WEIGHT_RECEIVED) 
+ for REMARK in (
+   '99F' as Hang_Lanh,
+   '99D' as Hang_Nguy_Hiem,
+   '99A' as Hang_Dong_Vat_Song,
+   '99N' as Hang_Kho_Bao_Quan,
+   '99V' as Hang_Gia_Tri_Cao,
+   'GEN' as Hang_Thuong
+   )
+   )  
+order by 1 
+   
+    </SQL>
+    <FIND>FromDate,ToDate</FIND>
+    <COLUMN>ATA_DATE,Hang_Thuong,Hang_Lanh,Hang_Nguy_Hiem,Hang_Dong_Vat_Song,Hang_Kho_Bao_Quan,Hang_Gia_Tri_Cao</COLUMN>   
+	 <DES>BÁO CÁO SẢN LƯỢNG HÀNG NHẬP THEO CODE HÀNG</DES>   
+  </IMP_KT02>
+   <HERMES01_1>
+    <SQL>     
+select m.INVOICE_ISN,
+ivh.invh_invoice_number as INVOICE_NUMBER,
+ivh.invh_invoice_date as INVOICE_DATE,
+ivh.invh_invoice_type as INVOICE_TYPE
+ from (select 
+       to_char(ivh.invh_invoice_isn) as INVOICE_ISN,
+       ivh.invh_invoice_number,
+       ivh.invh_invoice_type
+     --  ivh.invh_invoice_subtype,
+      -- ivh.invh_invoice_date
+from INVH_INVOICE_HEADER ivh 
+WHERE ivh.invh_invoice_type IN ('CREDITNOTE', 'CASH', 'INVOICE', 'DEBIT NOTE')
+  AND ivh.invh_invoice_date BETWEEN to_date ('{0}','DD/MM/YYYY') AND to_date ('{1}','DD/MM/YYYY')
+  AND ivh.invh_invoice_isn NOT IN (SELECT t.ZO_HEADER_ID FROM REPORT.INVOICE_TEMP t)
+  and ivh.invh_invoice_isn NOT IN (select ck.invoice_isn from ALSC_H5_ERP_ZINT_CHECK ck )
+--ORDER BY ivh.invh_invoice_date asc
+union all
+select ck.invoice_isn as INVOICE_ISN,
+'00000' as invh_invoice_number,
+ck.type as invh_invoice_type
+--ck.
+ from ALSC_H5_ERP_ZINT_CHECK ck
+where ck.existed = -1)m
+join INVH_INVOICE_HEADER ivh on ivh.invh_invoice_isn = m.INVOICE_ISN
+    </SQL>
+    <FIND>FromDate,ToDate</FIND>
+    <COLUMN>INVOICE_ISN,INVOICE_NUMBER,INVOICE_DATE,INVOICE_TYPE</COLUMN>     
+  </HERMES01_1>
+<HERMES03>
+    <SQL>     
+ select  P_RESULT.* from ( 
+	  select rownum rankid,(count(*) OVER ()) TOTAL,
+      labs.labs_ident_no as LAS_INDENT,
+      labs.LABS_DATE_STATUS_4_SET as RECEIVED_DATE,
+      labs.LABS_TIME_STATUS_4_SET as RECEIVED_TIME,
+      labs.LABS_MAWB_PREFIX as AWP,
+      labs.LABS_MAWB_SERIAL_NO AS SERIAL_NO, 
+      labs.LABS_DESTINATION as DEST,
+      labs.LABS_SHIPPER_NAME  as SHIPPER_NAME,
+      labs.LABS_SHIPPER  as CUS_CODE,
+      labs.LABS_CONSIGNEE_NAME  as CONSIGNEE_NAME, 
+      labs.LABS_AGENT_NAME as CNEE,  
+      labs.labs_quantity_del as RECEIVED_PIECES,
+      labs.labs_weight_del as RECEIVED_WEIGHT,
+      sum(awbu.awbu_pieces) as DEPARTED_PIECES,
+      sum(awbu.awbu_weight)  as DEPARTED_WEIGHT,
+      labs.labs_quantity_del - sum(nvl(awbu.awbu_pieces,0)) as INVENTORY_PIECES,
+      labs.labs_weight_del - sum(nvl(awbu.awbu_weight,0)) as INVENTORY_WEIGHT,
+      labs.LABS_CONTENT  as NATURE,
+      labs.LABS_SPECIAL_GOODS as SHC  
+    FROM labs labs
+    left join awbu_awbperuld_list awbu 
+         on awbu.awbu_mawb_ident_no = labs.labs_ident_no
+         and awbu.awbu_object_type = 'EXPORT AWB'
+    WHERE  
+         labs.labs_deleted = 0
+         and labs.labs_returntoagent=0
+      AND labs.LABS_LIVE_UNTIL >= sysdate
+    GROUP BY 
+      labs.labs_ident_no,
+      labs.LABS_DATE_STATUS_4_SET,
+      labs.LABS_TIME_STATUS_4_SET,
+      labs.LABS_MAWB_PREFIX,
+      labs.LABS_MAWB_SERIAL_NO, 
+      labs.LABS_DESTINATION,
+      labs.LABS_SHIPPER_NAME,
+      labs.LABS_SHIPPER,
+      labs.LABS_CONSIGNEE_NAME, 
+      labs.LABS_AGENT_NAME,  
+      labs.labs_quantity_del,
+      labs.labs_weight_del,
+      labs.labs_quantity_manif,
+      labs.labs_weight_manif,
+      labs.LABS_CONTENT,
+      labs.LABS_SPECIAL_GOODS,
+      rownum     	  
+    ORDER BY RECEIVED_DATE, RECEIVED_TIME ASC)P_RESULT 
+	  where rankid> ({0}-1) * {1} and rankid&lt;=((({0}-1) * {1} ) + {1}) 
+    </SQL>
+    <FIND>Page,PageSize</FIND>
+    <COLUMN>LAS_INDENT,RECEIVED_DATE,RECEIVED_TIME,DEST</COLUMN>     
+</HERMES03>
+</REPORT>

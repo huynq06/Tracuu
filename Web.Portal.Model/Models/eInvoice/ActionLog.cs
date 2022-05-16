@@ -17,5 +17,9 @@ namespace Web.Portal.Model.Models
         public string UserName { set; get; }
         public int UserID { set; get; }
         public string InvoiceID { set; get; }
+        public string JsonLog { set; get; }
+        public string ReponseCode { set; get; }
+        public string StatusCode { set; get; }
+
     }
 }

@@ -44,9 +44,9 @@ namespace Web.Portal.ControllerApi
                 {
                     invoice =  _iHermesInvoiceService.GetByInvoiceID(invoiceid);
 
-                    if(invoice == null)
+                    if(invoice.InvoiceIsn == null)
                     {
-                        return Request.CreateResponse(HttpStatusCode.OK, invoice);
+                        return Request.CreateResponse(HttpStatusCode.OK, (HermesInvoice)null);
                     }
                     else if (invoice.InvoiceIsn == null)
                     {
@@ -65,14 +65,37 @@ namespace Web.Portal.ControllerApi
                         invoiceModel.Awb = invoice.AWB;
                         invoiceModel.Hawb = invoice.Hawb;
                         invoiceModel.Form = "01GTKT0/001";
-                        if (invoice.ObjectType == "IMPORT AWB")
-                        {
-                            invoiceModel.Serial = "AN/20E";
-                        }
-                        else
-                        {
-                            invoiceModel.Serial = "AX/20E";
-                        }
+                        invoiceModel.Serial = invoice.InvoiceFieldSerial;
+                        //if (invoice.ObjectType == "IMPORT AWB")
+                        //{
+                        //    if (invoice.ID < 259372)
+                        //    {
+                        //        invoiceModel.Serial = "AN/20E";
+                        //    }
+                        //    else
+                        //    {
+                        //        invoiceModel.Serial = System.Configuration.ConfigurationManager.AppSettings["InvoiceFieldSerialALSC_IMPORT"];
+                        //    }
+                           
+                        //}
+                        //else
+                            
+                        //{
+                        //    if (invoice.ID >= 241089 && invoice.ID <= 241408)
+                        //    {
+                        //        invoiceModel.Serial = "AC/20E";
+                        //    }
+                        //    else if (invoice.ID < 241089)
+                        //    {
+                        //        invoiceModel.Serial = "AX/20E";
+                        //    }
+                        //    else
+                        //    {
+                        //        invoiceModel.Serial = System.Configuration.ConfigurationManager.AppSettings["InvoiceFieldSerialALSC_EXPORT"];
+                        //    }
+
+                          
+                        //}
                         return Request.CreateResponse(HttpStatusCode.OK, invoiceModel);
                     }
                   

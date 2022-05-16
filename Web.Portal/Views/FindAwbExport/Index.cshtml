@@ -1,0 +1,222 @@
+﻿@{
+    Layout = "~/Views/Layout/Core.cshtml";
+}
+
+<style>
+    /*element.style {
+        width: 80px;
+    }
+
+    #ui-id-1 {
+        width: 100px;
+    }
+
+    .ui-autocomplete ui-front ui-menu ui-widget ui-widget-content {
+        width: 100px;
+    }*/
+
+    .ui-autocomplete {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        z-index: 10051;
+        float: left;
+        display: none;
+        min-width: 120px;
+        min-width: 160px;
+        padding: 4px 0;
+        margin: 0 0 10px 25px;
+        list-style: none;
+        background-color: #ffffff;
+        border-color: #ccc;
+        border-color: rgba(0, 0, 0, 0.2);
+        border-style: solid;
+        border-width: 1px;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        border-radius: 5px;
+        -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        -webkit-background-clip: padding-box;
+        -moz-background-clip: padding;
+        background-clip: padding-box;
+        *border-right-width: 2px;
+        *border-bottom-width: 2px;
+    }
+
+    .ui-menu-item > a.ui-corner-all {
+        display: block;
+        padding: 3px 15px;
+        clear: both;
+        font-weight: normal;
+        line-height: 18px;
+        color: #555555;
+        white-space: nowrap;
+        text-decoration: none;
+    }
+
+    .ui-state-hover, .ui-state-active {
+        color: #ffffff;
+        text-decoration: none;
+        background-color: #0088cc;
+        border-radius: 0px;
+        -webkit-border-radius: 0px;
+        -moz-border-radius: 0px;
+        background-image: none;
+    }
+</style>
+<div class="row" style="padding:20px;">
+    <div class="col-md-12">
+        <div class="portlet">
+            <div class="portlet-title">
+                <div class="caption caption-md">
+                    <span class="caption-subject font-blue-madison bold uppercase">TÌM KIẾM VẬN ĐƠN</span>
+                </div>
+                
+
+            </div>
+            <div class="portlet-body">
+                <div class="row">
+                    <div class="form-group form-md-line-input">
+                        
+                        <div class="col-md-4 col-xs-12">
+
+                            <div class="input-group">
+
+
+                                <input class="form-control uppercase" id="awb" placeholder="4 Số cuối vận đơn" maxlength="30" />
+                                <div class="form-control-focus"> </div>
+                                <span class="help-block">Vui lòng nhập 4 số vận đơn</span>
+                                <span class="input-group-btn hidden">
+                                    <button id="btn-search" class="btn btn-success disabled" type="button"><i class="fa fa-search"></i></button>
+                                </span>
+
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="row">
+                    <div class="col-md-12 col-sm-12">
+                        <div id="content-list-result">
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    var Action = {
+        Reset: function () {
+
+            $('#awb').val('');
+        },
+    }
+    if ($('#awb').val().length == 11) {
+        console.log('da chay vao length 11')
+    }
+    var refreshIntervalId;
+    var hermesAction = {
+        searchList: function () {
+
+            egovutil.getContentCallBack("#content-list-result", "/Ticket/list?id=0&bsx=" + $("#bsx").val()
+                 + "&ticketType=" + $("#ticket").val()
+                , Action.setValueInput);
+        },
+        printQueue: function () {
+
+            egovutil.getContentCallBack("#content-list-result", "/Ticket/list"
+                , Action.setValueInput);
+        }
+
+    }
+    //hermesAction.searchList();
+    //$('input[type=radio][name=tinhTrang]').change(function () {
+    //    if (this.id == 'listTruck') {
+    //        egovutil.getContentCallBack("#content-list-result", "/Ticket/list?id=0", Action.setValueInput);
+    //    }
+    //    else {
+    //        egovutil.getContentCallBack("#content-list-result", "/Ticket/list?id=1", Action.setValueInput);
+    //    }
+    //});
+    var awb = $('#awb').val();
+    console.log($('#awb').val());
+
+    var common = {
+        init: function () {
+            common.registerEvents();
+        },
+        registerEvents: function () {
+            //var flightID = $('#txtFlightID').val();
+           // var ticketType = $('#ticket').val();
+          
+          
+            $('#awb').autocomplete({
+                minLength: 0,
+                source: function (request, response) {
+                    console.log($('#awb').val().length);
+                    if ($('#awb').val().length == 4)
+                    {
+                        console.log('da chay vao day')
+                        var data = {
+                            Keyword: request.term,
+                        }
+                        $.ajax({
+                            url: "/FindAwbExport/GetListLabsByName",
+                            dataType: "json",
+                            data: {
+                                dataViewModel: JSON.stringify(data)
+                            },
+                            success: function (res) {
+                                response(res.data);
+                            }
+                        });
+                    }
+                 
+                },
+                focus: function (event, ui) {
+                    $("#awb").val(ui.item.label);
+                    return false;
+                },
+                select: function (event, ui) {
+                    if (ui.item.label.length > 0){
+                      //  $("#awb").val(ui.item.label.split('/')[0]);
+                        var lid = ui.item.label.split('/')[1];
+                        egovutil.getContentCallBack("#content-list-result", "/FindAwbExport/list?awb=" + lid, Action.Reset);
+                        //   console.log('da chay vao day hihihi')
+                        return false;
+                    }
+                    else {
+                        return;
+                    }
+                   
+                }
+            }).autocomplete("instance")._renderItem = function (ul, item) {
+                if (item.label.length > 0) {
+                    return $("<li style='float:left;width:50%;height:50px;color:red;list-style: none;border-bottom: 1px black;'>")
+       .append("<a style='height:200px'>" + item.label.split('/')[0] + "</a>")
+       .appendTo(ul);
+                }
+                else
+                {
+                    return;
+                }
+                }
+               
+
+        }
+    }
+    common.init();
+    $("#btn-search").click(function () { hermesAction.searchList(); })
+</script>

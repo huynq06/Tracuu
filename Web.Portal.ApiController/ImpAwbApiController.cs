@@ -22,8 +22,15 @@ namespace Web.Portal.ControllerApi
         public HttpResponseMessage Index(string awb)
         {
             ResultImp result = new ResultImp();
-            List<AwbDetailViewModel> listGenaralImp = new AwbDetailAccess().GetAwbDetail(awb, "ALL");
+            List<AwbDetailViewModel> listGenaralImp = new AwbDetailAccess().GetAwbGeneralDetail(awb, "ALL");
             return Request.CreateResponse(HttpStatusCode.OK, listGenaralImp);
         }
+        //[HttpGet()]
+        //public HttpResponseMessage GetLagi(string awb)
+        //{
+        //    ResultImp result = new ResultImp();
+        //    List<AwbDetailViewModel> listGenaralImp = new AwbDetailAccess().GetAwbGeneralDetail(awb, "ALL");
+        //    return Request.CreateResponse(HttpStatusCode.OK, listGenaralImp);
+        //}
     }
 }

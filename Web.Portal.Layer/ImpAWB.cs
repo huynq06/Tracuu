@@ -49,7 +49,15 @@ namespace Web.Portal.Layer
         public string LAGI_MASTER_WEGIHT { set; get; }
         public string LAGI_MASTER_GOODS { set; get; }
         public string LAGI_REMARK { set; get; }
-       
-        
+        public string FlightID { set; get; }
+        public string GroupNo { set; get; }
+        public string ULD { set; get; }
+        public int LAGI_MASTER_QUANTITY_EX { set; get; }
+        public string LAGI_MASTER_WEIGHT_EX { set; get; }
+        public string LAGI_MASTER_ID { set; get; }
+        public string LAGI_ORIGIN { set; get; }
+        public string LAGI_DES { set; get; }
+
+
     }
 }

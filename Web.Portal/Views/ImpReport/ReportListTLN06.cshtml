@@ -6,62 +6,113 @@
     System.Data.DataTable tableReport = ((System.Data.DataTable)ViewData["DataList"]);
 
 }
-<div class='col-md-2 col-xs-12 margin-top-10'>
-    <label class='control-label'><b>Tổng số: @ViewBag.TotalRecord</b></label>
-</div>
-<input type="hidden" name="keyValue" id="reportId" value="@ViewBag.ID" />
 
+@*<div class='col-md-2 col-xs-12 margin-top-10'>
+        <label class='control-label'><b>Tổng số: @ViewBag.TotalRecord</b></label>
+    </div>*@
+@*<input type="hidden" name="keyValue" id="reportId" value="@ViewBag.ID" />*@
+<p style="text-align:center;font-family:'Times New Roman';font-size:15pt;font-weight:bold;text-transform:uppercase">
+    Phụ lục
+</p>
+<p style="text-align:center;font-family:'Times New Roman';font-size:15pt;font-weight:bold;text-transform:uppercase">
+    BẢNG TỔNG HỢP SỐ LIỆU HÀNG HÓA ĐẾN KHO BÃI, CẢNG, CỬA KHẨU QUÁ 30 NGÀY, QUÁ 60 NGÀY CHƯA LÀM THỦ TỤC HẢI QUAN
+</p>
+<p style="text-align:center;font-family:'Times New Roman';font-size:15pt;font-weight:bold;text-transform:uppercase">
+   TÍNH ĐẾN NGÀY @ViewBag.ToDate
+</p>
+<p style="text-align:center;font-family:'Times New Roman';font-size:15pt;font-weight:bold;text-transform:uppercase">
+    (Số liệu tính từ ngày @ViewBag.FromDate đến 16h ngày  @ViewBag.ToDate)
+</p>
 <table class="table table-striped table-bordered table-advance table-hover dt-responsive" id="tbl-report">
     <thead>
         <tr>
-            <th class="all" style="width:3%"></th>
-            @foreach (var item in columns)
-            {
-                <th style="width:15%">@Html.DisplayTextFor(model => item) </th>
-
-            }
-
+            <th rowspan="2" class="all" style="width:3%">STT</th>
+            <th rowspan="2" style="width:10%;text-align:center">Số hiệu cont</th>
+            <th rowspan="2" style="width:10%;text-align:center">Số seal</th>
+            <th rowspan="2" style="width:10%;text-align:center">Tên hàng</th>
+            <th rowspan="2" style="width:10%;text-align:center">Số lượng,trọng lượng</th>
+            <th rowspan="2" style="width:10%;text-align:center">Người gửi, địa chỉ</th>
+            <th rowspan="2" style="width:10%;text-align:center">Người nhận, địa chỉ</th>
+            <th rowspan="2" style="width:10%;text-align:center">Số vận đơn</th>
+            <th rowspan="2" style="width:10%;text-align:center">Ngày vận đơn</th>
+            <th rowspan="2" style="width:10%;text-align:center">Ngày dỡ hàng xuống cảng,kho,bãi</th>
+            <th rowspan="2" style="width:10%;text-align:center">Vị trí,địa điểm lưu giữ hàng hóa</th>
+            <th rowspan="2" style="width:10%;text-align:center">Chi cục hải quan quản lý</th>
+            <th rowspan="2" style="width:10%;text-align:center">Tình trạng lô hàng/doanh nghiệp trọng điểm (Có/không)</th>
+            <th rowspan="2" style="width:10%;text-align:center">Phân loại hàng hóa</th>
+            <th rowspan="2" style="width:10%;text-align:center">Tên nước xuất khẩu</th>
+            <th colspan="2" style="width:10%;text-align:center">Soi chiếu hải quan</th>
+            <th colspan="2" style="width:10%;text-align:center">Kiểm tra thực tế hàng hóa</th>
+            <th rowspan="2" style="width:10%;text-align:center">Đề nghị xử lý của chủ hãng/hãng tàu</th>
+            <th rowspan="2" style="width:10%;text-align:center">Lý do đề nghĩ xử lý của chủ hãng/hãng tàu</th>
+            <th rowspan="2" style="width:10%;text-align:center">Biện pháp xử lý</th>
+            <th rowspan="2" style="width:10%;text-align:center">Kết quả xử lý</th>
         </tr>
-    </thead>
+        <tr>
+            <th style="width:10%;text-align:center">Ngày thực hiện</th>
+            <th style="width:10%;text-align:center">Dấu hiệu nghi vấn</th>
+            <th style="width:10%;text-align:center">Ngày thực hiện</th>
+            <th style="width:10%;text-align:center">Kết quả kiểm tra</th>
+        </tr>
     <tbody>
-        @for (int i = 0; i < tableReport.Rows.Count; i++)
+        @foreach (var row in (List<Web.Portal.Common.ViewModel.InventoryCustomViewModel>)ViewData["ListInventory"])
         {
             PageCurrent += 1;
 
             <tr>
                 <td>@PageCurrent</td>
-                @foreach (var rs in columns)
-                {
-                    <td><a href="#" class="btn edit-hawb  btn-xs">@Html.Raw(tableReport.Rows[i][rs])</a></td>
-                }
-
-
+                <td><a href="#" class="btn  btn-xs sqs-member-edit">@Html.Raw(row.Cont)</a></td>
+                <td><a href="#" class="btn  btn-xs sqs-member-edit">@Html.Raw(row.SealNo)</a></td>
+                <td><a href="#" class="btn  btn-xs sqs-member-edit">@Html.Raw(row.GoodsName)</a></td>
+                <td><a href="#" class="btn  btn-xs sqs-member-edit">@Html.Raw(row.Pieces_weight)</a></td>
+                <td><a href="#" class="btn  btn-xs sqs-member-edit">@Html.Raw(row.Shipper)</a></td>
+                <td><a href="#" class="btn  btn-xs sqs-member-edit">@Html.Raw(row.Consignee)</a></td>
+                <td><a href="#" class="btn  btn-xs sqs-member-edit">@Html.Raw(row.AwbNo)</a></td>
+                <td><a href="#" class="btn  btn-xs sqs-member-edit">@Html.Raw(row.AwbDate)</a></td>
+                <td><a href="#" class="btn  btn-xs sqs-member-edit">@Html.Raw(row.AwbDate)</a></td>
+                <td><a href="#" class="btn  btn-xs sqs-member-edit">@Html.Raw(row.InventoryDate)</a></td>
+                <td><a href="#" class="btn  btn-xs sqs-member-edit">@Html.Raw(row.Location)</a></td>
+                <td><a href="#" class="btn  btn-xs sqs-member-edit">@Html.Raw(row.CustomManagement)</a></td>
+                <td><a href="#" class="btn  btn-xs sqs-member-edit">@Html.Raw(row.AwbStatus)</a></td>
+                <td><a href="#" class="btn  btn-xs sqs-member-edit">@Html.Raw(row.AwbType)</a></td>
+                <td><a href="#" class="btn  btn-xs sqs-member-edit">@Html.Raw(row.AwbOrigin)</a></td>
+                <td><a href="#" class="btn  btn-xs sqs-member-edit">@Html.Raw(row.ScanDate)</a></td>
+                <td><a href="#" class="btn  btn-xs sqs-member-edit">@Html.Raw(row.ScanQuestion)</a></td>
+                <td><a href="#" class="btn  btn-xs sqs-member-edit">@Html.Raw(row.CheckDate)</a></td>
+                <td><a href="#" class="btn  btn-xs sqs-member-edit">@Html.Raw(row.CheckResult)</a></td>
+                <td><a href="#" class="btn  btn-xs sqs-member-edit">@Html.Raw(row.Suggestion)</a></td>
+                <td><a href="#" class="btn  btn-xs sqs-member-edit">@Html.Raw(row.Cause)</a></td>
+                <td><a href="#" class="btn  btn-xs sqs-member-edit">@Html.Raw(row.Measure)</a></td>
+                <td><a href="#" class="btn  btn-xs sqs-member-edit">@Html.Raw(row.ProcessResult)</a></td>
             </tr>
         }
+
     </tbody>
+
+
 
 </table>
 <div class="box-footer clearfix">
     @Html.Raw(ViewBag.Paging)
 </div>
 <script>
-    var id = $('#reportId').val()
-    egovutil.loadPaging(pagingexpawb, "/exportreport/ReportList?id=" + id
-                                                                    + "&FromDate=" + $("#fda").val()
-                                                                    + "&ToDate=" + $("#tda").val()
-                                                                    + "&Page=1"
-                                                                    + "&PageSize=" + $("#pagingexpawb_step").val(), "#content-list-result");
+    //var id = $('#reportId').val()
+    //egovutil.loadPaging(pagingexpawb, "/HandlingReport/ReportList?id=" + id
+    //                                                                + "&FromDate=" + $("#fda").val()
+    //                                                                + "&ToDate=" + $("#tda").val()
+    //                                                                + "&Page=1"
+    //                                                                + "&PageSize=" + $("#pagingexpawb_step").val(), "#content-list-result");
 
 
 
-    $("#pagingexpawb_step").change(function () {
-        egovutil.getContent("#content-list-result",
-                                                             "/exportreport/ReportList?id=" + id
-                                                                    + "&FromDate=" + $("#fda").val()
-                                                                    + "&ToDate=" + $("#tda").val()
-                                                                    + "&Page=1"
-                                                                    + "&PageSize=" + $(this).val());
-    });
+    //$("#pagingexpawb_step").change(function () {
+    //    egovutil.getContent("#content-list-result",
+    //                                                         "/HandlingReport/ReportList?id=" + id
+    //                                                                + "&FromDate=" + $("#fda").val()
+    //                                                                + "&ToDate=" + $("#tda").val()
+    //                                                                + "&Page=1"
+    //                                                                + "&PageSize=" + $(this).val());
+    //});
 
     egovutil.CreateTableSort("#tbl-report", [[0, "asc"]], [
 

@@ -7,27 +7,46 @@ using Web.Portal.Common.ViewModel;
 using Web.Portal.Service;
 using Web.Portal.Model.Models;
 using Web.Portal.DataAccess;
-
+using Web.Portal.Utils;
 namespace Web.Portal.Controller
 {
     [Web.Portal.Sercurity.AuthorizedBase(Roles = "ADMIN,KTX")]
     public class IssueManagementController : BaseController
     {
         IIssueService _issueService;
+        private DateTime? ata;
         IIssue_detailService _issueDetailService;
         IVCTService _iVctService;
         IFLightFlupService _flightService;
+        ILabsFavouriteService _labFavouriteService;
         public IssueManagementController(IIssueService issueService, IIssue_detailService issueDetailService, 
-            IVCTService iVctService, IFLightFlupService flightService)
+            IVCTService iVctService, IFLightFlupService flightService, ILabsFavouriteService labFavouriteService)
         {
             this._issueService = issueService;
             this._flightService = flightService;
             this._issueDetailService = issueDetailService;
             this._iVctService = iVctService;
+            this._labFavouriteService = labFavouriteService;
         }
         public ActionResult Index()
         {
             return View();
+        }
+        public ActionResult SendNotify(string token,string title,string body,Guid userID)
+        {
+            string message = string.Empty;
+            string messageType = Utils.DisplayMessage.TypeSuccess;
+            string rp = "";
+            Utils.HttpRequest rq = new Utils.HttpRequest();
+            string url = System.Configuration.ConfigurationManager.AppSettings["NotifyAgen"];
+            rq.Url = url;
+            bool check = false;
+            var watch = System.Diagnostics.Stopwatch.StartNew();
+            rp = rq.Execute(JsonNotify(token,title,body, userID), "POST", "", false, "", ref check);
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            message = "Gui thong bao thanh cong";
+            return Json(new { Type = messageType, Message = message, Title = "Thông báo" }, JsonRequestBehavior.AllowGet);
         }
         public ActionResult Edit(int? id)
         {
@@ -60,7 +79,14 @@ namespace Web.Portal.Controller
             _iVctService.Save();
             string message = string.Empty;
             string messageType = Utils.DisplayMessage.TypeSuccess;
+            //kiem tra xem co can gui notify hay ko
+            var labFavorite = _labFavouriteService.GetByLabId(vct.LABS_IDENT_NO);
+            if(labFavorite != null)
+            {
+                SendNotify(labFavorite.TokenID, "", "Lô hàng: " + vct.LABS_AWB + " đã hoàn thành đo DIM lúc" + DateTime.Now.ToString("HH:mm")+ " !",labFavorite.UserId.Value);
 
+            }
+          
             message = "LÔ HÀNG ĐÃ HOÀN THÀNH ĐO DIM!";
             return Json(new { Type = messageType, Message = message, Title = "Thông báo" }, JsonRequestBehavior.AllowGet);
         }
@@ -229,6 +255,33 @@ namespace Web.Portal.Controller
 
             message = "LÔ HÀNG ĐÃ HOÀN THÀNH KÝ XÁC NHẬN!";
             return Json(new { Type = messageType, Message = message, Title = "Thông báo" }, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult AwbReport()
+        {
+            return View();
+        }
+        public ActionResult AwbReportList()
+        {
+            ata = string.IsNullOrEmpty(Request["ata"]) ? ata : Format.ConvertDate(Request["ata"]);
+            List<VCT> listVct = _iVctService.GetByDay(ata.Value).ToList();
+            foreach(var item in listVct)
+            {
+                item.CutOffTime = new VCTProcessingAccess().GetScaleDateTime(item.LABS_IDENT_NO);
+            }
+            ViewData["VCTList"] = listVct;
+            return View();
+        }
+        public string JsonNotify(string tokenID,string title,string body,Guid userID)
+        {
+            Web.Portal.Common.ApiViewModel.NotificationViewModel notify = new Common.ApiViewModel.NotificationViewModel();
+            notify.deviceId = tokenID;
+            notify.title = string.IsNullOrEmpty(title)? "ALSC Thông báo" : title;
+            notify.body = body;
+            notify.isAndroiodDevice = true;
+            notify.UserID = userID;
+            return Newtonsoft.Json.JsonConvert.SerializeObject(notify);
+
         }
     }
 }

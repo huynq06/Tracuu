@@ -14,5 +14,6 @@ namespace Web.Portal.Common.ViewModel
         public Guid Flight_ID { set; get; }
         public string FlightNumber { set; get; }
         public int TotalAwb { set; get; }
+        public string ULD_INS { set; get; }
     }
 }

@@ -15,7 +15,9 @@ namespace Web.Portal.Service
         IEnumerable<VCT> GetAll();
         IEnumerable<VCT> GetAllToday(int id);
              VCT GetByID(int id);
+        VCT GetByLabIdent(string labIdent);
         IEnumerable<VCT> GetConfirm();
+        IEnumerable<VCT> GetByDay(DateTime dateCheck);
         void Update(VCT vct);
 
         void Save();
@@ -57,14 +59,15 @@ namespace Web.Portal.Service
             }
             else
             {
+                DateTime dateFrom = DateTime.Now.AddDays(-1);
                 if (id == 0)
-                    return _vctRepository.GetMulti(c => (c.LABS_CREATED_AT.Value.Day == DateTime.Now.Day || c.LABS_CREATED_AT.Value.Day == DateTime.Now.Day - 1) && c.LABS_CREATED_AT.Value.Month == DateTime.Now.Month && c.LABS_CREATED_AT.Value.Year == DateTime.Now.Year && c.AWB_STATUS == 0).OrderBy(c => c.LABS_CREATED_AT);
+                    return _vctRepository.GetMulti(c => c.LABS_CREATED_AT.Value > dateFrom && c.AWB_STATUS == 0).OrderBy(c => c.LABS_CREATED_AT);
                 else if (id == 1)
-                    return _vctRepository.GetMulti(c => (c.LABS_CREATED_AT.Value.Day == DateTime.Now.Day || c.LABS_CREATED_AT.Value.Day == DateTime.Now.Day - 1) && c.LABS_CREATED_AT.Value.Month == DateTime.Now.Month && c.LABS_CREATED_AT.Value.Year == DateTime.Now.Year && c.AWB_STATUS == 1).OrderBy(c => c.LABS_DIM_AT);
+                    return _vctRepository.GetMulti(c => c.LABS_CREATED_AT.Value > dateFrom && c.AWB_STATUS == 1).OrderBy(c => c.LABS_DIM_AT);
                 else if (id == 2)
-                    return _vctRepository.GetMulti(c => (c.LABS_CREATED_AT.Value.Day == DateTime.Now.Day || c.LABS_CREATED_AT.Value.Day == DateTime.Now.Day - 1) && c.LABS_CREATED_AT.Value.Month == DateTime.Now.Month && c.LABS_CREATED_AT.Value.Year == DateTime.Now.Year && c.AWB_STATUS == 2 && c.LOCATION == 1).OrderBy(c => c.LABS_DIM_AT);
+                    return _vctRepository.GetMulti(c => c.LABS_CREATED_AT.Value > dateFrom && c.AWB_STATUS == 2 && c.LOCATION == 1).OrderBy(c => c.LABS_DIM_AT);
                 else
-                    return _vctRepository.GetMulti(c => (c.LABS_CREATED_AT.Value.Day == DateTime.Now.Day || c.LABS_CREATED_AT.Value.Day == DateTime.Now.Day - 1) && c.LABS_CREATED_AT.Value.Month == DateTime.Now.Month && c.LABS_CREATED_AT.Value.Year == DateTime.Now.Year && c.AWB_STATUS == 2 && c.LOCATION == 2).OrderBy(c => c.LABS_DIM_AT);
+                    return _vctRepository.GetMulti(c => c.LABS_CREATED_AT.Value > dateFrom && c.AWB_STATUS == 2 && c.LOCATION == 2).OrderBy(c => c.LABS_DIM_AT);
             }
           
         }
@@ -95,6 +98,16 @@ namespace Web.Portal.Service
                     return _vctRepository.GetMulti(c => (c.LABS_CONFIRMED_AT.Value.Day == DateTime.Now.Day || c.LABS_CONFIRMED_AT.Value.Day == DateTime.Now.Day - 1) && c.LABS_CONFIRMED_AT.Value.Month == DateTime.Now.Month && c.LABS_CONFIRMED_AT.Value.Year == DateTime.Now.Year && c.ConfirmStatus == 1).OrderBy(c => c.LABS_CONFIRMED_AT);
                 
             }
+        }
+
+        public IEnumerable<VCT> GetByDay(DateTime dateCheck)
+        {
+            return _vctRepository.GetMulti(c => c.LABS_CREATED_AT.Value.Day == dateCheck.Day && c.LABS_CREATED_AT.Value.Month == dateCheck.Month && c.LABS_CREATED_AT.Value.Year == dateCheck.Year).OrderBy(c => c.LABS_CREATED_AT);
+        }
+
+        public VCT GetByLabIdent(string labIdent)
+        {
+            return _vctRepository.GetSingleByCondition(c => c.LABS_IDENT_NO == labIdent);
         }
     }
 }

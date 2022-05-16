@@ -7,6 +7,7 @@ namespace Web.Portal.Layer
 {
     public class FlightExport
     {
+        public string FlightID { set; get; }
         public string Code { get; set; }
         public string FlightNo { get; set; }
         public string Route { get; set; }

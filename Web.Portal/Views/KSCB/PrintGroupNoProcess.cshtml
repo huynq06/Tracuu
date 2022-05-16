@@ -1,0 +1,172 @@
+﻿
+@{
+    Layout = null;
+}
+
+<html xmlns:v="urn:schemas-microsoft-com:vml"
+      xmlns:o="urn:schemas-microsoft-com:office:office"
+      xmlns:x="urn:schemas-microsoft-com:office:excel"
+      xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+    <meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+    <meta name=ProgId content=Excel.Sheet>
+    <meta name=Generator content="Microsoft Excel 15">
+    <link id=Main-File rel=Main-File href="../PKK%20excel.htm">
+    <link rel=File-List href=filelist.xml>
+
+    <link rel=Stylesheet href="@Url.Content("~/GroupSource/stylesheet.css")">
+    <style>
+    </style>
+    <script language="JavaScript">
+
+//-->
+    </script>
+    <![endif]>
+</head>
+
+<body link="#0563C1" vlink="#954F72" class=xl65>
+@foreach (var row in (IList<Web.Portal.Common.ViewModel.GroupQrCodeViewModel>)ViewData["listPrint"])
+{
+    <table border=0 cellpadding=0 cellspacing=0 width=745 style='border-collapse:
+ collapse;table-layout:fixed;width:559pt;background-color:white;margin-bottom:100px'>
+        <col class=xl65 width=72 span=8 style='mso-width-source:userset;mso-width-alt:
+ 2304;width:54pt'>
+        <col class=xl65 width=97 style='mso-width-source:userset;mso-width-alt:3114;
+ width:73pt'>
+        <col class=xl65 width=72 style='width:54pt'>
+        <tr height=21 style='height:15.5pt'>
+            <td height=21 width=72 style='height:15.5pt;width:54pt' align=left
+                valign=top>
+                
+                <![if !vml]><span style='mso-ignore:vglayout;
+  position:absolute;z-index:2;margin-left:9px;margin-top:45px;width:389px;
+  height:57px'><img width=389 height=57 src=http://tracuu.alsc.com.vn/GroupSource/image002.png v:shapes="Picture_x0020_1"></span><![endif]><span style='mso-ignore:vglayout2'>
+                    <table cellpadding=0 cellspacing=0>
+                        <tr>
+                            <td height=21 class=xl65 width=72 style='height:15.5pt;width:54pt'></td>
+                        </tr>
+                    </table>
+                </span>
+            </td>
+            <td class=xl65 width=72 style='width:54pt'></td>
+            <td class=xl65 width=72 style='width:54pt'></td>
+            <td class=xl65 width=72 style='width:54pt'></td>
+            <td class=xl65 width=72 style='width:54pt'></td>
+            <td class=xl65 width=72 style='width:54pt'></td>
+            <td class=xl65 width=72 style='width:54pt;margin-bottom:50px;'>
+                <span style='mso-ignore:vglayout;
+  position:absolute;z-index:1;margin-left:18px;margin-top:2px;width:56px;margin-bottom:20px;
+  height:56px'>
+                    <img width=120 height=120 src="@row.Img"
+                         alt="Preview of your QR Code" v:shapes="Picture_x0020_2">
+                </span><![endif]><span style='mso-ignore:vglayout2'>
+                    <table cellpadding=0 cellspacing=0>
+                        <tr>
+                            <td height=21 class=xl65 width=97 style='height:15.5pt;width:73pt'></td>
+                        </tr>
+                    </table>
+                </span>
+            </td>
+            <td class=xl65 width=72 style='width:54pt'></td>
+            <td width=97 style='width:73pt' align=left valign=top>
+                
+             
+            </td>
+            <td width=72 style='width:54pt'></td>
+        </tr>
+        <tr height=61 style='mso-height-source:userset;height:46.0pt'>
+            <td height=61 class=xl65 style='height:77.0pt;margin-bottom:60px'></td>
+            <td class=xl65></td>
+            <td class=xl65></td>
+            <td class=xl65></td>
+            <td class=xl65></td>
+            <td class=xl65></td>
+            <td class=xl65></td>
+            <td colspan=3 class=xl72 style="padding-left:70px;padding-bottom:35px">@row.GroupNo</td>
+        </tr>
+        <tr height=46 style='height:34.5pt'>
+            <td colspan=10 height=46 class=xl67 style='height:34.5pt'>
+                PHI&#7870;U
+                KI&#7874;M HÀNG TRÊN GIÁ
+            </td>
+        </tr>
+        <tr height=30 style='height:22.5pt'>
+            <td colspan=2 height=30 class=xl68 style='height:22.5pt'>S&#7889; ki&#7879;n</td>
+            <td colspan=4 class=xl68 style='border-left:none'>
+                Tên ng&#432;&#417;&#768;i
+                ki&#7875;m hàng
+            </td>
+            <td colspan=4 class=xl68 style='border-left:none'>
+                Dâ&#769;u kiê&#777;m
+                ha&#768;ng
+            </td>
+        </tr>
+        <tr height=56 style='mso-height-source:userset;height:42.0pt'>
+            <td colspan=2 height=56 class=xl68 style='height:42.0pt'>&nbsp;</td>
+            <td colspan=4 class=xl68 style='border-left:none'>&nbsp;</td>
+            <td colspan=4 rowspan=3 class=xl68>&nbsp;</td>
+        </tr>
+        <tr height=38 style='mso-height-source:userset;height:28.5pt'>
+            <td colspan=6 height=38 class=xl71 style='height:28.5pt'>S&#7889; mâm thùng:</td>
+        </tr>
+        <tr height=38 style='mso-height-source:userset;height:28.5pt'>
+            <td colspan=6 height=38 class=xl71 style='height:28.5pt'>
+                B&#7845;t
+                th&#432;&#7901;ng (n&#7871;u có):
+            </td>
+        </tr>
+        <tr height=30 style='height:22.5pt'>
+            <td colspan=7 height=30 class=xl68 style='height:22.5pt'>
+                V&#7883; trí yêu
+                c&#7847;u*
+            </td>
+            <td colspan=3 class=xl68 style='border-left:none'>
+                Dâ&#769;u tra&#777;
+                ha&#768;ng
+            </td>
+        </tr>
+        <tr height=192 style='mso-height-source:userset;height:120.0pt'>
+            <td colspan=7 height=192 class=xl69 style='height:120.0pt'>
+                * N&#7871;u
+                &#273;&#7875; tr&#7889;ng &#273;&#432;&#7907;c hi&#7875;u là v&#7883; trí phù
+                h&#7907;p v&#7899;i th&#7921;c t&#7871; trong rack (tr&#7915; I13) và khu quá
+                kh&#7893;
+            </td>
+            <td colspan=3 class=xl70 style='border-left:none'>&nbsp;</td>
+        </tr>
+        <tr height=21 style='height:15.5pt'>
+            <td height=21 class=xl66 colspan=3 style='height:15.5pt;mso-ignore:colspan'>
+                Ph&#7909;
+                l&#7909;c c&#7911;a WI/OPM/5103
+            </td>
+            <td class=xl65></td>
+            <td class=xl65></td>
+            <td class=xl65></td>
+            <td class=xl65></td>
+            <td class=xl65></td>
+            <td class=xl65></td>
+            <td class=xl65></td>
+        </tr>
+        <![if supportMisalignedColumns]>
+        <tr height=0 style='display:none'>
+            <td width=72 style='width:54pt'></td>
+            <td width=72 style='width:54pt'></td>
+            <td width=72 style='width:54pt'></td>
+            <td width=72 style='width:54pt'></td>
+            <td width=72 style='width:54pt'></td>
+            <td width=72 style='width:54pt'></td>
+            <td width=72 style='width:54pt'></td>
+            <td width=72 style='width:54pt'></td>
+            <td width=97 style='width:73pt'></td>
+            <td width=72 style='width:54pt'></td>
+        </tr>
+        <![endif]>
+    </table>
+}
+
+</body>
+
+</html>
+
+

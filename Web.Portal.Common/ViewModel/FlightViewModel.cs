@@ -27,6 +27,8 @@ namespace Web.Portal.Common.ViewModel
         public string Type { set; get; }
         public string AcraftType { set; get; }
         public bool Status { set; get; }
+        public DateTime? TimeToAwbFinish { set; get; }
+        public float CountToAwbFinish { set; get; }
 
     }
 }

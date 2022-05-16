@@ -1,0 +1,106 @@
+﻿@{
+    Layout = null;
+    int rowIndex = 0;
+
+}
+<div class='col-md-2 col-xs-12 margin-top-10'>
+    <label class='control-label'><b>Tổng số: @ViewBag.Total</b></label>
+</div>
+<table ID="tbl-sop" class="table table-striped table-bordered table-advance table-hover">
+    <thead>
+        <tr>
+            <th style="wIDth:5%;font-size:16px;text-align:center">
+                STT
+            </th>
+            <th style="wIDth:15%;font-size:16px;text-align:center">
+                AWB
+            </th>
+            <th style="wIDth:15%;font-size:16px;text-align:center">
+                kiện
+            </th>
+            <th style="wIDth:15%;font-size:16px;text-align:center">
+                Cân
+            </th>
+            <th style="wIDth:15%;font-size:16px;text-align:center">
+                Giờ Tạo
+            </th>
+            <th style="wIDth:15%;font-size:16px;text-align:center">
+                Giờ DIM
+            </th>
+            <th style="wIDth:15%;font-size:16px;text-align:center">
+                Giờ Chuyển cân
+            </th>
+            <th style="wIDth:15%;font-size:16px;text-align:center">
+                Giờ Cân
+            </th>
+        </tr>
+
+    </thead>
+    <tbody>
+        @foreach (var row in (IList<Web.Portal.Model.Models.VCT>)ViewData["VCTList"])
+        {
+            rowIndex += 1;
+
+            <tr>
+                <td>@rowIndex</td>
+                <td><a href="#" data-ID="@Html.DisplayFor(model=>row.ID)" class="btn  btn-xs sqs-member-edit">@Html.Raw(row.LABS_AWB)</a></td>
+                <td><a href="#" data-ID="@Html.DisplayFor(model=>row.ID)" class="btn  btn-xs sqs-member-edit">@Html.Raw(row.LABS_QUANTITY_BOOKED)</a></td>
+                <td><a href="#" data-ID="@Html.DisplayFor(model=>row.ID)" class="btn  btn-xs sqs-member-edit">@Html.Raw(row.LABS_WEIGHT_BOOKED)</a></td>
+                <td><a href="#" data-ID="@Html.DisplayFor(model=>row.ID)" class="btn  btn-xs sqs-member-edit">@Html.Raw(row.LABS_CREATED_AT.Value.ToString("dd/MM/yyyy HH:mm"))</a></td>
+                <td><a href="#" data-ID="@Html.DisplayFor(model=>row.ID)" class="btn  btn-xs sqs-member-edit">@Html.Raw(row.LABS_DIM_AT.HasValue ? row.LABS_DIM_AT.Value.ToString("dd/MM/yyyy HH:mm"):"")</a></td>
+                <td><a href="#" data-ID="@Html.DisplayFor(model=>row.ID)" class="btn  btn-xs sqs-member-edit">@Html.Raw(row.LABS_PROCESS_AT.HasValue ? row.LABS_PROCESS_AT.Value.ToString("dd/MM/yyyy HH:mm") : "")</a></td>
+                <td><a href="#" data-ID="@Html.DisplayFor(model=>row.ID)" class="btn  btn-xs sqs-member-edit">@Html.Raw(row.CutOffTime.HasValue ? row.CutOffTime.Value.ToString("dd/MM/yyyy HH:mm") : "")</a></td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+<script>
+    $(window).keydown(function (event) {
+        if (event.which == 112) {
+            event.preventDefault();
+            $('.input-sm').focus()
+
+        }
+    });
+    var Action = {
+        setValueInput: function () {
+
+            $('.input-sm').attr('placeholder', 'Phím tắt F1')
+        },
+    }
+    var Actionfocus = {
+        setFocus: function () {
+            $('.btn-bold').focus();
+        }
+    }
+
+    //$(".issue-edit").click(function () {
+    //    var check = 0;
+    //    var id = $(this).attr("data-ID");
+
+    //    if ($("#1_" + id).prop("checked")) {
+    //        check = 1;
+    //    }
+    //    else {
+    //        check = 2;
+    //    }
+    //    console.log(check);
+    //    egovutil.dialog("Sửa thông tin AWB", "large", "/VCT/edit?id=" + $(this).attr("data-ID") + "&check=" + check, "egovutil.loadUrlMain('/VCT')");
+    //});
+    //$(".sqs-member-delete").click(function () {
+    //    egovutil.dlgConfirmAction("Xóa thông tin SOP", "Bạn muốn xóa thông tin SOP", "/kscb/delete/" + $(this).attr("data-ID"), "egovutil.loadUrlMain('/kscb/soptime')");
+    //});
+    $(".dim-edit").click(function () {
+        egovutil.dlgConfirmAction("CONFIRM?  ", "Bạn có muốn hoàn thành ký xác nhận?", "/IssueManagement/ActionConfrim/" + $(this).attr("data-id"), "confirmAction.search();");
+        Actionfocus.setFocus();
+    });
+    $(".booking-edit").click(function () {
+        egovutil.dialog("Sửa thông tin AWB", "large", "/VCT/edit/" + $(this).attr("data-ID"), "confirmAction.search();");
+    });
+    egovutil.CreateTableSort("#tbl-sop", [[0, "asc"]], [
+
+                { "orderable": true, "targets": 0 }
+    ], true);
+
+</script>

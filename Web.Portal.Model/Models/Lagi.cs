@@ -26,6 +26,8 @@ namespace Web.Portal.Model.Models
         public double LAGI_QUANTITY_EXPECTED { set; get; }
         public double LAGI_WEIGHT_EXPECTED { set; get; }
         public string LAGI_TSO { set; get; } 
-
+        public DateTime LAGI_DATE_STATUS_0_SET { set; get; }
+        public string LAGI_MASTER_IDENT_NO { set; get; }
+        public string LAGI_GOODS_CONTENT { set; get; }
     }
 }

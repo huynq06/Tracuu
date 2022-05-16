@@ -1,0 +1,139 @@
+﻿@{
+    Layout = "~/Views/Layout/Core.cshtml";
+}
+
+@*Tvi*@
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet">
+            <div class="portlet-body">
+                <div class="row">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div id="content-list-result">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet">
+            <div class="portlet-body">
+                <div class="row">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div id="content-list-result2">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+            var cfsAction = {
+                searchDieuXe: function () {
+                    egovutil.getContent("#content-list-result", "/DieuXeTang2/ListDieuXe");
+                },
+                searchIndoor: function () {
+                    egovutil.getContent("#content-list-result2", "/DieuXeTang2/ListIndoor");
+                }
+            }
+
+            cfsAction.searchDieuXe();
+            //cfsAction.searchIndoor();
+</script>
+
+@*Mobile*@
+@*<div class="row">
+    <div class="col-md-12 col-xs-12">
+        <a href="#">
+            <img src="~/logo/logoals.png" alt="logo" style="width:100%;" class="img-responsive">
+        </a>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet">
+            <div class="portlet-title" style="text-align:center !important;">
+                <div class="caption caption-md center-align" style="text-align:center !important;float:none !important">
+                    <p style="text-align:center">
+                        <span class="caption-subject font-blue-madison bold uppercase" style="text-align:center">Danh sách xe được gọi vào tầng 2 ALSC</span>
+                    </p>
+
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="row">
+                </div>
+                <div class="row">
+                    <div class="col-md-12 col-sm-12">
+                        <div id="content-list-result">
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+
+
+
+        </div>
+    </div>
+
+</div>
+<script>
+    var Action = {
+        setValueInput: function () {
+
+            $('.input-sm').attr('placeholder', 'NHẬP BSX')
+        },
+    }
+    var type = 1;
+    var refreshIntervalId;
+    var hermesAction = {
+        searchWaiting: function () {
+
+            egovutil.getContentCallBack("#content-list-result", "/DieuxeTang2/list/2", Action.setValueInput);
+        },
+    }
+    hermesAction.searchWaiting();
+    $(".btn-add-item").click(function () {
+        egovutil.dialog("THÊM MỚI HÀNG NHANH", "large", "/Dieuxe/edit/", "hermesAction.search()");
+    });
+    $('.date-picker').datepicker({
+        rtl: App.isRTL(),
+        orientation: "left",
+        autoclose: true
+    });
+    $(".btn-export-log").click(function () {
+        window.location.href = "/Dieuxe/export?fno=" + $("#fno").val()
+                                                                    + "&ata=" + $("#ata").val()
+    });
+
+    $('.bs-select').selectpicker({
+        iconBase: 'fa',
+        tickIcon: 'fa-check'
+    });
+    refreshIntervalId =  setInterval(hermesAction.searchWaiting,
+               20000)
+
+    $("#btn-search-sita").click(function () {
+        if (type == 1) { hermesAction.searchWaiting();}
+        if (type == 2) { hermesAction.searchNow(); }
+        if (type == 3) { hermesAction.searchAlsx(); }
+    })
+</script>*@

@@ -4,7 +4,7 @@
     IList<Web.Portal.Common.ViewModel.AWBByULDViewModel> listAWBViewModel = (IList<Web.Portal.Common.ViewModel.AWBByULDViewModel>)ViewData["ListAwbByULDViewModel"];
     IList<Web.Portal.Model.Models.HawbInAwb> listHAWBModel = (IList<Web.Portal.Model.Models.HawbInAwb>)ViewData["ListHawbInAWB"];
 
-int check = ViewBag.Flight;
+    int check = ViewBag.Flight;
 }
 <audio id="audio" src="~/media/ALARM.mp3" style="display:none"></audio>
 <div class="row" style="margin-left:20px">
@@ -22,6 +22,7 @@ int check = ViewBag.Flight;
                         if (item.ULDTotal > 0)
                         {
                             var awbByFlight = listAWBViewModel.Where(c => c.Flight_ID == item.FlightID).ToList();
+                            
                             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="overflow-y:scroll;height:300px">
                                 <div class="dashboard-stat2 ">
                                     <div class="display">
@@ -58,7 +59,9 @@ int check = ViewBag.Flight;
                                                     @*<small class="font-green-sharp">$</small>*@
                                                 </h4>
                                                 <h4 class="font-blue-sharp">
-                                                    <span style="font-weight:bold;font-size:12px;" data-counter="counterup" data-value="7800">REMAIN TIME: @Html.Raw(@awbByFlight.Count > 0 ? awbByFlight[0].TimeFinish.ToString()  : "0")</span>
+                                                    <span style="font-weight:bold;font-size:12px;" data-counter="counterup" data-value="7800">REMAIN TIME: @Html.Raw(item.CountToAwbFinish)</span>
+                                                    @*<span style="font-weight:bold;font-size:12px;" data-counter="counterup" data-value="7800">REMAIN TIME: @ViewBag.CheckSLA</span>*@
+
                                                     @*<small class="font-green-sharp">$</small>*@
                                                 </h4>
                                                 @foreach (var awb in awbByFlight)

@@ -11,5 +11,6 @@ namespace Web.Portal.Common.ApiViewModel
         public GenaralExp GenralExp { set; get; }
         public List<HawbInFlightViewModel> FlightExps { set; get; }
         public List<CargoExpStatus> CargoStatus { set; get; }
+        public bool IsFavourite { set; get; }
     }
 }

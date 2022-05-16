@@ -1,0 +1,299 @@
+﻿
+@{
+    Layout = null;
+}
+@model Web.Portal.Model.Models.HawbIrr
+<form class="form-horizontal" id="frmHawbIrrAction">
+    <input type="hidden" name="keyAwbId" value="@ViewBag.AwbId" />
+    <input type="hidden" name="flightID" value="@ViewBag.FlightId" />
+    <input type="hidden" name="keyValue" value="@Html.DisplayFor(model=>model.ID)" />
+    <div class="form-body" style="padding:10px">
+        <div class="form-group form-md-line-input">
+            <label class="col-md-3 control-label" for="frmAction">
+                <b>Hawb:</b>
+                <span class="required">*</span>
+            </label>
+            <div class="col-md-3">
+                <input class="form-control form-control-inline input txtName" placeholder="nhập Hawb" maxlength="256" data-id="@Html.DisplayTextFor(model=>model.ID)" value="@Html.DisplayTextFor(model=>model.Hawb)" name="hawb" />
+                <div class="form-control-focus"> </div>
+                <span class="help-block">Nhập Hawb</span>
+            </div>
+            <label class="col-md-3 control-label" for="frmAction">
+                <b>ULD:</b>
+                <span class="required">*</span>
+            </label>
+            <div class="col-md-3">
+                <input class="form-control form-control-inline input txtName" placeholder="Nhập ULD" maxlength="256" data-id="@Html.DisplayTextFor(model=>model.ID)" value="@Html.DisplayTextFor(model=>model.ULD)" name="uld" />
+                <div class="form-control-focus"> </div>
+                <span class="help-block">Nhập Uld</span>
+            </div>
+        </div>
+        <div class="form-group form-md-line-input">
+            <div class="form-group form-md-line-input">
+                @*<label class="col-md-1 control-label" for="frmAction"><b>Tình trạng</b></label>*@
+                <div class="md-radio-inline col-md-10">
+                    <div class="md-radio has-warning">
+                        <input id="awbWaiting" name="remark" value="1" class="md-radiobtn" type="radio" @Html.Raw((ViewBag.Check == "true" || Model.Remark.Trim()=="DMGD")? "checked" : "")>
+                        <label for="awbWaiting">
+                            <span></span>
+                            <span class="check"></span>
+                            <span class="box"></span> Bất thường hàng hóa
+                        </label>
+                    </div>
+                    <div class="md-radio has-error">
+                        <input id="awbDim" name="remark" value="2" class="md-radiobtn" type="radio"  @Html.Raw(ViewBag.Check == "false" && Model.Remark!="DMGD"? "checked" : "")>
+                        <label for="awbDim">
+                            <span></span>
+                            <span class="check"></span>
+                            <span class="box"></span>Bất thường tài liệu
+                        </label>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+        <div class="form-group form-md-line-input">
+            <label class="col-md-3 control-label" for="frmAction">
+                <b>Số kiện bất thường:</b>
+                <span class="required">*</span>
+            </label>
+            <div class="col-md-3">
+                <input class="form-control form-control-inline input txtName" placeholder="Tên hãng" maxlength="256" data-id="@Html.DisplayTextFor(model=>model.ID)" value="@Html.DisplayTextFor(model=>model.IrrPices)" name="piece" />
+                <div class="form-control-focus"> </div>
+                <span class="help-block">Nhập Hawb</span>
+            </div>
+            <label class="col-md-3 control-label" for="frmAction">
+                <b>Số cân bất thường:</b>
+                <span class="required">*</span>
+            </label>
+            <div class="col-md-3">
+                <input class="form-control form-control-inline input txtName" placeholder="Tên hãng" maxlength="256" data-id="@Html.DisplayTextFor(model=>model.ID)" value="@Html.DisplayTextFor(model=>model.IrrWeight)" name="weight" />
+                <div class="form-control-focus"> </div>
+                <span class="help-block">Nhập Hawb</span>
+            </div>
+        </div>
+        <div class="row" >
+            <div class="col-md-3">
+                <div class="form-group form-md-checkboxes">
+                    <div class="md-checkbox-list">
+                        <div class="md-checkbox">
+                            <input type="checkbox" id="hawbIrrMcsa" name="hawbIrrMcsa" class="md-check" value="true" @Html.Raw(Model.IrrMsca.HasValue && Model.IrrMsca == true ? "checked" : "")>
+                            <input type="hidden" value="false" name="hawbIrrMcsa" />
+                            <label for="hawbIrrMcsa">
+                                <span></span>
+                                <span class="check"></span>
+                                <span class="box"></span> Thiếu kiện /MCSA/MCSB
+                            </label>
+                        </div>
+                        <div class="md-checkbox">
+                            <input type="checkbox" id="hawbIrrCrushed" name="hawbIrrCrushed" class="md-check" value="true" @Html.Raw(Model.IrrCrushed.HasValue && Model.IrrCrushed == true ? "checked" : "")>
+                            <input type="hidden" value="false" name="hawbIrrCrushed" />
+                            <label for="hawbIrrCrushed">
+                                <span></span>
+                                <span class="check"></span>
+                                <span class="box"></span> Bẹp/ Crushed
+                            </label>
+                        </div>
+                        <div class="md-checkbox">
+                            <input type="checkbox" id="hawbIrrTorn" name="hawbIrrTorn" class="md-check" value="true" @Html.Raw(Model.IrrTorn.HasValue && Model.IrrTorn == true ? "checked" : "")>
+                            <input type="hidden" value="false" name="hawbIrrTorn" />
+                            <label for="hawbIrrTorn">
+                                <span></span>
+                                <span class="check"></span>
+                                <span class="box"></span> Rách/Torn
+                            </label>
+                        </div>
+                        <div class="md-checkbox">
+                            <input type="checkbox" id="hawbIrrWet" name="hawbIrrWet" class="md-check" value="true" @Html.Raw(Model.IrrWet.HasValue && Model.IrrWet == true ? "checked" : "")>
+                            <input type="hidden" value="false" name="hawbIrrWet" />
+                            <label for="hawbIrrWet">
+                                <span></span>
+                                <span class="check"></span>
+                                <span class="box"></span> Ướt/Wet
+                            </label>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group form-md-checkboxes">
+                    <div class="md-checkbox-list">
+                        <div class="md-checkbox">
+                            <input type="checkbox" id="hawbIrrFdca" name="hawbIrrFdca" class="md-check" value="true" @Html.Raw(Model.IrrFdca.HasValue && Model.IrrFdca == true ? "checked" : "")>
+                            <input type="hidden" value="false" name="hawbIrrFdca" />
+                            <label for="hawbIrrFdca">
+                                <span></span>
+                                <span class="check"></span>
+                                <span class="box"></span> Thừa kiện /FDCA/FDMB
+                            </label>
+                        </div>
+                        <div class="md-checkbox">
+                            <input type="checkbox" id="hawbIrrHoled" name="hawbIrrHoled" class="md-check" value="true" @Html.Raw(Model.IrrHoled.HasValue && Model.IrrHoled == true ? "checked" : "")>
+                            <input type="hidden" value="false" name="hawbIrrHoled" />
+                            <label for="hawbIrrHoled">
+                                <span></span>
+                                <span class="check"></span>
+                                <span class="box"></span> Thủng/ Holed
+                            </label>
+                        </div>
+                        <div class="md-checkbox">
+                            <input type="checkbox" id="hawbIrrBroken" name="hawbIrrBroken" class="md-check" value="true" @Html.Raw(Model.IrrBroken.HasValue && Model.IrrBroken == true ? "checked" : "")>
+                            <input type="hidden" value="false" name="hawbIrrBroken" />
+                            <label for="hawbIrrBroken">
+                                <span></span>
+                                <span class="check"></span>
+                                <span class="box"></span> Vỡ/Broken
+                            </label>
+                        </div>
+                        <div class="md-checkbox">
+                            <input type="checkbox" id="hawbIrrLabel" name="hawbIrrLabel" class="md-check" value="true" @Html.Raw(Model.IrrWithoutLabel.HasValue && Model.IrrWithoutLabel == true ? "checked" : "")>
+                            <input type="hidden" value="false" name="hawbIrrLabel" />
+                            <label for="hawbIrrLabel">
+                                <span></span>
+                                <span class="check"></span>
+                                <span class="box"></span> Thiếu/Không có nhãn/Without Label, mark
+                            </label>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="form-group form-md-checkboxes">
+                    <div class="md-checkbox-list">
+                        <div class="md-checkbox">
+                            <input type="checkbox" id="hawbIrrOvcd" name="hawbIrrOvcd" class="md-check" value="true" @Html.Raw(Model.IrrOvcd.HasValue && Model.IrrOvcd == true ? "checked" : "")>
+                            <input type="hidden" value="false" name="hawbIrrOvcd" />
+                            <label for="hawbIrrOvcd">
+                                <span></span>
+                                <span class="check"></span>
+                                <span class="box"></span> Lạc tuyến /OVCD
+                            </label>
+                        </div>
+                        <div class="md-checkbox">
+                            <input type="checkbox" id="hawbIrrOther" name="hawbIrrOther" class="md-check" value="true" @Html.Raw(Model.IrrOther.HasValue && Model.IrrOther == true ? "checked" : "")>
+                            <input type="hidden" value="false" name="hawbIrrOther" />
+                            <label for="hawbIrrOther">
+                                <span></span>
+                                <span class="check"></span>
+                                <span class="box"></span> Lý do khác/ Others
+                            </label>
+                        </div>
+
+
+                    </div>
+                </div>
+                <div class="form-group form-md-line-input">
+                    <input type="text" id="hawbIrrDes" class="form-control" name="hawbIrrDes" placeholder="lý do khác" value="@Html.DisplayTextFor(model=>model.IrrDes)">
+
+                </div>
+            </div>
+        </div>
+        <div class="form-group form-md-line-input">
+            <label class="col-md-3 control-label" for="frmAction">
+                <b>Chi tiết:</b>
+            </label>
+            <div class="col-md-9">
+                <input class="form-control form-control-inline input txtName" id="irrDetail" placeholder="Chi tiết bất thường" maxlength="256" name="irrDetail" value="@Html.DisplayTextFor(model=>model.IrrDetails)" />
+                <div class="form-control-focus"> </div>
+            </div>
+        </div>
+        <div class="form-group form-md-line-input">
+            <label class="col-md-3 control-label" for="frmAction">
+                <b>Ghi chú:</b>
+            </label>
+            <div class="col-md-9">
+                <textarea class="form-control form-control-inline input txtName" rows="3" id="irrNote" placeholder="Nhập ghi chú" maxlength="256" name="irrNote">@Html.DisplayTextFor(model => model.LAGI_REMARK)</textarea>
+                <div class="form-control-focus"> </div>
+            </div>
+        </div>
+        <div class="form-group form-md-line-input">
+            <div class="md-radio-inline col-md-10">
+                <div class="input-group" style="padding-left:20px !important">
+                    <div class="md-radio has-warning">
+                        <input id="ttdmga" name="dame" value="1" class="md-radiobtn" type="radio"  @Html.Raw(Model.DameType.HasValue && Model.DameType == 1 ? "checked" : "")>
+                        <label for="ttdmga">
+                            <span></span>
+                            <span class="check"></span>
+                            <span class="box"></span> DMGA
+                        </label>
+                    </div>
+                    <div class="md-radio has-success">
+                        <input id="ttdmgb" name="dame" value="2" class="md-radiobtn" type="radio" @Html.Raw(Model.DameType.HasValue && Model.DameType == 2 ? "checked" : "")>
+                        <label for="ttdmgb">
+                            <span class="inc"></span>
+                            <span class="check"></span>
+                            <span class="box"></span> DMGB
+                        </label>
+                    </div>
+                    <div class="md-radio has-success">
+                        <input id="ttdmgc" name="dame" value="0" class="md-radiobtn" type="radio" @Html.Raw(Model.DameType.HasValue && Model.DameType == 0 ? "checked" : "")>
+                        <label for="ttdmgc">
+                            <span class="inc"></span>
+                            <span class="check"></span>
+                            <span class="box"></span> DMGC
+                        </label>
+                    </div>
+                    <div class="md-radio has-info">
+                        <input id="ttweta" name="dame" value="3" class="md-radiobtn" type="radio" @Html.Raw(Model.DameType.HasValue && Model.DameType == 3 ? "checked" : "")>
+                        <label for="ttweta">
+                            <span class="inc"></span>
+                            <span class="check"></span>
+                            <span class="box"></span> WETA
+                        </label>
+                    </div>
+                    <div class="md-radio has-info">
+                        <input id="ttwetb" name="dame" value="4" class="md-radiobtn" type="radio" @Html.Raw(Model.DameType.HasValue && Model.DameType == 4 ? "checked" : "")>
+                        <label for="ttwetb">
+                            <span class="inc"></span>
+                            <span class="check"></span>
+                            <span class="box"></span> WETB
+                        </label>
+                    </div>
+                    <div class="md-radio has-info">
+                        <input id="ttwetc" name="dame" value="5" class="md-radiobtn" type="radio" @Html.Raw(Model.DameType.HasValue && Model.DameType == 5 ? "checked" : "")>
+                        <label for="ttwetc">
+                            <span class="inc"></span>
+                            <span class="check"></span>
+                            <span class="box"></span> WETC
+                        </label>
+                    </div>
+                    <div class="md-radio has-info">
+                        <input id="ttna" name="dame" value="6" class="md-radiobtn" type="radio" @Html.Raw(Model.DameType.HasValue && Model.DameType == 6 ? "checked" : "")>
+                        <label for="ttna">
+                            <span class="inc"></span>
+                            <span class="check"></span>
+                            <span class="box"></span> N/A
+                        </label>
+                    </div>
+                    @*<button id="btn-search-sita" class="btn btn-success" type="button"><i class="fa fa-refresh"> Làm mới</i></button>*@
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center">
+        <button type="submit" class="btn btn-success" id="btnSave"><i class="fa fa-floppy-o"></i> Lưu thông tin</button>
+        <button type="reset" class="btn btn-success"><i class="fa fa-refresh"></i> Làm mới</button>
+    </div>
+    <!-- /.box-footer -->
+</form>
+<script>
+    var actionReload = {
+        execute: function () {
+            setTimeout(() => {
+                location.reload();
+            },500)
+           
+        }
+    }
+    var message = {};
+    var rule = {};
+    egovutil.submitCallBack("#frmHawbIrrAction", rule, message, "/IrrManagement/SaveHawb", actionReload.execute);
+
+</script>

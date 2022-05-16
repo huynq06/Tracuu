@@ -70,6 +70,8 @@ namespace Web.Portal.Controller
                 flightViewModel.ULDFinish = _uldByFlightService.FinishtULDByFlight(flight.FlightID);
                 flightViewModel.LandedDate = flight.LandedDate;
                 flightViewModel.TimeToFinish = flightViewModel.LandedDate.Value.AddMinutes(flightViewModel.SopTime.Value);
+                flightViewModel.TimeToAwbFinish = _awbByULDService.GetAllColAWBByFlightID(flight.FlightID);
+                flightViewModel.CountToAwbFinish = flightViewModel.TimeToAwbFinish.HasValue? (float)Math.Round((flightViewModel.TimeToAwbFinish.Value - DateTime.Now).TotalMinutes, 0) : 0;
                 flightViewModel.TimeToSop = DateTime.Compare(DateTime.Now, flightViewModel.TimeToFinish.Value) < 0 ? (int)Math.Round((flightViewModel.TimeToFinish.Value - DateTime.Now).TotalMinutes, 0) : 0;
                 listFlightViewModel.Add(flightViewModel);
                 int tc = CheckTime(flight);
@@ -103,7 +105,8 @@ namespace Web.Portal.Controller
                 AWBByULDViewModel awbViewModel = new AWBByULDViewModel();
                 awbViewModel.AWB = awb.AWB.Insert(3, "-");
                 awbViewModel.Flight_ID = awb.Flight_ID;
-                awbViewModel.TimeFinish = DateTime.Compare(DateTime.Now, awb.TimeFinish.Value) < 0 ? (int)Math.Round((awb.TimeFinish.Value - DateTime.Now).TotalMinutes, 0) : 0;
+                awbViewModel.TimeFinish = (float)Math.Round((awb.TimeFinish.Value - DateTime.Now).TotalMinutes, 0);
+               // awbViewModel.TimeFinish = DateTime.Compare(DateTime.Now, awb.TimeFinish.Value) < 0 ? (float)Math.Round((awb.TimeFinish.Value - DateTime.Now).TotalMinutes, 0) : 0;
                 awbViewModel.AWB_ID = awb.AWB_ID;
                 awbViewModel.HaveMultiHawb = awb.HaveMultiHawb;
                 awbByULDViewModel.Add(awbViewModel);

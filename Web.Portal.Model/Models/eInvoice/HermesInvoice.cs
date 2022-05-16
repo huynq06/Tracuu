@@ -52,6 +52,10 @@ namespace Web.Portal.Model.Models
         public string SearchCode { set; get; }
         public string CancelReason { set; get; }
         public string PaymentDescription { set; get; }
+        public string InvoiceFieldType { set; get; }
+        public string InvoiceFieldForm { set; get; }
+        public string InvoiceFieldSerial { set; get; }
+        public string Idt { set; get; }
 
         //  [ID]
         //,[InvoiceIsn]

@@ -19,12 +19,31 @@
 
     </div>
 </div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet">
+            <div class="portlet-body">
+                <div class="row">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div id="content-list-result2">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
+    </div>
+</div>
 <script>
             var cfsAction = {
                 search: function () {
                     egovutil.getContent("#content-list-result", "/Issue/HandlingList");
-                }
+                },
+                search2: function () {
+                    egovutil.getContent("#content-list-result2", "/Issue/HandlingList");
+                },
             }
 
             cfsAction.search();

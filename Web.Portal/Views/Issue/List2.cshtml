@@ -1,0 +1,174 @@
+﻿
+@{
+    Layout = null;
+    int PageCurrent = 0;
+    IEnumerable<Web.Portal.Common.ViewModel.IssueViewModel> listIssue = (IEnumerable<Web.Portal.Common.ViewModel.IssueViewModel>)ViewData["listIssue"];
+}
+}
+
+<table class="table table-bordered table-striped table-condensed flip-content" id="table_fixed2" style="margin-bottom:10px !important">
+    <thead class="flip-content">
+        <tr style="">
+            <th class="all" style="width:9% !important;font-size:24px;font-weight:bold;background-color:yellow !important;text-align:center">
+                STT2
+            </th>
+            <th style="width:9% !important;font-size:24px;font-weight:bold;background-color:yellow !important;text-align:center">
+                AWB2
+            </th>
+            <th style="width:9% !important;font-size:24px;font-weight:bold;background-color:yellow !important;text-align:center">
+                SỐ KIỆN2
+            </th>
+            <th style="width:9% !important;font-size:24px;font-weight:bold;background-color:yellow !important;text-align:center">
+                BOOKING2
+            </th>
+            <th style="width:9% !important;font-size:24px;font-weight:bold;background-color:yellow !important;text-align:center">
+                LOẠI TÀU2
+            </th>
+            @*<th style="width:10%;background-color:yellow !important;text-align:center">
+                    NOTE
+                </th>*@
+            @*<th colspan="3" style="width:30%;background-color:yellow !important;text-align:center">
+                    ĐIỀU KIỆN TIẾP NHẬN
+                </th>*@
+            <th rowspan="2" style="width:9% !important;font-size:24px;font-weight:bold;background-color:yellow !important;text-align:center">
+                NGÀY TẠO2
+            </th>
+            <th rowspan="2" style="width:10% !important;font-size:24px;font-weight:bold;background-color:yellow !important;text-align:center">
+                CUTOFFTIME2
+            </th>
+        </tr>
+        @*<tr style="">
+
+                <th style="width:10%;background-color:yellow !important;text-align:center">
+                    Hạ Hàng
+                </th>
+                <th style="width:10%;background-color:yellow !important;text-align:center">
+                    Dán Tem
+                </th>
+                <th style="width:10%;background-color:yellow !important;text-align:center">
+                    Gom Hàng
+                </th>
+
+            </tr>*@
+    </thead>
+</table>
+<div class="portlet-body flip-scroll" id="contain2">
+    <table class="table table-bordered table-striped table-condensed flip-content" id="table_scroll2">
+        <tbody>
+            @if (listIssue.ToList().Count > 0)
+            {
+                foreach (var row in (IList<Web.Portal.Common.ViewModel.IssueViewModel>)ViewData["listIssue"])
+                {
+                    PageCurrent += 1;
+                    <tr style="@Html.Raw(row.Sort_Value== 0 ? "background-color:#00EE00;font-weight: bold;font-size: 18px;" : "background-color:#FFCC00;color:white;font-weight: bold;font-size: 18px;")">
+                        <td style="width:8%;text-align:center ;font-size:24px;font-weight:bold">@PageCurrent</td>
+                        <td style="width:12%;text-align:center;font-size:24px;font-weight:bold">@Html.Raw(row.AWB) </td>
+                        <td style="width:10%;font-size:24px;font-weight:bold" align="center">@Html.Raw(row.Quantity) </td>
+                        <td style="width:10%;font-size:24px;font-weight:bold" align="center">@Html.Raw(row.Booking) </td>
+                        <td style="width:10%;font-size:24px;font-weight:bold" align="center">@Html.Raw(row.FlightType == "CARGO" ? "CGO" : "PAX") </td>
+                        @*<td style="width:10%" align="center">@Html.Raw(row.Comment) </td>*@
+                        @*@foreach (var rowCondition in ConditionList.ToList().Where(c => c.issue_id == row.IssueID))
+                            {
+                                <td style="width:10%;padding-top:19px;" align="center"><div class="btn-group green"><i style="font-size:30px; @Html.Raw(rowCondition.@checked==true? "color:forestgreen":"color:red")" class="fa @Html.Raw(rowCondition.@checked==true? "green fa-check-circle-o": "red fa-close")"></i></div> </td>
+                            }*@
+                        <td style="width:10%;font-size:24px;font-weight:bold" align="center">@Html.Raw(row.CreatedDate.Value.ToString("dd/MM/yyyy hh:mm")) </td>
+
+                        <td style="width:10%;font-size:24px;font-weight:bold" align="center">@Html.Raw(row.TimeSpanToCutOffTIme)</td>
+                    </tr>
+                }
+            }
+
+        </tbody>
+
+    </table>
+    <p></p>
+    <p></p>
+    <style>
+        body {
+            font-family: 'helvetica';
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        #contain2 {
+            height: 300px;
+            overflow-y: scroll;
+        }
+
+        #table_scroll2 {
+            width: 100%;
+            margin-top: 700px;
+            margin-bottom: 700px;
+            border-collapse: collapse;
+        }
+
+            #table_scroll2 thead th {
+                padding-top: 10px;
+                padding-left: 10px;
+                background-color: #ea922c;
+                color: #fff;
+            }
+
+            #table_scroll2 tbody td {
+                padding-top: 10px;
+                font-weight: bold;
+                font-size: 18px;
+                color: black;
+            }
+    </style>
+    <script>
+        var cfsAction = {
+            search: function () {
+                egovutil.getContent("#content-list-result", "/Issue/list");
+                //$.post(encodeURI("/Issue/list"), function (data) {
+                //    $("#content-list-result").html(data);
+                //});
+            }
+        }
+        $(document).ready(function () {
+            pageScroll();
+
+            $("#contain2").mouseover(function () {
+                clearTimeout(my_time);
+            }).mouseout(function () {
+                pageScroll();
+            });
+
+            getWidthHeader('table_fixed2', 'table_scroll2');
+
+        });
+
+        var my_time;
+        var step = 1;
+        function pageScroll() {
+            var objDiv = document.getElementById("contain2");
+            objDiv.scrollTop = objDiv.scrollTop + step;
+            if (objDiv.scrollHeight- Math.floor((objDiv.scrollTop + 700)) <= 2) {
+                //objDiv.scrollTop = 0;
+                cfsAction.search2();
+               //cfsAction.search();
+            }
+
+            else {
+                my_time = setTimeout('pageScroll()', 50);
+            }
+
+        }
+
+        function getWidthHeader(id_header, id_scroll) {
+            var colCount = 0;
+            $('#' + id_scroll + ' tr:nth-child(1) td').each(function () {
+                if ($(this).attr('colspan')) {
+                    colCount += +$(this).attr('colspan');
+                } else {
+                    colCount++;
+                }
+            });
+
+            for (var i = 1; i <= colCount; i++) {
+                var th_width = $('#' + id_scroll + ' > tbody > tr:first-child > td:nth-child(' + i + ')').width();
+                $('#' + id_header + ' > thead th:nth-child(' + i + ')').css('width', th_width + 'px');
+            }
+        }
+    </script>
+</div>

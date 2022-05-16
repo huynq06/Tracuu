@@ -14,6 +14,7 @@ namespace Web.Portal.Service
         IEnumerable<string> GetListULDByName(string name,Guid fligthID);
         ULDByFlight GetByCondtion(string name, Guid flightID);
         ULDByFlight GetByID(int id);
+        ULDByFlight GetByUldIns(string uldIns);
         void Update(ULDByFlight uld);
         bool CheckExist(int location);
         List<ULDByFlight> GetListPaging(List<Flight> listFlight,int pageIndex, int pageSize,string code,ref int totalRow);
@@ -124,6 +125,11 @@ namespace Web.Portal.Service
         public void Add(ULDByFlight uld)
         {
             _uldByFlightRepository.Add(uld);
+        }
+
+        public ULDByFlight GetByUldIns(string uldIns)
+        {
+            return _uldByFlightRepository.GetSingleByCondition(c => c.ULD_ISN == uldIns);
         }
     }
 }

@@ -72,7 +72,12 @@ namespace Web.Portal.Service
         public HermesInvoice GetByInvoiceID(string invoiceid)
         {
             HermesInvoice hermesInvoice = _iHermesInvoiceRepository.GetSingleByCondition(c => c.InvoiceIsn == invoiceid.Trim());
-            if(hermesInvoice.InvoiceIsn !=null && hermesInvoice !=null)
+            if (hermesInvoice == null)
+            {
+                return new HermesInvoice();
+            }
+
+            else
             {
                 if(hermesInvoice.InvoiceStatus ==0 && hermesInvoice.InvoiceDescription== "LỖI")
                 {
@@ -83,10 +88,10 @@ namespace Web.Portal.Service
                     return _iHermesInvoiceRepository.GetMulti(c => c.InvoiceIsn.Contains(invoiceid.Trim()) && (c.InvoiceStatus == 2 || c.InvoiceStatus == 3)).OrderByDescending(c => c.TimeSent).First();
                 }
             }
-            else
-            {
-                return new HermesInvoice();
-            }
+            //else
+            //{
+            //    return new HermesInvoice();
+            //}
             
         }
 
@@ -137,7 +142,7 @@ namespace Web.Portal.Service
             }
             if (!string.IsNullOrEmpty(no))
             {
-                query = query.Where(c => c.InvoiceNumber == no.Trim());
+                query = query.Where(c => c.Sequence == int.Parse(no.Trim()));
             }
             //if (type != "ALL")
             //{

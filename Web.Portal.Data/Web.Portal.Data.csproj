@@ -84,6 +84,7 @@
     <Compile Include="Infrastructure\RepositoryEInvoiceControlBase.cs" />
     <Compile Include="Infrastructure\RepositoryHermesBase.cs" />
     <Compile Include="Infrastructure\RepositoryPXKControlBase.cs" />
+    <Compile Include="Infrastructure\RepositoryUatEInvoiceControlBase.cs" />
     <Compile Include="Infrastructure\UnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PXKControlDBContext.cs" />
@@ -91,6 +92,8 @@
     <Compile Include="Repositories\ALSC_H5_ERP_ZINT_CHECKRepository.cs" />
     <Compile Include="Repositories\ALSC_VCT_TO_DLV_BY_XMLRepository.cs" />
     <Compile Include="Repositories\AWBByULDRepository.cs" />
+    <Compile Include="Repositories\AwbIrrRepository.cs" />
+    <Compile Include="Repositories\AwbLogRepository.cs" />
     <Compile Include="Repositories\CallTruckRepository.cs" />
     <Compile Include="Repositories\CARGO_INOUTRepository.cs" />
     <Compile Include="Repositories\Cargo_KVGSRepository.cs" />
@@ -101,12 +104,15 @@
     <Compile Include="Repositories\ErrorRepository.cs" />
     <Compile Include="Repositories\EXP_AWBRepository.cs" />
     <Compile Include="Repositories\FlightConfigRepository.cs" />
+    <Compile Include="Repositories\FlightFavouriteRepository.cs" />
     <Compile Include="Repositories\FLightFlupRepository.cs" />
+    <Compile Include="Repositories\FlightIrrRepository.cs" />
     <Compile Include="Repositories\FlightRepository.cs" />
     <Compile Include="Repositories\FlightServiceConfigRepository.cs" />
     <Compile Include="Repositories\FLUPRepository.cs" />
     <Compile Include="Repositories\FormRepository.cs" />
     <Compile Include="Repositories\HawbInAwbRepository.cs" />
+    <Compile Include="Repositories\HawbIrrRepository.cs" />
     <Compile Include="Repositories\HawbManagementRepository.cs" />
     <Compile Include="Repositories\HermesInvoiceDetailRepository.cs" />
     <Compile Include="Repositories\HermesInvoiceRepository.cs" />
@@ -118,10 +124,14 @@
     <Compile Include="Repositories\Issue_detailRepository.cs" />
     <Compile Include="Infrastructure\RepositoryFlightControlBase.cs" />
     <Compile Include="Repositories\LabRepository.cs" />
+    <Compile Include="Repositories\LabsFavouriteRepository.cs" />
     <Compile Include="Repositories\LagiRepository.cs" />
     <Compile Include="Repositories\LocationConfigRepository.cs" />
     <Compile Include="Repositories\LocationRepository.cs" />
     <Compile Include="Repositories\NotifyAWBRepository.cs" />
+    <Compile Include="Repositories\OrderLagiDetailRepository.cs" />
+    <Compile Include="Repositories\OrderLagiRepository.cs" />
+    <Compile Include="Repositories\OrganizationRepository.cs" />
     <Compile Include="Repositories\PrintConfigRepository.cs" />
     <Compile Include="Repositories\PrintRepository.cs" />
     <Compile Include="Repositories\PXKRepository.cs" />
@@ -133,10 +143,17 @@
     <Compile Include="Repositories\tblTicketStatusRepository.cs" />
     <Compile Include="Repositories\tblUserRepository.cs" />
     <Compile Include="Repositories\TruckAwbRepository.cs" />
+    <Compile Include="Repositories\UatHermesInvoiceDetailRepository.cs" />
+    <Compile Include="Repositories\UatHermesInvoiceRepository.cs" />
+    <Compile Include="Repositories\UatResponseMessageRepository.cs" />
     <Compile Include="Repositories\ULDByFlightRepository.cs" />
+    <Compile Include="Repositories\UldLogRepository.cs" />
     <Compile Include="Repositories\ULD_TYPERepository.cs" />
+    <Compile Include="Repositories\UserCardRepository.cs" />
+    <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="Repositories\VCTRepository.cs" />
     <Compile Include="Repositories\Vhld_vehicledetailRepository.cs" />
+    <Compile Include="UatEInvoiceDbContext.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

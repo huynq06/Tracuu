@@ -83,5 +83,23 @@ namespace Web.Portal.DataAccess
             return ListVCTProcessing;
 
         }
+        public DateTime? GetScaleDateTime(string lab_ident)
+        {
+            DateTime? dt = new DateTime();
+            string sql = "select x.agen_creation_datetime ScaleDate from (select  max(agen.agen_sequ_no) over "+ 
+"(partition by  agen.agen_ident_no order by agen.agen_sequ_no asc) as agen_sequence_no, "+
+               "row_number() over(partition by agen.agen_ident_no order by agen.agen_ident_no) as rn, "+
+               "agen.agen_creation_datetime, agen.agen_ident_no "+
+                "from agen where agen.agen_ident_no = '"+ lab_ident + "' and agen.agen_status_external = 'GROUP MOVED')x "+
+"where rn = 1 order by agen_ident_no";
+            using (OracleDataReader reader = GetScriptOracleDataReader(sql))
+            {
+                if (reader.Read())
+                {
+                    dt = GetValueDateTimeField(reader, "ScaleDate", dt);
+                }
+            }
+            return dt;
+        }
     }
 }

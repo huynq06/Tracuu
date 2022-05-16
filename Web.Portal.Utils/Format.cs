@@ -23,6 +23,21 @@ namespace Web.Portal.Utils
             }
             return awb;
         }
+        public static DateTime? ConvertDateTimmExcel(string date)
+        {
+            try
+            {
+                //System.Globalization.DateTimeFormatInfo dtfi = new System.Globalization.DateTimeFormatInfo();
+                //dtfi.ShortDatePattern = "dd/MM/yyyy";
+                //dtfi.DateSeparator = "/";
+                return DateTime.Parse(date);
+            }
+            catch (Exception)
+            {
+
+            }
+            return null;
+        }
         public static DateTime? ConvertDate(string date)
         {
             try
@@ -141,6 +156,11 @@ namespace Web.Portal.Utils
         public static bool GetNullBoolean(string value)
         {
             return (string.IsNullOrEmpty(value)) ? false : Convert.ToBoolean(value);
+
+        }
+        public static bool GetNullBooleanIrr(string value)
+        {
+            return value == "false" ? false : true;
 
         }
         public static string ConvertUrl(string url)
