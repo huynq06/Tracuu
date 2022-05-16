@@ -247,6 +247,17 @@ namespace Web.Portal.Controller
 
                     invoiceDB.SearchCode = searchCode;
                     _iHermesInvoiceService.Update(invoiceDB);
+                    ActionLog actionLog = new ActionLog();
+                    actionLog.ActionType = "REPLACE INVOICE";
+                    actionLog.InvoiceID = invoiceDB.InvoiceIsn;
+                    actionLog.UserName = WebMatrix.WebData.WebSecurity.CurrentUserName;
+                    actionLog.UserID = WebMatrix.WebData.WebSecurity.CurrentUserId;
+                    actionLog.Created = DateTime.Now;
+                    actionLog.ActionName = "User " + actionLog.UserName + " REPLACE INVOICE";
+                    actionLog.JsonLog = jsonResult;
+                    actionLog.StatusCode = "200";
+                    actionLog.ReponseCode = "TAO HOA DON";
+                    _iActionLogService.Add(actionLog);
                     _iHermesInvoiceService.Save();
                     return Json(new
                     {
@@ -333,6 +344,17 @@ namespace Web.Portal.Controller
                     invoiceDB.Idt = idt;
                     invoiceDB.SearchCode = searchCode;
                     _iHermesInvoiceService.Update(invoiceDB);
+                    ActionLog actionLog = new ActionLog();
+                    actionLog.ActionType = "EDIT INVOICE";
+                    actionLog.InvoiceID = invoiceDB.InvoiceIsn;
+                    actionLog.UserName = WebMatrix.WebData.WebSecurity.CurrentUserName;
+                    actionLog.UserID = WebMatrix.WebData.WebSecurity.CurrentUserId;
+                    actionLog.Created = DateTime.Now;
+                    actionLog.ActionName = "User " + actionLog.UserName + " EDIT INVOICE";
+                    actionLog.JsonLog = jsonResult;
+                    actionLog.StatusCode = "200";
+                    actionLog.ReponseCode = "TAO HOA DON";
+                    _iActionLogService.Add(actionLog);
                     _iHermesInvoiceService.Save();
                     return Json(new
                     {
@@ -362,6 +384,17 @@ namespace Web.Portal.Controller
                     invoiceDB.ExceptionStatus = 0;
                     invoiceDB.Idt = idt;
                     _iHermesInvoiceService.Update(invoiceDB);
+                    ActionLog actionLog = new ActionLog();
+                    actionLog.ActionType = "EDIT INVOICE";
+                    actionLog.InvoiceID = invoiceDB.InvoiceIsn;
+                    actionLog.UserName = WebMatrix.WebData.WebSecurity.CurrentUserName;
+                    actionLog.UserID = WebMatrix.WebData.WebSecurity.CurrentUserId;
+                    actionLog.Created = DateTime.Now;
+                    actionLog.ActionName = "User " + actionLog.UserName + " EDIT INVOICE";
+                    actionLog.JsonLog = jsonResult;
+                    actionLog.StatusCode = "200";
+                    actionLog.ReponseCode = "TAO HOA DON";
+                    _iActionLogService.Add(actionLog);
                     _iHermesInvoiceService.Save();
                     return Json(new
                     {
@@ -429,6 +462,17 @@ namespace Web.Portal.Controller
                         invoice.IsCancel = true;
                         invoice.CancelDateTime = DateTime.Now;
                         _iHermesInvoiceService.Update(invoice);
+                        ActionLog actionLog = new ActionLog();
+                        actionLog.ActionType = "CANCEL INVOICE";
+                        actionLog.InvoiceID = invoiceIsn;
+                        actionLog.UserName = WebMatrix.WebData.WebSecurity.CurrentUserName;
+                        actionLog.UserID = WebMatrix.WebData.WebSecurity.CurrentUserId;
+                        actionLog.Created = DateTime.Now;
+                        actionLog.ActionName = "User " + actionLog.UserName + " CANCEL INVOICE";
+                        actionLog.JsonLog = jsonInvoiceCancel;
+                        actionLog.StatusCode = "200";
+                        actionLog.ReponseCode = "DA HUY HOA DON";
+                        _iActionLogService.Add(actionLog);
                         _iHermesInvoiceService.Save();
 
                         message = "HỦY HÓA ĐƠN THÀNH CÔNG!";

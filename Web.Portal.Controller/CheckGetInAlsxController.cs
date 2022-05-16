@@ -70,49 +70,20 @@ namespace Web.Portal.Controller
                 {
                     item.Check4 = 2;
                 }
-                  
 
-             //   int totalPiecesCustom = listCheck.Where(c => c.AWB == item.AWB).Sum(c => c.Pieces_Custom);
-              //  int totalPiecesStatus3 = listCheck.Where(c => c.AWB == item.AWB).Sum(c => c.Pieces_Status3);
-                //if(piecesXML== piecesH5 && piecesH5== totalPiecesCustom && totalPiecesCustom== totalPiecesStatus3)
-                //{
-                //    item.Awb_Status = 1;
-                //}
-                //else
-                //{
-                //    item.Awb_Status = 0;
-                //}
                 if(listCheckReal.All(c=>c.AWB != item.AWB))
                 {
                     listCheckReal.Add(item);
                 }
-                //else
-                //{
-                //    GetInAlsxViewModel newItem = new GetInAlsxViewModel();
-                //    newItem.AWB = "";
-                //    newItem.AWB_PREFIX = "";
-                //    newItem.AWB_SERIAL = "";
-                //    newItem.WareHouse = "";
-                //    newItem.Pieces_H5 = 0;
-                //    newItem.Pieces_XML = 0;
-                //    newItem.Pieces_Custom = item.Pieces_Custom;
-                //    newItem.SDD = item.SDD;
-                //    newItem.Pieces_Status3 = item.Pieces_Status3;
-                //    newItem.GetIn_Status = item.GetIn_Status;
-                //    newItem.GetOut_status = item.GetOut_status;
-                //    newItem.Awb_Status = item.Awb_Status;
-                //    listCheckReal.Add(newItem);
-                //}
-
             }
-            foreach(var item in listCheckTemp)
+            foreach (var item in listCheckTemp)
             {
-                if(listCheckTemp.Where(c=>c.Labs_ID == item.Labs_ID).All(c=>c.Check3==2))
+                if (listCheckTemp.Where(c => c.Labs_ID == item.Labs_ID).All(c => c.Check3 == 2))
                 {
                     item.GetIn_Status = 2;
                     item.Message_GetIn = "ALL";
                 }
-                else if(listCheckTemp.Where(c => c.Labs_ID == item.Labs_ID).Any(c => c.Check3 == 2))
+                else if (listCheckTemp.Where(c => c.Labs_ID == item.Labs_ID).Any(c => c.Check3 == 2))
                 {
                     item.GetIn_Status = 1;
                     int count = listCheckTemp.Where(c => c.Labs_ID == item.Labs_ID && c.Check3 == 2).Count();
@@ -121,7 +92,7 @@ namespace Web.Portal.Controller
                 else
                 {
                     item.GetIn_Status = 0;
-                    item.Message_GetIn =  "0/" + item.totalSTK;
+                    item.Message_GetIn = "0/" + item.totalSTK;
                 }
                 if (listCheckTemp.Where(c => c.Labs_ID == item.Labs_ID).All(c => c.Check4 == 2))
                 {
@@ -139,9 +110,13 @@ namespace Web.Portal.Controller
                     item.GetOut_status = 0;
                     item.Message_Getout = "0/" + item.totalSTK;
                 }
-                if(item.GetIn_Status == 1 || item.GetOut_status ==1 || listCheckTemp.Where(c => c.Labs_ID == item.Labs_ID).Any(c => c.Check2 == false))
+                if (item.GetIn_Status == 2 && item.GetOut_status == 2 && listCheckTemp.Where(c => c.Labs_ID == item.Labs_ID).All(c => c.Check2 == true))
                 {
-                    item.Status = 0;
+                    item.Status = 1;
+                }
+                if ((item.GetIn_Status == 0 && item.RECEIVED == 0)&& (item.GetOut_status==0 && item.GETOUT_PIECES==0))
+                {
+                    item.Status = 1;
                 }
             }
             if(status != -1)
@@ -170,6 +145,60 @@ namespace Web.Portal.Controller
             //    string invoiceIsn = Request["invoiceIsn"].Trim();
             ViewBag.Message = message;
             ViewBag.Command = command;
+            return View();
+        }
+
+        public ActionResult ListTK()
+        {
+            string warehouse = "";
+            string userName = WebMatrix.WebData.WebSecurity.CurrentUserName;
+            if (userName.ToLower() == "admin")
+            {
+                warehouse = Request["warehouse"].Trim();
+            }
+            else
+            {
+                warehouse = userName.ToUpper();
+            }
+            string fdate = Request["fda"];
+            string tdate = Request["tda"];
+            int status = int.Parse(Request["checkStatus"].ToString());
+            List<GetInAlsxViewModel> listCheckTemp = new List<GetInAlsxViewModel>();
+            List<GetInAlsxViewModel> listCheckReal = new List<GetInAlsxViewModel>();
+            listCheckTemp = new CheckGetInAlsxAccess().GetDataTK(fdate, tdate, warehouse);
+            foreach (var item in listCheckTemp)
+            {
+                List<GetInAlsxViewModel> ListToKhai = listCheckTemp.Where(c => c.Labs_ID == item.Labs_ID).ToList();
+                item.totalSTK = ListToKhai.Count;
+                item.Check1 = false;
+                item.Check2 = false;
+
+                int piecesXML = item.Pieces_XML;
+                int piecesH5 = item.Pieces_H5;
+                if (item.Pieces_XML == item.Pieces_H5)
+                    item.Check1 = true;
+                if (item.Pieces_Custom == item.UCR_PIECES)
+                    item.Check2 = true;
+             
+                if (listCheckReal.All(c => c.AWB != item.AWB))
+                {
+                    listCheckReal.Add(item);
+                }
+            }
+            foreach(var item in listCheckReal)
+            {
+                List<GetInAlsxViewModel> ListToKhai = listCheckTemp.Where(c => c.Labs_ID == item.Labs_ID).ToList();
+                if(ListToKhai.All(c=>c.Check2 == true))
+                {
+                    item.Status = 1;
+                }
+            }
+            if (status != -1)
+            {
+                listCheckReal = listCheckReal.Where(c => c.Status == status).ToList();
+            }
+            ViewData["ListGetInXML"] = listCheckTemp;
+            ViewData["ListGetInAWB"] = listCheckReal;
             return View();
         }
     }

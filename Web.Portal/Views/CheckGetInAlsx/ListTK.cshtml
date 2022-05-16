@@ -1,0 +1,184 @@
+﻿@{
+    Layout = null;
+    int PageCurrent = 0;
+    IEnumerable<Web.Portal.Common.ViewModel.GetInAlsxViewModel> GetInList = (IEnumerable<Web.Portal.Common.ViewModel.GetInAlsxViewModel>)ViewData["ListGetInXML"];
+}
+
+<table id="tbl-hawb" class="table table-striped table-bordered table-advance table-hover dt-responsive" border="1" style="width:100%;font-size:14pt">
+    <thead>
+        <tr>
+            <th class="all" style="width:1% !important;font-size:14px;text-align:center" rowspan="2">
+                STT
+            </th>
+            <th class="all" style="width:99%;font-size:14px;text-align:center" colspan="9">
+                Thông Tin Vận Đơn
+            </th>
+            
+            <th class="none" rowspan="2" style="width:100%">
+                Chi Tiết
+            </th>
+
+
+        </tr>
+        <tr>
+            <th style="width:8%;font-size:14px;text-align:center">
+                AWB
+            </th>
+
+            <th style="width:8%;font-size:14px;text-align:center">
+                WARE HOUSE
+            </th>
+
+            <th style="width:8%;font-size:14px;text-align:center">
+                CREATED
+            </th>
+            <th style="width:8%;font-size:14px;text-align:center">
+                AWB PIECES
+            </th>
+            <th style="width:8%;font-size:14px;text-align:center">
+                XML PIECES
+            </th>
+            <th style="width:8%;font-size:14px;text-align:center">
+                CHECK
+            </th>
+            <th style="width:8%;font-size:14px;text-align:center">
+                RECEIVED
+            </th>
+            <th style="width:8%;font-size:14px;text-align:center">
+                DEPARTED
+            </th>
+            <th style="width:8%;font-size:14px;text-align:center">
+                STATUS
+            </th>
+
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var row in (IList<Web.Portal.Common.ViewModel.GetInAlsxViewModel>)ViewData["ListGetInAWB"])
+        {
+            PageCurrent += 1;
+            int stt = 0;
+            <tr>
+                <td>@PageCurrent</td>
+
+
+                <td style="text-align:center">@Html.Raw(row.AWB_PREFIX + "-" + row.AWB_SERIAL)</td>
+                <td style="text-align:center">
+                    @Html.Raw(row.WareHouse)
+                </td>
+                <td style="text-align:center">
+                    @Html.Raw(row.Created.HasValue ? row.Created.Value.ToString("dd/MM/yyyy HH:mm") : "")
+                </td>
+                <td style="text-align:center">
+                    @Html.Raw(row.Pieces_H5)
+                </td>
+                <td style="text-align:center">
+                    @Html.Raw(row.Pieces_XML)
+                </td>
+                <td style="text-align:center">
+                    @Html.Raw(Web.Portal.Utils.Constants.Check(row.Check1))
+                </td>
+                <td style="text-align:center">
+                    @Html.Raw(Web.Portal.Utils.Constants.CheckReceived(row.RECEIVED, row.Pieces_XML))
+                </td>
+                <td style="text-align:center">
+                    @Html.Raw(Web.Portal.Utils.Constants.CheckReceived(row.DEPARTED, row.Pieces_XML))
+                </td>
+       
+                <td style="text-align:center">
+                    @Html.Raw(Web.Portal.Utils.Constants.CheckStatusAwb(row.Status))
+                </td>
+
+                <td>
+
+                    <table id="tbl-hawb" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th style="width:3%;font-size:14px;text-align:center" rowspan="2">
+                                    STT
+                                </th>
+                                <th style="width:90%;text-align:center;" colspan="4">
+                                    Thông Tin Khai báo
+                                </th>
+                             
+                            </tr>
+                            <tr>
+
+                                <th style="width:10%;font-size:14px;text-align:center">
+                                    SDD
+                                </th>
+
+                                <th style="width:5%;font-size:14px;text-align:center">
+                                    XML PIECES
+                                </th>
+
+                                <th style="width:5%;font-size:14px;text-align:center">
+                                    CUSTOM PIECES
+                                </th>
+                                <th style="width:5%;font-size:14px;text-align:center">
+                                    CHECK
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var rowxl in GetInList.Where(c => c.Labs_ID == row.Labs_ID).ToList())
+                            {
+                                stt += 1;
+                                <tr>
+                                    <td>@stt</td>
+                                    <td style="text-align:center">
+                                        @Html.DisplayFor(model => rowxl.SDD)
+                                    </td>
+                                    <td style="text-align:center">
+                                        @Html.Raw(rowxl.UCR_PIECES)
+                                    </td>
+                                    <td style="text-align:center">
+                                        @Html.Raw(rowxl.Pieces_Custom)
+                                    </td>
+                                    <td style="text-align:center">
+                                        @{
+                                            if (rowxl.Check2 == true)
+                                            {
+                                                @Html.Raw(Web.Portal.Utils.Constants.Check(rowxl.Check2))
+                                            }
+                                            else
+                                            {
+                                                <a href="javascript:xuLyEdit(@Html.DisplayFor(model => rowxl.SDD));" title="Click để xem chi tiết" class="einvoice_checkError btn btn-xs" data-id="@Html.DisplayFor(model => rowxl.SDD)">
+                                                    @Html.Raw(Web.Portal.Utils.Constants.Check(rowxl.Check2))
+                                                </a>
+                                            }
+                                        }
+
+                                    </td>
+
+                                </tr>
+                                            }
+                        </tbody>
+                    </table>
+                </td>
+
+
+
+            </tr>
+                                            }
+    </tbody>
+
+</table>
+
+<script>
+    //$(".einvoice_checkError").click(function () {
+    //    console.log('ok');
+    //    egovutil.dialog("CHI TIẾT LỖI", "large", "/CheckGetInAlsx/CheckError?SDD=" + $(this).data('id'), "")
+    //});
+    egovutil.CreateTableSort("#tbl-hawb", [[0, "asc"]], [
+
+                { "orderable": false, "targets": 4 }
+    ], true);
+    $('.input-sm').attr('placeholder', 'NHẬP SỐ VẬN ĐƠN');
+    function xuLyEdit(id) {
+        egovutil.dialog("Sửa thông tin danh mục", "large", "/CheckGetInAlsx/CheckError?SDD=" + id);
+    }
+</script>
+
+

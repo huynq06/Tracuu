@@ -7919,6 +7919,7 @@
     <Content Include="Views\ViewUld\List.cshtml" />
     <Content Include="Views\ViewUld\ListUld.cshtml" />
     <Content Include="Views\IrrManagement\BBBGFlight.cshtml" />
+    <Content Include="Views\CheckGetInAlsx\ListTK.cshtml" />
     <None Include="Web References\com.cmcsoft.hoadon\DefaultService.disco" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
