@@ -85,9 +85,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Debug\Tweetinvi.WebLogic.dll</HintPath>
     </Reference>
-    <Reference Include="ZaloApiConnection, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\ZaloApiConnection.dll</HintPath>
+    <Reference Include="ZaloApiConnection">
+      <HintPath>C:\Users\Chinh-Pham\Downloads\binTrcuu\binTrcuu\ZaloApiConnection.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

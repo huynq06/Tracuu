@@ -49,13 +49,11 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="WebMatrix.Data, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\WebMatrix.Data.dll</HintPath>
+    <Reference Include="WebMatrix.Data">
+      <HintPath>C:\Users\Chinh-Pham\Downloads\binTrcuu\binTrcuu\WebMatrix.Data.dll</HintPath>
     </Reference>
-    <Reference Include="WebMatrix.WebData, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\WebMatrix.WebData.dll</HintPath>
+    <Reference Include="WebMatrix.WebData">
+      <HintPath>C:\Users\Chinh-Pham\Downloads\binTrcuu\binTrcuu\WebMatrix.WebData.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

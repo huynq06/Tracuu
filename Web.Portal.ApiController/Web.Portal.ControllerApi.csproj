@@ -41,9 +41,8 @@
     <Reference Include="System.Web.Http">
       <HintPath>..\Web.Portal\bin\System.Web.Http.dll</HintPath>
     </Reference>
-    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Web.Portal.Upload\bin\Debug\System.Web.Mvc.dll</HintPath>
+    <Reference Include="System.Web.Mvc">
+      <HintPath>C:\Users\Chinh-Pham\Downloads\System.Web.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -73,6 +72,9 @@
     <Compile Include="TicketApiController.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\Web.Portal.Common\Web.Portal.Common.csproj">
       <Project>{5c197c4a-b16b-401c-848b-ac5106844a37}</Project>
       <Name>Web.Portal.Common</Name>
@@ -84,6 +86,10 @@
     <ProjectReference Include="..\Web.Portal.DataBase\Web.Portal.DataBase.csproj">
       <Project>{43d84a49-3b72-4270-8458-490c94e60981}</Project>
       <Name>Web.Portal.DataBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Web.Portal.Data\Web.Portal.Data.csproj">
+      <Project>{207a0662-ccb5-4a7b-b967-14a8d8fc2c1f}</Project>
+      <Name>Web.Portal.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\Web.Portal.Layer\Web.Portal.Layer.csproj">
       <Project>{c2d105cd-79f6-4989-a9f0-b2a3879f7d2a}</Project>
@@ -105,9 +111,6 @@
       <Project>{35abc5b8-74f7-4dc3-a533-375ddfa49ff0}</Project>
       <Name>Web.Portal.Utils</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
