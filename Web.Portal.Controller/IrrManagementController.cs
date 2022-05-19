@@ -1053,7 +1053,7 @@ namespace Web.Portal.Controller
         public ActionResult  Export(int id)
         {
             FlightIrr flight = _flightService.GetById(id);
-            List<AwbIrr> listAwbIrr = _awbIrrService.GetbyFlightID(flight.FlightID).ToList();
+            List<AwbIrr> listAwbIrr = _awbIrrService.GetbyFlightID(flight.FlightID).OrderBy(c => c.AWB.Substring(c.AWB.Length - 1)).ThenBy(c => c.AWB.Substring(c.AWB.Length - 4)).ToList();
             StringBuilder content = new StringBuilder();
             #region CX,EK,CZ
             if (flight.FLightNo.Contains("CX") || flight.FLightNo.Contains("EK") || flight.FLightNo.Contains("CZ"))
@@ -2008,7 +2008,7 @@ namespace Web.Portal.Controller
         public ActionResult RemarkFlight(int id)
         {
             FlightIrr flight = _flightService.GetById(id);
-            List<AwbIrr> listAwbIrr = _awbIrrService.GetbyFlightID(flight.FlightID).ToList();
+            List<AwbIrr> listAwbIrr = _awbIrrService.GetbyFlightID(flight.FlightID).OrderBy(c => c.AWB.Substring(c.AWB.Length - 1)).ThenBy(c => c.AWB.Substring(c.AWB.Length - 4)).ToList();
             List<IrrRemarkViewModel> listIrrRemark = new List<IrrRemarkViewModel>();
             foreach(var awb in listAwbIrr)
             {
